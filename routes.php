@@ -12,16 +12,4 @@
  * @since		Version 1.0.0
  * 
  */
-
-/**
- * Load the bootstrap file * 
- */
-require_once "../bootstrap.php";
-
-
-/**
- * Load the routes file
- */
-require_once "../routes.php"; 
-
 ?>
