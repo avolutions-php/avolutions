@@ -1,4 +1,4 @@
-![Logo](http://avolutions.de/readme.png)
+![Logo](http://framework.avolutions.de/logo.png)
 
 # About avolutions
 avolutions is a open source PHP framework.
