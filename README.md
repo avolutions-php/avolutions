@@ -1,7 +1,7 @@
 ![Logo](http://framework.avolutions.de/logo.png)
 
 # About avolutions
-avolutions is a open source PHP framework.
+avolutions is an open source PHP framework.
 
 # Getting started
 See [http://framework.avolutions.de](http://framework.avolutions.de).
@@ -10,4 +10,4 @@ See [http://framework.avolutions.de](http://framework.avolutions.de).
 See [CHANGELOG.md](CHANGELOG.md).
 
 # License
-The avolutions framework is a open source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The avolutions framework is an open source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
