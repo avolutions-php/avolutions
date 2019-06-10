@@ -14,6 +14,7 @@
 namespace core\Routing;
 
 use core\Singleton;
+use core\CollectionInterface;
 use core\AbstractSingleton;
 
 /**
@@ -28,7 +29,7 @@ use core\AbstractSingleton;
  * @link		http://framework.avolutions.de/documentation/routeCollection
  * @since		Version 1.0.0
  */
-class RouteCollection extends AbstractSingleton
+class RouteCollection extends AbstractSingleton implements CollectionInterface
 {
 	/**
 	 * @var array $Routes An array containing all Routes of the RouteCollection
@@ -47,13 +48,13 @@ class RouteCollection extends AbstractSingleton
 	}
 	
 	/**
-	 * getRoutes
+	 * getAll
 	 * 
 	 * Returns an array with all Routes of the RouteCollection
 	 * 
 	 * @return array An array with all Routes of the RouteCollection
 	 */ 
-	public function getRoutes() {
+	public function getAll() {
 		return $this->Routes;
 	}
 	

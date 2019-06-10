@@ -32,16 +32,21 @@ class Router
 	 * 
 	 * Finds the matching Route from the RouteCollection by the passed url/path.
 	 * 
-	 * @param string $path
+	 * @param string $path TODO
 	 */
 	public static function findRoute($path) {
 		$RouteCollection = RouteCollection::getInstance();
+		$MatchedRoute = null;
 		
-		foreach ($RouteCollection->getRoutes() as $Route) {
+		foreach ($RouteCollection->getAll() as $Route) {
 			if (preg_match($Route->regEx, $path, $matches)) {
-				print_r($Route);
+				$MatchedRoute = $Route;
+				
+				break;
 			}
-		}				
+		}	
+		
+		return $MatchedRoute;
 	}
 }
 ?>
