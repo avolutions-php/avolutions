@@ -39,7 +39,7 @@ class Route
 	public $defaults = array();
 	
 	/**
-	 * @var string $regEx TODO
+	 * @var string $regEx The regular expression to match the url
 	 */
 	public $regEx;
 	
@@ -64,10 +64,8 @@ class Route
 	 */
 	public function __construct($url, $defaults = null) {
 		$this->url = $url;
-		$this->defaults = $defaults;
-		
-		// TODO
-		$this->regEx = "#^".$url."$#";
+		$this->defaults = $defaults;		
+		$this->regEx = '#^'.$url.'$#';
 	}
 }
 ?>

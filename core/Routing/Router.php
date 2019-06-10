@@ -14,7 +14,10 @@
 namespace core\Routing;
 
 /**
- * TODO
+ * Router class
+ * 
+ * The Router class find the matching Route for the url of the Request and
+ * invokes the corresponding controller and action.
  *
  * @package		avolutions\core\routing
  * @subpackage	Core
@@ -27,7 +30,7 @@ class Router
 	/**
 	 * findRoute
 	 * 
-	 * TODO
+	 * Finds the matching Route from the RouteCollection by the passed url/path.
 	 * 
 	 * @param string $path
 	 */

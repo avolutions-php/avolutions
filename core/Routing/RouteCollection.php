@@ -30,7 +30,7 @@ use core\Singleton;
 class RouteCollection extends Singleton
 {
 	/**
-	 * @var array $Routes TODO
+	 * @var array $Routes An array containing all Routes of the RouteCollection
 	 */
 	private $Routes = array();
 	
