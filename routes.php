@@ -26,9 +26,4 @@ $RouteCollection->addRoute(new Route('/',
 ));
 
 $RouteCollection->addRoute(new Route('/controller/action'));
-
-print_r(parse_url($_SERVER['REQUEST_URI']));
-print_r($_GET['path']);
-
-Router::findRoute(parse_url($_SERVER['REQUEST_URI'])['path']);
 ?>
