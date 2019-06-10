@@ -24,12 +24,10 @@ namespace core;
  * @link		http://framework.avolutions.de/documentation/singleton
  * @since		Version 1.0.0
  */
-abstract class Singleton
+abstract class AbstractSingleton
 {
 	/**
-	 * An array of all instance of singleton classes
-	 * 
-	 * @var array $instances
+	 * @var array $instances An array of all instance of singleton classes
 	 */
 	private static $instances = array();
 	

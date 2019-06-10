@@ -14,6 +14,7 @@
 namespace core\Routing;
 
 use core\Singleton;
+use core\AbstractSingleton;
 
 /**
  * RouteCollection class
@@ -27,7 +28,7 @@ use core\Singleton;
  * @link		http://framework.avolutions.de/documentation/routeCollection
  * @since		Version 1.0.0
  */
-class RouteCollection extends Singleton
+class RouteCollection extends AbstractSingleton
 {
 	/**
 	 * @var array $Routes An array containing all Routes of the RouteCollection
