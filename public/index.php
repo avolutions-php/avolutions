@@ -12,10 +12,11 @@
  * 
  */
 
+use core\Request;
 use core\Routing\Router;
 
 /**
- * Load the bootstrap file * 
+ * Load the bootstrap file
  */
 require_once "../bootstrap.php";
 
@@ -27,7 +28,9 @@ require_once "../routes.php";
 
 
 /**
- * TODO
+ * Start the application
  */
-print_r(Router::findRoute(parse_url($_SERVER['REQUEST_URI'])['path']));
+$Request = new Request();
+$Request->send();
+
 ?>

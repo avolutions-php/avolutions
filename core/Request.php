@@ -18,7 +18,8 @@ use core\routing\Router;
 /**
  * Request class
  *
- * TODO 
+ * The Request class calls the Router to find the matching Route for the url
+ * invokes the corresponding controller action.
  *
  * @package		avolutions\core
  * @subpackage	Core
@@ -29,12 +30,12 @@ use core\routing\Router;
 class Request
 {
 	/** 
-	 * @var string $uri TODO
+	 * @var string $uri The uri of the request.
 	 */
 	public $uri;
 	
 	/** 
-	 * @var string $method TODO
+	 * @var string $method The method of the request.
 	 */
 	public $method;
 		
@@ -52,13 +53,13 @@ class Request
 	/**
 	 * send
 	 * 
-	 * TODO 						  
+	 * Executes the Request by calling the Router to find the matching Route.
+     * Invokes the controller action with passed parameters.
 	 *
 	 */
 	public function send() {
 		$MatchedRoute = Router::findRoute($this->uri, $this->method);
-		
-		// TODO find better way in autoloader for plugins later		
+			
 		$fullControllerName = '\\application\\controller\\'.ucfirst($MatchedRoute->controllerName)."Controller";
 		$fullActionName = $MatchedRoute->actionName."Action";
 		

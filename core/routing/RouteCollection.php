@@ -58,5 +58,23 @@ class RouteCollection extends AbstractSingleton implements CollectionInterface
 		return $this->Routes;
 	}
 	
+	/**
+	 * getAllByMethod
+	 * 
+	 * Returns an array with all Routes of the RouteCollection filtered by the method.
+	 *
+	 * @param string $method Name of the method (GET|POST)
+	 * 
+	 * @return array An array with all Routes of the RouteCollection filtered by the method
+	 */ 
+	public function getAllByMethod($method) {
+		return array_filter(
+			$this->Routes,
+			function ($Route) use ($method) {
+				return $Route->method == $method;
+			}
+		);
+	}
+	
 }
 ?>

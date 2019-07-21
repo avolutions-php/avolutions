@@ -16,8 +16,7 @@ namespace core\routing;
 /**
  * Router class
  * 
- * The Router class find the matching Route for the url of the Request and
- * invokes the corresponding controller and action.
+ * The Router class find the matching Route for the url of the Request.
  *
  * @package		avolutions\core\routing
  * @subpackage	Core
@@ -30,28 +29,22 @@ class Router
 	/**
 	 * findRoute
 	 * 
-	 * Finds the matching Route from the RouteCollection by the passed url/path.
+	 * Finds the matching Route from the RouteCollection by the passed uri/path and method.
 	 * 
-	 * @param string $path TODO
-	 * @param string $method TODO
+	 * @param string $path The requested uri/path
+	 * @param string $method The method of the request
 	 *
-	 * @return object $MatchedRoute TODO
+	 * @return object The matched Route object with final controller-/action names and parameter values. 
 	 */
 	public static function findRoute($path, $method) {
 		$RouteCollection = RouteCollection::getInstance();
 		$MatchedRoute = null;
-		
-		print $path.'<br />';
-		
-		// TODO get all by method
-		foreach ($RouteCollection->getAll() as $Route) {
+				
+		foreach ($RouteCollection->getAllByMethod($method) as $Route) {
 			if (preg_match(self::getRegularExpression($Route), $path, $matches)) {
-				print 'Wow it´s a match <br />';
-				
-				print_r($matches);
-				
+								
 				$explodedUrl = explode('/', $Route->url);	
-				print_r($explodedUrl);
+				
 				$controllerName = self::getKeywordValue($matches, $explodedUrl, 'controller');
 				$actionName = self::getKeywordValue($matches, $explodedUrl, 'action');
 				
@@ -64,8 +57,6 @@ class Router
 				}
 				$MatchedRoute->parameters = self::getParameterValues($matches, $explodedUrl, $MatchedRoute->parameters);
 				
-				print_r($MatchedRoute);
-				
 				break;
 			}
 		}	
@@ -77,35 +68,38 @@ class Router
 	/**
 	 * getRegularExpression
 	 * 
-	 * TODO
+	 * Returns the regular expression to match the given Route.
 	 * 
-	 * @param object $Route TODO
+	 * @param object $Route The Route object to build the expression for.
 	 *
-	 * @return string $expression TODO 
+	 * @return string The regular expression to match the url of the Route. 
 	 */
 	private static function getRegularExpression($Route) {
 		$startDelimiter = '/^';
 		$endDelimiter = '$/';
 		
-		// TODO from config?
-		$controllerRegEx = '([a-z]*)';
-		$actionRegEx = '([a-z]*)';
+		$controllerExpression = '([a-z]*)';
+		$actionExpression = '([a-z]*)';
 		
 		$expression = $Route->url;
 		$expression = str_replace('/', '\/', $expression);
 		
-		$expression = str_replace('<controller>', $controllerRegEx, $expression);
-		$expression = str_replace('<action>', $actionRegEx, $expression);
+		$expression = str_replace('<controller>', $controllerExpression, $expression);
+		$expression = str_replace('<action>', $actionExpression, $expression);
 		
 		foreach($Route->parameters as $parameterName => $parameterValues) {
-			// TODO optional (?) only if default or optional flag in parameter options are set
-			$expression = str_replace('<'.$parameterName.'>', '('.$parameterValues["format"].'?)', $expression);
+			$parameterExpression = '(';
+			$parameterExpression .= $parameterValues["format"];
+			if(isset($parameterValues["optional"]) && $parameterValues["optional"]) {
+				$parameterExpression .= '?';
+			}
+			$parameterExpression .= ')';
+			
+			$expression = str_replace('<'.$parameterName.'>', $parameterExpression, $expression);
 		}
 		
 		$expression = $startDelimiter.$expression.$endDelimiter;
-		
-		print $expression.'<br />';
-		
+				
 		return $expression;
 	}
 	
@@ -113,55 +107,50 @@ class Router
 	/**
 	 * getKeywordValue
 	 * 
-	 * TODO
+	 * Returns the value of a given keyword from the url of the matched Route.
 	 * 
-	 * @param array $matches TODO
-	 * @param array $explodedUrl TODO
-	 * @param string $keyword TODO
+	 * @param array $matches Array with the exploded url of the request.
+	 * @param array $explodedUrl Array with the exploded url of the route.
+	 * @param string $keyword Name of the keyword.
 	 *
-	 * @return mixed $value TODO 
+	 * @return mixed The value of the keyword from the url or false if nothing found. 
 	 */
 	private static function getKeywordValue($matches, $explodedUrl, $keyword) {
 		$keywordIndex = array_search('<'.$keyword.'>', $explodedUrl); 
 		
-		// TODO shorten + new variable $keywordValue
-		if($keywordIndex) {
-			return $matches[$keywordIndex];
-		} else {
-			return false;
-		}		
+		return $keywordIndex ? $matches[$keywordIndex] : false;	
 	}
 	
 	
 	/**
 	 * getParameterValues
 	 * 
-	 * TODO
+	 * Returns an array with all parameters values from the url of the matched Route.
 	 * 
-	 * @param array $matches TODO
-	 * @param array $explodedUrl TODO
-	 * @param array $parameters TODO
+	 * @param array $matches Array with the exploded url of the request.
+	 * @param array $explodedUrl Array with the exploded url of the route.
+	 * @param array $parameters Array with the parameters of the route.
 	 *
-	 * @return array $test TODO 
+	 * @return array An array with all parameter values.
 	 */
-	private static function getParameterValues($matches, $explodedUrl, $parameters) {		
-		// TODO rename variable
-		$test = array();
+	private static function getParameterValues($matches, $explodedUrl, $parameters) {
+		$parameterValues = array();
 	
-		foreach($parameters as $parameterName => $parameterValues) {
+		foreach($parameters as $parameterName => $parameterOptions) {
 			$value = self::getKeywordValue($matches, $explodedUrl, $parameterName);
 			
-			// TODO shorten
 			if($value) {
-				$test[] = $value;
+				$parameterValues[] = $value;
 			} else {
-				$test[] = $parameterValues["default"];
+				if(isset($parameterOptions["optional"]) && $parameterOptions["optional"]) {
+					if(isset($parameterOptions["default"])) {
+						$parameterValues[] = $parameterOptions["default"];
+					}
+				}				
 			}
 		}
 		
-		print_r($test);
-		
-		return $test;
+		return $parameterValues;
 	}
 }
 ?>

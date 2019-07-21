@@ -18,12 +18,22 @@ use core\Routing\Router;
 
 $RouteCollection = RouteCollection::getInstance();
 
-$RouteCollection->addRoute(new Route('/',
+/**
+ * Register routes
+ */
+ 
+/* Example 
+$RouteCollection->addRoute(new Route('/<controller>/<action>/<id>',
 	array(
-		'controller'=> 'test',
-		'action'	=> '123'
-	)
+		'method' => 'POST'
+	),
+	array(
+		'id' => array(
+			'format'   => '[0-9]*',
+			'optional' => true,
+			'default'  => 1
+		)
+	)	
 ));
-
-$RouteCollection->addRoute(new Route('/controller/action'));
+*/ 
 ?>

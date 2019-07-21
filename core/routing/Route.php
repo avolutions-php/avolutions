@@ -63,7 +63,7 @@ class Route
 	 * 		$defaults = [
 	 * 			'controller'	=> string Name of the controller
 	 * 			'action'		=> string Name of the action
-	 * 			'method'		=> string Name of the method (GET|POST)	 * 			
+	 * 			'method'		=> string Name of the method (GET|POST)		
 	 * 		]		 						  
 	 * @param array $parameters An array which contains all parameters and their options 
 	 * 		'{param}' = [	=> string Name of the parameter
@@ -85,7 +85,6 @@ class Route
 			$this->method = $defaults["method"];	
 		}
 		
-		// TODO parameter as own class and create instances here?!
 		if($parameters != null) {
 			foreach($parameters as $parameterName => $parameterValues) {
 				$this->parameters[$parameterName] = $parameterValues;
