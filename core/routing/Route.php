@@ -1,0 +1,96 @@
+<?php
+/**
+ * AVOLUTIONS
+ * 
+ * An open source PHP framework.
+ * 
+ * @author		Alexander Vogt <alexander.vogt@avolutions.de>
+ * @copyright	2019 avolutions (http://avolutions.de)
+ * @license		MIT License (https://opensource.org/licenses/MIT)
+ * @link		http://framework.avolutions.de
+ * @since		Version 1.0.0 
+ */
+
+namespace core\routing;
+
+/**
+ * Route class
+ *
+ * A Route object which will be added to the RouteCollection.
+ * The Router class will find the corresponding Route object for 
+ * the current request.  
+ *
+ * @package		avolutions\core\routing
+ * @subpackage	Core
+ * @author		Alexander Vogt <alexander.vogt@avolutions.de>
+ * @link		http://framework.avolutions.de/documentation/route
+ * @since		Version 1.0.0
+ */
+class Route
+{
+	/** 
+	 * @var string $url The url of the Route
+	 */
+	public $url;
+		
+	/**
+	 * @var string $method The method of the Route
+	 */
+	public $method = "GET";
+	
+	/**
+	 * @var string $controllerName The name of the Controller
+	 */
+	public $controllerName;
+	
+	/**
+	 * @var string $actionName The name of the Controller action
+	 */
+	public $actionName;
+	
+	/**
+	 * @var array $parameters An array with all parameters and their options 
+	 */
+	public $parameters = array();
+	
+	/**
+	 * __construct
+	 * 
+	 * Creates a new Route object with the given parameters.
+	 *
+	 * @param string $url The URL that will be mapped
+	 * @param array $defaults Default values for the Route
+	 * 		$defaults = [
+	 * 			'controller'	=> string Name of the controller
+	 * 			'action'		=> string Name of the action
+	 * 			'method'		=> string Name of the method (GET|POST)	 * 			
+	 * 		]		 						  
+	 * @param array $parameters An array which contains all parameters and their options 
+	 * 		'{param}' = [	=> string Name of the parameter
+	 * 			'format'	=> string RegEx for valid format
+	 *			'optional'  => bool If true the parameter is optional
+	 * 			'default'	=> string Default value for the parameter if it is optional
+	 * 		]
+	 *
+	 */
+	public function __construct($url, $defaults = null, $parameters = null) {
+		$this->url = $url;	
+		if(isset($defaults["controller"])) {
+			$this->controllerName = $defaults["controller"];	
+		}
+		if(isset($defaults["action"])) {
+			$this->actionName = $defaults["action"];	
+		}
+		if(isset($defaults["method"])) {
+			$this->method = $defaults["method"];	
+		}
+		
+		// TODO parameter as own class and create instances here?!
+		if($parameters != null) {
+			foreach($parameters as $parameterName => $parameterValues) {
+				$this->parameters[$parameterName] = $parameterValues;
+			}
+		}
+	}
+}
+?>
