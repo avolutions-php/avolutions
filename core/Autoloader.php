@@ -24,7 +24,8 @@ namespace core;
  * @link		http://framework.avolutions.de/documentation/autoloader
  * @since		Version 1.0.0 * 
  */
-class Autoloader {	
+class Autoloader 
+{
 	/**
 	 * Includes all required files
 	 * 
