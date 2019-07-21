@@ -4,7 +4,6 @@
  * 
  * An open source PHP framework.
  * 
- * @package		AVOLUTIONS
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  * @copyright	2019 avolutions (http://avolutions.de)
  * @license		MIT License (https://opensource.org/licenses/MIT)
@@ -19,7 +18,7 @@ namespace core;
  * 
  * Autoloads all required classes
  * 
- * @package		AVOLUTIONS
+ * @package		avolutions\core
  * @subpackage	Core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  * @link		http://framework.avolutions.de/documentation/autoloader
@@ -37,7 +36,7 @@ class Autoloader
 	public static function register() {
 		spl_autoload_register(function ($class) {				
 			$file = BASEPATH.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
-					
+										
 			if(file_exists($file))
 			{
 				require_once($file);

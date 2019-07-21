@@ -4,7 +4,6 @@
  * 
  * An open source PHP framework.
  * 
- * @package		AVOLUTIONS
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  * @copyright	2019 avolutions (http://avolutions.de)
  * @license		MIT License (https://opensource.org/licenses/MIT)
@@ -13,8 +12,11 @@
  * 
  */
 
+use core\Request;
+use core\Routing\Router;
+
 /**
- * Load the bootstrap file * 
+ * Load the bootstrap file
  */
 require_once "../bootstrap.php";
 
@@ -23,5 +25,12 @@ require_once "../bootstrap.php";
  * Load the routes file
  */
 require_once "../routes.php"; 
+
+
+/**
+ * Start the application
+ */
+$Request = new Request();
+$Request->send();
 
 ?>
