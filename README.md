@@ -24,7 +24,7 @@ This is just a hobby project that is being continuously worked on it.
 ## Installation
 
 ### Download
-Download the latest version at [Github](https://github.com/avolutions/avolutions/archive/master.zip) or [avolutions.com](http://framwork.avolutions.com/download/).
+Download the latest version at [Github](https://github.com/avolutions/avolutions/archive/master.zip) or [avolutions.de](http://framework.avolutions.de/download).
 Unzip the downloaded package. 
 
 ### Document root
