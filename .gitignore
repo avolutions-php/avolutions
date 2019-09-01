@@ -1,0 +1,8 @@
+# IDE specific files #
+######################
+# Eclipse
+.settings/*
+.buildpath
+.project
+# PHPStorm
+.idea/*
