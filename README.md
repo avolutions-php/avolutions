@@ -1,4 +1,4 @@
-![Logo](http://framework.avolutions.de/logo.png)
+<p align="center"><img src="http://avolutions.de/logo.png" width="200"></p>
 
 # About AVOLUTIONS
 AVOLUTIONS is just another open source PHP framework.  
@@ -8,7 +8,7 @@ Currently it provides default things like:
 * [ViewModels](#viewModels)	
   
 This is just a hobby project that is being continuously worked on it.
-##Roadmap
+## Roadmap
 * Configuration
 * Logging
 * Session and Cookie handling
@@ -213,7 +213,24 @@ Hello Alex
  
 ### ViewModels
 A __ViewModel__ is a class that provides data for the __View__. It is created/filled by the __Controller__/__Action__. It is the connection between the application data and the presentation and is used to separate the model (data) from the view (presentation) logic.  
-The __ViewModel__ can be created dynamically in the __Controller__ (see first __Controller__ example).
+The __ViewModel__ can be created dynamically in the __Controller__ (see first __Controller__ example):
+```php
+<?php
+  namespace application\controller;
+	
+  use core\Controller;
+	
+  class UserController extends Controller {
+	
+    public function showAction($id) {	
+      $ViewModel = new ViewModel();
+      $ViewModel->username = 'Alex';
+		
+      return new View('user/display', $ViewModel);
+    }
+  }
+?>
+```
 
 # License
 The AVOLUTIONS framework is an open source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
