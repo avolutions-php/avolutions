@@ -33,6 +33,9 @@ After unpacking you have to configure your web servers document root to the _pub
 ### Pretty URLs
 There is a _.htaccess_ file in the _public_ folder that will redirect every URL to _index.php_. If you are using an _Apache_ web server, be sure to enable the _mod_rewrite_ module.
 
+### Application directory
+Create a new folder named _application_ in the root directory.
+
 ## Tutorial
 
 ### Routing

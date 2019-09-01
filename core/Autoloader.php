@@ -18,14 +18,12 @@ namespace core;
  * 
  * Autoloads all required classes
  * 
- * @package		avolutions\core
- * @subpackage	Core
+ * @package		core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
- * @link		http://framework.avolutions.de/documentation/autoloader
  * @since		Version 1.0.0 * 
  */
 class Autoloader 
-{
+{	
 	/**
 	 * Includes all required files
 	 * 
@@ -34,9 +32,9 @@ class Autoloader
 	 * framework. 
 	 */
 	public static function register() {
-		spl_autoload_register(function ($class) {				
-			$file = BASEPATH.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
-										
+		spl_autoload_register(function ($class) {					
+			$file = BASEPATH.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';			
+								
 			if(file_exists($file))
 			{
 				require_once($file);

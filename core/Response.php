@@ -11,27 +11,42 @@
  * @since		Version 1.0.0
  * 
  */
-
+ 
 namespace core;
 
+use core\view\view;
+
 /**
- * Collection class
+ * Response class
  *
- * A abstract class which implements the base collection functionality.
- * 
+ * An object that contains the response of the request.
+ *
  * @package		core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  * @since		Version 1.0.0
  */
-interface CollectionInterface
-{		
-	/**
-	 * getAll
-	 * 
-	 * Returns all items of the Collection.
-	 * 
-	 * @return array An array of all items of the Collection
+class Response
+{
+	/** 
+	 * @var string $body The content of the response.
 	 */
-	public function getAll();
+	public $body;
+	
+	
+	/**
+	 * Fills the body of the Response with the passed value.
+	 */
+	public function setBody($body) {
+		$this->body = $body;
+	}
+	
+	/**
+	 * Displays the content of the Response.
+	 */
+	public function send() {		
+		if($this->body instanceof View) {
+			print $this->body;
+		}
+	}
 }
 ?>

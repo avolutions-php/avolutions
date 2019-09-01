@@ -2,13 +2,14 @@
 /**
  * AVOLUTIONS
  * 
- * An open source PHP framework.
+ * Just another open source PHP framework.
  * 
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  * @copyright	2019 avolutions (http://avolutions.de)
  * @license		MIT License (https://opensource.org/licenses/MIT)
- * @link		http://framework.avolutions.de
- * @since		Version 1.0.0 
+ * @link		https://github.com/avolutions/avolutions
+ * @since		Version 1.0.0
+ * 
  */
 
 namespace core;
@@ -18,10 +19,8 @@ namespace core;
  *
  * A abstract class which implements the singleton pattern.
  * 
- * @package		avolutions\core
- * @subpackage	Core
+ * @package		core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
- * @link		http://framework.avolutions.de/documentation/singleton
  * @since		Version 1.0.0
  */
 abstract class AbstractSingleton

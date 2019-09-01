@@ -13,6 +13,7 @@
  
 namespace core;
 
+use Exception;
 use core\routing\Router; 
 
 /**
@@ -21,10 +22,8 @@ use core\routing\Router;
  * The Request class calls the Router to find the matching Route for the url
  * invokes the corresponding controller action.
  *
- * @package		avolutions\core
- * @subpackage	Core
+ * @package		core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
- * @link		http://framework.avolutions.de/documentation/request
  * @since		Version 1.0.0
  */
 class Request
@@ -59,11 +58,15 @@ class Request
 	 */
 	public function send() {
 		$MatchedRoute = Router::findRoute($this->uri, $this->method);
-			
+						
 		$fullControllerName = '\\application\\controller\\'.ucfirst($MatchedRoute->controllerName)."Controller";
-		$fullActionName = $MatchedRoute->actionName."Action";
+		$Controller = new $fullControllerName();
 		
-		call_user_func_array(array($fullControllerName, $fullActionName), $MatchedRoute->parameters);
+		$fullActionName = $MatchedRoute->actionName."Action";
+				
+		$Response = new Response();
+		$Response->setBody(call_user_func_array(array($Controller, $fullActionName), $MatchedRoute->parameters));
+		$Response->send();
 	}
 }
 ?>
