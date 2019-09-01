@@ -8,6 +8,14 @@ Currently it provides default things like:
 * [ViewModels](#viewModels)	
   
 This is just a hobby project that is being continuously worked on it.
+##Roadmap
+* Configuration
+* Logging
+* Session and Cookie handling
+* Database support
+* CRUD/Model/Entity
+* ViewEngine
+* ...
 
 # Getting started
 
