@@ -2,13 +2,13 @@
 /**
  * AVOLUTIONS
  * 
- * An open source PHP framework.
+ * Just another open source PHP framework.
  * 
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  * @copyright	2019 avolutions (http://avolutions.de)
  * @license		MIT License (https://opensource.org/licenses/MIT)
- * @link		http://framework.avolutions.de
- * @since		Version 1.0.0 
+ * @link		https://github.com/avolutions/avolutions
+ * @since		Version 1.0.0
  */
 
 namespace core\routing;
@@ -24,9 +24,8 @@ use core\AbstractSingleton;
  * The Router class will search in the RouteCollection for a matching route
  * for the Request.
  *
- * @package		avolutions\core\routing
+ * @package		core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
- * @link		http://framework.avolutions.de/documentation/routeCollection
  * @since		Version 1.0.0
  */
 class RouteCollection extends AbstractSingleton implements CollectionInterface

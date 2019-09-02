@@ -81,7 +81,7 @@ This __Route__ will call the __loginAction()__ method of the __AuthController__,
 
 ##### Call a dynamic __Controller__ and __Action__
 ```php
-$RouteCollection->addRoute(new Route('<controller>/</action>'));
+$RouteCollection->addRoute(new Route('<controller>/<action>'));
 ```
 This __Route__ uses the reserved keywords _<controller>_ and _<action>_. These keywords can be used to call __Controllers__ and __Actions__ based on the requested __URL__.  
 For example: if a user requests the __URL__ _*http:*//yourapp/user/create_ the routing engine will call the __createAction()__ method of the __UserController__.
