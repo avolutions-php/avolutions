@@ -30,7 +30,6 @@ define("APP_VIEW_PATH", APPLICATION_PATH."view".DIRECTORY_SEPARATOR);
 /**
  * Register the Autoloader
  */
-require_once CORE_PATH.'Autoloader.php';
 require_once CORE_CLASS_PATH.'Autoloader.php';
 Autoloader::register(); 
 ?>
