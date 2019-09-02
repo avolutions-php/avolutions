@@ -2,13 +2,13 @@
 /**
  * AVOLUTIONS
  * 
- * An open source PHP framework.
+ * Just another open source PHP framework.
  * 
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  * @copyright	2019 avolutions (http://avolutions.de)
  * @license		MIT License (https://opensource.org/licenses/MIT)
- * @link		http://framework.avolutions.de
- * @since		Version 1.0.0 
+ * @link		https://github.com/avolutions/avolutions
+ * @since		Version 1.0.0
  */
 
 namespace core\routing;
@@ -20,10 +20,8 @@ namespace core\routing;
  * The Router class will find the corresponding Route object for 
  * the current request.  
  *
- * @package		avolutions\core\routing
- * @subpackage	Core
+ * @package		core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
- * @link		http://framework.avolutions.de/documentation/route
  * @since		Version 1.0.0
  */
 class Route

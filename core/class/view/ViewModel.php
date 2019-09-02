@@ -9,21 +9,21 @@
  * @license		MIT License (https://opensource.org/licenses/MIT)
  * @link		https://github.com/avolutions/avolutions
  * @since		Version 1.0.0
- * 
  */
 
-use core\Routing\RouteCollection;
-use core\Routing\Route;
-use core\Routing\Router;
-
-$RouteCollection = RouteCollection::getInstance();
+namespace core\view;
 
 /**
- * Register routes
+ * ViewModel class
+ *
+ * The ViewModel class provides all data that is passed to the View.  
+ *
+ * @package		core
+ * @author		Alexander Vogt <alexander.vogt@avolutions.de>
+ * @since		Version 1.0.0
  */
- 
-/**
- * Examples
- */ 
-//$RouteCollection->addRoute(new Route('/<controller>/<action>'));
+class ViewModel
+{
+	
+}
 ?>

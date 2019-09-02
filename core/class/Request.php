@@ -2,18 +2,17 @@
 /**
  * AVOLUTIONS
  * 
- * An open source PHP framework.
+ * Just another open source PHP framework.
  * 
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  * @copyright	2019 avolutions (http://avolutions.de)
  * @license		MIT License (https://opensource.org/licenses/MIT)
- * @link		http://framework.avolutions.de
- * @since		Version 1.0.0 
+ * @link		https://github.com/avolutions/avolutions
+ * @since		Version 1.0.0
  */
  
 namespace core;
 
-use Exception;
 use core\routing\Router; 
 
 /**
@@ -56,11 +55,11 @@ class Request
      * Invokes the controller action with passed parameters.
 	 *
 	 */
-	public function send() {
-		$MatchedRoute = Router::findRoute($this->uri, $this->method);
+	public function send() {		
+		$MatchedRoute = Router::findRoute($this->uri, $this->method);	
 						
 		$fullControllerName = '\\application\\controller\\'.ucfirst($MatchedRoute->controllerName)."Controller";
-		$Controller = new $fullControllerName();
+		$Controller = new $fullControllerName();		
 		
 		$fullActionName = $MatchedRoute->actionName."Action";
 				
