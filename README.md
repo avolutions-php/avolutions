@@ -7,9 +7,9 @@ Currently it provides default things like:
 * [Views](#views)
 * [ViewModels](#viewModels)	
 
-**Current version**: 1.0.0alpha released on 01.09.2019
+**Current version**: 0.1.0-alpha released on 02.09.2019
 
-This is just a hobby project that is being continuously worked on it.
+This is just a hobby project that is continuously being worked on.
 ## Roadmap
 * Configuration
 * Logging
@@ -70,7 +70,7 @@ A __Route__ object can have three parameters:
 #### Examples
 ##### Call a static __Controller__ and __Action__
 ```php
-$RouteCollection->addRoute(new Route('login',
+$RouteCollection->addRoute(new Route('/login',
   array(
     'controller' => 'auth',
     'action'	 => 'login'
@@ -81,14 +81,14 @@ This __Route__ will call the __loginAction()__ method of the __AuthController__,
 
 ##### Call a dynamic __Controller__ and __Action__
 ```php
-$RouteCollection->addRoute(new Route('<controller>/</action>'));
+$RouteCollection->addRoute(new Route('/<controller>/<action>'));
 ```
 This __Route__ uses the reserved keywords _<controller>_ and _<action>_. These keywords can be used to call __Controllers__ and __Actions__ based on the requested __URL__.  
 For example: if a user requests the __URL__ _*http:*//yourapp/user/create_ the routing engine will call the __createAction()__ method of the __UserController__.
 
 ##### Call a __Route__ with __Parameter(s)__
 ```php
-$RouteCollection->addRoute(new Route('user/<id>',
+$RouteCollection->addRoute(new Route('/user/<id>',
   array(
     'controller' => 'user',
     'action'	 => 'show'
