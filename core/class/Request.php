@@ -56,7 +56,7 @@ class Request
 	public function send() {		
 		$MatchedRoute = Router::findRoute($this->uri, $this->method);	
 						
-		$fullControllerName = '\\application\\controller\\'.ucfirst($MatchedRoute->controllerName)."Controller";
+		$fullControllerName = ucfirst($MatchedRoute->controllerName)."Controller";
 		$Controller = new $fullControllerName();		
 		
 		$fullActionName = $MatchedRoute->actionName."Action";
