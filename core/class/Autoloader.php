@@ -8,7 +8,6 @@
  * @copyright	2019 avolutions (http://avolutions.de)
  * @license		MIT License (https://opensource.org/licenses/MIT)
  * @link		https://github.com/avolutions/avolutions
- * @since		Version 1.0.0
  */
 
 
@@ -21,7 +20,6 @@ namespace core;
  * 
  * @package		core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
- * @since		Version 1.0.0
  */
 class Autoloader 
 {	
@@ -35,10 +33,20 @@ class Autoloader
 	public static function register() {
 		spl_autoload_register(function ($class) {	
 			$class = str_replace("core", "core".DIRECTORY_SEPARATOR."class", $class); 
-			$file = BASEPATH.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';	
 			
-			if(file_exists($file)) { 
-				require_once $file;
+			$paths = array(
+				BASEPATH,
+        		APP_CONTROLLER_PATH,
+	        	APP_VIEWMODEL_PATH
+	        ); 
+	        	        
+	        foreach ($paths as $path) {	   			
+				$file = $path.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
+				
+				if(file_exists($file)) { 
+					require_once $file;
+					break;
+				}
 			}
 		});
 	}
