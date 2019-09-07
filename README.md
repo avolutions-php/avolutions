@@ -5,17 +5,17 @@ AVOLUTIONS is just another open source PHP framework.
 Currently it provides default things like:
 * Simple and fast [Routing](#routing) including [Controllers and Actions](#controllers-and-actions)
 * [Views](#views)
-* [ViewModels](#viewModels)	
+* [ViewModels](#viewmodels)	
+* [Configuration](#configuration)
 
-**Current version**: 0.1.0-alpha released on 02.09.2019
+**Current version**: 0.2.0-alpha released on 07.09.2019
 
-This is just a hobby project that is continuously being worked on.
+This is just a hobby project but it is continuously being worked on.
 ## Roadmap
-* Configuration
 * Logging
 * Session and Cookie handling
-* Database support
-* CRUD/Model/Entity
+* Database driver and migration
+* ORM
 * ViewEngine
 * ...
 
@@ -124,15 +124,13 @@ __Controllers__ has to be stored into the _application/controller_ directory and
 ##### Define an action that returns view by name convention
 Below is an example how to define a __Controller__ with an __Action__ that will return an __View__ by name conventions, i.e. the __Action__ will search for a __View__ called _show.php_ (= action name) in an directory called _application/view/user/_ (= controller name).
 ```php
-<?php
-  namespace application\controller;
-	
+<?php	
   use core\Controller;
 	
   class UserController extends Controller {
 	
     public function showAction($id) {	
-      return View();
+      return new View();
     }
   }
 ?>
@@ -141,15 +139,13 @@ Below is an example how to define a __Controller__ with an __Action__ that will 
 ##### Define an action that returns view by static name
 The following example will return a __View__ by its full name (path and file name): _application/view/user/display.php_
 ```php
-<?php
-  namespace application\controller;
-	
+<?php	
   use core\Controller;
 	
   class UserController extends Controller {
 	
     public function showAction($id) {	
-      return View('user/display');
+      return new View('user/display');
     }
   }
 ?>
@@ -159,8 +155,6 @@ The following example will return a __View__ by its full name (path and file nam
 In the example below data (__ViewModel__) is passed to the __View__. The explanation of how __Views__ and __ViewModels__ working together can be found in the following chapters.
 ```php
 <?php
-  namespace application\controller;
-	
   use core\Controller;
 	
   class UserController extends Controller {
@@ -218,11 +212,11 @@ Hello Alex
  
 ### ViewModels
 A __ViewModel__ is a class that provides data for the __View__. It is created/filled by the __Controller__/__Action__. It is the connection between the application data and the presentation and is used to separate the model (data) from the view (presentation) logic.  
-The __ViewModel__ can be created dynamically in the __Controller__ (see first __Controller__ example):
+
+#### Examples
+##### Use a dynamic ViewModel
 ```php
 <?php
-  namespace application\controller;
-	
   use core\Controller;
 	
   class UserController extends Controller {
@@ -235,6 +229,115 @@ The __ViewModel__ can be created dynamically in the __Controller__ (see first __
     }
   }
 ?>
+```
+
+##### Use a typed ViewModel
+Edit the __View__ form the second __View__ example like this:
+```php
+<html>
+  <head>
+    <title>Show user</title>
+  </head>
+  <body>
+    Hello <?php print $ViewModel->getName(); ?>
+  </body>
+</html>
+```
+
+Create a new __ViewModel__ in _application/viewmodel_, e.g. _UserViewModel_:
+```php
+<?php	
+  use core\view\viewmodel;
+
+  class UserViewModel extends ViewModel {
+
+    public $firstname;
+
+    public $lastname;
+
+    public function getName() {
+      return $this->firstname." ".$this->lastname;
+    }
+  }
+?>
+```
+
+Edit the __Controller__ of the dynamic __ViewModel__ example like this:
+```php
+<?php
+  use core\Controller;
+	
+  class UserController extends Controller {
+	
+    public function showAction($id) {	
+      $ViewModel = new UserViewModel();
+      $ViewModel->firstname = "Alex";
+      $ViewModel->lastname = "Vogt";
+		
+      return new View('user/display', $ViewModel);
+    }
+  }
+?>
+```
+
+This example will result in the following output:
+```
+Hello Alex Vogt
+```
+
+### Configuration
+There are config files where you can store __Configuration__ values that are available everywhere in the application.  
+The config values are not settable/editable at runtime.    
+
+#### Examples
+##### Add a new Configuration value 
+To store a new __Configuration__ value add a new "config" file at _application/config_, e.g. _user.php_.
+Just return an array with all your config values as _keys_:
+```php
+<?php
+  return array(
+    "showLastname" => true
+  );
+?>
+```
+
+##### Override an existing Configuration value
+There are some core __Configuration__ values. These values are stored in the _config_ folder of the __AVOLUTIONS__ core:
+  
+Configuration key | default value | since
+------------ | ------------- | -------------
+- | - | -
+
+You should never change a file inside the _core_ folder, otherwise there can be conflicts or data loss when updating the framework.
+Therefore it is possible to overwrite the _core_ values with your _application_ values. Just create a config file inside the _application/config_ 
+with the same name as the file in _core/config_. Use the same array key to overwrite the core __Configuration__ value.
+
+##### Use the Configuration value in application
+To use the __Configuration__ value you need to know the key. The key is composed of the _file_ name and the array keys.  
+E.g. the key of the __Configuration__ value from our example above is: _user/showLastname_.
+  
+To use the __Configuration__ value in the application we will edit the _getName()_ method of our __ViewModel__ example like the following:
+```php
+<?php	
+    use core\config;
+	...
+		public function getName() {
+			if(Config::get("user/showLastname")) {
+				return $this->firstname." ".$this->lastname;
+			}
+			
+			return $this->firstname;
+		}
+	...
+?> 
+```
+If the __Configuration__ value is set to _true_ it will result in the following output:
+```
+Hello Alex Vogt
+```
+If the __Configuration__ value is set to _false_ it will result in the following output:
+```
+Hello Alex
 ```
 
 # License
