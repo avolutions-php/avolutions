@@ -306,7 +306,7 @@ There are some core __Configuration__ values. These values are stored in the _co
   
 Configuration key | default value | since
 ------------ | ------------- | -------------
-- | - | -
+_none_ | _none_ | _none_
 
 You should never change a file inside the _core_ folder, otherwise there can be conflicts or data loss when updating the framework.
 Therefore it is possible to overwrite the _core_ values with your _application_ values. Just create a config file inside the _application/config_ 
@@ -319,16 +319,16 @@ E.g. the key of the __Configuration__ value from our example above is: _user/sho
 To use the __Configuration__ value in the application we will edit the _getName()_ method of our __ViewModel__ example like the following:
 ```php
 <?php	
-    use core\config;
-	...
-		public function getName() {
-			if(Config::get("user/showLastname")) {
-				return $this->firstname." ".$this->lastname;
-			}
-			
-			return $this->firstname;
-		}
-	...
+  use core\config;
+  ...
+  public function getName() {
+    if(Config::get("user/showLastname")) {
+      return $this->firstname." ".$this->lastname;
+    }
+
+    return $this->firstname;
+  }
+  ...
 ?> 
 ```
 If the __Configuration__ value is set to _true_ it will result in the following output:
