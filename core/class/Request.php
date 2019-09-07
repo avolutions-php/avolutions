@@ -8,7 +8,6 @@
  * @copyright	2019 avolutions (http://avolutions.de)
  * @license		MIT License (https://opensource.org/licenses/MIT)
  * @link		https://github.com/avolutions/avolutions
- * @since		Version 1.0.0
  */
  
 namespace core;
@@ -23,7 +22,6 @@ use core\routing\Router;
  *
  * @package		core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
- * @since		Version 1.0.0
  */
 class Request
 {
@@ -58,7 +56,7 @@ class Request
 	public function send() {		
 		$MatchedRoute = Router::findRoute($this->uri, $this->method);	
 						
-		$fullControllerName = '\\application\\controller\\'.ucfirst($MatchedRoute->controllerName)."Controller";
+		$fullControllerName = ucfirst($MatchedRoute->controllerName)."Controller";
 		$Controller = new $fullControllerName();		
 		
 		$fullActionName = $MatchedRoute->actionName."Action";
