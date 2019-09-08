@@ -48,5 +48,58 @@ class Database extends \PDO
 			print $e->getMessage();
 		}	
 	}
+	
+	
+	/**
+	 * migrate
+	 * 
+	 * TODO
+	 */
+	public static function migrate() {
+		$migrationsToExecute = array();
+		$migrationFiles = array_map('basename', glob(APP_DATABASE_PATH.'*.php'));
+		
+		$executedMigrations = self::getExecutedMigrations();
+		
+		foreach($migrationFiles as $migrationFile) {
+			$migrationClassName = pathinfo($migrationFile, PATHINFO_FILENAME);
+						
+			require_once APP_DATABASE_PATH.$migrationFile;
+ 			$Migration = new $migrationClassName;
+			
+			if(!in_array($Migration->version, $executedMigrations)) {
+				$migrationsToExecute[$Migration->version] = $Migration;
+			}
+		}
+		
+		ksort($migrationsToExecute);
+		
+		$Database = new Database();
+		foreach ($migrationsToExecute as $version => $Migration) {
+			$Migration->migrate();
+			
+			$stmt = $Database->prepare("INSERT INTO migration (Version, Name) VALUES (?, ?)");
+			$stmt->execute(array($version, get_class($Migration)));
+		}
+	}
+	
+	/**
+	 * migrate
+	 * 
+	 * TODO
+	 */
+	private static function getExecutedMigrations() {
+		$executedMigrations = array();
+		
+		$Database = new Database();
+						
+		$stmt = $Database->prepare("SELECT * FROM migration");
+		$stmt->execute();		
+		while ($row = $stmt->fetch(Database::FETCH_ASSOC)) {
+			$executedMigrations[] = $row["Version"];
+		}
+		
+		return $executedMigrations;
+	}
 }
 ?>

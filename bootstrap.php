@@ -13,6 +13,7 @@
  
 use core\Autoloader;
 use core\Config;
+use core\database\Database;
 
 /**
  * Define pathes
@@ -27,6 +28,7 @@ define("CORE_CONFIG_PATH", CORE_PATH."config".DIRECTORY_SEPARATOR);
 
 define("APP_CONFIG_PATH", APPLICATION_PATH."config".DIRECTORY_SEPARATOR);
 define("APP_CONTROLLER_PATH", APPLICATION_PATH."controller".DIRECTORY_SEPARATOR);
+define("APP_DATABASE_PATH", APPLICATION_PATH."database".DIRECTORY_SEPARATOR);
 define("APP_VIEW_PATH", APPLICATION_PATH."view".DIRECTORY_SEPARATOR);
 define("APP_VIEWMODEL_PATH", APPLICATION_PATH."viewmodel".DIRECTORY_SEPARATOR);
 
@@ -41,4 +43,11 @@ Autoloader::register();
  */	 
 $Config = Config::getInstance();
 $Config->initialize();	
+
+/**
+ * Migrate the Database
+ */
+if(Config::get("database/migrateOnAppStart")) {	
+	Database::migrate(); 
+}
 ?>

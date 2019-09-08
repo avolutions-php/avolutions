@@ -7,14 +7,14 @@ Currently it provides default things like:
 * [Views](#views)
 * [ViewModels](#viewmodels)	
 * [Configuration](#configuration)
+* [Database](#database)
 
-**Current version**: 0.2.0-alpha released on 07.09.2019
+**Current version**: 0.3.0-alpha released on XX.09.2019
 
 This is just a hobby project but it is continuously being worked on.
 ## Roadmap
 * Logging
 * Session and Cookie handling
-* Database driver and migration
 * ORM
 * ViewEngine
 * ...
@@ -304,9 +304,13 @@ Just return an array with all your config values as _keys_:
 ##### Override an existing Configuration value
 There are some core __Configuration__ values. These values are stored in the _config_ folder of the __AVOLUTIONS__ core:
   
-Configuration key | default value | since
------------- | ------------- | -------------
-_none_ | _none_ | _none_
+Configuration key | Default value | Description | Since
+------------ | ------------- | ------------- | -------------
+database/host | 127.0.0.1 | The host name for the database connection | 0.3.0-alpha 
+database/database | avolutions | The database name for the database connection | 0.3.0-alpha
+database/user | avolutions | The username for the database connection | 0.3.0-alpha
+database/password |  | The password for the database connection | 0.3.0-alpha
+migrateOnAppStart | true | TODO | 0.3.0-alpha
 
 You should never change a file inside the _core_ folder, otherwise there can be conflicts or data loss when updating the framework.
 Therefore it is possible to overwrite the _core_ values with your _application_ values. Just create a config file inside the _application/config_ 
@@ -339,6 +343,9 @@ If the __Configuration__ value is set to _false_ it will result in the following
 ```
 Hello Alex
 ```
+
+### Database
+##### Database migration
 
 # License
 The AVOLUTIONS framework is an open source software licensed under the [MIT license](https://opensource.org/licenses/MIT).

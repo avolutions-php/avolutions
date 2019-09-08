@@ -12,10 +12,11 @@
  */
 
 return array(
-	"host" 	   => "127.0.0.1",
+	"host" => "127.0.0.1",
 	"database" => "avolutions",
-	"user" 	   => "avolutions",
+	"user" => "avolutions",
 	"password" => "avolutions",
-	"charset"  => "utf8"	
+	"charset" => "utf8",
+	"migrateOnAppStart" => true	
 );
 ?>
