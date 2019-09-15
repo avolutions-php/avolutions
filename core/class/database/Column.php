@@ -15,7 +15,7 @@ namespace core\database;
 /**
  * Column class
  *
- * TODO 
+ * The Column class represents the schema of a database table column. 
  *
  * @package		core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
@@ -23,37 +23,37 @@ namespace core\database;
 class Column
 {
 	/**
-	 * @var string $name TOD
+	 * @var string $name The name of the column.
 	 */
 	private $name;
 	
 	/**
-	 * @var string $type TOD
+	 * @var string $type The data type of the column.
 	 */
 	private $type;
 	
 	/**
-	 * @var string $length TOD
+	 * @var string $length The length of the column.
 	 */
 	private $length;
 	
 	/**
-	 * @var string $default TOD
+	 * @var string $default The default value of the column.
 	 */
 	private $default;
 	
 	/**
-	 * @var string $null TOD
+	 * @var string $null A flag if the column can be null or not.
 	 */
 	private $null;
 	
 	/**
-	 * @var string $primaryKey TOD
+	 * @var bool $primaryKey A flag if the column is a primary key or not.
 	 */
 	private $primaryKey;
 	
 	/**
-	 * @var string $autoIncrement TOD
+	 * @var bool $autoIncrement A flag if the column is a auto increment column or not.
 	 */
 	private $autoIncrement;
 	
@@ -90,7 +90,16 @@ class Column
 	/**
 	 * __construct
 	 * 
-	 * TODO
+	 * Creates a new Column object.
+	 *
+	 * @param string $name The name of the column.
+	 * @param string $type The data type of the column.
+	 * @param string $length The length of the column.
+	 * @param string $default The default value of the column.
+	 * @param string $null A flag if the column can be null or not.
+	 * @param bool $primaryKey A flag if the column is a primary key or not.
+	 * @param bool $autoIncrement A flag if the column is a auto increment column or not.
+	 *
 	 */
 	public function __construct($name, $type, $length = null, $default = null, $null = Column::NOTNULL, $primaryKey = false, $autoIncrement = false) {
 		$this->name = $name;
@@ -105,7 +114,9 @@ class Column
 	/**
 	 * getPattern
 	 * 
-	 * TODO
+	 * Returns the SQL pattern for the column.
+	 *
+	 * @return string The SQL pattern for the column.
 	 */
 	public function getPattern() {
 		$pattern = "";			
@@ -122,7 +133,9 @@ class Column
 	/**
 	 * getNamePattern
 	 * 
-	 * TODO
+	 * Returns the SQL pattern for the name attribute.
+	 *
+	 * @return string The SQL pattern for the name attribute.
 	 */
 	private function getNamePattern() {
 		return "`".$this->name."` ";
@@ -131,7 +144,9 @@ class Column
 	/**
 	 * getTypePattern
 	 * 
-	 * TODO
+	 * Returns the SQL pattern for the type attribute.
+	 *
+	 * @return string The SQL pattern for the type attribute.
 	 */
 	private function getTypePattern() {
 		$typePattern = $this->type;
@@ -147,7 +162,9 @@ class Column
 	/**
 	 * getNullPattern
 	 * 
-	 * TODO
+	 * Returns the SQL pattern for the null attribute.
+	 *
+	 * @return string The SQL pattern for the null attribute.
 	 */
 	private function getNullPattern() {			
 		return $this->null;
@@ -156,7 +173,9 @@ class Column
 	/**
 	 * getDefaultPattern
 	 * 
-	 * TODO
+	 * Returns the SQL pattern for the default attribute.
+	 *
+	 * @return string The SQL pattern for the default attribute.
 	 */
 	private function getDefaultPattern() {
 		if($this->type == self::BOOLEAN) {
@@ -173,7 +192,9 @@ class Column
 	/**
 	 * getPrimaryKeyPattern
 	 * 
-	 * TODO
+	 * Returns the SQL pattern for the primary key attribute.
+	 *
+	 * @return string The SQL pattern for the primary key attribute.
 	 */
 	private function getPrimaryKeyPattern()	{
 		if($this->primaryKey) {
@@ -186,7 +207,9 @@ class Column
 	/**
 	 * getAutoIncrementPattern
 	 * 
-	 * TODO
+	 * Returns the SQL pattern for the auto increment attribute.
+	 *
+	 * @return string The SQL pattern for the auto increment attribute.
 	 */
 	private function getAutoIncrementPattern() {
 		if($this->autoIncrement) {

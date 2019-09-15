@@ -17,7 +17,8 @@ use core\config;
 /**
  * Database class
  *
- * TODO 
+ * The Database class provides some functions to connect to a MySQL database, execute queries 
+ * and perform schema changes (migrations) on the database. 
  *
  * @package		core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
@@ -27,7 +28,7 @@ class Database extends \PDO
 	/**
 	 * __construct
 	 * 
-	 * TODO
+	 * Connects to the database using the config values from config/database.
 	 */
 	public function __construct() {
 		$host	  = Config::get("database/host");
@@ -42,18 +43,14 @@ class Database extends \PDO
 			\PDO::ATTR_PERSISTENT => true
 		);	
 		
-		try {
-			parent::__construct($dsn, $user, $password, $options);
-		} catch (\PDOException $e) {
-			print $e->getMessage();
-		}	
+		parent::__construct($dsn, $user, $password, $options);			
 	}
 	
 	
 	/**
 	 * migrate
 	 * 
-	 * TODO
+	 * Executes all migrations from applications/database.
 	 */
 	public static function migrate() {
 		$migrationsToExecute = array();
@@ -84,9 +81,11 @@ class Database extends \PDO
 	}
 	
 	/**
-	 * migrate
+	 * getExecutedMigrations
 	 * 
-	 * TODO
+	 * Gets all executed migrations from the database and return the versions.
+	 *
+	 * @return array The version numbers of the executed migrations.
 	 */
 	private static function getExecutedMigrations() {
 		$executedMigrations = array();

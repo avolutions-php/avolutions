@@ -3,15 +3,16 @@
 # About AVOLUTIONS
 AVOLUTIONS is just another open source PHP framework.  
 Currently it provides default things like:
-* Simple and fast [Routing](#routing) including [Controllers and Actions](#controllers-and-actions)
+* Simple and fast [Routing](#routing)
+* [Controllers and Actions](#controllers-and-actions)
 * [Views](#views)
 * [ViewModels](#viewmodels)	
 * [Configuration](#configuration)
 * [Database](#database)
 
-**Current version**: 0.3.0-alpha released on XX.09.2019
+**Current version**: 0.3.0-alpha released on 15.09.2019
 
-This is just a hobby project but it is continuously being worked on.
+_This is just a hobby project but it is continuously being worked on._
 ## Roadmap
 * Logging
 * Session and Cookie handling
@@ -310,7 +311,7 @@ database/host | 127.0.0.1 | The host name for the database connection | 0.3.0-al
 database/database | avolutions | The database name for the database connection | 0.3.0-alpha
 database/user | avolutions | The username for the database connection | 0.3.0-alpha
 database/password |  | The password for the database connection | 0.3.0-alpha
-migrateOnAppStart | true | TODO | 0.3.0-alpha
+database/migrateOnAppStart | true | TODO | 0.3.0-alpha
 
 You should never change a file inside the _core_ folder, otherwise there can be conflicts or data loss when updating the framework.
 Therefore it is possible to overwrite the _core_ values with your _application_ values. Just create a config file inside the _application/config_ 
@@ -345,7 +346,143 @@ Hello Alex
 ```
 
 ### Database
-##### Database migration
+The __Database__ module provides some functions to connect to a MySQL database, execute queries and perform schema changes (migrations) on the database.
+#### Database connection
+To connect to a MySQL database you have to configure your connection parameters. Have a look to the _config/database.php_ __Configuration__ file. There are four __Configuration__ values to configure: _host_, _database_, _user_, _password_. To create a new connection to the __Database__ just call the constructor of the __Database__ class:  
+```php
+<?php	 
+  use core\database\Database;
+ 
+  $Database = new Database();
+?> 
+```
+#### Database queries
+To execute queries on your __Database__ you can just use the _query()_ method of the __Database__ class:  
+```php
+<?php	 
+  use core\database\Database;
+ 
+  $Database = new Database();
+  $stmt = $Database->query('SELECT * FROM user');
+  while ($row = $stmt->fetch()) {
+    print $row['Firstname'];
+  }
+?> 
+```
+Because the avolutions __Database__ class extends the PHP __PDO__ class it is possible to use all methods from it, e.g. _prepared statements_, _transactions_...
+#### Database migration
+To made changes to your database schema (add or remove tables/columns etc.) the avolutions framework provides a bunch of methods. These method can be use to write _migrations_ for your __Database__. The framework will check for the current version of your __Database__ and execute changes if they are not added to the __Database__ schema already.  
+By default the _migrations_ will be executed automatically, if you do not want this you have to change the value of _database/migrateOnAppStart_ to _false_. To exectue the _migrations_ by yourself use the following code:
+```php
+<?php	 
+  use core\database\Database;
+ 
+  Database::migrate();
+?> 
+```
+
+To create a new _migration_ add a new file in _application/database_, e.g. _CreateUserTable.php_. This file has to contain a class (with the same name as the file) which has a property _version_ and a method _migrate_:
+```php
+<?php
+  class CreateUserTable {
+    public $version = "";
+
+    public function migrate() {
+    }
+  }
+?>
+```
+All _migrations_ in the _application/database_ folder will be executed in the order of the version, from low to high. The version should be unique, best practice is to use the current datetime of the creation, e.g. "_20190915143000_".  
+
+#### Create new table
+To create a new table use the method _Table::create($tableName, $Columns)_:
+```php
+<?php
+use core\database\Table;
+use core\database\Column;
+
+class CreateUserTable {
+  public $version = "20190915143000";
+
+  public function migrate() {
+    $columns = array();
+	// $name, $type, $length , $default, $null, $primaryKey, $autoIncrement
+    $columns[] = new Column("UserID", Column::INT, 255, null, null, true, true);
+    $columns[] = new Column("Firstname", Column::VARCHAR, 255);
+    $columns[] = new Column("Lastname", Column::VARCHAR, 255);	
+    Table::create("user", $columns);
+  }
+}
+?>
+```
+
+#### Add column to table
+To add a new column to a table use the method _Table::addColumn($tableName, $Column, $after = null)_:
+```php
+<?php
+use core\database\Table;
+use core\database\Column;
+
+class AddMailToUserTable {
+  public $version = "20190915143100";
+
+  public function migrate() {
+    Table::addColumn("user", new Column("Mail", Column::VARCHAR, 255), "UserID");
+  }
+}
+?>
+```
+
+#### Remove column from table
+To remove a column from a table use the method _Table::removeColumn($tableName, $columnName)_:
+```php
+<?php
+use core\database\Table;
+use core\database\Column;
+
+class RemoveMailFromUserTable {
+  public $version = "20190915143200";
+
+  public function migrate() {
+    Table::removeColumn("user", "Mail");
+  }
+}
+?>
+```
+
+#### Add index to table
+To add an index (_index_, _unique_, _primary key_) to a table use the method _Table::addIndex($tableName, $indexType, $columnNames, $indexName)_:
+```php
+<?php
+use core\database\Table;
+use core\database\Column;
+
+class AddUniqueIndexToUserTable {
+  public $version = "20190915143300";
+
+  public function migrate() {
+    Table::addIndex("user", Table::UNIQUE, array("Firstname", "Lastname"), "UniqueName");
+  }
+}
+?>
+```
+
+#### Add foreign key constraint to table
+To add an foreign key constraint to a table use the method _Table::addForeignKeyConstraint($tableName, $columnName, $referenceTableName, $referenceColumnName, $onDelete, $onUpdate, $constraintName)_:
+```php
+<?php
+use core\database\Table;
+use core\database\Column;
+
+class AddForeignKeyToUserTable {
+  public $version = "20190915143400";
+
+  public function migrate() {
+    Table::addForeignKeyConstraint("user", "UserID", "user_role", "UserID");
+  }
+}
+?>
+```
 
 # License
 The AVOLUTIONS framework is an open source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
