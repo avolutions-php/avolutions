@@ -311,7 +311,11 @@ database/host | 127.0.0.1 | The host name for the database connection | 0.3.0-al
 database/database | avolutions | The database name for the database connection | 0.3.0-alpha
 database/user | avolutions | The username for the database connection | 0.3.0-alpha
 database/password |  | The password for the database connection | 0.3.0-alpha
-database/migrateOnAppStart | true | TODO | 0.3.0-alpha
+database/migrateOnAppStart | true | Controls if migrations are running automatically or not | 0.3.0-alpha
+logger/debug | true | Controls if debug log message will be write to the logfile or not | 0.4.0-alpha
+logger/logfile | logfile.log | The name of the logfile | 0.4.0-alpha
+logger/logpath | CORE_PATH."log".DIRECTORY_SEPARATOR | The path where the logfile is stored | 0.4.0-alpha
+logger/datetimeFormat | "Y-m-d H:i:s.v" | The format for the datetime of the log message | 0.4.0-alpha
 
 You should never change a file inside the _core_ folder, otherwise there can be conflicts or data loss when updating the framework.
 Therefore it is possible to overwrite the _core_ values with your _application_ values. Just create a config file inside the _application/config_ 
