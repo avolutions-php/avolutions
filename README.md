@@ -8,13 +8,13 @@ Currently it provides default things like:
 * [Views](#views)
 * [ViewModels](#viewmodels)	
 * [Configuration](#configuration)
+* [Logging](#logging)
 * [Database](#database)
 
 **Current version**: 0.3.0-alpha released on 15.09.2019
 
 _This is just a hobby project but it is continuously being worked on._
 ## Roadmap
-* Logging
 * Session and Cookie handling
 * ORM
 * ViewEngine
@@ -349,6 +349,8 @@ If the __Configuration__ value is set to _false_ it will result in the following
 Hello Alex
 ```
 
+### Logging
+
 ### Database
 The __Database__ module provides some functions to connect to a MySQL database, execute queries and perform schema changes (migrations) on the database.
 #### Database connection
@@ -410,7 +412,7 @@ class CreateUserTable {
 
   public function migrate() {
     $columns = array();
-	// $name, $type, $length , $default, $null, $primaryKey, $autoIncrement
+    // $name, $type, $length , $default, $null, $primaryKey, $autoIncrement
     $columns[] = new Column("UserID", Column::INT, 255, null, null, true, true);
     $columns[] = new Column("Firstname", Column::VARCHAR, 255);
     $columns[] = new Column("Lastname", Column::VARCHAR, 255);	
