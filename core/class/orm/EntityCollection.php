@@ -76,8 +76,13 @@ class EntityCollection implements CollectionInterface
 		Logger::debug(str_replace(":id", $id, $stmt->queryString));  
 		
 		$stmt->execute();
-		$test = $stmt->fetch();
-		print_r($test);     
+		$Entity = new $this->entity();
+		foreach($stmt->fetch(Database::FETCH_ASSOC) as $property => $value) {
+			$property = lcfirst($property); // TODO 
+			$Entity->$property = $value;
+		}
+		
+		return $Entity;
 	}
 }
 ?>
