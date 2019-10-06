@@ -38,6 +38,11 @@ class EntityConfiguration
 	private $idColumn;
 	
 	/**
+	 * @var array $mapping The mapping between the entity and the database table.
+	 */
+	private $mapping;
+	
+	/**
 	 * __construct
 	 * 
 	 * TODO
@@ -46,11 +51,21 @@ class EntityConfiguration
 		print '__construct()';		
 		
 		$this->entity = $entity;
+		$this->loadMapping();
 		$this->setTable();
 		$this->setIdColumn();
 		
 		print_r($this);
 	}	
+	
+	/**
+	 * loadMapping
+	 * 
+	 * TODO
+	 */
+	private function loadMapping() {	
+		print 'loadMapping();';
+	}
 	
 	/**
 	 * getTable
