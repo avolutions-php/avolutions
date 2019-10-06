@@ -39,7 +39,7 @@ class Router
 		foreach ($RouteCollection->getAllByMethod($method) as $Route) {
 			if (preg_match(self::getRegularExpression($Route), $path, $matches)) {
 								
-				$explodedUrl = explode('/', $Route->url);	
+				$explodedUrl = explode('/', ltrim($Route->url, '/'));	
 				
 				$controllerName = self::getKeywordValue($matches, $explodedUrl, 'controller');
 				$actionName = self::getKeywordValue($matches, $explodedUrl, 'action');
