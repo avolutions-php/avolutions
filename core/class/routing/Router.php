@@ -87,6 +87,8 @@ class Router
 			$parameterExpression = '(';
 			$parameterExpression .= $parameterValues["format"];
 			if(isset($parameterValues["optional"]) && $parameterValues["optional"]) {
+				// last slash for optional parameter is also optional, therefore we add a ? behind it
+				$parameterExpression = '?'.$parameterExpression;
 				$parameterExpression .= '?';
 			}
 			$parameterExpression .= ')';
