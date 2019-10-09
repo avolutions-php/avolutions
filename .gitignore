@@ -1,3 +1,7 @@
+#     AVOLUTIONS     #
+######################
+core/log/*
+
 # IDE specific files #
 ######################
 # Eclipse
