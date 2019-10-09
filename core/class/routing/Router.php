@@ -39,7 +39,7 @@ class Router
 		foreach ($RouteCollection->getAllByMethod($method) as $Route) {
 			if (preg_match(self::getRegularExpression($Route), $path, $matches)) {
 								
-				$explodedUrl = explode('/', $Route->url);	
+				$explodedUrl = explode('/', ltrim($Route->url, '/'));	
 				
 				$controllerName = self::getKeywordValue($matches, $explodedUrl, 'controller');
 				$actionName = self::getKeywordValue($matches, $explodedUrl, 'action');
@@ -87,6 +87,8 @@ class Router
 			$parameterExpression = '(';
 			$parameterExpression .= $parameterValues["format"];
 			if(isset($parameterValues["optional"]) && $parameterValues["optional"]) {
+				// last slash for optional parameter is also optional, therefore we add a ? behind it
+				$parameterExpression = '?'.$parameterExpression;
 				$parameterExpression .= '?';
 			}
 			$parameterExpression .= ')';
