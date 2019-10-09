@@ -10,8 +10,9 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
+use core\Logger;
 use core\Request;
-use core\Routing\Router;
+use core\routing\Router;
 
 /**
  * Load the bootstrap file
@@ -28,7 +29,10 @@ require_once "../routes.php";
 /**
  * Start the application
  */
-$Request = new Request();
-$Response = $Request->send();
-
+try {
+	$Request = new Request();
+	$Response = $Request->send();
+} catch(Exception $e) {
+	Logger::error($e);
+}
 ?>
