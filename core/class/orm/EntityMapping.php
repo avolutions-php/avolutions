@@ -28,9 +28,30 @@ class EntityMapping
 	 * TODO
 	 */
 	public function __construct($entity) {
-		print '__construct()';		
-				
-		print_r($this);
+		$mapping = $this->loadMappingFile(APP_MAPPING_PATH.$entity."Mapping.php");
+
+		foreach ($mapping as $key => $value) {
+			$this->$key = $value;
+		}
 	}	
+	
+	/**
+	 * loadMappingFile
+	 *
+	 * Loads the given mapping file and return the content (array) or an empty array 
+	 * if the file can not be found.
+	 *
+	 * @param string $mappingFile Complete name including the path of the mapping file.
+	 * 
+	 * @return array An array with the loaded mapping values or an empty array if 
+     *				 file can not be found.
+	 */
+	private function loadMappingFile($mappingFile) {				
+		if(file_exists($mappingFile)) {	
+			return require $mappingFile;
+		}
+		
+		return array();
+	}
 }
 ?>

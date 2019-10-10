@@ -12,6 +12,8 @@
  
 namespace core\orm;
 
+use core\orm\EntityMapping;
+
 /**
  * EntityConfiguration class
  *
@@ -38,18 +40,16 @@ class EntityConfiguration
 	private $idColumn;
 	
 	/**
-	 * @var array $mapping The mapping between the entity and the database table.
+	 * @var object $mapping The mapping between the entity and the database table.
 	 */
-	private $mapping;
+	private $Mapping;
 	
 	/**
 	 * __construct
 	 * 
 	 * TODO
 	 */
-	public function __construct($entity) {
-		print '__construct()';		
-		
+	public function __construct($entity) {		
 		$this->entity = $entity;
 		$this->loadMapping();
 		$this->setTable();
@@ -64,7 +64,7 @@ class EntityConfiguration
 	 * TODO
 	 */
 	private function loadMapping() {	
-		print 'loadMapping();';
+		$this->Mapping = new EntityMapping($this->entity);
 	}
 	
 	/**
