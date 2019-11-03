@@ -34,9 +34,7 @@ class Entity
 	 * TODO
 	 */
 	public function __construct() {
-		print '__construct()';		
-				
-		print_r($this);
+
 	}	
 		
 	/**
@@ -44,9 +42,7 @@ class Entity
 	 * 
 	 * TODO
 	 */
-	public function save() {
-		print 'save()';
-		
+	public function save() {		
 		if($this->exists()) {
 			$this->update();
 		} else {

@@ -27,6 +27,11 @@ use core\Logger;
 class EntityCollection implements CollectionInterface
 {
 	/**
+	 * @var array $Entities An array containing all Entities of the EntityCollection
+	 */
+	private $Entities = array();
+
+	/**
 	 * @var string $entity The name of the entity.
 	 */
 	private $entity;
@@ -35,6 +40,16 @@ class EntityCollection implements CollectionInterface
 	 * @var string $EntityConfiguration The configuration of the entity.
 	 */
 	private $EntityConfiguration;
+
+	/**
+	 * @var string $fieldQuery TODO.
+	 */
+	private $fieldQuery;
+
+	/**
+	 * @var string $whereStmt TODO.
+	 */
+	private $whereStmt;
 	
 	/**
 	 * __construct
@@ -42,13 +57,63 @@ class EntityCollection implements CollectionInterface
 	 * TODO
 	 */
 	public function __construct($entity) {
-		print '__construct()';		
-		
 		$this->entity = $entity;
 		
 		$this->EntityConfiguration = new EntityConfiguration($this->entity);
+
+		$this->setFieldQuery();
+	}	
+
+	/**
+	 * setFieldQuery
+	 * 
+	 * TODO
+	 */
+	private function setFieldQuery() {
+		$fieldQuery = "";
+
+		foreach($this->EntityConfiguration->getMapping() as $key => $value) {
+			/*$column = isset($value["column"]) ? $value["column"] : $key;
+			$fieldQuery .= $column.' AS '.$key.', ';*/
+
+			if(isset($value["column"])) {
+				$fieldQuery .= $value["column"].' AS ';
+			}
+
+			$fieldQuery .= $key.', ';
+		}
+
+		$this->fieldQuery = rtrim($fieldQuery, ', ');
+	}
+
+	/**
+	 * execute
+	 * 
+	 * TODO
+	 */
+	private function execute() {
+		$Database = new Database();
+
+		$query = "SELECT ";
+		$query .= $this->fieldQuery;
+		$query .= " FROM ";
+		$query .= $this->EntityConfiguration->getTable();
+		$query .= $this->getWhereStmt();
 		
-		print_r($this);
+		$stmt = $Database->prepare($query);
+		
+		Logger::debug($query);  
+
+		$stmt->execute();
+
+		while ($properties = $stmt->fetch($Database::FETCH_ASSOC)) {        
+			// TODO: Entity factory?
+			$Entity = new $this->entity();
+			foreach($properties as $property => $value) {
+				$Entity->$property = $value;
+			}		
+			$this->Entities[] = $Entity;
+		}
 	}	
 		
 	/**
@@ -57,7 +122,9 @@ class EntityCollection implements CollectionInterface
 	 * TODO
 	 */
 	public function getAll() {
-		print 'getAll()';
+		$this->execute();
+
+		return $this->Entities;
 	}
 	
 	/**
@@ -66,23 +133,56 @@ class EntityCollection implements CollectionInterface
 	 * TODO
 	 */
 	public function getById($id) {
-		$Database = new Database();
-        	
-		$query = "SELECT * FROM ".$this->EntityConfiguration->getTable()." WHERE ".$this->EntityConfiguration->getIdColumn()." = :id";
-			
-		$stmt = $Database->prepare($query);
-		$stmt->bindParam(':id', $id);
-				
-		Logger::debug(str_replace(":id", $id, $stmt->queryString));  
-		
-		$stmt->execute();
-		$Entity = new $this->entity();
-		foreach($stmt->fetch(Database::FETCH_ASSOC) as $property => $value) {
-			$property = lcfirst($property); // TODO 
-			$Entity->$property = $value;
+		$this->where($this->EntityConfiguration->getIdColumn()." = ".$id);
+		$this->execute();
+
+		return $this->Entities[0];
+	}
+
+	/**
+	 * getFirst
+	 * 
+	 * TODO
+	 */
+	public function getFirst() {
+		$this->execute();
+
+		return $this->Entities[0];
+	}
+
+	/**
+	 * getLast
+	 * 
+	 * TODO
+	 */
+	public function getLast() {
+		$this->execute();
+
+		return end($this->Entities);
+	}
+
+	/**
+	 * getWhereStmt
+	 * 
+	 * TODO
+	 */
+	private function getWhereStmt() {
+		if(strlen($this->whereStmt) > 0) {
+			return " WHERE ".$this->whereStmt;
 		}
-		
-		return $Entity;
+
+		return "";
+	}
+
+	/**
+	 * where
+	 * 
+	 * TODO
+	 */
+	public function where($condition) {
+		$this->whereStmt .= $condition;
+
+		return $this;
 	}
 }
 ?>

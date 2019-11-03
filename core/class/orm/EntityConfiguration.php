@@ -54,8 +54,6 @@ class EntityConfiguration
 		$this->loadMapping();
 		$this->setTable();
 		$this->setIdColumn();
-		
-		print_r($this);
 	}	
 	
 	/**
@@ -101,6 +99,15 @@ class EntityConfiguration
 	 */
 	private function setIdColumn() {	
 		$this->idColumn = $this->getTable()."ID";
+	}
+
+	/**
+	 * getMapping
+	 * 
+	 * TODO
+	 */
+	public function getMapping() {	
+		return $this->Mapping;
 	}
 }
 ?>
