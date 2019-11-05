@@ -42,14 +42,24 @@ class EntityCollection implements CollectionInterface
 	private $EntityConfiguration;
 
 	/**
+	 * @var string $EntityMapping TODO.
+	 */
+	private $EntityMapping;
+
+	/**
 	 * @var string $fieldQuery TODO.
 	 */
 	private $fieldQuery;
 
 	/**
-	 * @var string $whereStmt TODO.
+	 * @var string $orderByClause TODO.
 	 */
-	private $whereStmt;
+	private $orderByClause;
+
+	/**
+	 * @var string $whereClause TODO.
+	 */
+	private $whereClause;
 	
 	/**
 	 * __construct
@@ -60,6 +70,7 @@ class EntityCollection implements CollectionInterface
 		$this->entity = $entity;
 		
 		$this->EntityConfiguration = new EntityConfiguration($this->entity);
+		$this->EntityMapping = $this->EntityConfiguration->getMapping();
 
 		$this->setFieldQuery();
 	}	
@@ -72,18 +83,18 @@ class EntityCollection implements CollectionInterface
 	private function setFieldQuery() {
 		$fieldQuery = "";
 
-		foreach($this->EntityConfiguration->getMapping() as $key => $value) {
+		foreach($this->EntityMapping as $key => $value) {
 			/*$column = isset($value["column"]) ? $value["column"] : $key;
 			$fieldQuery .= $column.' AS '.$key.', ';*/
 
 			if(isset($value["column"])) {
-				$fieldQuery .= $value["column"].' AS ';
+				$fieldQuery .= $value["column"]." AS ";
 			}
 
 			$fieldQuery .= $key.', ';
 		}
 
-		$this->fieldQuery = rtrim($fieldQuery, ', ');
+		$this->fieldQuery = rtrim($fieldQuery, ", ");
 	}
 
 	/**
@@ -98,7 +109,8 @@ class EntityCollection implements CollectionInterface
 		$query .= $this->fieldQuery;
 		$query .= " FROM ";
 		$query .= $this->EntityConfiguration->getTable();
-		$query .= $this->getWhereStmt();
+		$query .= $this->getWhereClause();
+		$query .= $this->getOrderByClause();
 		
 		$stmt = $Database->prepare($query);
 		
@@ -115,6 +127,17 @@ class EntityCollection implements CollectionInterface
 			$this->Entities[] = $Entity;
 		}
 	}	
+
+	/**
+	 * limit
+	 * 
+	 * TODO
+	 */
+	public function limit() {
+		// TODO
+
+		return $this;
+	}
 		
 	/**
 	 * getAll
@@ -162,16 +185,44 @@ class EntityCollection implements CollectionInterface
 	}
 
 	/**
-	 * getWhereStmt
+	 * getOrderByClause
 	 * 
 	 * TODO
 	 */
-	private function getWhereStmt() {
-		if(strlen($this->whereStmt) > 0) {
-			return " WHERE ".$this->whereStmt;
+	private function getOrderByClause() {
+		if(strlen($this->orderByClause) > 0) {
+			return " ORDER BY ".rtrim($this->orderByClause, ", ");
 		}
 
 		return "";
+	}
+
+	/**
+	 * getWhereClause
+	 * 
+	 * TODO
+	 */
+	private function getWhereClause() {
+		if(strlen($this->whereClause) > 0) {
+			return " WHERE ".$this->whereClause;
+		}
+
+		return "";
+	}
+
+	/**
+	 * orderBy
+	 * 
+	 * TODO
+	 */
+	public function orderBy($field, $descending = false) {
+		$this->orderByClause .= $this->EntityMapping->$field["column"];
+		if($descending) {
+			$this->orderByClause .= " DESC";
+		}
+		$this->orderByClause .= ", ";
+
+		return $this;
 	}
 
 	/**
@@ -180,7 +231,7 @@ class EntityCollection implements CollectionInterface
 	 * TODO
 	 */
 	public function where($condition) {
-		$this->whereStmt .= $condition;
+		$this->whereClause .= $condition;
 
 		return $this;
 	}
