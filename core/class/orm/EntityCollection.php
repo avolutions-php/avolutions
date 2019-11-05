@@ -52,6 +52,11 @@ class EntityCollection implements CollectionInterface
 	private $fieldQuery;
 
 	/**
+	 * @var string $limitClause TODO.
+	 */
+	private $limitClause;
+
+	/**
 	 * @var string $orderByClause TODO.
 	 */
 	private $orderByClause;
@@ -111,6 +116,7 @@ class EntityCollection implements CollectionInterface
 		$query .= $this->EntityConfiguration->getTable();
 		$query .= $this->getWhereClause();
 		$query .= $this->getOrderByClause();
+		$query .= $this->getLimitClause();
 		
 		$stmt = $Database->prepare($query);
 		
@@ -133,8 +139,11 @@ class EntityCollection implements CollectionInterface
 	 * 
 	 * TODO
 	 */
-	public function limit() {
-		// TODO
+	public function limit($rowCount, $offset = 0) {
+		$this->limitClause = $rowCount;
+		if($offset > 0) {
+			$this->limitClause .= " OFFSET ".$offset;
+		}
 
 		return $this;
 	}
@@ -182,6 +191,19 @@ class EntityCollection implements CollectionInterface
 		$this->execute();
 
 		return end($this->Entities);
+	}
+
+	/**
+	 * getLimitClause
+	 * 
+	 * TODO
+	 */
+	private function getLimitClause() {
+		if(strlen($this->limitClause) > 0) {
+			return " LIMIT ".$this->limitClause;
+		}
+
+		return "";
 	}
 
 	/**
