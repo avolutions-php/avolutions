@@ -89,14 +89,7 @@ class EntityCollection implements CollectionInterface
 		$fieldQuery = "";
 
 		foreach($this->EntityMapping as $key => $value) {
-			/*$column = isset($value["column"]) ? $value["column"] : $key;
-			$fieldQuery .= $column.' AS '.$key.', ';*/
-
-			if(isset($value["column"])) {
-				$fieldQuery .= $value["column"]." AS ";
-			}
-
-			$fieldQuery .= $key.', ';
+			$fieldQuery .= $value["column"].' AS '.$key.', ';
 		}
 
 		$this->fieldQuery = rtrim($fieldQuery, ", ");
@@ -177,7 +170,7 @@ class EntityCollection implements CollectionInterface
 	 * TODO
 	 */
 	public function getFirst() {
-		$this->execute();
+		$this->limit(1)->execute();
 
 		return $this->Entities[0];
 	}
