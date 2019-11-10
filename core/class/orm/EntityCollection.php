@@ -81,21 +81,6 @@ class EntityCollection implements CollectionInterface
 	}	
 
 	/**
-	 * setFieldQuery
-	 * 
-	 * TODO
-	 */
-	private function setFieldQuery() {
-		$fieldQuery = "";
-
-		foreach($this->EntityMapping as $key => $value) {
-			$fieldQuery .= $value["column"].' AS '.$key.', ';
-		}
-
-		$this->fieldQuery = rtrim($fieldQuery, ", ");
-	}
-
-	/**
 	 * execute
 	 * 
 	 * TODO
@@ -238,6 +223,21 @@ class EntityCollection implements CollectionInterface
 		$this->orderByClause .= ", ";
 
 		return $this;
+	}	
+
+	/**
+	 * setFieldQuery
+	 * 
+	 * TODO
+	 */
+	private function setFieldQuery() {
+		$fieldQuery = "";
+
+		foreach($this->EntityMapping as $key => $value) {
+			$fieldQuery .= $value["column"].' AS '.$key.', ';
+		}
+
+		$this->fieldQuery = rtrim($fieldQuery, ", ");
 	}
 
 	/**

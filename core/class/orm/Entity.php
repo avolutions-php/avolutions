@@ -12,6 +12,9 @@
  
 namespace core\orm;
 
+use core\database\Database;
+use core\Logger;
+
 /**
  * Entity class
  *
@@ -26,6 +29,16 @@ class Entity
 	 * @var mixed $id The unique identifier of the entity.
 	 */
 	public $id;
+
+	/**
+	 * @var string $EntityConfiguration The configuration of the entity.
+	 */
+	private $EntityConfiguration;
+
+	/**
+	 * @var string $EntityMapping TODO.
+	 */
+	private $EntityMapping;
 		
 	
 	/**
@@ -34,7 +47,8 @@ class Entity
 	 * TODO
 	 */
 	public function __construct() {
-
+		$this->EntityConfiguration = new EntityConfiguration(get_class($this));
+		$this->EntityMapping = $this->EntityConfiguration->getMapping();
 	}	
 		
 	/**
@@ -56,7 +70,15 @@ class Entity
 	 * TODO
 	 */
 	public function delete() {
-		print 'delete()';
+		$values = array("id" => $this->id);	
+
+		$query = "DELETE FROM ";
+		$query .= $this->EntityConfiguration->getTable();
+		$query .= " WHERE ";
+		$query .= $this->EntityConfiguration->getIdColumn();
+		$query .= " = :id";
+
+		$this->execute($query, $values);
 	}	
 
 	/**
@@ -65,7 +87,25 @@ class Entity
 	 * TODO
 	 */
 	private function insert() {
-		print 'insert()';
+		$values = array();
+		$columns = array();
+		$parameters = array();
+
+		foreach($this->EntityMapping as $key => $value) {
+			$columns[] = $value["column"];
+			$parameters[] = ":$key";
+			$values[$key] = $this->$key;
+		}	
+
+		$query = "INSERT INTO ";
+		$query .= $this->EntityConfiguration->getTable();
+		$query .= " (";
+		$query .= implode(", ", $columns);	
+		$query .= ") VALUES (";
+		$query .= implode(", ", $parameters);	
+		$query .= ")";
+		
+		$this->execute($query, $values);
 	}	
 
 	/**
@@ -74,7 +114,21 @@ class Entity
 	 * TODO
 	 */
 	private function update() {
-		print 'update()';
+		$values = array();
+
+		$query = "UPDATE ";
+		$query .= $this->EntityConfiguration->getTable();
+		$query .= " SET ";
+		foreach($this->EntityMapping as $key => $value) {
+			$query .= $value["column"]." = :$key, ";
+			$values[$key] = $this->$key;
+		}
+		$query = rtrim($query, ", ");
+		$query .= " WHERE ";
+		$query .= $this->EntityConfiguration->getIdColumn();
+		$query .= " = :id";
+		
+		$this->execute($query, $values);
 	}
 	
 	/**
@@ -83,7 +137,21 @@ class Entity
 	 * TODO
 	 */
 	private function exists() {
-		print 'exists()';		
+		return $this->id != null;	
+	}
+
+	/**
+	 * execute
+	 * 
+	 * TODO
+	 */
+	private function execute($query, $values) {
+		Logger::debug($query);
+		Logger::debug("Values: ".print_r($values, true));
+
+		$Database = new Database();
+		$stmt = $Database->prepare($query);
+		$stmt->execute($values);	
 	}
 }
 ?>
