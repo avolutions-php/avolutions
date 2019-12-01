@@ -96,7 +96,7 @@ class EntityCollection implements CollectionInterface
 		$query = "SELECT ";
 		$query .= $this->fieldQuery;
 		$query .= " FROM ";
-		$query .= $this->EntityConfiguration->getTable();
+		$query .= "`".$this->EntityConfiguration->getTable()."`";
 		$query .= $this->getWhereClause();
 		$query .= $this->getOrderByClause();
 		$query .= $this->getLimitClause();
