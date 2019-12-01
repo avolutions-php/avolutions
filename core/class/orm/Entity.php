@@ -18,7 +18,8 @@ use core\Logger;
 /**
  * Entity class
  *
- * TODO
+ * An entity represents a clearly identified object from an entity collection.
+ * It provides the methods for manipulating the Entity with CRUD operations.
  *
  * @package		core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
@@ -36,7 +37,7 @@ class Entity
 	private $EntityConfiguration;
 
 	/**
-	 * @var string $EntityMapping TODO.
+	 * @var string $EntityMapping The mapping of the entity.
 	 */
 	private $EntityMapping;
 		
@@ -44,7 +45,8 @@ class Entity
 	/**
 	 * __construct
 	 * 
-	 * TODO
+	 * Creates a new Entity object and loads the corresponding EntityConfiguration
+	 * and EntityMapping.
 	 */
 	public function __construct() {
 		$this->EntityConfiguration = new EntityConfiguration(get_class($this));
@@ -54,7 +56,8 @@ class Entity
 	/**
 	 * save
 	 * 
-	 * TODO
+	 * Saves the Entity object to the database. It will be either updated or inserted,
+	 * depending on whether the Entity already exists or not.
 	 */
 	public function save() {		
 		if($this->exists()) {
@@ -67,7 +70,7 @@ class Entity
 	/**
 	 * delete
 	 * 
-	 * TODO
+	 * Deletes the Entity object from the database.
 	 */
 	public function delete() {
 		$values = array("id" => $this->id);	
@@ -84,7 +87,7 @@ class Entity
 	/**
 	 * insert
 	 * 
-	 * TODO
+	 * Inserts the Entity object into the database.
 	 */
 	private function insert() {
 		$values = array();
@@ -111,7 +114,7 @@ class Entity
 	/**
 	 * update
 	 * 
-	 * TODO
+	 * Updateds the existing database entry for the Entity object.
 	 */
 	private function update() {
 		$values = array();
@@ -134,7 +137,9 @@ class Entity
 	/**
 	 * exists
 	 * 
-	 * TODO
+	 * Checks if the Entity already exists in the database.
+	 * 
+	 * @return bool Returns true if the entity exists in the database, false if not.
 	 */
 	private function exists() {
 		return $this->id != null;	
@@ -143,7 +148,10 @@ class Entity
 	/**
 	 * execute
 	 * 
-	 * TODO
+	 * Executes the previously created database query with the provided values. 
+	 * 
+	 * @param string $query The query string that will be executed.
+	 * @param array $values The values for the query.
 	 */
 	private function execute($query, $values) {
 		Logger::debug($query);

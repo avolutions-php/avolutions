@@ -19,7 +19,8 @@ use core\Logger;
 /**
  * EntityCollection class
  *
- * TODO
+ * An EntityCollection contains all elements of a specific Entity. 
+ * It provides the methods for filtering and sorting these elements.
  *
  * @package		core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
@@ -42,34 +43,37 @@ class EntityCollection implements CollectionInterface
 	private $EntityConfiguration;
 
 	/**
-	 * @var string $EntityMapping TODO.
+	 * @var string $EntityMapping The mapping of the entity.
 	 */
 	private $EntityMapping;
 
 	/**
-	 * @var string $fieldQuery TODO.
+	 * @var string $fieldQuery The field phrase for the query.
 	 */
 	private $fieldQuery;
 
 	/**
-	 * @var string $limitClause TODO.
+	 * @var string $limitClause The limit clause for the query.
 	 */
 	private $limitClause;
 
 	/**
-	 * @var string $orderByClause TODO.
+	 * @var string $orderByClause The orderBy clause for the query.
 	 */
 	private $orderByClause;
 
 	/**
-	 * @var string $whereClause TODO.
+	 * @var string $whereClause The where clause for the query.
 	 */
 	private $whereClause;
 	
 	/**
 	 * __construct
 	 * 
-	 * TODO
+	 * Creates a new EntityCollection for the given Entity type and loads the corresponding 
+	 * EntityConfiguration and EntityMapping.
+	 * 
+	 * @param string $entity The name of the Entity type.
 	 */
 	public function __construct($entity) {
 		$this->entity = $entity;
@@ -83,7 +87,8 @@ class EntityCollection implements CollectionInterface
 	/**
 	 * execute
 	 * 
-	 * TODO
+	 * Executes the previously created database query and loads the Entites from
+	 * the database to the Entities property.
 	 */
 	private function execute() {
 		$Database = new Database();
@@ -115,7 +120,12 @@ class EntityCollection implements CollectionInterface
 	/**
 	 * limit
 	 * 
-	 * TODO
+	 * Sets the number of records that should be loaded from the database.
+	 * 
+	 * @param integer $rowCount The number of records that should be loaded from the database.
+	 * @param integer $offset Specifies the offset of the first row to return.
+	 * 
+	 * @return EntityCollection $this
 	 */
 	public function limit($rowCount, $offset = 0) {
 		$this->limitClause = $rowCount;
@@ -129,7 +139,9 @@ class EntityCollection implements CollectionInterface
 	/**
 	 * getAll
 	 * 
-	 * TODO
+	 * Returns all previously loaded Entities of the EntityCollection.
+	 * 
+	 * @return array All previously loaded Entities.
 	 */
 	public function getAll() {
 		$this->execute();
@@ -140,7 +152,11 @@ class EntityCollection implements CollectionInterface
 	/**
 	 * getById
 	 * 
-	 * TODO
+	 * Returns the matching Entity for the given id.
+	 * 
+	 * @param integer $id The identifier of the Entity.
+	 * 
+	 * @return Entity The matching Entity for the given id.
 	 */
 	public function getById($id) {
 		$this->where($this->EntityConfiguration->getIdColumn()." = ".$id);
@@ -152,7 +168,9 @@ class EntityCollection implements CollectionInterface
 	/**
 	 * getFirst
 	 * 
-	 * TODO
+	 * Returns the first Entity of the EntityCollection.
+	 * 
+	 * @return Entity The first Entity of the EntityCollection.
 	 */
 	public function getFirst() {
 		$this->limit(1)->execute();
@@ -163,7 +181,9 @@ class EntityCollection implements CollectionInterface
 	/**
 	 * getLast
 	 * 
-	 * TODO
+	* Returns the last Entity of the EntityCollection.
+	 * 
+	 * @return Entity The last Entity of the EntityCollection.
 	 */
 	public function getLast() {
 		$this->execute();
@@ -174,7 +194,9 @@ class EntityCollection implements CollectionInterface
 	/**
 	 * getLimitClause
 	 * 
-	 * TODO
+	 * Returns the processed limit clause for the final query. 
+	 * 
+	 * @return string The processed limit clause.
 	 */
 	private function getLimitClause() {
 		if(strlen($this->limitClause) > 0) {
@@ -187,7 +209,9 @@ class EntityCollection implements CollectionInterface
 	/**
 	 * getOrderByClause
 	 * 
-	 * TODO
+	 * Returns the processed orderBy clause for the final query. 
+	 * 
+	 * @return string The processed orderBy clause.
 	 */
 	private function getOrderByClause() {
 		if(strlen($this->orderByClause) > 0) {
@@ -200,7 +224,9 @@ class EntityCollection implements CollectionInterface
 	/**
 	 * getWhereClause
 	 * 
-	 * TODO
+	 * Returns the processed where clause for the final query. 
+	 * 
+	 * @return string The processed where clause.
 	 */
 	private function getWhereClause() {
 		if(strlen($this->whereClause) > 0) {
@@ -213,7 +239,13 @@ class EntityCollection implements CollectionInterface
 	/**
 	 * orderBy
 	 * 
-	 * TODO
+	 * Sets the sorting of the records that should be loaded from the database.
+	 * Can be called multiple times to sort on multiple columns.
+	 * 
+	 * @param string $field The name of the Entity property to sort by.
+	 * @param boolean $descending Whether the sort order should be descending or not.
+	 * 
+	 * @return EntityCollection $this
 	 */
 	public function orderBy($field, $descending = false) {
 		$this->orderByClause .= $this->EntityMapping->$field["column"];
@@ -228,7 +260,8 @@ class EntityCollection implements CollectionInterface
 	/**
 	 * setFieldQuery
 	 * 
-	 * TODO
+	 * Loads the fields from the EntityMapping and generates the field phrase for
+	 * the database query.
 	 */
 	private function setFieldQuery() {
 		$fieldQuery = "";
@@ -243,7 +276,11 @@ class EntityCollection implements CollectionInterface
 	/**
 	 * where
 	 * 
-	 * TODO
+	 * Filters the EntityCollection by the given condition.
+	 * 
+	 * @param string $condition The filter condition.
+	 * 
+	 * @return EntityCollection $this
 	 */
 	public function where($condition) {
 		$this->whereClause .= $condition;

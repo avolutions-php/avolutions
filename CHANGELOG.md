@@ -1,4 +1,11 @@
 # CHANGELOG
+## [2019-XX-XX] 0.5.0-alpha
+### [FEATURES]
+- ORM module
+
+### [BUGFIXES]
+- none
+
 ## [2019-10-03] 0.4.0-alpha
 ### [FEATURES]
 - Logger module

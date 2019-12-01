@@ -13,9 +13,10 @@
 namespace core\orm;
 
 /**
- * EntityConfiguration class
+ * EntityMapping class
  *
- * TODO
+ * The EntityMapping class provides the values from the entity mapping file
+ * as an object.
  *
  * @package		core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
@@ -25,7 +26,10 @@ class EntityMapping
 	/**
 	 * __construct
 	 * 
-	 * TODO
+	 * Creates a new EntityMapping object for the given entity type and loads
+	 * the values from the entity mapping file.
+	 * 
+	 * @param string $entity The name of the entity type.
 	 */
 	public function __construct($entity) {
 		$mapping = $this->loadMappingFile(APP_MAPPING_PATH.$entity."Mapping.php");

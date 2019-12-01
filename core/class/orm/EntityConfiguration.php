@@ -17,7 +17,8 @@ use core\orm\EntityMapping;
 /**
  * EntityConfiguration class
  *
- * TODO
+ * The EntityConfiguration class provides all configurations for an entity, 
+ * e.g. the mapping and the related database table name.
  *
  * @package		core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
@@ -47,7 +48,10 @@ class EntityConfiguration
 	/**
 	 * __construct
 	 * 
-	 * TODO
+	 * Creates a new EntityConfiguration for the given Entity type and loads the corresponding 
+	 * EntityMapping, table and id column.
+	 * 
+	 * @param string $entity The name of the Entity type.
 	 */
 	public function __construct($entity) {		
 		$this->entity = $entity;
@@ -59,7 +63,7 @@ class EntityConfiguration
 	/**
 	 * loadMapping
 	 * 
-	 * TODO
+	 * Loads the EntityMapping for the given entity.
 	 */
 	private function loadMapping() {	
 		$this->Mapping = new EntityMapping($this->entity);
@@ -68,7 +72,9 @@ class EntityConfiguration
 	/**
 	 * getTable
 	 * 
-	 * TODO
+	 * Returns the related database table of the entity.
+	 * 
+	 * @return string $this->table
 	 */
 	public function getTable() {
 		return $this->table;
@@ -77,7 +83,7 @@ class EntityConfiguration
 	/**
 	 * setTable
 	 * 
-	 * TODO
+	 * Sets the name of the corresponding table for the entity.
 	 */
 	private function setTable() {	
 		$this->table = $this->entity;
@@ -86,7 +92,9 @@ class EntityConfiguration
 	/**
 	 * getIdColumn
 	 * 
-	 * TODO
+	 * Returns the name of the ID column in the database table.
+	 * 
+	 * @return string $this->idColumn
 	 */
 	public function getIdColumn() {
 		return $this->idColumn;
@@ -95,7 +103,7 @@ class EntityConfiguration
 	/**
 	 * setIdColumn
 	 * 
-	 * TODO
+	 * Sets the name of the ID column in the database table.
 	 */
 	private function setIdColumn() {	
 		$this->idColumn = $this->getTable()."ID";
@@ -104,7 +112,9 @@ class EntityConfiguration
 	/**
 	 * getMapping
 	 * 
-	 * TODO
+	 * Returns the mapping between the entity and the database table.
+	 * 
+	 * @return EntityMapping $this->idColumn
 	 */
 	public function getMapping() {	
 		return $this->Mapping;
