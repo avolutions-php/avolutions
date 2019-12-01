@@ -37,6 +37,7 @@ class Autoloader
 			$paths = array(
 				BASEPATH,
         		APP_CONTROLLER_PATH,
+        		APP_MODEL_PATH,
 	        	APP_VIEWMODEL_PATH
 	        ); 
 	        	        

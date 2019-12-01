@@ -3,7 +3,7 @@
 # About AVOLUTIONS
 AVOLUTIONS is just another open source PHP framework.  
 Currently it provides default things like:
-* Simple and fast [Routing](#routing)
+* [Routing](#routing)
 * [Controllers and Actions](#controllers-and-actions)
 * [Views](#views)
 * [ViewModels](#viewmodels)	
