@@ -3,5 +3,6 @@
     "description": "AVOLUTIONS. Just another open source PHP framework.",
     "require": {
         "php": "^7.2"
-    }
+    },
+    "license": "MIT"
 }
