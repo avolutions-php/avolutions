@@ -1,0 +1,7 @@
+{
+    "name": "avolutions/avolutions",
+    "description": "AVOLUTIONS. Just another open source PHP framework.",
+    "require": {
+        "php": "^7.2"
+    }
+}
