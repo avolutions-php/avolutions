@@ -10,7 +10,7 @@
  * @link		https://github.com/avolutions/avolutions
  */
  
-namespace core;
+namespace core\logging;
 
 use core\Config;
 

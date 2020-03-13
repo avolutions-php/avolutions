@@ -38,9 +38,13 @@ class Router
 				
 		foreach ($RouteCollection->getAllByMethod($method) as $Route) {
 			if (preg_match(self::getRegularExpression($Route), $path, $matches)) {
-								
-				$explodedUrl = explode('/', $Route->url);	
-				
+
+				// remove full match
+				array_splice($matches, 0, 1);
+
+				preg_match_all('/\<[^\>]*\>/', $Route->url, $explodedUrl);
+				$explodedUrl = $explodedUrl[0];
+
 				$controllerName = self::getKeywordValue($matches, $explodedUrl, 'controller');
 				$actionName = self::getKeywordValue($matches, $explodedUrl, 'action');
 				
@@ -87,7 +91,8 @@ class Router
 			$parameterExpression = '(';
 			$parameterExpression .= $parameterValues["format"];
 			if(isset($parameterValues["optional"]) && $parameterValues["optional"]) {
-				$parameterExpression .= '?';
+				// last slash for optional parameter is also optional, therefore we add a ? behind it
+				$parameterExpression = '?'.$parameterExpression.'?';
 			}
 			$parameterExpression .= ')';
 			
@@ -114,7 +119,7 @@ class Router
 	private static function getKeywordValue($matches, $explodedUrl, $keyword) {
 		$keywordIndex = array_search('<'.$keyword.'>', $explodedUrl); 
 		
-		return $keywordIndex ? $matches[$keywordIndex] : false;	
+		return is_numeric($keywordIndex) ? $matches[$keywordIndex] : false;
 	}
 	
 	
