@@ -38,13 +38,13 @@ class Router
 				
 		foreach ($RouteCollection->getAllByMethod($method) as $Route) {
 			if (preg_match(self::getRegularExpression($Route), $path, $matches)) {
-				
-				$matches = array_map(function($item){ 
-					return ltrim($item, '/'); 
-				}, $matches);
 
-				$explodedUrl = explode('/', ltrim($Route->url, '/'));	
-				
+				// remove full match
+				array_splice($matches, 0, 1);
+
+				preg_match_all('/\<[^\>]*\>/', $Route->url, $explodedUrl);
+				$explodedUrl = $explodedUrl[0];
+
 				$controllerName = self::getKeywordValue($matches, $explodedUrl, 'controller');
 				$actionName = self::getKeywordValue($matches, $explodedUrl, 'action');
 				
@@ -92,7 +92,7 @@ class Router
 			$parameterExpression .= $parameterValues["format"];
 			if(isset($parameterValues["optional"]) && $parameterValues["optional"]) {
 				// last slash for optional parameter is also optional, therefore we add a ? behind it
-				$parameterExpression = '?'.$parameterExpression;
+				$parameterExpression = '?'.$parameterExpression.'?';
 			}
 			$parameterExpression .= ')';
 			
