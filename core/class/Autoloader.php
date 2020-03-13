@@ -10,7 +10,6 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
-
 namespace core;
 
 /**
@@ -21,10 +20,10 @@ namespace core;
  * @package		core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
-class Autoloader 
+class Autoloader
 {	
 	/**
-	 * Includes all required files
+	 * register
 	 * 
 	 * This method finds the absolute pathes for all required classes and 
 	 * includes them. Has to be called before the usage of any class in the

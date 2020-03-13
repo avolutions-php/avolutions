@@ -123,7 +123,7 @@ class Table
 	 * @param string $referenceTableName The name of the referenced table.
 	 * @param string $referenceColumnName The name of the referenced column.
 	 * @param string $onDelete The operation that will be performed on delete, one of the following constants should be used: RESTRICT, CASCADE, SETNULL, NOACTION.
-	 * @param string $onDelete The operation that will be performed on update, one of the following constants should be used: RESTRICT, CASCADE, SETNULL, NOACTION.
+	 * @param string $onUpdate The operation that will be performed on update, one of the following constants should be used: RESTRICT, CASCADE, SETNULL, NOACTION.
 	 * @param string $constraintName The name of the constraint.
 	 */
 	public static function addForeignKeyConstraint($tableName, $columnName, $referenceTableName, $referenceColumnName, $onDelete = Table::RESTRICT, $onUpdate = Table::RESTRICT, $constraintName = null) {
