@@ -14,7 +14,7 @@ namespace core\orm;
 
 use core\CollectionInterface;
 use core\database\Database;
-use core\Logger;
+use core\logging\Logger;
 
 /**
  * EntityCollection class

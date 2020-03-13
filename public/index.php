@@ -10,7 +10,7 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
-use core\Logger;
+use core\logging\Logger;
 use core\Request;
 use core\routing\Router;
 

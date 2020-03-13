@@ -13,7 +13,7 @@
 namespace core\orm;
 
 use core\database\Database;
-use core\Logger;
+use core\logging\Logger;
 
 /**
  * Entity class
