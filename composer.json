@@ -1,0 +1,32 @@
+{
+    "name": "avolutions/avolutions",
+    "description": "AVOLUTIONS. Just another open source PHP framework.",
+    "keywords":[
+        "avolutions",
+        "PHP",
+        "framework",
+        "opensource",
+        "mvc",
+        "orm",
+        "development"
+    ],
+    "require": {
+        "php": "^7.2"
+    },
+    "license": "MIT",
+    "homepage": "https://avolutions.org",
+    "authors": [
+        {
+            "name": "Alexander Vogt",
+            "email": "alexander.vogt@avolutions.org",
+            "homepage": "https://avolutions.org",
+            "role": "Founder"
+        }
+    ],
+    "support": {
+        "email": "support@avolutions.org",
+        "issues": "https://github.com/avolutions/avolutions/issues",
+        "source": "https://github.com/avolutions/avolutions",
+        "docs": "https://avolutions.org/api"
+    },
+}
