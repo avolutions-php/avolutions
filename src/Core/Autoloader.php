@@ -34,13 +34,13 @@ class Autoloader
 			$class = str_replace("Avolutions".DIRECTORY_SEPARATOR, "", $class); 
 			
 			$paths = array(
-				BASEPATH,
+				SRC_PATH,
         		APP_CONTROLLER_PATH,
         		APP_MODEL_PATH,
 	        	APP_VIEWMODEL_PATH
 	        ); 
 	        	        
-	        foreach ($paths as $path) {	   			
+	        foreach ($paths as $path) {
 				$file = $path.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
 				
 				if(file_exists($file)) { 
