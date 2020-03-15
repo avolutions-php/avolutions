@@ -48,7 +48,7 @@ $Config->initialize();
 /**
  * Migrate the Database
  */
-/*if(Config::get("database/migrateOnAppStart")) {	
+if(Config::get("database/migrateOnAppStart")) {	
 	Database::migrate(); 
-}*/
+}
 ?>
