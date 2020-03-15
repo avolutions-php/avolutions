@@ -21,13 +21,39 @@ namespace Avolutions\Database;
  */
 class Table
 {
+	/**
+	 * @var string INDEX A constant for the string "INDEX"
+	 */
 	const INDEX = "INDEX";
+
+	/**
+	 * @var string PRIMARY A constant for the string "PRIMARY KEY"
+	 */
 	const PRIMARY = "PRIMARY KEY";
+
+	/**
+	 * @var string UNIQUE A constant for the string "UNIQUE"
+	 */
 	const UNIQUE = "UNIQUE";
 	
+	/**
+	 * @var string RESTRICT A constant for the string "RESTRICT"
+	 */
 	const RESTRICT = "RESTRICT";
+
+	/**
+	 * @var string CASCADE A constant for the string "CASCADE"
+	 */
 	const CASCADE = "CASCADE";
+
+	/**
+	 * @var string SETNULL A constant for the string "SET NULL"
+	 */
 	const SETNULL = "SET NULL";
+
+	/**
+	 * @var string NOACTION A constant for the string "NO ACTION"
+	 */
 	const NOACTION = "NO ACTION";
 		
 	/**
