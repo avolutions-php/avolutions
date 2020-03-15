@@ -10,16 +10,16 @@
  * @link		https://github.com/avolutions/avolutions
  */
  
-namespace core;
+namespace Avolutions\Http;
 
-use core\view\view;
+use Avolutions\View\View;
 
 /**
  * Response class
  *
  * An object that contains the response of the request.
  *
- * @package		core
+ * @package		Http
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class Response
@@ -27,20 +27,25 @@ class Response
 	/** 
 	 * @var string $body The content of the response.
 	 */
-	public $body;
-	
+	public $body;	
 	
 	/**
+	 * setBody
+	 * 
 	 * Fills the body of the Response with the passed value.
+	 * 
+	 * @param string $value The value for the body
 	 */
-	public function setBody($body) {
-		$this->body = $body;
+	public function setBody($value) {
+		$this->body = $value;
 	}
 	
 	/**
+	 * send
+	 * 
 	 * Displays the content of the Response.
 	 */
-	public function send() {		
+	public function send() {
 		if($this->body instanceof View) {
 			print $this->body;
 		}

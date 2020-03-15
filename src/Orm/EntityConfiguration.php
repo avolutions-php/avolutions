@@ -10,9 +10,9 @@
  * @link		https://github.com/avolutions/avolutions
  */
  
-namespace core\orm;
+namespace Avolutions\Orm;
 
-use core\orm\EntityMapping;
+use Avolutions\Orm\EntityMapping;
 
 /**
  * EntityConfiguration class
@@ -20,7 +20,7 @@ use core\orm\EntityMapping;
  * The EntityConfiguration class provides all configurations for an entity, 
  * e.g. the mapping and the related database table name.
  *
- * @package		core
+ * @package		ORM
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class EntityConfiguration

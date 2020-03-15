@@ -10,7 +10,7 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
-namespace core\routing;
+namespace Avolutions\Routing;
 
 /**
  * Route class
@@ -19,7 +19,7 @@ namespace core\routing;
  * The Router class will find the corresponding Route object for 
  * the current request.  
  *
- * @package		core
+ * @package		Routing
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class Route

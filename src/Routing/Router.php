@@ -10,14 +10,14 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
-namespace core\routing;
+namespace Avolutions\Routing;
 
 /**
  * Router class
  * 
  * The Router class find the matching Route for the url of the Request.
  *
- * @package		core
+ * @package		Routing
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class Router

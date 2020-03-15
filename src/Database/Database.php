@@ -10,9 +10,9 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
-namespace core\database;
+namespace Avolutions\Database;
 
-use core\config;
+use Avolutions\Config\Config;
 
 /**
  * Database class
@@ -20,7 +20,7 @@ use core\config;
  * The Database class provides some functions to connect to a MySQL database, execute queries 
  * and perform schema changes (migrations) on the database. 
  *
- * @package		core
+ * @package		Database
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class Database extends \PDO
@@ -28,7 +28,7 @@ class Database extends \PDO
 	/**
 	 * __construct
 	 * 
-	 * Connects to the database using the config values from config/database.
+	 * Creates a database connection using the config values from database configuration file.
 	 */
 	public function __construct() {
 		$host	  = Config::get("database/host");
@@ -50,7 +50,7 @@ class Database extends \PDO
 	/**
 	 * migrate
 	 * 
-	 * Executes all migrations from applications/database.
+	 * Executes all migrations from the applications database directory.
 	 */
 	public static function migrate() {
 		$migrationsToExecute = array();

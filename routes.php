@@ -11,9 +11,9 @@
  * 
  */
 
-use core\Routing\RouteCollection;
-use core\Routing\Route;
-use core\Routing\Router;
+use Avolutions\Routing\RouteCollection;
+use Avolutions\Routing\Route;
+use Avolutions\Routing\Router;
 
 $RouteCollection = RouteCollection::getInstance();
 

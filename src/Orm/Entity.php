@@ -10,10 +10,10 @@
  * @link		https://github.com/avolutions/avolutions
  */
  
-namespace core\orm;
+namespace Avolutions\Orm;
 
-use core\database\Database;
-use core\logging\Logger;
+use Avolutions\Database\Database;
+use Avolutions\Logging\Logger;
 
 /**
  * Entity class
@@ -21,7 +21,7 @@ use core\logging\Logger;
  * An entity represents a clearly identified object from an entity collection.
  * It provides the methods for manipulating the Entity with CRUD operations.
  *
- * @package		core
+ * @package		ORM
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class Entity

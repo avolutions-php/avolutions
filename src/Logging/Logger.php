@@ -10,16 +10,16 @@
  * @link		https://github.com/avolutions/avolutions
  */
  
-namespace core\logging;
+namespace Avolutions\Logging;
 
-use core\Config;
+use Avolutions\Config\Config;
 
 /**
  * Logger class
  *
  * The Logger class writes messages with a specific level to a logfile.
  *
- * @package		core
+ * @package		Logging
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class Logger
