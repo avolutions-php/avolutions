@@ -4,61 +4,59 @@
  * 
  * Just another open source PHP framework.
  * 
- * @author		Alexander Vogt <alexander.vogt@avolutions.de>
- * @copyright	2019 avolutions (http://avolutions.de)
- * @license		MIT License (https://opensource.org/licenses/MIT)
- * @link		https://github.com/avolutions/avolutions
+ * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
+ * @license		MIT License (http://avolutions.org/license)
+ * @link		http://avolutions.org
  */
- 
 namespace Avolutions\Logging;
 
 /**
  * LogLevel class
  *
- * The LogLevel class contains constants which describes the log levelsl
+ * The LogLevel class contains constants which describes the log level.
  *
- * @package		Logging
- * @author		Alexander Vogt <alexander.vogt@avolutions.de>
+ * @author	Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since	0.1.1
  */
 class LogLevel
 {
 	/**
-	 * @var string $emergency Text for log level emergency
+	 * @var string EMERGENCY Text for log level emergency
 	 */
 	const EMERGENCY = "EMERGENCY";
 	
 	/**
-	 * @var string $alert Text for log level alert
+	 * @var string ALERT Text for log level alert
 	 */
 	const ALERT = "ALERT";
 	
 	/**
-	 * @var string $critical Text for log level critical
+	 * @var string CRITICAL Text for log level critical
 	 */
 	const CRITICAL = "CRITICAL";
 
 	/**
-	 * @var string $error Text for log level error
+	 * @var string ERROR Text for log level error
 	 */
 	const ERROR = "ERROR";
 	
 	/**
-	 * @var string $warning Text for log level warning
+	 * @var string WARNING Text for log level warning
 	 */
 	const WARNING = "WARNING";
 	
 	/**
-	 * @var string $notice Text for log level notice
+	 * @var string NOTICE Text for log level notice
 	 */
 	const NOTICE = "NOTICE";
 	
 	/**
-	 * @var string $info Text for log level info
+	 * @var string INFO Text for log level info
 	 */
 	const INFO = "INFO";
 	
 	/**
-	 * @var string $debug Text for log level debug
+	 * @var string DEBUG Text for log level debug
 	 */
 	const DEBUG = "DEBUG";
 }

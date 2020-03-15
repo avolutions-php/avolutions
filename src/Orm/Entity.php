@@ -4,10 +4,9 @@
  * 
  * Just another open source PHP framework.
  * 
- * @author		Alexander Vogt <alexander.vogt@avolutions.de>
- * @copyright	2019 avolutions (http://avolutions.de)
- * @license		MIT License (https://opensource.org/licenses/MIT)
- * @link		https://github.com/avolutions/avolutions
+ * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
+ * @license		MIT License (http://avolutions.org/license)
+ * @link		http://avolutions.org
  */
  
 namespace Avolutions\Orm;
@@ -21,8 +20,8 @@ use Avolutions\Logging\Logger;
  * An entity represents a clearly identified object from an entity collection.
  * It provides the methods for manipulating the Entity with CRUD operations.
  *
- * @package		ORM
- * @author		Alexander Vogt <alexander.vogt@avolutions.de>
+ * @author	Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since	0.1.0
  */
 class Entity
 {

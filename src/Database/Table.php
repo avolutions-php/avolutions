@@ -4,10 +4,9 @@
  * 
  * Just another open source PHP framework.
  * 
- * @author		Alexander Vogt <alexander.vogt@avolutions.de>
- * @copyright	2019 avolutions (http://avolutions.de)
- * @license		MIT License (https://opensource.org/licenses/MIT)
- * @link		https://github.com/avolutions/avolutions
+ * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
+ * @license		MIT License (http://avolutions.org/license)
+ * @link		http://avolutions.org
  */
 
 namespace Avolutions\Database;
@@ -17,8 +16,8 @@ namespace Avolutions\Database;
  *
  * The table class provides a bunch of methods to perform schema changes on database tables.
  *
- * @package		Database
- * @author		Alexander Vogt <alexander.vogt@avolutions.de>
+ * @author	Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since	0.1.0
  */
 class Table
 {
