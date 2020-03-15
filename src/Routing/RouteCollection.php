@@ -10,11 +10,10 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
-namespace core\routing;
+namespace Avolutions\Routing;
 
-use core\Singleton;
-use core\CollectionInterface;
-use core\AbstractSingleton;
+use Avolutions\Core\CollectionInterface;
+use Avolutions\Core\AbstractSingleton;
 
 /**
  * RouteCollection class
@@ -23,7 +22,7 @@ use core\AbstractSingleton;
  * The Router class will search in the RouteCollection for a matching route
  * for the Request.
  *
- * @package		core
+ * @package		Routing
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class RouteCollection extends AbstractSingleton implements CollectionInterface

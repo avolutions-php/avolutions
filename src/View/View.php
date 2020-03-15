@@ -10,7 +10,7 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
-namespace core\view;
+namespace Avolutions\View;
 
 /**
  * View class
@@ -19,7 +19,7 @@ namespace core\view;
  * from the application logic. It can also contain variable content that will 
  * be passed by a ViewModel.   
  *
- * @package		core
+ * @package		View
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class View

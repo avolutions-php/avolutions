@@ -10,14 +10,14 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
-namespace core;
+namespace Avolutions\Core;
 
 /**
  * Collection class
  *
  * A abstract class which implements the base collection functionality.
  * 
- * @package		core
+ * @package		Core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 interface CollectionInterface

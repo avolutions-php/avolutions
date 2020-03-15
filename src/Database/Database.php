@@ -10,9 +10,9 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
-namespace core\database;
+namespace Avolutions\Database;
 
-use core\config;
+use Avolutions\Config\Config;
 
 /**
  * Database class
@@ -20,7 +20,7 @@ use core\config;
  * The Database class provides some functions to connect to a MySQL database, execute queries 
  * and perform schema changes (migrations) on the database. 
  *
- * @package		core
+ * @package		Database
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class Database extends \PDO

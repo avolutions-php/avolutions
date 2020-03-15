@@ -10,16 +10,16 @@
  * @link		https://github.com/avolutions/avolutions
  */
  
-namespace core;
+namespace Avolutions\Http;
 
-use core\view\view;
+use Avolutions\View\View;
 
 /**
  * Response class
  *
  * An object that contains the response of the request.
  *
- * @package		core
+ * @package		Http
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class Response

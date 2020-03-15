@@ -10,11 +10,11 @@
  * @link		https://github.com/avolutions/avolutions
  */
  
-namespace core\orm;
+namespace Avolutions\Orm;
 
-use core\CollectionInterface;
-use core\database\Database;
-use core\logging\Logger;
+use Avolutions\Core\CollectionInterface;
+use Avolutions\Database\Database;
+use Avolutions\Logging\Logger;
 
 /**
  * EntityCollection class
@@ -22,7 +22,7 @@ use core\logging\Logger;
  * An EntityCollection contains all elements of a specific Entity. 
  * It provides the methods for filtering and sorting these elements.
  *
- * @package		core
+ * @package		ORM
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class EntityCollection implements CollectionInterface

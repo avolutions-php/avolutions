@@ -10,7 +10,7 @@
  * @link		https://github.com/avolutions/avolutions
  */
  
-namespace core;
+namespace Avolutions\Config;
 
 /**
  * Config class
@@ -18,7 +18,7 @@ namespace core;
  * The Config class loads all config files at the bootstrapping and can be used to
  * get the config values anywhere in the framework/application.
  *
- * @package		core
+ * @package		Config
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class Config extends AbstractSingleton

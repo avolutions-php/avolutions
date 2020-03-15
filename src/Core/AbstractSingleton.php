@@ -10,14 +10,14 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
-namespace core;
+namespace Avolutions\Core;
 
 /**
  * Singleton class
  *
  * A abstract class which implements the singleton pattern.
  * 
- * @package		core
+ * @package		Core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
 
  */

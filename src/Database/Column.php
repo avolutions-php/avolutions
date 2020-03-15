@@ -10,14 +10,14 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
-namespace core\database;
+namespace Avolutions\Database;
 
 /**
  * Column class
  *
  * The Column class represents the schema of a database table column. 
  *
- * @package		core
+ * @package		Database
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class Column

@@ -10,7 +10,7 @@
  * @link		https://github.com/avolutions/avolutions
  */
  
-namespace core\orm;
+namespace Avolutions\Orm;
 
 /**
  * EntityMapping class
@@ -18,7 +18,7 @@ namespace core\orm;
  * The EntityMapping class provides the values from the entity mapping file
  * as an object.
  *
- * @package		core
+ * @package		ORM
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class EntityMapping

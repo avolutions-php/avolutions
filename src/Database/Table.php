@@ -10,14 +10,14 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
-namespace core\database;
+namespace Avolutions\Database;
 
 /**
  * Table class
  *
  * The table class provides a bunch of methods to perform schema changes on database tables.
  *
- * @package		core
+ * @package		Database
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class Table

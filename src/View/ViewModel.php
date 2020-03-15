@@ -10,14 +10,14 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
-namespace core\view;
+namespace Avolutions\View;
 
 /**
  * ViewModel class
  *
  * The ViewModel class provides all data that is passed to the View.  
  *
- * @package		core
+ * @package		View
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class ViewModel

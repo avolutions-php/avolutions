@@ -10,9 +10,9 @@
  * @link		https://github.com/avolutions/avolutions
  */
  
-namespace core;
+namespace Avolutions\Http;
 
-use core\routing\Router; 
+use Avolutions\Routing\Router; 
 
 /**
  * Request class
@@ -20,7 +20,7 @@ use core\routing\Router;
  * The Request class calls the Router to find the matching Route for the url
  * invokes the corresponding controller action.
  *
- * @package		core
+ * @package		Http
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class Request

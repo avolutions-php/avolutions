@@ -10,14 +10,14 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
-namespace core;
+namespace Avolutions\Core;
 
 /**
  * Autoloader class
  * 
  * Autoloads all required classes
  * 
- * @package		core
+ * @package		Core
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
  */
 class Autoloader
@@ -31,7 +31,7 @@ class Autoloader
 	 */
 	public static function register() {
 		spl_autoload_register(function ($class) {	
-			$class = str_replace("core", "core".DIRECTORY_SEPARATOR."class", $class); 
+			$class = str_replace("Avolutions".DIRECTORY_SEPARATOR, "", $class); 
 			
 			$paths = array(
 				BASEPATH,
