@@ -10,9 +10,9 @@
  * @link		https://github.com/avolutions/avolutions
  */
 
-use core\logging\Logger;
-use core\Request;
-use core\routing\Router;
+use Avolutions\Logging\Logger;
+use Avolutions\Http\Request;
+use Avolutions\Routing\Router;
 
 /**
  * Load the bootstrap file
