@@ -118,6 +118,8 @@ class Table
 	/**
 	 * addForeignKeyConstraint
 	 * 
+	 * Adds a new foreign key constraint to the table.
+	 * 
 	 * @param string $tableName The name of the table.
 	 * @param string $columnName The name of the column.
 	 * @param string $referenceTableName The name of the referenced table.
