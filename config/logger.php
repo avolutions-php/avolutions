@@ -14,7 +14,7 @@
 return array (
 	"debug" => true,
 	"logfile" => "logfile.log",
-	"logpath" => CORE_LOG_PATH,
+	"logpath" => LOG_PATH,
 	"datetimeFormat" => "Y-m-d H:i:s.v"
 );
 ?>

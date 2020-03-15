@@ -35,7 +35,7 @@ class Config extends AbstractSingleton
 	 * overrides the config values of the core.
 	 */
 	public function initialize() {		
-		$coreConfigFiles = array_map('basename', glob(CORE_CONFIG_PATH.'*.php'));
+		$coreConfigFiles = array_map('basename', glob(CONFIG_PATH.'*.php'));
 		$appConfigFiles = array_map('basename', glob(APP_CONFIG_PATH.'*.php'));
 	
 		$configFiles = array_unique(array_merge($coreConfigFiles, $appConfigFiles));
@@ -45,7 +45,7 @@ class Config extends AbstractSingleton
 			$coreConfigValues = array();
 			$appConfigValues = array();
 			
-			$coreConfigValues = $this->loadConfigFile(CORE_CONFIG_PATH.$configFile);	
+			$coreConfigValues = $this->loadConfigFile(CONFIG_PATH.$configFile);	
 			$appConfigValues = $this->loadConfigFile(APP_CONFIG_PATH.$configFile);
 						
 			$configValues = array_merge($coreConfigValues, $appConfigValues);
