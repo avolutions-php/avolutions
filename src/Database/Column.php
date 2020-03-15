@@ -55,32 +55,6 @@ class Column
 	 * @var bool $autoIncrement A flag if the column is a auto increment column or not.
 	 */
 	private $autoIncrement;
-	
-	const TINYINT = "TINYINT";
-	const SMALLINT = "SMALLINT";
-	const MEDIUMINT = "MEDIUMINT";
-	const INT = "INT";
-	const BIGINT = "BIGINT";
-	const DECIMAL = "DECIMAL";
-	const FLOAT = "FLOAT";
-	const DOUBLE = "DOUBLE";
-	const BIT = "BIT";
-	const BOOLEAN = "BOOLEAN";
-	
-	const DATE = "DATE";
-	const DATETIME = "DATETIME";
-	const TIMESTAMP = "TIMESTAMP";
-	const TIME = "TIME";
-	const YEAR = "YEAR";
-	
-	const CHAR = "CHAR";
-	const VARCHAR = "VARCHAR";
-	
-	const TINYTEXT = "TINYTEXT";
-	const TEXT = "TEXT";
-	const MEDIUMTEXT = "MEDIUMTEXT";
-	const LONGTEXT = "LONGTEXT";
-	
 
 	/**
 	 * @var string NULL A constant for the string "NULL"
