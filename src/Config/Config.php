@@ -12,11 +12,13 @@
  
 namespace Avolutions\Config;
 
+use Avolutions\Core\AbstractSingleton;
+
 /**
  * Config class
  *
  * The Config class loads all config files at the bootstrapping and can be used to
- * get the config values anywhere in the framework/application.
+ * get the config values anywhere in the framework or application.
  *
  * @package		Config
  * @author		Alexander Vogt <alexander.vogt@avolutions.de>
@@ -34,7 +36,7 @@ class Config extends AbstractSingleton
 	 * Loads all config values from the config files of core and app. The app configs
 	 * overrides the config values of the core.
 	 */
-	public function initialize() {		
+	public function initialize() {
 		$coreConfigFiles = array_map('basename', glob(CONFIG_PATH.'*.php'));
 		$appConfigFiles = array_map('basename', glob(APP_CONFIG_PATH.'*.php'));
 	
@@ -59,7 +61,7 @@ class Config extends AbstractSingleton
 	 * 
 	 * Returns the config value for the given key. The key is seperated by slashes (/).
 	 *
-	 * @param $key string The key (slash separated) of the config value.
+	 * @param string $key The key (slash separated) of the config value.
 	 *
 	 * @return mixed The config value
 	 */
