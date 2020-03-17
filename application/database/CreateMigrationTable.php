@@ -1,7 +1,7 @@
 <?php
-	use core\database\Table;
-	use core\database\Column;
-	use core\database\ColumnType;
+	use Avolutions\Database\Table;
+	use Avolutions\Database\Column;
+	use Avolutions\Database\ColumnType;
 	
 	class CreateMigrationTable {
 		public $version = "1";
