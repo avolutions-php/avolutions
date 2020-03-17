@@ -1,13 +1,40 @@
 <?php
+/**
+ * AVOLUTIONS
+ * 
+ * Just another open source PHP framework.
+ * 
+ * @author		Alexander Vogt <alexander.vogt@avolutions.de>
+ * @copyright	2019 avolutions (http://avolutions.de)
+ * @license		MIT License (https://opensource.org/licenses/MIT)
+ * @link		https://github.com/avolutions/avolutions
+ * 
+ */
 
 use Avolutions\Database\Table;
 use Avolutions\Database\Column;
 use Avolutions\Database\ColumnType;
 
+/**
+ * CreateMigrationTable class
+ *
+ * Contains the migration to create the migration table.
+ *
+ * @author	Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since	0.1.0
+ */
 class CreateMigrationTable 
 {
+    /**
+	 * @var int version The version of the migration
+	 */
     public $version = '1';
     
+    /**
+	 * migrate
+	 * 
+	 * Creates the table "migration" with the columns "MigrationID", "Version", "Name, and "CreateDate".
+	 */
     public function migrate()
     {
         $columns = [];
