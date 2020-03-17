@@ -94,10 +94,10 @@ class EntityCollection implements CollectionInterface
     {
 		$Database = new Database();
 
-		$query = "SELECT ";
+		$query = 'SELECT ';
 		$query .= $this->fieldQuery;
-		$query .= " FROM ";
-		$query .= "`".$this->EntityConfiguration->getTable()."`";
+		$query .= ' FROM ';
+		$query .= '`'.$this->EntityConfiguration->getTable().'`';
 		$query .= $this->getWhereClause();
 		$query .= $this->getOrderByClause();
 		$query .= $this->getLimitClause();
@@ -132,7 +132,7 @@ class EntityCollection implements CollectionInterface
     {
 		$this->limitClause = $rowCount;
 		if ($offset > 0) {
-			$this->limitClause .= " OFFSET ".$offset;
+			$this->limitClause .= ' OFFSET '.$offset;
 		}
 
 		return $this;
@@ -163,7 +163,7 @@ class EntityCollection implements CollectionInterface
 	 */
     public function getById($id)
     {
-		$this->where($this->EntityConfiguration->getIdColumn()." = ".$id);
+		$this->where($this->EntityConfiguration->getIdColumn().' = '.$id);
 		$this->execute();
 
 		return $this->Entities[0];
@@ -207,10 +207,10 @@ class EntityCollection implements CollectionInterface
     private function getLimitClause()
     {
 		if (strlen($this->limitClause) > 0) {
-			return " LIMIT ".$this->limitClause;
+			return ' LIMIT '.$this->limitClause;
 		}
 
-		return "";
+		return '';
 	}
 
 	/**
@@ -223,10 +223,10 @@ class EntityCollection implements CollectionInterface
     private function getOrderByClause()
     {
 		if (strlen($this->orderByClause) > 0) {
-			return " ORDER BY ".rtrim($this->orderByClause, ", ");
+			return ' ORDER BY '.rtrim($this->orderByClause, ', ');
 		}
 
-		return "";
+		return '';
 	}
 
 	/**
@@ -239,10 +239,10 @@ class EntityCollection implements CollectionInterface
     private function getWhereClause()
     {
 		if (strlen($this->whereClause) > 0) {
-			return " WHERE ".$this->whereClause;
+			return ' WHERE '.$this->whereClause;
 		}
 
-		return "";
+		return '';
 	}
 
 	/**
@@ -258,11 +258,11 @@ class EntityCollection implements CollectionInterface
 	 */
     public function orderBy($field, $descending = false)
     {
-		$this->orderByClause .= $this->EntityMapping->$field["column"];
+		$this->orderByClause .= $this->EntityMapping->$field['column'];
 		if ($descending) {
-			$this->orderByClause .= " DESC";
+			$this->orderByClause .= ' DESC';
 		}
-		$this->orderByClause .= ", ";
+		$this->orderByClause .= ', ';
 
 		return $this;
 	}	
@@ -275,13 +275,13 @@ class EntityCollection implements CollectionInterface
 	 */
     private function setFieldQuery()
     {
-		$fieldQuery = "";
+		$fieldQuery = '';
 
 		foreach ($this->EntityMapping as $key => $value) {
-			$fieldQuery .= $value["column"].' AS '.$key.', ';
+			$fieldQuery .= $value['column'].' AS '.$key.', ';
 		}
 
-		$this->fieldQuery = rtrim($fieldQuery, ", ");
+		$this->fieldQuery = rtrim($fieldQuery, ', ');
 	}
 
 	/**

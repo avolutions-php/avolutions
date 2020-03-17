@@ -17,13 +17,13 @@ use Avolutions\Routing\Router;
 /**
  * Load the bootstrap file
  */
-require_once "../bootstrap.php";
+require_once '../bootstrap.php';
 
 
 /**
  * Load the routes file
  */
-require_once "../routes.php"; 
+require_once '../routes.php'; 
 
 
 /**
@@ -32,7 +32,7 @@ require_once "../routes.php";
 try {
 	$Request = new Request();
 	$Response = $Request->send();
-} catch(Exception $e) {
+} catch (Exception $e) {
 	Logger::error($e);
 }
 ?>

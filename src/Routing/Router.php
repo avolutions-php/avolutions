@@ -90,8 +90,8 @@ class Router
 		
 		foreach ($Route->parameters as $parameterName => $parameterValues) {
 			$parameterExpression = '(';
-			$parameterExpression .= $parameterValues["format"];
-			if (isset($parameterValues["optional"]) && $parameterValues["optional"]) {
+			$parameterExpression .= $parameterValues['format'];
+			if (isset($parameterValues['optional']) && $parameterValues['optional']) {
 				// last slash for optional parameter is also optional, therefore we add a ? behind it
 				$parameterExpression = '?'.$parameterExpression.'?';
 			}
@@ -146,9 +146,9 @@ class Router
 			if ($value) {
 				$parameterValues[] = $value;
 			} else {
-				if (isset($parameterOptions["optional"]) && $parameterOptions["optional"]) {
-					if (isset($parameterOptions["default"])) {
-						$parameterValues[] = $parameterOptions["default"];
+				if (isset($parameterOptions['optional']) && $parameterOptions['optional']) {
+					if (isset($parameterOptions['default'])) {
+						$parameterValues[] = $parameterOptions['default'];
 					}
 				}				
 			}

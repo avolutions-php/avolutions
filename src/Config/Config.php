@@ -73,7 +73,7 @@ class Config extends AbstractSingleton
 			
 		foreach ($identifier as $value) {
 			if (!isset($configValues[$value])) {
-				throw new \Exception("Config key '$key' could not be found");
+				throw new \Exception('Config key "'.$key.'" could not be found');
 			}
 			
 			$configValues = $configValues[$value];

@@ -24,106 +24,106 @@ class ColumnType
 	/**
 	 * @var string TINYINT A very small integer
 	 */
-    const TINYINT = "TINYINT";    
+    const TINYINT = 'TINYINT';    
     
 	/**
 	 * @var string SMALLINT A small integer
 	 */
-    const SMALLINT = "SMALLINT";
+    const SMALLINT = 'SMALLINT';
     
 	/**
 	 * @var string MEDIUMINT A medium-sized integer
 	 */
-    const MEDIUMINT = "MEDIUMINT";
+    const MEDIUMINT = 'MEDIUMINT';
     
 	/**
 	 * @var string INT A standard integer
 	 */
-    const INT = "INT";
+    const INT = 'INT';
     
 	/**
 	 * @var string BIGINT A large integer
 	 */
-    const BIGINT = "BIGINT";
+    const BIGINT = 'BIGINT';
     
 	/**
 	 * @var string DECIMAL A fixed-point number
 	 */
-    const DECIMAL = "DECIMAL";
+    const DECIMAL = 'DECIMAL';
     
 	/**
 	 * @var string FLOAT A single-precision floating point number
 	 */
-    const FLOAT = "FLOAT";
+    const FLOAT = 'FLOAT';
     
 	/**
 	 * @var string DOUBLE A double-precision floating point number
 	 */
-    const DOUBLE = "DOUBLE";
+    const DOUBLE = 'DOUBLE';
     
 	/**
 	 * @var string BIT A bit field
 	 */
-    const BIT = "BIT";
+    const BIT = 'BIT';
     
 	/**
 	 * @var string $name A boolean field
 	 */
-	const BOOLEAN = "BOOLEAN";
+	const BOOLEAN = 'BOOLEAN';
 	
 	/**
 	 * @var string DATE A date value in CCYY-MM-DD format
 	 */
-    const DATE = "DATE";
+    const DATE = 'DATE';
     
 	/**
-	 * @var string DATETIME	A date and time value inCCYY-MM-DD hh:mm:ssformat
+	 * @var string DATETIME	A date and time value in CCYY-MM-DD hh:mm:ss format
 	 */
-    const DATETIME = "DATETIME";
+    const DATETIME = 'DATETIME';
     
 	/**
 	 * @var string TIMESTAMP A timestamp value in CCYY-MM-DD hh:mm:ss format
 	 */
-    const TIMESTAMP = "TIMESTAMP";
+    const TIMESTAMP = 'TIMESTAMP';
     
 	/**
 	 * @var string TIME	A time value in hh:mm:ss format
 	 */
-    const TIME = "TIME";
+    const TIME = 'TIME';
     
 	/**
 	 * @var string YEAR A year value in CCYY or YY format
 	 */
-	const YEAR = "YEAR";
+	const YEAR = 'YEAR';
 	
 	/**
 	 * @var string CHAR A fixed-length nonbinary (character) string
 	 */
-    const CHAR = "CHAR";
+    const CHAR = 'CHAR';
     
 	/**
 	 * @var string VARCHAR A variable-length non-binary string
 	 */
-	const VARCHAR = "VARCHAR";
+	const VARCHAR = 'VARCHAR';
         
 	/**
 	 * @var string TINYTEXT A very small non-binary string
 	 */
-    const TINYTEXT = "TINYTEXT";
+    const TINYTEXT = 'TINYTEXT';
     
 	/**
 	 * @var string TEXT A small non-binary string
 	 */
-    const TEXT = "TEXT";
+    const TEXT = 'TEXT';
     
 	/**
 	 * @var string MEDIUMTEXT A medium-sized non-binary string
 	 */
-    const MEDIUMTEXT = "MEDIUMTEXT";
+    const MEDIUMTEXT = 'MEDIUMTEXT';
     
 	/**
 	 * @var string LONGTEXT A large non-binary string
 	 */
-	const LONGTEXT = "LONGTEXT";
+	const LONGTEXT = 'LONGTEXT';
 }
 ?>

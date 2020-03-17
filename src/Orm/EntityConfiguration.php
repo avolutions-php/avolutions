@@ -111,7 +111,7 @@ class EntityConfiguration
 	 */
     private function setIdColumn()
     {	
-		$this->idColumn = $this->getTable()."ID";
+		$this->idColumn = $this->getTable().'ID';
 	}
 
 	/**

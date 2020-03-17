@@ -35,18 +35,18 @@ class Logger
 	 */
     private static function log($logLevel, $message)
     {		
-		$logpath = Config::get("logger/logpath");		
-		$logfile = Config::get("logger/logfile");	
-		$datetimeFormat = Config::get("logger/datetimeFormat");	
+		$logpath = Config::get('logger/logpath');		
+		$logfile = Config::get('logger/logfile');	
+		$datetimeFormat = Config::get('logger/datetimeFormat');	
 						
 		$datetime = new \Datetime();
-		$logText = "[".$logLevel."] | ".$datetime->format($datetimeFormat)." | ".$message;
+		$logText = '['.$logLevel.'] | '.$datetime->format($datetimeFormat).' | '.$message;
 										
 		if (!is_dir($logpath)){
 			mkdir($logpath, 0755);
 		}
 				
-		$handle = fopen($logpath.$logfile, "a");
+		$handle = fopen($logpath.$logfile, 'a');
 		fwrite($handle, $logText);
 		fwrite($handle, PHP_EOL);
 		fclose($handle);
@@ -145,7 +145,7 @@ class Logger
 	 */
     public static function debug($message)
     {
-		if (Config::get("logger/debug")) {
+		if (Config::get('logger/debug')) {
 			self::log(LogLevel::DEBUG, $message);
 		}
 	}

@@ -8,6 +8,7 @@
  * @license		MIT License (http://avolutions.org/license)
  * @link		http://avolutions.org
  */
+
 namespace Avolutions\Routing;
 
 use Avolutions\Core\CollectionInterface;

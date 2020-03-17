@@ -59,17 +59,17 @@ class Column
 	/**
 	 * @var string NULL A constant for the string "NULL"
 	 */
-	const NULL = "NULL";
+	const NULL = 'NULL';
 
 	/**
 	 * @var string NOTNULL A constant for the string "NOT NULL"
 	 */
-	const NOT_NULL = "NOT NULL";
+	const NOT_NULL = 'NOT NULL';
 	
 	/**
 	 * @var string CURRENT_TIMESTAMP A constant for the string "CURRENT_TIMESTAMP"
 	 */
-	const CURRENT_TIMESTAMP = "CURRENT_TIMESTAMP";
+	const CURRENT_TIMESTAMP = 'CURRENT_TIMESTAMP';
 	
 	/**
 	 * __construct
@@ -105,7 +105,7 @@ class Column
 	 */
     public function getPattern() 
     {
-		$pattern = "";			
+		$pattern = '';			
 		$pattern .= $this->getNamePattern();
 		$pattern .= $this->getTypePattern();
 		$pattern .= $this->getNullPattern();
@@ -125,7 +125,7 @@ class Column
 	 */
     private function getNamePattern() 
     {
-		return "`".$this->name."` ";
+		return '`'.$this->name.'` ';
 	}
 		
 	/**
@@ -140,10 +140,10 @@ class Column
 		$typePattern = $this->type;
 		
 		if ($this->length != null) {
-			$typePattern .= "(".$this->length.")";
+			$typePattern .= '('.$this->length.')';
 		}
 			
-		return $typePattern." ";
+		return $typePattern.' ';
 	}
 		
 		
@@ -173,10 +173,10 @@ class Column
 		}
 		
 		if ($this->default != null) {			
-			return " DEFAULT ".$this->default;
+			return ' DEFAULT '.$this->default;
 		}
 	
-		return "";
+		return '';
 	}
 
 	/**
@@ -189,10 +189,10 @@ class Column
     private function getPrimaryKeyPattern()
     {
 		if ($this->primaryKey) {
-			return " PRIMARY KEY";
+			return ' PRIMARY KEY';
 		}
 
-		return "";
+		return '';
 	}
 
 	/**
@@ -205,10 +205,10 @@ class Column
     private function getAutoIncrementPattern()
     {
 		if ($this->autoIncrement) {
-			return " AUTO_INCREMENT";
+			return ' AUTO_INCREMENT';
 		}
 
-		return "";
+		return '';
 	}
 }
 ?>

@@ -8,6 +8,7 @@
  * @license		MIT License (http://avolutions.org/license)
  * @link		http://avolutions.org
  */
+
 namespace Avolutions\Logging;
 
 /**
@@ -23,41 +24,41 @@ class LogLevel
 	/**
 	 * @var string EMERGENCY Text for log level emergency
 	 */
-	const EMERGENCY = "EMERGENCY";
+	const EMERGENCY = 'EMERGENCY';
 	
 	/**
 	 * @var string ALERT Text for log level alert
 	 */
-	const ALERT = "ALERT";
+	const ALERT = 'ALERT';
 	
 	/**
 	 * @var string CRITICAL Text for log level critical
 	 */
-	const CRITICAL = "CRITICAL";
+	const CRITICAL = 'CRITICAL';
 
 	/**
 	 * @var string ERROR Text for log level error
 	 */
-	const ERROR = "ERROR";
+	const ERROR = 'ERROR';
 	
 	/**
 	 * @var string WARNING Text for log level warning
 	 */
-	const WARNING = "WARNING";
+	const WARNING = 'WARNING';
 	
 	/**
 	 * @var string NOTICE Text for log level notice
 	 */
-	const NOTICE = "NOTICE";
+	const NOTICE = 'NOTICE';
 	
 	/**
 	 * @var string INFO Text for log level info
 	 */
-	const INFO = "INFO";
+	const INFO = 'INFO';
 	
 	/**
 	 * @var string DEBUG Text for log level debug
 	 */
-	const DEBUG = "DEBUG";
+	const DEBUG = 'DEBUG';
 }
 ?>

@@ -32,11 +32,11 @@ class EntityMapping
 	 */
     public function __construct($entity)
     {
-		$mapping = $this->loadMappingFile(APP_MAPPING_PATH.$entity."Mapping.php");
+		$mapping = $this->loadMappingFile(APP_MAPPING_PATH.$entity.'Mapping.php');
 
 		foreach ($mapping as $key => $value) {
-			if (!isset($value["column"])) {
-				$value["column"] = $key;
+			if (!isset($value['column'])) {
+				$value['column'] = $key;
 			}
 			$this->$key = $value;
 		}

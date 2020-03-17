@@ -24,37 +24,37 @@ class Table
 	/**
 	 * @var string INDEX A constant for the string "INDEX"
 	 */
-	const INDEX = "INDEX";
+	const INDEX = 'INDEX';
 
 	/**
 	 * @var string PRIMARY A constant for the string "PRIMARY KEY"
 	 */
-	const PRIMARY = "PRIMARY KEY";
+	const PRIMARY = 'PRIMARY KEY';
 
 	/**
 	 * @var string UNIQUE A constant for the string "UNIQUE"
 	 */
-	const UNIQUE = "UNIQUE";
+	const UNIQUE = 'UNIQUE';
 	
 	/**
 	 * @var string RESTRICT A constant for the string "RESTRICT"
 	 */
-	const RESTRICT = "RESTRICT";
+	const RESTRICT = 'RESTRICT';
 
 	/**
 	 * @var string CASCADE A constant for the string "CASCADE"
 	 */
-	const CASCADE = "CASCADE";
+	const CASCADE = 'CASCADE';
 
 	/**
 	 * @var string SETNULL A constant for the string "SET NULL"
 	 */
-	const SET_NULL = "SET NULL";
+	const SET_NULL = 'SET NULL';
 
 	/**
 	 * @var string NOACTION A constant for the string "NO ACTION"
 	 */
-	const NO_ACTION = "NO ACTION";
+	const NO_ACTION = 'NO ACTION';
 		
 	/**
 	 * create
@@ -66,13 +66,13 @@ class Table
 	 */
     public static function create($tableName, $Columns)
     {
-		$query = "CREATE TABLE IF NOT EXISTS `".$tableName."` (";
+		$query = 'CREATE TABLE IF NOT EXISTS `'.$tableName.'` (';
 				
 		foreach ($Columns as $Column) {
-			$query .= $Column->getPattern().",";
+			$query .= $Column->getPattern().',';
 		}
 		$query = rtrim($query, ',');
-		$query .= ")";
+		$query .= ')';
 			
 		$Database = new Database();
 		$Database->query($query);
@@ -89,10 +89,10 @@ class Table
 	 */
     public static function addColumn($tableName, $Column, $after = null)
     {
-		$query = "ALTER TABLE `".$tableName."` ADD ".$Column->getPattern();
+		$query = 'ALTER TABLE `'.$tableName.'` ADD '.$Column->getPattern();
 		
 		if ($after != null) {
-			$query .= " AFTER `".$after."`";
+			$query .= ' AFTER `'.$after.'`';
 		}
 		
 		$Database = new Database();
@@ -109,7 +109,7 @@ class Table
 	 */
     public static function removeColumn($tableName, $columnName)
     {
-		$query = "ALTER TABLE `".$tableName."` DROP COLUMN ".$columnName;
+		$query = 'ALTER TABLE `'.$tableName.'` DROP COLUMN '.$columnName;
 			
 		$Database = new Database();
 		$Database->query($query);
@@ -127,18 +127,18 @@ class Table
 	 */
     public static function addIndex($tableName, $indexType, $columnNames, $indexName = null)
     {
-		$query = "ALTER TABLE `".$tableName."` ADD ".$indexType." ";
+		$query = 'ALTER TABLE `'.$tableName.'` ADD '.$indexType.' ';
 		
 		if ($indexName != null) {
-			$query .= "`".$indexName."` ";
+			$query .= '`'.$indexName.'` ';
 		}
 		
-		$query .= "(";
+		$query .= '(';
 		foreach ($columnNames as $columnName) {
-			$query .= "`".$columnName."`,";
+			$query .= '`'.$columnName.'`,';
 		}
 		$query = rtrim($query, ',');
-		$query .= ")";
+		$query .= ')';
 				
 		$Database = new Database();
 		$Database->query($query);
@@ -166,11 +166,11 @@ class Table
         $onUpdate = Table::RESTRICT, 
         $constraintName = null
     ) {
-        $query = "ALTER TABLE `".$tableName."` ADD CONSTRAINT ";
+        $query = 'ALTER TABLE `'.$tableName.'` ADD CONSTRAINT ';
         if ($constraintName != null) {
-            $query .= "`".$constraintName."` ";
+            $query .= '`'.$constraintName.'` ';
         }	
-        $query .= "FOREIGN KEY (`".$columnName."`) REFERENCES `".$referenceTableName."`(`".$referenceColumnName."`) ON DELETE ".$onDelete." ON UPDATE ".$onUpdate;
+        $query .= 'FOREIGN KEY (`'.$columnName.'`) REFERENCES `'.$referenceTableName.'`(`'.$referenceColumnName.'`) ON DELETE '.$onDelete.' ON UPDATE '.$onUpdate;
                     
         $Database = new Database();
         $Database->query($query);

@@ -12,9 +12,9 @@
  */
 
 return array (
-	"debug" => true,
-	"logfile" => "logfile.log",
-	"logpath" => LOG_PATH,
-	"datetimeFormat" => "Y-m-d H:i:s.v"
+	'debug' => true,
+	'logfile' => 'logfile.log',
+	'logpath' => LOG_PATH,
+	'datetimeFormat' => 'Y-m-d H:i:s.v'
 );
 ?>

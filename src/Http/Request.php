@@ -42,8 +42,8 @@ class Request
 	 */
     public function __construct()
     {
-		$this->uri = $_SERVER["REQUEST_URI"];
-		$this->method = $_SERVER["REQUEST_METHOD"];
+		$this->uri = $_SERVER['REQUEST_URI'];
+		$this->method = $_SERVER['REQUEST_METHOD'];
 	}
 	
 	/**
@@ -57,10 +57,10 @@ class Request
     {		
 		$MatchedRoute = Router::findRoute($this->uri, $this->method);	
 						
-		$fullControllerName = ucfirst($MatchedRoute->controllerName)."Controller";
+		$fullControllerName = ucfirst($MatchedRoute->controllerName).'Controller';
 		$Controller = new $fullControllerName();		
 		
-		$fullActionName = $MatchedRoute->actionName."Action";
+		$fullActionName = $MatchedRoute->actionName.'Action';
 				
 		$Response = new Response();
 		$Response->setBody(call_user_func_array(array($Controller, $fullActionName), $MatchedRoute->parameters));

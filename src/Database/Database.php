@@ -31,15 +31,15 @@ class Database extends \PDO
 	 */
     public function __construct()
     {
-		$host	  = Config::get("database/host");
-		$database = Config::get("database/database");
-		$dsn 	  = "mysql:dbname=".$database.";host=".$host.";";
-		$user     = Config::get("database/user");
-		$password = Config::get("database/password");
-		$charset  = Config::get("database/charset");
+		$host	  = Config::get('database/host');
+		$database = Config::get('database/database');
+		$dsn 	  = 'mysql:dbname='.$database.';host='.$host.';';
+		$user     = Config::get('database/user');
+		$password = Config::get('database/password');
+		$charset  = Config::get('database/charset');
 		$options  = array
 		(
-			\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES ".$charset,
+			\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES '.$charset,
 			\PDO::ATTR_PERSISTENT => true
 		);	
 		
@@ -75,7 +75,7 @@ class Database extends \PDO
 		foreach ($migrationsToExecute as $version => $Migration) {
 			$Migration->migrate();
 			
-			$stmt = $Database->prepare("INSERT INTO migration (Version, Name) VALUES (?, ?)");
+			$stmt = $Database->prepare('INSERT INTO migration (Version, Name) VALUES (?, ?)');
 			$stmt->execute(array($version, get_class($Migration)));
 		}
 	}
@@ -93,10 +93,10 @@ class Database extends \PDO
 		
 		$Database = new Database();
 						
-		$stmt = $Database->prepare("SELECT * FROM migration");
+		$stmt = $Database->prepare('SELECT * FROM migration');
 		$stmt->execute();		
 		while ($row = $stmt->fetch(Database::FETCH_ASSOC)) {
-			$executedMigrations[] = $row["Version"];
+			$executedMigrations[] = $row['Version'];
 		}
 		
 		return $executedMigrations;

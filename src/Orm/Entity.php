@@ -74,13 +74,13 @@ class Entity
 	 */
     public function delete()
     {
-		$values = array("id" => $this->id);	
+		$values = array('id' => $this->id);	
 
-		$query = "DELETE FROM ";
+		$query = 'DELETE FROM ';
 		$query .= $this->EntityConfiguration->getTable();
-		$query .= " WHERE ";
+		$query .= ' WHERE ';
 		$query .= $this->EntityConfiguration->getIdColumn();
-		$query .= " = :id";
+		$query .= ' = :id';
 
 		$this->execute($query, $values);
 	}	
@@ -97,18 +97,18 @@ class Entity
 		$parameters = array();
 
 		foreach ($this->EntityMapping as $key => $value) {
-			$columns[] = $value["column"];
-			$parameters[] = ":$key";
+			$columns[] = $value['column'];
+			$parameters[] = ':$key';
 			$values[$key] = $this->$key;
 		}	
 
-		$query = "INSERT INTO ";
+		$query = 'INSERT INTO ';
 		$query .= $this->EntityConfiguration->getTable();
-		$query .= " (";
-		$query .= implode(", ", $columns);	
-		$query .= ") VALUES (";
-		$query .= implode(", ", $parameters);	
-		$query .= ")";
+		$query .= ' (';
+		$query .= implode(', ', $columns);	
+		$query .= ') VALUES (';
+		$query .= implode(', ', $parameters);	
+		$query .= ')';
 		
 		$this->execute($query, $values);
 	}	
@@ -122,17 +122,17 @@ class Entity
     {
 		$values = array();
 
-		$query = "UPDATE ";
+		$query = 'UPDATE ';
 		$query .= $this->EntityConfiguration->getTable();
-		$query .= " SET ";
+		$query .= ' SET ';
 		foreach ($this->EntityMapping as $key => $value) {
-			$query .= $value["column"]." = :$key, ";
+			$query .= $value['column'].' = :$key, ';
 			$values[$key] = $this->$key;
 		}
-		$query = rtrim($query, ", ");
-		$query .= " WHERE ";
+		$query = rtrim($query, ', ');
+		$query .= ' WHERE ';
 		$query .= $this->EntityConfiguration->getIdColumn();
-		$query .= " = :id";
+		$query .= ' = :id';
 		
 		$this->execute($query, $values);
 	}
@@ -160,7 +160,7 @@ class Entity
     private function execute($query, $values)
     {
 		Logger::debug($query);
-		Logger::debug("Values: ".print_r($values, true));
+		Logger::debug('Values: '.print_r($values, true));
 
 		$Database = new Database();
 		$stmt = $Database->prepare($query);

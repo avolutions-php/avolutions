@@ -31,7 +31,7 @@ class Route
 	/**
 	 * @var string $method The method of the Route
 	 */
-	public $method = "GET";
+	public $method = 'GET';
 	
 	/**
 	 * @var string $controllerName The name of the Controller
@@ -71,14 +71,14 @@ class Route
     public function __construct($url, $defaults = null, $parameters = null)
     {
 		$this->url = $url;	
-		if (isset($defaults["controller"])) {
-			$this->controllerName = $defaults["controller"];	
+		if (isset($defaults['controller'])) {
+			$this->controllerName = $defaults['controller'];	
 		}
-		if (isset($defaults["action"])) {
-			$this->actionName = $defaults["action"];	
+		if (isset($defaults['action'])) {
+			$this->actionName = $defaults['action'];	
 		}
-		if (isset($defaults["method"])) {
-			$this->method = $defaults["method"];	
+		if (isset($defaults['method'])) {
+			$this->method = $defaults['method'];	
 		}
 		
 		if ($parameters != null) {
