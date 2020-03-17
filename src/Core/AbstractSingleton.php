@@ -32,7 +32,7 @@ abstract class AbstractSingleton
 	 * 
 	 * To prevent creating a new instance with the new operator
 	 */
-    private final function __construct()
+    final private function __construct()
     {
 
     }
@@ -42,7 +42,7 @@ abstract class AbstractSingleton
 	 * 
 	 * To prevent creating a instance with the clone operator
 	 */
-    private final function __clone()
+    final private function __clone()
     {
 
     }
@@ -52,7 +52,7 @@ abstract class AbstractSingleton
 	 *
 	 * To prevent unserializing a instance with unserialize function
 	 */
-    private final function __wakeup()
+    final private function __wakeup()
     {
 
     }
@@ -65,7 +65,7 @@ abstract class AbstractSingleton
 	 * 
 	 * @return object An object of the instantiated class
 	 */
-	public final static function getInstance()
+	final public static function getInstance()
 	{
 		$class = get_called_class();
 				
