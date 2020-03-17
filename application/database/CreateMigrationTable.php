@@ -1,20 +1,20 @@
 <?php
-	use Avolutions\Database\Table;
-	use Avolutions\Database\Column;
-	use Avolutions\Database\ColumnType;
-	
-    class CreateMigrationTable 
+
+use Avolutions\Database\Table;
+use Avolutions\Database\Column;
+use Avolutions\Database\ColumnType;
+
+class CreateMigrationTable 
+{
+    public $version = '1';
+    
+    public function migrate()
     {
-		public $version = '1';
-		
-        public function migrate()
-        {
-			$columns = [];
-			$columns[] = new Column('MigrationID', ColumnType::INT, 255, null, null, true, true);
-			$columns[] = new Column('Version', ColumnType::VARCHAR, 255);
-			$columns[] = new Column('Name', ColumnType::VARCHAR, 255);
-			$columns[] = new Column('CreateDate', ColumnType::DATETIME, null, Column::CURRENT_TIMESTAMP);	
-			Table::create('migration', $columns);
-		}
-	}
-?>
+        $columns = [];
+        $columns[] = new Column('MigrationID', ColumnType::INT, 255, null, null, true, true);
+        $columns[] = new Column('Version', ColumnType::VARCHAR, 255);
+        $columns[] = new Column('Name', ColumnType::VARCHAR, 255);
+        $columns[] = new Column('CreateDate', ColumnType::DATETIME, null, Column::CURRENT_TIMESTAMP);	
+        Table::create('migration', $columns);
+    }
+}

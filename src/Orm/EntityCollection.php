@@ -300,4 +300,3 @@ class EntityCollection implements CollectionInterface
 		return $this;
 	}
 }
-?>

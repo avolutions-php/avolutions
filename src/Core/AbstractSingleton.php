@@ -76,4 +76,3 @@ abstract class AbstractSingleton
         return self::$instances[$class];
 	}
 }
-?>

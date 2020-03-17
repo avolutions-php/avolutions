@@ -74,4 +74,3 @@ class RouteCollection extends AbstractSingleton implements CollectionInterface
 		);
 	}	
 }
-?>

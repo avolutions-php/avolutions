@@ -126,4 +126,3 @@ class ColumnType
 	 */
 	const LONGTEXT = 'LONGTEXT';
 }
-?>

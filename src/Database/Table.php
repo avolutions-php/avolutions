@@ -176,4 +176,3 @@ class Table
         $Database->query($query);
 	}
 }
-?>

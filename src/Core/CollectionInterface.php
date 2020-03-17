@@ -30,4 +30,3 @@ interface CollectionInterface
 	 */
 	public function getAll();
 }
-?>

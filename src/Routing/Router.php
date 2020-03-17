@@ -157,4 +157,3 @@ class Router
 		return $parameterValues;
 	}
 }
-?>

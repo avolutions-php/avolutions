@@ -102,4 +102,3 @@ class Config extends AbstractSingleton
 		return [];
 	}
 }
-?>

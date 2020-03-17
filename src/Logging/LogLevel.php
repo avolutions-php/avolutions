@@ -61,4 +61,3 @@ class LogLevel
 	 */
 	const DEBUG = 'DEBUG';
 }
-?>

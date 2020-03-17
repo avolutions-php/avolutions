@@ -17,4 +17,3 @@ return [
 	'logpath' => LOG_PATH,
 	'datetimeFormat' => 'Y-m-d H:i:s.v'
 ];
-?>

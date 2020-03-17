@@ -67,4 +67,3 @@ class Request
 		$Response->send();
 	}
 }
-?>

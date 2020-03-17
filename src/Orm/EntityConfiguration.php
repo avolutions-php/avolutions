@@ -126,4 +126,3 @@ class EntityConfiguration
 		return $this->Mapping;
 	}
 }
-?>

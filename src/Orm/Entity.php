@@ -167,4 +167,3 @@ class Entity
 		$stmt->execute($values);	
 	}
 }
-?>

@@ -19,4 +19,3 @@ return [
 	'charset' => 'utf8',
 	'migrateOnAppStart' => true	
 ];
-?>

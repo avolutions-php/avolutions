@@ -35,4 +35,3 @@ try {
 } catch (Exception $e) {
 	Logger::error($e);
 }
-?>

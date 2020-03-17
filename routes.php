@@ -25,4 +25,3 @@ $RouteCollection = RouteCollection::getInstance();
  * Examples
  */ 
 //$RouteCollection->addRoute(new Route('/<controller>/<action>'));
-?>

@@ -51,4 +51,3 @@ $Config->initialize();
 if (Config::get('database/migrateOnAppStart')) {	
 	Database::migrate(); 
 }
-?>
