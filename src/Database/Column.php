@@ -139,7 +139,7 @@ class Column
     {
 		$typePattern = $this->type;
 		
-		if($this->length != null) {
+		if ($this->length != null) {
 			$typePattern .= "(".$this->length.")";
 		}
 			
@@ -168,11 +168,11 @@ class Column
 	 */
     private function getDefaultPattern() 
     {
-		if($this->type == self::BOOLEAN) {
+		if ($this->type == self::BOOLEAN) {
 			$this->default = $this->default ? 'TRUE' : 'FALSE';
 		}
 		
-		if($this->default != null) {			
+		if ($this->default != null) {			
 			return " DEFAULT ".$this->default;
 		}
 	
@@ -188,7 +188,7 @@ class Column
 	 */
     private function getPrimaryKeyPattern()
     {
-		if($this->primaryKey) {
+		if ($this->primaryKey) {
 			return " PRIMARY KEY";
 		}
 
@@ -204,7 +204,7 @@ class Column
 	 */
     private function getAutoIncrementPattern()
     {
-		if($this->autoIncrement) {
+		if ($this->autoIncrement) {
 			return " AUTO_INCREMENT";
 		}
 

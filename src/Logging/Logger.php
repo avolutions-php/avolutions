@@ -42,7 +42,7 @@ class Logger
 		$datetime = new \Datetime();
 		$logText = "[".$logLevel."] | ".$datetime->format($datetimeFormat)." | ".$message;
 										
-		if(!is_dir($logpath)){
+		if (!is_dir($logpath)){
 			mkdir($logpath, 0755);
 		}
 				
@@ -145,7 +145,7 @@ class Logger
 	 */
     public static function debug($message)
     {
-		if(Config::get("logger/debug")) {
+		if (Config::get("logger/debug")) {
 			self::log(LogLevel::DEBUG, $message);
 		}
 	}

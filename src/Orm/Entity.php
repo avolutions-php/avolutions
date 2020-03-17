@@ -60,7 +60,7 @@ class Entity
 	 */
     public function save()
     {		
-		if($this->exists()) {
+		if ($this->exists()) {
 			$this->update();
 		} else {
 			$this->insert();
@@ -96,7 +96,7 @@ class Entity
 		$columns = array();
 		$parameters = array();
 
-		foreach($this->EntityMapping as $key => $value) {
+		foreach ($this->EntityMapping as $key => $value) {
 			$columns[] = $value["column"];
 			$parameters[] = ":$key";
 			$values[$key] = $this->$key;
@@ -125,7 +125,7 @@ class Entity
 		$query = "UPDATE ";
 		$query .= $this->EntityConfiguration->getTable();
 		$query .= " SET ";
-		foreach($this->EntityMapping as $key => $value) {
+		foreach ($this->EntityMapping as $key => $value) {
 			$query .= $value["column"]." = :$key, ";
 			$values[$key] = $this->$key;
 		}

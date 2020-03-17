@@ -35,7 +35,7 @@ class EntityMapping
 		$mapping = $this->loadMappingFile(APP_MAPPING_PATH.$entity."Mapping.php");
 
 		foreach ($mapping as $key => $value) {
-			if(!isset($value["column"])) {
+			if (!isset($value["column"])) {
 				$value["column"] = $key;
 			}
 			$this->$key = $value;
@@ -55,7 +55,7 @@ class EntityMapping
 	 */
     private function loadMappingFile($mappingFile)
     {				
-		if(file_exists($mappingFile)) {	
+		if (file_exists($mappingFile)) {	
 			return require $mappingFile;
 		}
 		

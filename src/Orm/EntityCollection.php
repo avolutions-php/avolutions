@@ -111,7 +111,7 @@ class EntityCollection implements CollectionInterface
 		while ($properties = $stmt->fetch($Database::FETCH_ASSOC)) {        
 			// TODO: Entity factory?
 			$Entity = new $this->entity();
-			foreach($properties as $property => $value) {
+			foreach ($properties as $property => $value) {
 				$Entity->$property = $value;
 			}		
 			$this->Entities[] = $Entity;
@@ -131,7 +131,7 @@ class EntityCollection implements CollectionInterface
     public function limit($rowCount, $offset = 0)
     {
 		$this->limitClause = $rowCount;
-		if($offset > 0) {
+		if ($offset > 0) {
 			$this->limitClause .= " OFFSET ".$offset;
 		}
 
@@ -206,7 +206,7 @@ class EntityCollection implements CollectionInterface
 	 */
     private function getLimitClause()
     {
-		if(strlen($this->limitClause) > 0) {
+		if (strlen($this->limitClause) > 0) {
 			return " LIMIT ".$this->limitClause;
 		}
 
@@ -222,7 +222,7 @@ class EntityCollection implements CollectionInterface
 	 */
     private function getOrderByClause()
     {
-		if(strlen($this->orderByClause) > 0) {
+		if (strlen($this->orderByClause) > 0) {
 			return " ORDER BY ".rtrim($this->orderByClause, ", ");
 		}
 
@@ -238,7 +238,7 @@ class EntityCollection implements CollectionInterface
 	 */
     private function getWhereClause()
     {
-		if(strlen($this->whereClause) > 0) {
+		if (strlen($this->whereClause) > 0) {
 			return " WHERE ".$this->whereClause;
 		}
 
@@ -259,7 +259,7 @@ class EntityCollection implements CollectionInterface
     public function orderBy($field, $descending = false)
     {
 		$this->orderByClause .= $this->EntityMapping->$field["column"];
-		if($descending) {
+		if ($descending) {
 			$this->orderByClause .= " DESC";
 		}
 		$this->orderByClause .= ", ";
@@ -277,7 +277,7 @@ class EntityCollection implements CollectionInterface
     {
 		$fieldQuery = "";
 
-		foreach($this->EntityMapping as $key => $value) {
+		foreach ($this->EntityMapping as $key => $value) {
 			$fieldQuery .= $value["column"].' AS '.$key.', ';
 		}
 

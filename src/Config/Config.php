@@ -42,7 +42,7 @@ class Config extends AbstractSingleton
 	
 		$configFiles = array_unique(array_merge($coreConfigFiles, $appConfigFiles));
 		
-		foreach($configFiles as $configFile) {
+		foreach ($configFiles as $configFile) {
 			$configValues = array();
 			$coreConfigValues = array();
 			$appConfigValues = array();
@@ -71,8 +71,8 @@ class Config extends AbstractSingleton
 		
 		$configValues = self::$configValues;
 			
-		foreach($identifier as $value) {
-			if(!isset($configValues[$value])) {
+		foreach ($identifier as $value) {
+			if (!isset($configValues[$value])) {
 				throw new \Exception("Config key '$key' could not be found");
 			}
 			
@@ -95,7 +95,7 @@ class Config extends AbstractSingleton
 	 */
     private function loadConfigFile($configFile)
     {				
-		if(file_exists($configFile)) {	
+		if (file_exists($configFile)) {	
 			return require $configFile;
 		}
 		

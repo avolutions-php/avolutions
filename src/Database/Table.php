@@ -68,7 +68,7 @@ class Table
     {
 		$query = "CREATE TABLE IF NOT EXISTS `".$tableName."` (";
 				
-		foreach($Columns as $Column) {
+		foreach ($Columns as $Column) {
 			$query .= $Column->getPattern().",";
 		}
 		$query = rtrim($query, ',');
@@ -91,7 +91,7 @@ class Table
     {
 		$query = "ALTER TABLE `".$tableName."` ADD ".$Column->getPattern();
 		
-		if($after != null) {
+		if ($after != null) {
 			$query .= " AFTER `".$after."`";
 		}
 		
@@ -129,12 +129,12 @@ class Table
     {
 		$query = "ALTER TABLE `".$tableName."` ADD ".$indexType." ";
 		
-		if($indexName != null) {
+		if ($indexName != null) {
 			$query .= "`".$indexName."` ";
 		}
 		
 		$query .= "(";
-		foreach($columnNames as $columnName) {
+		foreach ($columnNames as $columnName) {
 			$query .= "`".$columnName."`,";
 		}
 		$query = rtrim($query, ',');
@@ -167,7 +167,7 @@ class Table
         $constraintName = null
     ) {
         $query = "ALTER TABLE `".$tableName."` ADD CONSTRAINT ";
-        if($constraintName != null) {
+        if ($constraintName != null) {
             $query .= "`".$constraintName."` ";
         }	
         $query .= "FOREIGN KEY (`".$columnName."`) REFERENCES `".$referenceTableName."`(`".$referenceColumnName."`) ON DELETE ".$onDelete." ON UPDATE ".$onUpdate;

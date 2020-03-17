@@ -43,7 +43,7 @@ class Autoloader
 	        foreach ($paths as $path) {
 				$file = $path.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
 				
-				if(file_exists($file)) { 
+				if (file_exists($file)) { 
 					require_once $file;
 					break;
 				}

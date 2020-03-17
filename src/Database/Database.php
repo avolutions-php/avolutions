@@ -58,13 +58,13 @@ class Database extends \PDO
 		
 		$executedMigrations = self::getExecutedMigrations();
 		
-		foreach($migrationFiles as $migrationFile) {
+		foreach ($migrationFiles as $migrationFile) {
 			$migrationClassName = pathinfo($migrationFile, PATHINFO_FILENAME);
 						
 			require_once APP_DATABASE_PATH.$migrationFile;
  			$Migration = new $migrationClassName;
 			
-			if(!in_array($Migration->version, $executedMigrations)) {
+			if (!in_array($Migration->version, $executedMigrations)) {
 				$migrationsToExecute[$Migration->version] = $Migration;
 			}
 		}

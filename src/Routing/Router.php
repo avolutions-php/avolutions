@@ -49,10 +49,10 @@ class Router
 				$actionName = self::getKeywordValue($matches, $explodedUrl, 'action');
 				
 				$MatchedRoute = $Route;
-				if($controllerName) {				
+				if ($controllerName) {				
 					$MatchedRoute->controllerName = $controllerName;	
 				}
-				if($actionName) {				
+				if ($actionName) {				
 					$MatchedRoute->actionName = $actionName;	
 				}
 				$MatchedRoute->parameters = self::getParameterValues($matches, $explodedUrl, $MatchedRoute->parameters);
@@ -88,10 +88,10 @@ class Router
 		$expression = str_replace('<controller>', $controllerExpression, $expression);
 		$expression = str_replace('<action>', $actionExpression, $expression);
 		
-		foreach($Route->parameters as $parameterName => $parameterValues) {
+		foreach ($Route->parameters as $parameterName => $parameterValues) {
 			$parameterExpression = '(';
 			$parameterExpression .= $parameterValues["format"];
-			if(isset($parameterValues["optional"]) && $parameterValues["optional"]) {
+			if (isset($parameterValues["optional"]) && $parameterValues["optional"]) {
 				// last slash for optional parameter is also optional, therefore we add a ? behind it
 				$parameterExpression = '?'.$parameterExpression.'?';
 			}
@@ -140,14 +140,14 @@ class Router
     {
 		$parameterValues = array();
 	
-		foreach($parameters as $parameterName => $parameterOptions) {
+		foreach ($parameters as $parameterName => $parameterOptions) {
 			$value = self::getKeywordValue($matches, $explodedUrl, $parameterName);
 			
-			if($value) {
+			if ($value) {
 				$parameterValues[] = $value;
 			} else {
-				if(isset($parameterOptions["optional"]) && $parameterOptions["optional"]) {
-					if(isset($parameterOptions["default"])) {
+				if (isset($parameterOptions["optional"]) && $parameterOptions["optional"]) {
+					if (isset($parameterOptions["default"])) {
 						$parameterValues[] = $parameterOptions["default"];
 					}
 				}				
