@@ -39,15 +39,15 @@ class Entity
 	 * @var string $EntityMapping The mapping of the entity.
 	 */
 	private $EntityMapping;
-		
-	
+			
 	/**
 	 * __construct
 	 * 
 	 * Creates a new Entity object and loads the corresponding EntityConfiguration
 	 * and EntityMapping.
 	 */
-	public function __construct() {
+    public function __construct()
+    {
 		$this->EntityConfiguration = new EntityConfiguration(get_class($this));
 		$this->EntityMapping = $this->EntityConfiguration->getMapping();
 	}	
@@ -58,7 +58,8 @@ class Entity
 	 * Saves the Entity object to the database. It will be either updated or inserted,
 	 * depending on whether the Entity already exists or not.
 	 */
-	public function save() {		
+    public function save()
+    {		
 		if($this->exists()) {
 			$this->update();
 		} else {
@@ -71,7 +72,8 @@ class Entity
 	 * 
 	 * Deletes the Entity object from the database.
 	 */
-	public function delete() {
+    public function delete()
+    {
 		$values = array("id" => $this->id);	
 
 		$query = "DELETE FROM ";
@@ -88,7 +90,8 @@ class Entity
 	 * 
 	 * Inserts the Entity object into the database.
 	 */
-	private function insert() {
+    private function insert()
+    {
 		$values = array();
 		$columns = array();
 		$parameters = array();
@@ -115,7 +118,8 @@ class Entity
 	 * 
 	 * Updateds the existing database entry for the Entity object.
 	 */
-	private function update() {
+    private function update()
+    {
 		$values = array();
 
 		$query = "UPDATE ";
@@ -140,7 +144,8 @@ class Entity
 	 * 
 	 * @return bool Returns true if the entity exists in the database, false if not.
 	 */
-	private function exists() {
+    private function exists()
+    {
 		return $this->id != null;	
 	}
 
@@ -152,7 +157,8 @@ class Entity
 	 * @param string $query The query string that will be executed.
 	 * @param array $values The values for the query.
 	 */
-	private function execute($query, $values) {
+    private function execute($query, $values)
+    {
 		Logger::debug($query);
 		Logger::debug("Values: ".print_r($values, true));
 

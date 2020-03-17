@@ -64,7 +64,8 @@ class Table
 	 * @param string $tableName The name of the table.
 	 * @param array $Columns An array with Column objects to create the table.
 	 */
-	public static function create($tableName, $Columns) {
+    public static function create($tableName, $Columns)
+    {
 		$query = "CREATE TABLE IF NOT EXISTS `".$tableName."` (";
 				
 		foreach($Columns as $Column) {
@@ -86,7 +87,8 @@ class Table
 	 * @param Column $Column A Column object to add to the table.
 	 * @param string $after The name of an existing column to add the new Column after it.
 	 */
-	public static function addColumn($tableName, $Column, $after = null) {
+    public static function addColumn($tableName, $Column, $after = null)
+    {
 		$query = "ALTER TABLE `".$tableName."` ADD ".$Column->getPattern();
 		
 		if($after != null) {
@@ -105,7 +107,8 @@ class Table
 	 * @param string $tableName The name of the table.
 	 * @param string $columnName The name of the column that should be removed.
 	 */
-	public static function removeColumn($tableName, $columnName) {
+    public static function removeColumn($tableName, $columnName)
+    {
 		$query = "ALTER TABLE `".$tableName."` DROP COLUMN ".$columnName;
 			
 		$Database = new Database();
@@ -122,7 +125,8 @@ class Table
 	 * @param array $columnNames An array with one or more column names which are included in the index.
 	 * @param string $indexName The name of the index.
 	 */
-	public static function addIndex($tableName, $indexType, $columnNames, $indexName = null) {
+    public static function addIndex($tableName, $indexType, $columnNames, $indexName = null)
+    {
 		$query = "ALTER TABLE `".$tableName."` ADD ".$indexType." ";
 		
 		if($indexName != null) {
@@ -153,15 +157,23 @@ class Table
 	 * @param string $onUpdate The operation that will be performed on update, one of the following constants should be used: RESTRICT, CASCADE, SETNULL, NOACTION.
 	 * @param string $constraintName The name of the constraint.
 	 */
-	public static function addForeignKeyConstraint($tableName, $columnName, $referenceTableName, $referenceColumnName, $onDelete = Table::RESTRICT, $onUpdate = Table::RESTRICT, $constraintName = null) {
-		$query = "ALTER TABLE `".$tableName."` ADD CONSTRAINT ";
-		if($constraintName != null) {
-			$query .= "`".$constraintName."` ";
-		}	
-		$query .= "FOREIGN KEY (`".$columnName."`) REFERENCES `".$referenceTableName."`(`".$referenceColumnName."`) ON DELETE ".$onDelete." ON UPDATE ".$onUpdate;
-					
-		$Database = new Database();
-		$Database->query($query);
+    public static function addForeignKeyConstraint(
+        $tableName, 
+        $columnName, 
+        $referenceTableName, 
+        $referenceColumnName, 
+        $onDelete = Table::RESTRICT, 
+        $onUpdate = Table::RESTRICT, 
+        $constraintName = null
+    ) {
+        $query = "ALTER TABLE `".$tableName."` ADD CONSTRAINT ";
+        if($constraintName != null) {
+            $query .= "`".$constraintName."` ";
+        }	
+        $query .= "FOREIGN KEY (`".$columnName."`) REFERENCES `".$referenceTableName."`(`".$referenceColumnName."`) ON DELETE ".$onDelete." ON UPDATE ".$onUpdate;
+                    
+        $Database = new Database();
+        $Database->query($query);
 	}
 }
 ?>

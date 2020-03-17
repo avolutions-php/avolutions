@@ -68,7 +68,8 @@ class Route
 	 * 		]
 	 *
 	 */
-	public function __construct($url, $defaults = null, $parameters = null) {
+    public function __construct($url, $defaults = null, $parameters = null)
+    {
 		$this->url = $url;	
 		if(isset($defaults["controller"])) {
 			$this->controllerName = $defaults["controller"];	

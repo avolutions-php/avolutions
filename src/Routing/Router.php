@@ -31,7 +31,8 @@ class Router
 	 *
 	 * @return object The matched Route object with final controller-/action names and parameter values. 
 	 */
-	public static function findRoute($path, $method) {
+    public static function findRoute($path, $method)
+    {
 		$RouteCollection = RouteCollection::getInstance();
 		$MatchedRoute = null;
 				
@@ -73,7 +74,8 @@ class Router
 	 *
 	 * @return string The regular expression to match the url of the Route. 
 	 */
-	private static function getRegularExpression($Route) {
+    private static function getRegularExpression($Route)
+    {
 		$startDelimiter = '/^';
 		$endDelimiter = '$/';
 		
@@ -115,7 +117,8 @@ class Router
 	 *
 	 * @return mixed The value of the keyword from the url or false if nothing found. 
 	 */
-	private static function getKeywordValue($matches, $explodedUrl, $keyword) {
+    private static function getKeywordValue($matches, $explodedUrl, $keyword)
+    {
 		$keywordIndex = array_search('<'.$keyword.'>', $explodedUrl); 
 		
 		return is_numeric($keywordIndex) ? $matches[$keywordIndex] : false;
@@ -133,7 +136,8 @@ class Router
 	 *
 	 * @return array An array with all parameter values.
 	 */
-	private static function getParameterValues($matches, $explodedUrl, $parameters) {
+    private static function getParameterValues($matches, $explodedUrl, $parameters)
+    {
 		$parameterValues = array();
 	
 		foreach($parameters as $parameterName => $parameterOptions) {

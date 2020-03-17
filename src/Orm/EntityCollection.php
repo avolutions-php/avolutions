@@ -74,7 +74,8 @@ class EntityCollection implements CollectionInterface
 	 * 
 	 * @param string $entity The name of the Entity type.
 	 */
-	public function __construct($entity) {
+    public function __construct($entity)
+    {
 		$this->entity = $entity;
 		
 		$this->EntityConfiguration = new EntityConfiguration($this->entity);
@@ -89,7 +90,8 @@ class EntityCollection implements CollectionInterface
 	 * Executes the previously created database query and loads the Entites from
 	 * the database to the Entities property.
 	 */
-	private function execute() {
+    private function execute()
+    {
 		$Database = new Database();
 
 		$query = "SELECT ";
@@ -126,7 +128,8 @@ class EntityCollection implements CollectionInterface
 	 * 
 	 * @return EntityCollection $this
 	 */
-	public function limit($rowCount, $offset = 0) {
+    public function limit($rowCount, $offset = 0)
+    {
 		$this->limitClause = $rowCount;
 		if($offset > 0) {
 			$this->limitClause .= " OFFSET ".$offset;
@@ -142,7 +145,8 @@ class EntityCollection implements CollectionInterface
 	 * 
 	 * @return array All previously loaded Entities.
 	 */
-	public function getAll() {
+    public function getAll()
+    {
 		$this->execute();
 
 		return $this->Entities;
@@ -157,7 +161,8 @@ class EntityCollection implements CollectionInterface
 	 * 
 	 * @return Entity The matching Entity for the given id.
 	 */
-	public function getById($id) {
+    public function getById($id)
+    {
 		$this->where($this->EntityConfiguration->getIdColumn()." = ".$id);
 		$this->execute();
 
@@ -171,7 +176,8 @@ class EntityCollection implements CollectionInterface
 	 * 
 	 * @return Entity The first Entity of the EntityCollection.
 	 */
-	public function getFirst() {
+    public function getFirst()
+    {
 		$this->limit(1)->execute();
 
 		return $this->Entities[0];
@@ -184,7 +190,8 @@ class EntityCollection implements CollectionInterface
 	 * 
 	 * @return Entity The last Entity of the EntityCollection.
 	 */
-	public function getLast() {
+    public function getLast()
+    {
 		$this->execute();
 
 		return end($this->Entities);
@@ -197,7 +204,8 @@ class EntityCollection implements CollectionInterface
 	 * 
 	 * @return string The processed limit clause.
 	 */
-	private function getLimitClause() {
+    private function getLimitClause()
+    {
 		if(strlen($this->limitClause) > 0) {
 			return " LIMIT ".$this->limitClause;
 		}
@@ -212,7 +220,8 @@ class EntityCollection implements CollectionInterface
 	 * 
 	 * @return string The processed orderBy clause.
 	 */
-	private function getOrderByClause() {
+    private function getOrderByClause()
+    {
 		if(strlen($this->orderByClause) > 0) {
 			return " ORDER BY ".rtrim($this->orderByClause, ", ");
 		}
@@ -227,7 +236,8 @@ class EntityCollection implements CollectionInterface
 	 * 
 	 * @return string The processed where clause.
 	 */
-	private function getWhereClause() {
+    private function getWhereClause()
+    {
 		if(strlen($this->whereClause) > 0) {
 			return " WHERE ".$this->whereClause;
 		}
@@ -246,7 +256,8 @@ class EntityCollection implements CollectionInterface
 	 * 
 	 * @return EntityCollection $this
 	 */
-	public function orderBy($field, $descending = false) {
+    public function orderBy($field, $descending = false)
+    {
 		$this->orderByClause .= $this->EntityMapping->$field["column"];
 		if($descending) {
 			$this->orderByClause .= " DESC";
@@ -262,7 +273,8 @@ class EntityCollection implements CollectionInterface
 	 * Loads the fields from the EntityMapping and generates the field phrase for
 	 * the database query.
 	 */
-	private function setFieldQuery() {
+    private function setFieldQuery()
+    {
 		$fieldQuery = "";
 
 		foreach($this->EntityMapping as $key => $value) {
@@ -281,7 +293,8 @@ class EntityCollection implements CollectionInterface
 	 * 
 	 * @return EntityCollection $this
 	 */
-	public function where($condition) {
+    public function where($condition)
+    {
 		$this->whereClause .= $condition;
 
 		return $this;

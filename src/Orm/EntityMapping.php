@@ -30,7 +30,8 @@ class EntityMapping
 	 * 
 	 * @param string $entity The name of the entity type.
 	 */
-	public function __construct($entity) {
+    public function __construct($entity)
+    {
 		$mapping = $this->loadMappingFile(APP_MAPPING_PATH.$entity."Mapping.php");
 
 		foreach ($mapping as $key => $value) {
@@ -52,7 +53,8 @@ class EntityMapping
 	 * @return array An array with the loaded mapping values or an empty array if 
      *				 file can not be found.
 	 */
-	private function loadMappingFile($mappingFile) {				
+    private function loadMappingFile($mappingFile)
+    {				
 		if(file_exists($mappingFile)) {	
 			return require $mappingFile;
 		}

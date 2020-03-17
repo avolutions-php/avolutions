@@ -40,7 +40,8 @@ class Request
 	 * Creates a new Request object.	 						  
 	 *
 	 */
-	public function __construct() {
+    public function __construct()
+    {
 		$this->uri = $_SERVER["REQUEST_URI"];
 		$this->method = $_SERVER["REQUEST_METHOD"];
 	}
@@ -52,7 +53,8 @@ class Request
      * Invokes the controller action with passed parameters.
 	 *
 	 */
-	public function send() {		
+    public function send()
+    {		
 		$MatchedRoute = Router::findRoute($this->uri, $this->method);	
 						
 		$fullControllerName = ucfirst($MatchedRoute->controllerName)."Controller";

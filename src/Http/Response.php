@@ -35,7 +35,8 @@ class Response
 	 * 
 	 * @param string $value The value for the body
 	 */
-	public function setBody($value) {
+    public function setBody($value)
+    {
 		$this->body = $value;
 	}
 	
@@ -44,7 +45,8 @@ class Response
 	 * 
 	 * Displays the content of the Response.
 	 */
-	public function send() {
+    public function send()
+    {
 		if($this->body instanceof View) {
 			print $this->body;
 		}

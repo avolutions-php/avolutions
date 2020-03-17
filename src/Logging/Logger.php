@@ -33,7 +33,8 @@ class Logger
 	 * @param string $logLevel The log level
 	 * @param string $message The log message
 	 */
-	private static function log($logLevel, $message) {		
+    private static function log($logLevel, $message)
+    {		
 		$logpath = Config::get("logger/logpath");		
 		$logfile = Config::get("logger/logfile");	
 		$datetimeFormat = Config::get("logger/datetimeFormat");	
@@ -58,7 +59,8 @@ class Logger
 	 * 
 	 * @param string $message The message to log
 	 */
-	public static function emergency($message) {
+    public static function emergency($message)
+    {
 		self::log(LogLevel::EMERGENCY, $message);
 	}
 	
@@ -69,7 +71,8 @@ class Logger
 	 * 
 	 * @param string $message The message to log
 	 */
-	public static function alert($message) {
+    public static function alert($message)
+    {
 		self::log(LogLevel::ALERT, $message);
 	}
 	
@@ -80,7 +83,8 @@ class Logger
 	 * 
 	 * @param string $message The message to log
 	 */
-	public static function critical($message) {
+    public static function critical($message)
+    {
 		self::log(LogLevel::CRITICAL, $message);
 	}	
 	
@@ -91,7 +95,8 @@ class Logger
 	 * 
 	 * @param string $message The message to log
 	 */
-	public static function error($message) {
+    public static function error($message)
+    {
 		self::log(LogLevel::ERROR, $message);
 	}	
 	
@@ -102,7 +107,8 @@ class Logger
 	 *
 	 * @param string $message The message to log
 	 */
-	public static function warning($message) {
+    public static function warning($message)
+    {
 		self::log(LogLevel::WARNING, $message);
 	}
 	
@@ -113,7 +119,8 @@ class Logger
 	 *
 	 * @param string $message The message to log
 	 */
-	public static function notice($message) {
+    public static function notice($message)
+    {
 		self::log(LogLevel::NOTICE, $message);
 	}
 	
@@ -124,7 +131,8 @@ class Logger
 	 *
 	 * @param string $message The message to log
 	 */
-	public static function info($message) {
+    public static function info($message)
+    {
 		self::log(LogLevel::INFO, $message);
 	}	 
 	
@@ -135,7 +143,8 @@ class Logger
 	 *
 	 * @param string $message The message to log
 	 */
-	public static function debug($message) {
+    public static function debug($message)
+    {
 		if(Config::get("logger/debug")) {
 			self::log(LogLevel::DEBUG, $message);
 		}

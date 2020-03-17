@@ -29,7 +29,8 @@ class Database extends \PDO
 	 * 
 	 * Creates a database connection using the config values from database configuration file.
 	 */
-	public function __construct() {
+    public function __construct()
+    {
 		$host	  = Config::get("database/host");
 		$database = Config::get("database/database");
 		$dsn 	  = "mysql:dbname=".$database.";host=".$host.";";
@@ -44,14 +45,14 @@ class Database extends \PDO
 		
 		parent::__construct($dsn, $user, $password, $options);			
 	}
-	
-	
+		
 	/**
 	 * migrate
 	 * 
 	 * Executes all migrations from the applications database directory.
 	 */
-	public static function migrate() {
+    public static function migrate()
+    {
 		$migrationsToExecute = array();
 		$migrationFiles = array_map('basename', glob(APP_DATABASE_PATH.'*.php'));
 		
@@ -86,7 +87,8 @@ class Database extends \PDO
 	 *
 	 * @return array The version numbers of the executed migrations.
 	 */
-	private static function getExecutedMigrations() {
+    private static function getExecutedMigrations()
+    {
 		$executedMigrations = array();
 		
 		$Database = new Database();

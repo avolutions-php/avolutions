@@ -35,7 +35,8 @@ class Config extends AbstractSingleton
 	 * Loads all config values from the config files of core and app. The app configs
 	 * overrides the config values of the core.
 	 */
-	public function initialize() {
+    public function initialize()
+    {
 		$coreConfigFiles = array_map('basename', glob(CONFIG_PATH.'*.php'));
 		$appConfigFiles = array_map('basename', glob(APP_CONFIG_PATH.'*.php'));
 	
@@ -64,7 +65,8 @@ class Config extends AbstractSingleton
 	 *
 	 * @return mixed The config value
 	 */
-	public static function get($key) {
+    public static function get($key)
+    {
 		$identifier = explode('/', $key);
 		
 		$configValues = self::$configValues;
@@ -91,7 +93,8 @@ class Config extends AbstractSingleton
 	 * @return array An array with the loaded config values or an empty array if 
      *				 file can not be found.
 	 */
-	private function loadConfigFile($configFile) {				
+    private function loadConfigFile($configFile)
+    {				
 		if(file_exists($configFile)) {	
 			return require $configFile;
 		}

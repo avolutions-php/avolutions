@@ -28,7 +28,8 @@ class Autoloader
 	 * includes them. Has to be called before the usage of any class in the
 	 * framework. 
 	 */
-	public static function register() {
+    public static function register()
+    {
 		spl_autoload_register(function ($class) {	
 			$class = str_replace("Avolutions\\", "", $class); 
 			

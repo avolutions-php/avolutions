@@ -85,7 +85,8 @@ class Column
 	 * @param bool $autoIncrement A flag if the column is a auto increment column or not.
 	 *
 	 */
-	public function __construct($name, $type, $length = null, $default = null, $null = Column::NOTNULL, $primaryKey = false, $autoIncrement = false) {
+    public function __construct($name, $type, $length = null, $default = null, $null = Column::NOTNULL, $primaryKey = false, $autoIncrement = false) 
+    {
 		$this->name = $name;
 		$this->type = $type;
 		$this->length = $length;
@@ -102,7 +103,8 @@ class Column
 	 *
 	 * @return string The SQL pattern for the column.
 	 */
-	public function getPattern() {
+    public function getPattern() 
+    {
 		$pattern = "";			
 		$pattern .= $this->getNamePattern();
 		$pattern .= $this->getTypePattern();
@@ -121,7 +123,8 @@ class Column
 	 *
 	 * @return string The SQL pattern for the name attribute.
 	 */
-	private function getNamePattern() {
+    private function getNamePattern() 
+    {
 		return "`".$this->name."` ";
 	}
 		
@@ -132,7 +135,8 @@ class Column
 	 *
 	 * @return string The SQL pattern for the type attribute.
 	 */
-	private function getTypePattern() {
+    private function getTypePattern() 
+    {
 		$typePattern = $this->type;
 		
 		if($this->length != null) {
@@ -150,7 +154,8 @@ class Column
 	 *
 	 * @return string The SQL pattern for the null attribute.
 	 */
-	private function getNullPattern() {			
+    private function getNullPattern() 
+    {			
 		return $this->null;
 	}
 		
@@ -161,7 +166,8 @@ class Column
 	 *
 	 * @return string The SQL pattern for the default attribute.
 	 */
-	private function getDefaultPattern() {
+    private function getDefaultPattern() 
+    {
 		if($this->type == self::BOOLEAN) {
 			$this->default = $this->default ? 'TRUE' : 'FALSE';
 		}
@@ -180,7 +186,8 @@ class Column
 	 *
 	 * @return string The SQL pattern for the primary key attribute.
 	 */
-	private function getPrimaryKeyPattern()	{
+    private function getPrimaryKeyPattern()
+    {
 		if($this->primaryKey) {
 			return " PRIMARY KEY";
 		}
@@ -195,7 +202,8 @@ class Column
 	 *
 	 * @return string The SQL pattern for the auto increment attribute.
 	 */
-	private function getAutoIncrementPattern() {
+    private function getAutoIncrementPattern()
+    {
 		if($this->autoIncrement) {
 			return " AUTO_INCREMENT";
 		}

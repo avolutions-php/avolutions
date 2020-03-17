@@ -52,7 +52,8 @@ class EntityConfiguration
 	 * 
 	 * @param string $entity The name of the Entity type.
 	 */
-	public function __construct($entity) {		
+    public function __construct($entity)
+    {		
 		$this->entity = $entity;
 		$this->loadMapping();
 		$this->setTable();
@@ -64,7 +65,8 @@ class EntityConfiguration
 	 * 
 	 * Loads the EntityMapping for the given entity.
 	 */
-	private function loadMapping() {	
+    private function loadMapping()
+    {	
 		$this->Mapping = new EntityMapping($this->entity);
 	}
 	
@@ -75,7 +77,8 @@ class EntityConfiguration
 	 * 
 	 * @return string $this->table
 	 */
-	public function getTable() {
+    public function getTable()
+    {
 		return $this->table;
 	}
 	
@@ -84,7 +87,8 @@ class EntityConfiguration
 	 * 
 	 * Sets the name of the corresponding table for the entity.
 	 */
-	private function setTable() {	
+    private function setTable()
+    {	
 		$this->table = $this->entity;
 	}
 	
@@ -95,7 +99,8 @@ class EntityConfiguration
 	 * 
 	 * @return string $this->idColumn
 	 */
-	public function getIdColumn() {
+    public function getIdColumn()
+    {
 		return $this->idColumn;
 	}
 	
@@ -104,7 +109,8 @@ class EntityConfiguration
 	 * 
 	 * Sets the name of the ID column in the database table.
 	 */
-	private function setIdColumn() {	
+    private function setIdColumn()
+    {	
 		$this->idColumn = $this->getTable()."ID";
 	}
 
@@ -115,7 +121,8 @@ class EntityConfiguration
 	 * 
 	 * @return EntityMapping $this->idColumn
 	 */
-	public function getMapping() {	
+    public function getMapping()
+    {	
 		return $this->Mapping;
 	}
 }
