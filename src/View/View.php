@@ -26,8 +26,7 @@ class View
 	/** 
 	 * @var string $view The content of the view file
 	 */
-	private $view = "";
-
+	private $view = '';
 	
 	/**
 	 * __construct
@@ -38,10 +37,11 @@ class View
 	 * @param string $viewname The name of the View file.
 	 * @param object $ViewModel The ViewModel object that will passed to the View.
 	 */
-	public function __construct($viewname = null, $ViewModel = null) {
+	public function __construct($viewname = null, $ViewModel = null)
+	{
 		$filename = $this->getFilename($viewname);
 				
-		if(is_file($filename)) {
+		if (is_file($filename)) {
 			$this->view = $this->loadViewFile($filename, $ViewModel);
 		}
 	}
@@ -54,7 +54,8 @@ class View
 	 *	 
 	 * @return string The content of the loaded view file.
 	 */ 
-	private function loadViewFile($filename, $ViewModel = null) {
+	private function loadViewFile($filename, $ViewModel = null)
+	{
 		ob_start();
 		include $filename;
 		$content = ob_get_contents();
@@ -72,15 +73,16 @@ class View
 	 *	 
 	 * @return string The filename of the loaded view file included the absolute path.
 	 */
-	private function getFilename($filename) {		
-		if($filename == null) {
+	private function getFilename($filename)
+	{		
+		if ($filename == null) {
 			$debugBacktrace = debug_backtrace()[2];
 			
-			$controller = explode("\\", $debugBacktrace["class"]);	
-			$controller = str_ireplace("Controller", "", end($controller));
+			$controller = explode('\\', $debugBacktrace['class']);	
+			$controller = str_ireplace('Controller', '', end($controller));
 			
-			$action = $debugBacktrace["function"];
-			$action = str_ireplace("Action", "", $action);
+			$action = $debugBacktrace['function'];
+			$action = str_ireplace('Action', '', $action);
 			
 			$filename = $controller.DIRECTORY_SEPARATOR.$action;
 		}
