@@ -12,9 +12,9 @@
 namespace Avolutions\Core;
 
 /**
- * Collection class
+ * Collection interface
  *
- * A abstract class which implements the base collection functionality.
+ * A interface which declares the base collection functionality.
  * 
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.1.0
