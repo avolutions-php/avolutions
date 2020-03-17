@@ -49,12 +49,12 @@ class Table
 	/**
 	 * @var string SETNULL A constant for the string "SET NULL"
 	 */
-	const SETNULL = "SET NULL";
+	const SET_NULL = "SET NULL";
 
 	/**
 	 * @var string NOACTION A constant for the string "NO ACTION"
 	 */
-	const NOACTION = "NO ACTION";
+	const NO_ACTION = "NO ACTION";
 		
 	/**
 	 * create

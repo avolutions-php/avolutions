@@ -64,7 +64,7 @@ class Column
 	/**
 	 * @var string NOTNULL A constant for the string "NOT NULL"
 	 */
-	const NOTNULL = "NOT NULL";
+	const NOT_NULL = "NOT NULL";
 	
 	/**
 	 * @var string CURRENT_TIMESTAMP A constant for the string "CURRENT_TIMESTAMP"
