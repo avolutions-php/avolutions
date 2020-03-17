@@ -46,7 +46,7 @@ class Route
 	/**
 	 * @var array $parameters An array with all parameters and their options 
 	 */
-	public $parameters = array();
+	public $parameters = [];
 	
 	/**
 	 * __construct

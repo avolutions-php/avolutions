@@ -59,7 +59,7 @@ class EntityMapping
 			return require $mappingFile;
 		}
 		
-		return array();
+		return [];
 	}
 }
 ?>

@@ -29,7 +29,7 @@ class RouteCollection extends AbstractSingleton implements CollectionInterface
 	/**
 	 * @var array $Routes An array containing all Routes of the RouteCollection
 	 */
-	private $Routes = array();
+	private $Routes = [];
 	
 	/**
 	 * addRoute

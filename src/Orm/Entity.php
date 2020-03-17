@@ -74,7 +74,7 @@ class Entity
 	 */
     public function delete()
     {
-		$values = array('id' => $this->id);	
+		$values = ['id' => $this->id];	
 
 		$query = 'DELETE FROM ';
 		$query .= $this->EntityConfiguration->getTable();
@@ -92,9 +92,9 @@ class Entity
 	 */
     private function insert()
     {
-		$values = array();
-		$columns = array();
-		$parameters = array();
+		$values = [];
+		$columns = [];
+		$parameters = [];
 
 		foreach ($this->EntityMapping as $key => $value) {
 			$columns[] = $value['column'];
@@ -120,7 +120,7 @@ class Entity
 	 */
     private function update()
     {
-		$values = array();
+		$values = [];
 
 		$query = 'UPDATE ';
 		$query .= $this->EntityConfiguration->getTable();

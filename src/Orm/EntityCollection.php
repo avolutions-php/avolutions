@@ -29,7 +29,7 @@ class EntityCollection implements CollectionInterface
 	/**
 	 * @var array $Entities An array containing all Entities of the EntityCollection
 	 */
-	private $Entities = array();
+	private $Entities = [];
 
 	/**
 	 * @var string $entity The name of the entity.

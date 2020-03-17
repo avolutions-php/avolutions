@@ -37,11 +37,10 @@ class Database extends \PDO
 		$user     = Config::get('database/user');
 		$password = Config::get('database/password');
 		$charset  = Config::get('database/charset');
-		$options  = array
-		(
-			\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES '.$charset,
+		$options  = [
+            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES '.$charset,
 			\PDO::ATTR_PERSISTENT => true
-		);	
+        ];
 		
 		parent::__construct($dsn, $user, $password, $options);			
 	}
@@ -53,7 +52,7 @@ class Database extends \PDO
 	 */
     public static function migrate()
     {
-		$migrationsToExecute = array();
+		$migrationsToExecute = [];
 		$migrationFiles = array_map('basename', glob(APP_DATABASE_PATH.'*.php'));
 		
 		$executedMigrations = self::getExecutedMigrations();
@@ -76,7 +75,7 @@ class Database extends \PDO
 			$Migration->migrate();
 			
 			$stmt = $Database->prepare('INSERT INTO migration (Version, Name) VALUES (?, ?)');
-			$stmt->execute(array($version, get_class($Migration)));
+			$stmt->execute([$version, get_class($Migration)]);
 		}
 	}
 	
@@ -89,7 +88,7 @@ class Database extends \PDO
 	 */
     private static function getExecutedMigrations()
     {
-		$executedMigrations = array();
+		$executedMigrations = [];
 		
 		$Database = new Database();
 						

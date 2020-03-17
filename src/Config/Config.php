@@ -27,7 +27,7 @@ class Config extends AbstractSingleton
 	/**
 	 * @var array $configValues An array containing all loaded configuration values
 	 */
-	private static $configValues = array();
+	private static $configValues = [];
 	
 	/**
 	 * initialize
@@ -43,9 +43,9 @@ class Config extends AbstractSingleton
 		$configFiles = array_unique(array_merge($coreConfigFiles, $appConfigFiles));
 		
 		foreach ($configFiles as $configFile) {
-			$configValues = array();
-			$coreConfigValues = array();
-			$appConfigValues = array();
+			$configValues = [];
+			$coreConfigValues = [];
+			$appConfigValues = [];
 			
 			$coreConfigValues = $this->loadConfigFile(CONFIG_PATH.$configFile);	
 			$appConfigValues = $this->loadConfigFile(APP_CONFIG_PATH.$configFile);
@@ -99,7 +99,7 @@ class Config extends AbstractSingleton
 			return require $configFile;
 		}
 		
-		return array();
+		return [];
 	}
 }
 ?>

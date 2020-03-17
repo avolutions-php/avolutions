@@ -63,7 +63,7 @@ class Request
 		$fullActionName = $MatchedRoute->actionName.'Action';
 				
 		$Response = new Response();
-		$Response->setBody(call_user_func_array(array($Controller, $fullActionName), $MatchedRoute->parameters));
+		$Response->setBody(call_user_func_array([$Controller, $fullActionName], $MatchedRoute->parameters));
 		$Response->send();
 	}
 }

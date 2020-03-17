@@ -33,12 +33,12 @@ class Autoloader
 		spl_autoload_register(function ($class) {	
 			$class = str_replace('Avolutions\\', '', $class); 
 			
-			$paths = array(
+			$paths = [
 				SRC_PATH,
         		APP_CONTROLLER_PATH,
         		APP_MODEL_PATH,
 	        	APP_VIEWMODEL_PATH
-	        ); 
+            ]; 
 	        	        
 	        foreach ($paths as $path) {
 				$file = $path.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';

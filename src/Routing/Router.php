@@ -138,7 +138,7 @@ class Router
 	 */
     private static function getParameterValues($matches, $explodedUrl, $parameters)
     {
-		$parameterValues = array();
+		$parameterValues = [];
 	
 		foreach ($parameters as $parameterName => $parameterOptions) {
 			$value = self::getKeywordValue($matches, $explodedUrl, $parameterName);
