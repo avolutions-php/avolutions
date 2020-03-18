@@ -80,7 +80,21 @@ class EntityCollection implements CollectionInterface
 		$this->EntityMapping = $this->EntityConfiguration->getMapping();
 
 		$this->setFieldQuery();
-	}	
+    }	
+    
+    /**
+	 * count
+	 * 
+	 * Returns the number of items in the Collection.
+	 * 
+	 * @return int The number of items in the Collection.
+	 */
+    public function count()
+    {
+		$this->execute();
+
+        return count($this->items);
+    }
 
 	/**
 	 * execute
