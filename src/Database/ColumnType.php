@@ -106,6 +106,36 @@ class ColumnType
 	 */
 	const VARCHAR = 'VARCHAR';
         
+    /**
+	 * @var string BINARY A fixed-length binary string
+	 */
+    const BINARY = 'BINARY';
+
+    /**
+	 * @var string VARBINARY A variable-length binary string
+	 */
+    const VARBINARY = 'VARBINARY';
+
+    /**
+	 * @var string TINYBLOB A very small BLOB (binary large object)
+	 */
+    const TINYBLOB = 'TINYBLOB';
+
+    /**
+	 * @var string BLOB A small BLOB
+	 */
+    const BLOB = 'BLOB';
+
+    /**
+	 * @var string MEDIUMBLOB A medium-sized BLOB
+	 */
+    const MEDIUMBLOB = 'MEDIUMBLOB';
+
+    /**
+	 * @var string A large BLOB
+	 */
+	const LONGBLOB = 'LONGBLOB';
+
 	/**
 	 * @var string TINYTEXT A very small non-binary string
 	 */
@@ -124,5 +154,15 @@ class ColumnType
 	/**
 	 * @var string LONGTEXT A large non-binary string
 	 */
-	const LONGTEXT = 'LONGTEXT';
+    const LONGTEXT = 'LONGTEXT';
+    
+    /**
+	 * @var string ENUM An enumeration, each column value may be assigned one enumeration member
+	 */
+    const ENUM = 'ENUM';
+    
+    /**
+	 * @var string SET A set, each column value may be assigned zero or more SET members
+	 */
+	const SET = 'SET';
 }
