@@ -11,7 +11,8 @@
  
 namespace Avolutions\Orm;
 
-use Avolutions\Core\CollectionInterface;
+use Avolutions\Collection\CollectionInterface;
+use Avolutions\Collection\CollectionTrait;
 use Avolutions\Database\Database;
 use Avolutions\Logging\Logger;
 
@@ -26,10 +27,7 @@ use Avolutions\Logging\Logger;
  */
 class EntityCollection implements CollectionInterface
 {
-	/**
-	 * @var array $Entities An array containing all Entities of the EntityCollection
-	 */
-	private $Entities = [];
+    use CollectionTrait;
 
 	/**
 	 * @var string $entity The name of the entity.
@@ -114,7 +112,7 @@ class EntityCollection implements CollectionInterface
 			foreach ($properties as $property => $value) {
 				$Entity->$property = $value;
 			}		
-			$this->Entities[] = $Entity;
+			$this->items[] = $Entity;
 		}
 	}	
 
@@ -149,7 +147,7 @@ class EntityCollection implements CollectionInterface
     {
 		$this->execute();
 
-		return $this->Entities;
+		return $this->items;
 	}
 	
 	/**
@@ -166,7 +164,7 @@ class EntityCollection implements CollectionInterface
 		$this->where($this->EntityConfiguration->getIdColumn().' = '.$id);
 		$this->execute();
 
-		return $this->Entities[0];
+		return $this->items[0];
 	}
 
 	/**
@@ -180,7 +178,7 @@ class EntityCollection implements CollectionInterface
     {
 		$this->limit(1)->execute();
 
-		return $this->Entities[0];
+		return $this->items[0];
 	}
 
 	/**
@@ -194,7 +192,7 @@ class EntityCollection implements CollectionInterface
     {
 		$this->execute();
 
-		return end($this->Entities);
+		return end($this->items);
 	}
 
 	/**

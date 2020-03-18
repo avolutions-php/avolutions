@@ -11,7 +11,8 @@
 
 namespace Avolutions\Routing;
 
-use Avolutions\Core\CollectionInterface;
+use Avolutions\Collection\CollectionInterface;
+use Avolutions\Collection\CollectionTrait;
 use Avolutions\Core\AbstractSingleton;
 
 /**
@@ -26,10 +27,7 @@ use Avolutions\Core\AbstractSingleton;
  */
 class RouteCollection extends AbstractSingleton implements CollectionInterface
 {
-	/**
-	 * @var array $Routes An array containing all Routes of the RouteCollection
-	 */
-	private $Routes = [];
+	use CollectionTrait;
 	
 	/**
 	 * addRoute
@@ -40,19 +38,7 @@ class RouteCollection extends AbstractSingleton implements CollectionInterface
 	 */
     public function addRoute($Route)
     {
-		$this->Routes[] = $Route;
-	}
-	
-	/**
-	 * getAll
-	 * 
-	 * Returns an array with all Routes of the RouteCollection
-	 * 
-	 * @return array An array with all Routes of the RouteCollection
-	 */ 
-    public function getAll()
-    {
-		return $this->Routes;
+		$this->items[] = $Route;
 	}
 	
 	/**
@@ -67,7 +53,7 @@ class RouteCollection extends AbstractSingleton implements CollectionInterface
     public function getAllByMethod($method)
     {
 		return array_filter(
-			$this->Routes,
+			$this->items,
 			function ($Route) use ($method) {
 				return $Route->method == $method;
 			}
