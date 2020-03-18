@@ -11,7 +11,7 @@
 
 namespace Avolutions\Database;
 
-use Avolutions\Config\Config;
+use Avolutions\Config\Config;;
 
 /**
  * Database class
@@ -61,8 +61,19 @@ class Database extends \PDO
 			$migrationClassName = pathinfo($migrationFile, PATHINFO_FILENAME);
 						
 			require_once APP_DATABASE_PATH.$migrationFile;
- 			$Migration = new $migrationClassName;
-			
+            $Migration = new $migrationClassName;
+             
+            // only use Migration extending the AbstractMigration
+            if (!$Migration instanceof AbstractMigration) {
+                throw new \RuntimeException('Migration "'.$migrationClassName.'" has to extend AbstractMigration');
+            }
+            
+            // version has to be an integer use
+            if (!is_int($Migration->version)) {
+                throw new \InvalidArgumentException('The version of the migration "'.$migrationClassName.'" has to be an integer.');
+            }
+            
+            // only exectue Migration if not already executed
 			if (!in_array($Migration->version, $executedMigrations)) {
 				$migrationsToExecute[$Migration->version] = $Migration;
 			}

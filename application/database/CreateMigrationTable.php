@@ -14,6 +14,7 @@
 use Avolutions\Database\Table;
 use Avolutions\Database\Column;
 use Avolutions\Database\ColumnType;
+use Avolutions\Database\AbstractMigration;
 
 /**
  * CreateMigrationTable class
@@ -23,12 +24,12 @@ use Avolutions\Database\ColumnType;
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.1.0
  */
-class CreateMigrationTable 
+class CreateMigrationTable extends AbstractMigration 
 {
     /**
 	 * @var int version The version of the migration
 	 */
-    public $version = '1';
+    public $version = 1;
     
     /**
 	 * migrate
@@ -39,7 +40,7 @@ class CreateMigrationTable
     {
         $columns = [];
         $columns[] = new Column('MigrationID', ColumnType::INT, 255, null, null, true, true);
-        $columns[] = new Column('Version', ColumnType::VARCHAR, 255);
+        $columns[] = new Column('Version', ColumnType::INT, 255);
         $columns[] = new Column('Name', ColumnType::VARCHAR, 255);
         $columns[] = new Column('CreateDate', ColumnType::DATETIME, null, Column::CURRENT_TIMESTAMP);	
         Table::create('migration', $columns);
