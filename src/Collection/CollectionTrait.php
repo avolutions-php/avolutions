@@ -17,7 +17,7 @@ namespace Avolutions\Collection;
  * A default implementation of the CollectionInterface
  * 
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.0
+ * @since	0.1.1
  */
 trait CollectionTrait
 {		
