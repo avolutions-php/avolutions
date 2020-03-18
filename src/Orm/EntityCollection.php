@@ -123,8 +123,8 @@ class EntityCollection implements CollectionInterface
 	 * 
 	 * Sets the number of records that should be loaded from the database.
 	 * 
-	 * @param integer $rowCount The number of records that should be loaded from the database.
-	 * @param integer $offset Specifies the offset of the first row to return.
+	 * @param int $rowCount The number of records that should be loaded from the database.
+	 * @param int $offset Specifies the offset of the first row to return.
 	 * 
 	 * @return EntityCollection $this
 	 */
@@ -157,7 +157,7 @@ class EntityCollection implements CollectionInterface
 	 * 
 	 * Returns the matching Entity for the given id.
 	 * 
-	 * @param integer $id The identifier of the Entity.
+	 * @param int $id The identifier of the Entity.
 	 * 
 	 * @return Entity The matching Entity for the given id.
 	 */
@@ -252,7 +252,7 @@ class EntityCollection implements CollectionInterface
 	 * Can be called multiple times to sort on multiple columns.
 	 * 
 	 * @param string $field The name of the Entity property to sort by.
-	 * @param boolean $descending Whether the sort order should be descending or not.
+	 * @param bool $descending Whether the sort order should be descending or not.
 	 * 
 	 * @return EntityCollection $this
 	 */
