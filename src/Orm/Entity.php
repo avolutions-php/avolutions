@@ -98,7 +98,7 @@ class Entity
 
 		foreach ($this->EntityMapping as $key => $value) {
 			$columns[] = $value['column'];
-			$parameters[] = ':$key';
+			$parameters[] = ':'.$key;
 			$values[$key] = $this->$key;
 		}	
 
@@ -126,7 +126,7 @@ class Entity
 		$query .= $this->EntityConfiguration->getTable();
 		$query .= ' SET ';
 		foreach ($this->EntityMapping as $key => $value) {
-			$query .= $value['column'].' = :$key, ';
+			$query .= $value['column'].' = :'.$key.', ';
 			$values[$key] = $this->$key;
 		}
 		$query = rtrim($query, ', ');
