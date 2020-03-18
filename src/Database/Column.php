@@ -11,6 +11,8 @@
 
 namespace Avolutions\Database;
 
+use Avolutions\Database\ColumnType;
+
 /**
  * Column class
  *
@@ -62,7 +64,7 @@ class Column
 	const NULL = 'NULL';
 
 	/**
-	 * @var string NOTNULL A constant for the string "NOT NULL"
+	 * @var string NOT_NULL A constant for the string "NOT NULL"
 	 */
 	const NOT_NULL = 'NOT NULL';
 	
@@ -85,7 +87,7 @@ class Column
 	 * @param bool $autoIncrement A flag if the column is a auto increment column or not.
 	 *
 	 */
-    public function __construct($name, $type, $length = null, $default = null, $null = Column::NOTNULL, $primaryKey = false, $autoIncrement = false) 
+    public function __construct($name, $type, $length = null, $default = null, $null = Column::NOT_NULL, $primaryKey = false, $autoIncrement = false) 
     {
 		$this->name = $name;
 		$this->type = $type;
@@ -168,7 +170,7 @@ class Column
 	 */
     private function getDefaultPattern() 
     {
-		if ($this->type == self::BOOLEAN) {
+		if ($this->type == ColumnType::BOOLEAN) {
 			$this->default = $this->default ? 'TRUE' : 'FALSE';
 		}
 		
