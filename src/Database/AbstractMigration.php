@@ -12,7 +12,7 @@
 namespace Avolutions\Database;
 
 /**
- * Migration class
+ * AbstractMigration class
  *
  * An abstract class which has to be extended by every Migration.
  * 
@@ -23,7 +23,7 @@ namespace Avolutions\Database;
 abstract class AbstractMigration implements MigrationInterface
 {		    
     /**
-	 * @var int version The version of the migration
+	 * @var int $version The version of the migration
 	 */
     public $version = null;
 }
