@@ -11,17 +11,9 @@
  * 
  */
 
-use Avolutions\Routing\RouteCollection;
-use Avolutions\Routing\Route;
-use Avolutions\Routing\Router;
-
-$RouteCollection = RouteCollection::getInstance();
-
-/**
- * Register routes
- */
- 
-/**
- * Examples
- */ 
-//$RouteCollection->addRoute(new Route('/<controller>/<action>'));
+return [
+	'debug' => true,
+	'logfile' => 'logfile.log',
+	'logpath' => LOG_PATH,
+	'datetimeFormat' => 'Y-m-d H:i:s.v'
+];

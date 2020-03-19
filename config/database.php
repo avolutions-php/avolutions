@@ -11,17 +11,11 @@
  * 
  */
 
-use Avolutions\Routing\RouteCollection;
-use Avolutions\Routing\Route;
-use Avolutions\Routing\Router;
-
-$RouteCollection = RouteCollection::getInstance();
-
-/**
- * Register routes
- */
- 
-/**
- * Examples
- */ 
-//$RouteCollection->addRoute(new Route('/<controller>/<action>'));
+return [
+	'host' => '127.0.0.1',
+	'database' => 'avolutions',
+	'user' => 'avolutions',
+	'password' => 'avolutions',
+	'charset' => 'utf8',
+	'migrateOnAppStart' => true	
+];

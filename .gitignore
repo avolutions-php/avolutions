@@ -1,6 +1,6 @@
 #     AVOLUTIONS     #
 ######################
-core/log/*
+log/*
 
 # IDE specific files #
 ######################
