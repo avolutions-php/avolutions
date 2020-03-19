@@ -24,7 +24,7 @@ A new project can be created by using the composer create-project command:
 ```composer create-project --prefer-dist avolutions/avolutions:0.*@alpha myproject```
 
 ### Manually
-The latest version can be downloaded at [Github](https://github.com/avolutions/avolutions/archive/0.1.0-alpha.zip) or [avolutions.org](http://avolutions.org/download/avolutions-0.1.0-alpha.zip).
+The latest version can be downloaded at [Github](https://github.com/avolutions/avolutions/archive/0.1.1-alpha.zip) or [avolutions.org](http://avolutions.org/download/avolutions-0.1.1-alpha.zip).
 
 # License
 The AVOLUTIONS framework is an open source software licensed under the [MIT license](https://github.com/avolutions/avolutions/blob/master/LICENSE).
