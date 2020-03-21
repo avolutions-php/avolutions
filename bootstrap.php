@@ -16,6 +16,11 @@ use Avolutions\Config\Config;
 use Avolutions\Database\Database;
 
 /**
+ * Get start time
+ */
+define('START_TIME', microtime(true));
+
+/**
  * Define pathes
  */
 define('BASE_PATH', realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR);

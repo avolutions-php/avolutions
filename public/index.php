@@ -31,7 +31,9 @@ require_once '../routes.php';
  */
 try {
 	$Request = new Request();
-	$Response = $Request->send();
+    $Response = $Request->send();    
+    
+    Logger::debug("Execution time: ".(microtime(true) - START_TIME)." sec");
 } catch (Exception $e) {
 	Logger::error($e);
 }
