@@ -40,7 +40,7 @@ class CreateMigrationTable extends AbstractMigration
     {
         $columns = [];
         $columns[] = new Column('MigrationID', ColumnType::INT, 255, null, null, true, true);
-        $columns[] = new Column('Version', ColumnType::INT, 255);
+        $columns[] = new Column('Version', ColumnType::BIGINT, 255);
         $columns[] = new Column('Name', ColumnType::VARCHAR, 255);
         $columns[] = new Column('CreateDate', ColumnType::DATETIME, null, Column::CURRENT_TIMESTAMP);	
         Table::create('migration', $columns);
