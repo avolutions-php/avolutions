@@ -54,6 +54,11 @@ require_once SRC_PATH.'Core'.DIRECTORY_SEPARATOR.'Autoloader.php';
 Autoloader::register(); 
 
 /**
+ * Start session
+ */
+session_start();
+
+/**
  * Initialize the Configuration
  */	 
 $Config = Config::getInstance();
