@@ -11,7 +11,7 @@
 
 namespace Avolutions\Database;
 
-use Avolutions\Config\Config;;
+use Avolutions\Config\Config;
 
 /**
  * Database class
@@ -58,9 +58,8 @@ class Database extends \PDO
 		$executedMigrations = self::getExecutedMigrations();
 		
 		foreach ($migrationFiles as $migrationFile) {
-			$migrationClassName = pathinfo($migrationFile, PATHINFO_FILENAME);
+			$migrationClassName = APP_DATABASE_NAMESPACE.pathinfo($migrationFile, PATHINFO_FILENAME);
 						
-			require_once APP_DATABASE_PATH.$migrationFile;
             $Migration = new $migrationClassName;
              
             // only use Migration extending the AbstractMigration

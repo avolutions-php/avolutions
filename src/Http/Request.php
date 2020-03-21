@@ -57,7 +57,7 @@ class Request
     {		
 		$MatchedRoute = Router::findRoute($this->uri, $this->method);	
 						
-		$fullControllerName = ucfirst($MatchedRoute->controllerName).'Controller';
+		$fullControllerName = APP_CONTROLLER_NAMESPACE.ucfirst($MatchedRoute->controllerName).'Controller';
 		$Controller = new $fullControllerName();		
 		
 		$fullActionName = $MatchedRoute->actionName.'Action';

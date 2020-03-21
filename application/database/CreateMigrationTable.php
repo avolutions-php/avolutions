@@ -11,6 +11,8 @@
  * 
  */
 
+namespace Application\Database;
+
 use Avolutions\Database\Table;
 use Avolutions\Database\Column;
 use Avolutions\Database\ColumnType;
