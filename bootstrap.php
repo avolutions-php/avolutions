@@ -19,35 +19,33 @@ use Avolutions\Database\Database;
 define('START_TIME', microtime(true));
 
 /**
+ * Define folders
+ */
+define('APPLICATION', 'application');
+define('CONFIG', 'config');
+define('LOG', 'log');
+define('SRC', 'src');
+
+define('CONTROLLER', 'Controller');
+define('DATABASE', 'Database');
+define('MAPPING', 'Mapping');
+define('MODEL', 'Model');
+define('VIEW', 'View');
+define('VIEWMODEL', 'Viewmodel');
+
+/**
  * Define pathes
  */
 define('BASE_PATH', realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR);
 
-define('SRC', 'src');
-define('SRC_PATH', BASE_PATH.SRC.DIRECTORY_SEPARATOR);
-
-define('LOG', 'log');
-define('LOG_PATH', BASE_PATH.LOG.DIRECTORY_SEPARATOR);
-    
-define('APPLICATION', 'application');
 define('APPLICATION_PATH', BASE_PATH.APPLICATION.DIRECTORY_SEPARATOR);
-define('APPLICATION_NAMESPACE', ucfirst(APPLICATION).'\\');
-
-define('DATABASE', 'Database');
-define('APP_DATABASE_PATH', APPLICATION_PATH.DATABASE.DIRECTORY_SEPARATOR);
-define('APP_DATABASE_NAMESPACE', APPLICATION_NAMESPACE.DATABASE.'\\');
-
-define('CONTROLLER', 'Controller');
-define('APP_CONTROLLER_NAMESPACE', APPLICATION_NAMESPACE.CONTROLLER.'\\');
-
-define('CONFIG', 'config');
 define('CONFIG_PATH', BASE_PATH.CONFIG.DIRECTORY_SEPARATOR);
+define('SRC_PATH', BASE_PATH.SRC.DIRECTORY_SEPARATOR);
+define('LOG_PATH', BASE_PATH.LOG.DIRECTORY_SEPARATOR);    
+
+define('APP_DATABASE_PATH', APPLICATION_PATH.DATABASE.DIRECTORY_SEPARATOR);
 define('APP_CONFIG_PATH', APPLICATION_PATH.ucfirst(CONFIG).DIRECTORY_SEPARATOR);
-
-define('MAPPING', 'Mapping');
 define('APP_MAPPING_PATH', APPLICATION_PATH.MAPPING.DIRECTORY_SEPARATOR);
-
-define('VIEW', 'View');
 define('APP_VIEW_PATH', APPLICATION_PATH.VIEW.DIRECTORY_SEPARATOR);
 
 /**
@@ -66,6 +64,13 @@ session_start();
  */	 
 $Config = Config::getInstance();
 $Config->initialize();
+
+/**
+ * Define application namespaces
+ */
+define('APPLICATION_NAMESPACE', Config::get('application/namespace'));
+define('APP_DATABASE_NAMESPACE', APPLICATION_NAMESPACE.'\\'.DATABASE.'\\');
+define('APP_CONTROLLER_NAMESPACE', APPLICATION_NAMESPACE.'\\'.CONTROLLER.'\\');
 
 /**
  * Migrate the Database

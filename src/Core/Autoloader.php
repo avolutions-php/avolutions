@@ -11,6 +11,8 @@
 
 namespace Avolutions\Core;
 
+use Avolutions\Config\Config;
+
 /**
  * Autoloader class
  * 
@@ -34,8 +36,10 @@ class Autoloader
             // replace 'Avolutions' (namespace) with 'src' (directory) to get correct path
             $class = str_replace('Avolutions', SRC, $class); 
 
-            // replace 'Application' (namespace) with 'application' (directory) to get correct path
-            $class = str_replace('Application', APPLICATION, $class); 
+            if (defined('APPLICATION_NAMESPACE')) {
+                // replace application namespace with 'application' (directory) to get correct path
+                $class = str_replace(APPLICATION_NAMESPACE, APPLICATION, $class); 
+            }
 
             // replace backslash with correct directory separator to get it work fine on all OS
             $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
