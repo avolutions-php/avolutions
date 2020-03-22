@@ -31,10 +31,16 @@ class Autoloader
     public static function register()
     {
 		spl_autoload_register(function ($class) {	
+            // replace 'Avolutions' (namespace) with 'src' (directory) to get correct path
             $class = str_replace('Avolutions', SRC, $class); 
+
+            // replace 'Application' (namespace) with 'application' (directory) to get correct path
+            $class = str_replace('Application', APPLICATION, $class); 
+
+            // replace backslash with correct directory separator to get it work fine on all OS
             $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
 			
-            $file = BASE_PATH.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
+            $file = BASE_PATH.$class.'.php';
 
             if (file_exists($file)) { 
                 require_once $file;
