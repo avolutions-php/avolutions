@@ -48,7 +48,7 @@ class Entity
 	 */
     public function __construct()
     {
-		$this->EntityConfiguration = new EntityConfiguration(get_class($this));
+		$this->EntityConfiguration = new EntityConfiguration((new \ReflectionClass($this))->getShortName());
 		$this->EntityMapping = $this->EntityConfiguration->getMapping();
 	}	
 		

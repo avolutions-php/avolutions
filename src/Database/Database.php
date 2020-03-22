@@ -43,7 +43,7 @@ class Database extends \PDO
         ];
 		
 		parent::__construct($dsn, $user, $password, $options);			
-	}
+    }
 		
 	/**
 	 * migrate
@@ -85,7 +85,7 @@ class Database extends \PDO
 			$Migration->migrate();
 			
 			$stmt = $Database->prepare('INSERT INTO migration (Version, Name) VALUES (?, ?)');
-			$stmt->execute([$version, get_class($Migration)]);
+			$stmt->execute([$version, (new \ReflectionClass($Migration))->getShortName()]);
 		}
 	}
 	
