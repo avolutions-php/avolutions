@@ -28,11 +28,6 @@ require_once '../routes.php';
 /**
  * Start the application
  */
-try {
-	$Request = new Request();
-    $Response = $Request->send();
+$Request = new Request();
+$Response = $Request->send();
 
-    Logger::debug("Execution time: ".(microtime(true) - START_TIME)." sec");
-} catch (Exception $e) {
-	Logger::error($e);
-}
