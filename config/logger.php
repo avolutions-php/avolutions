@@ -9,8 +9,10 @@
  * @link		http://avolutions.org
  */
 
+use Avolutions\Logging\LogLevel;
+
 return [
-	'debug' => true,
+	'loglevel' => LogLevel::DEBUG,
 	'logfile' => 'logfile.log',
 	'logpath' => LOG_PATH,
 	'datetimeFormat' => 'Y-m-d H:i:s.v'
