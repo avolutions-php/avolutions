@@ -1,4 +1,4 @@
-<p align="center"><img src="http://avolutions.de/logo.png" width="200"></p>
+<p align="center"><img src="http://avolutions.org/image/logo.png" width="200"></p>
 
 # About
 AVOLUTIONS is just another open source PHP framework. 
