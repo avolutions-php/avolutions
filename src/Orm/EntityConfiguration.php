@@ -89,7 +89,7 @@ class EntityConfiguration
 	 */
     private function setTable()
     {	
-		$this->table = $this->entity;
+		$this->table = strtolower($this->entity);
 	}
 	
 	/**
