@@ -11,6 +11,8 @@
 
 namespace Avolutions\Core;
 
+use Avolutions\Config\Config;
+
 /**
  * Autoloader class
  * 
@@ -31,23 +33,22 @@ class Autoloader
     public static function register()
     {
 		spl_autoload_register(function ($class) {	
-			$class = str_replace('Avolutions\\', '', $class); 
+            // replace 'Avolutions' (namespace) with 'src' (directory) to get correct path
+            $class = str_replace('Avolutions', SRC, $class); 
+
+            if (defined('APPLICATION_NAMESPACE')) {
+                // replace application namespace with 'application' (directory) to get correct path
+                $class = str_replace(APPLICATION_NAMESPACE, APPLICATION, $class); 
+            }
+
+            // replace backslash with correct directory separator to get it work fine on all OS
+            $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
 			
-			$paths = [
-				SRC_PATH,
-        		APP_CONTROLLER_PATH,
-        		APP_MODEL_PATH,
-	        	APP_VIEWMODEL_PATH
-            ]; 
-	        	        
-	        foreach ($paths as $path) {
-				$file = $path.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
-				
-				if (file_exists($file)) { 
-					require_once $file;
-					break;
-				}
-			}
+            $file = BASE_PATH.$class.'.php';
+
+            if (file_exists($file)) { 
+                require_once $file;
+            }
 		});
 	}
 }

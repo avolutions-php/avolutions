@@ -24,6 +24,20 @@ use Avolutions\Logging\LogLevel;
  */
 class Logger
 {	
+    /**
+	 * @var array $loglevels The loglevels in ascending order of priority.
+	 */
+    private static $loglevels = [
+        LogLevel::DEBUG,
+        LogLevel::INFO,
+        LogLevel::NOTICE,
+        LogLevel::WARNING,
+        LogLevel::ERROR,
+        LogLevel::CRITICAL,
+        LogLevel::ALERT,
+        LogLevel::EMERGENCY
+    ];
+
 	/**
 	 * log
 	 *
@@ -34,7 +48,12 @@ class Logger
 	 * @param string $message The log message
 	 */
     private static function log($logLevel, $message)
-    {		
+    {		     
+        // only log message if $loglevel is greater or equal than the loglevel from config
+		if (array_search($logLevel, self::$loglevels) < array_search(Config::get('logger/loglevel'), self::$loglevels)) {
+            return;
+        }
+
 		$logpath = Config::get('logger/logpath');		
 		$logfile = Config::get('logger/logfile');	
 		$datetimeFormat = Config::get('logger/datetimeFormat');	
@@ -145,8 +164,6 @@ class Logger
 	 */
     public static function debug($message)
     {
-		if (Config::get('logger/debug')) {
-			self::log(LogLevel::DEBUG, $message);
-		}
+        self::log(LogLevel::DEBUG, $message);
 	}
 }

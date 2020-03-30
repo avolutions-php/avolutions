@@ -11,7 +11,7 @@
 
 namespace Avolutions\Database;
 
-use Avolutions\Config\Config;;
+use Avolutions\Config\Config;
 
 /**
  * Database class
@@ -43,7 +43,7 @@ class Database extends \PDO
         ];
 		
 		parent::__construct($dsn, $user, $password, $options);			
-	}
+    }
 		
 	/**
 	 * migrate
@@ -58,9 +58,8 @@ class Database extends \PDO
 		$executedMigrations = self::getExecutedMigrations();
 		
 		foreach ($migrationFiles as $migrationFile) {
-			$migrationClassName = pathinfo($migrationFile, PATHINFO_FILENAME);
+			$migrationClassName = APP_DATABASE_NAMESPACE.pathinfo($migrationFile, PATHINFO_FILENAME);
 						
-			require_once APP_DATABASE_PATH.$migrationFile;
             $Migration = new $migrationClassName;
              
             // only use Migration extending the AbstractMigration
@@ -86,7 +85,7 @@ class Database extends \PDO
 			$Migration->migrate();
 			
 			$stmt = $Database->prepare('INSERT INTO migration (Version, Name) VALUES (?, ?)');
-			$stmt->execute([$version, get_class($Migration)]);
+			$stmt->execute([$version, (new \ReflectionClass($Migration))->getShortName()]);
 		}
 	}
 	
