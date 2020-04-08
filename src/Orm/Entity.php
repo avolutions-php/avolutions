@@ -48,7 +48,7 @@ class Entity
 	 */
     public function __construct()
     {
-		$this->EntityConfiguration = new EntityConfiguration((new \ReflectionClass($this))->getShortName());
+		$this->EntityConfiguration = new EntityConfiguration($this->getEntityName());
 		$this->EntityMapping = $this->EntityConfiguration->getMapping();
 	}	
 		
@@ -83,6 +83,18 @@ class Entity
 		$query .= ' = :id';
 
 		$this->execute($query, $values);
+    }	
+    
+    /**
+	 * getEntityName
+	 * 
+	 * Returns the shortname of the reflected class.
+     * 
+     * @return string The name of the entity.
+	 */
+    public function getEntityName()
+    {
+		return (new \ReflectionClass($this))->getShortName();
 	}	
 
 	/**
