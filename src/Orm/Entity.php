@@ -156,7 +156,7 @@ class Entity
 	 * 
 	 * @return bool Returns true if the entity exists in the database, false if not.
 	 */
-    private function exists()
+    public function exists()
     {
 		return $this->id != null;	
 	}
