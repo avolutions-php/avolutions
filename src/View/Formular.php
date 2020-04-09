@@ -73,9 +73,13 @@ class Formular
 	 */
     public function inputFor($fieldName, $label = true) 
     {   
-        // TODO set values from Entity?!
-
+        // TODO set values from Entity
         $input = '';
+        $value = null;
+
+        if($this->Entity->exists()) {
+            $value = $this->Entity->$fieldName;
+        }
 
         $inputType = $this->EntityMapping->$fieldName['form']['type'];
         $attributes = [
@@ -89,21 +93,23 @@ class Formular
         switch ($inputType) {
             case 'button':
                 // TODO use label as text?
-                $input .= $this->button('', $attributes);
+                $input .= $this->button($value, $attributes);
                 break;
 
-            case 'select':           
+            case 'select':        
+                // TODO selected option   
                 $options = $this->EntityMapping->$fieldName['form']['options'] ?? [];
                 $input .= $this->select($options, $attributes);
                 break;
 
             case 'textarea':             
                 // TODO set value
-                $input .= $this->textarea('', $attributes);
+                $input .= $this->textarea($value, $attributes);
                 break;
     
 
-            default:                
+            default:            
+                $attributes['value'] = $value;    
                 $input .= $this->input($inputType, $attributes);
                 break;
         }
@@ -126,7 +132,6 @@ class Formular
 
         return $this->label($label);
     }
-
 
     /**
 	 * generate
