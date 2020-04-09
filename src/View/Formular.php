@@ -15,7 +15,7 @@ use Avolutions\Orm\Entity;
 use Avolutions\Orm\EntityConfiguration;
 
 /**
- * Form class
+ * Formular class
  *
  * TODO 
  *
@@ -24,18 +24,32 @@ use Avolutions\Orm\EntityConfiguration;
  */
 class Formular
 {
+    /**
+     * @var Entity $Entity TODO
+     */
     private $Entity = null;
 
+    /**
+     * @var EntityConfiguration $EntityConfiguration TODO
+     */
     private $EntityConfiguration = null;
 
+    /**
+     * @var EntityMapping $EntityMapping TODO
+     */
     private $EntityMapping = null;
 
+    /**
+     * @var string $entityName TODO
+     */
     private $entityName = null;
 
     /**
 	 * __construct
 	 *
 	 * TODO
+     * 
+     * @param Entity $Entity TODO
 	 */
     public function __construct($Entity = null) 
     {
@@ -51,16 +65,66 @@ class Formular
 	 * inputFor
 	 *
 	 * TODO find better name?
+     * 
+     * @param string $fieldName TODO
+     * @param bool $label TODO
+     * 
+     * @return TODO
 	 */
-    public function inputFor($fieldName) 
+    public function inputFor($fieldName, $label = true) 
     {   
+        // TODO set values from Entity?!
+
+        $input = '';
+
         $inputType = $this->EntityMapping->$fieldName['form']['type'];
         $attributes = [
             'name' => lcfirst($this->entityName).'['.$fieldName.']'
         ];
 
-        // TODO switch case
-        return $this->$inputType($attributes);
+        if($label) {            
+            $input .= $this->labelFor($fieldName);
+        }
+
+        switch ($inputType) {
+            case 'button':
+                // TODO use label as text?
+                $input .= $this->button('', $attributes);
+                break;
+
+            case 'select':           
+                $options = $this->EntityMapping->$fieldName['form']['options'] ?? [];
+                $input .= $this->select($options, $attributes);
+                break;
+
+            case 'textarea':             
+                // TODO set value
+                $input .= $this->textarea('', $attributes);
+                break;
+    
+
+            default:                
+                $input .= $this->input($inputType, $attributes);
+                break;
+        }
+
+        return $input;
+    }
+
+     /**
+	 * labelFor
+	 *
+	 * TODO find better name?
+     * 
+     * @param string $fieldName TODO
+     * 
+     * @return TODO
+	 */
+    public function labelFor($fieldName) 
+    {   
+        $label = $this->EntityMapping->$fieldName['form']['label'] ?? $fieldName;
+
+        return $this->label($label);
     }
 
 
@@ -68,6 +132,11 @@ class Formular
 	 * generate
 	 *
 	 * TODO
+     * 
+     * @param array $formAttributes TODO
+     * @param bool $submitButton TODO
+     * 
+     * @return TODO
 	 */
     public function generate($formAttributes, $submitButton = true) 
     {                
@@ -89,6 +158,10 @@ class Formular
 	 * open
 	 *
 	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
 	 */
     public function open($attributes = [])
     {
@@ -101,6 +174,8 @@ class Formular
 	 * close
 	 *
 	 * TODO
+     * 
+     * @return TODO
 	 */
     public function close()
     {
@@ -108,19 +183,41 @@ class Formular
     }
 
     /**
-	 * text
+	 * checkbox
 	 *
 	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
 	 */
-    public function text($attributes = [])
+    public function checkbox($attributes = [])
     {
-        return $this->input('text', $attributes);
+        return $this->input('checkbox', $attributes);
+    }
+
+    /**
+	 * color
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function color($attributes = [])
+    {
+        return $this->input('color', $attributes);
     }
 
     /**
 	 * text
 	 *
 	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
 	 */
     public function date($attributes = [])
     {
@@ -128,9 +225,127 @@ class Formular
     }
 
     /**
+	 * datetime
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function datetime($attributes = [])
+    {
+        return $this->input('datetime-local', $attributes);
+    }
+
+    /**
+	 * email
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function email($attributes = [])
+    {
+        return $this->input('email', $attributes);
+    }
+
+    /**
+	 * file
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function file($attributes = [])
+    {
+        return $this->input('file', $attributes);
+    }
+
+    /**
+	 * hidden
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function hidden($attributes = [])
+    {
+        return $this->input('hidden', $attributes);
+    }
+
+    /**
+	 * image
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function image($attributes = [])
+    {
+        return $this->input('image', $attributes);
+    }
+
+    /**
+	 * label
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function label($value, $attributes = [])
+    {
+        $attributesAsString = self::getAttributes($attributes); 
+
+        return '<label'.$attributesAsString.'>'.$value.'</label>';
+    }
+
+    /**
+	 * month
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function month($attributes = [])
+    {
+        return $this->input('month', $attributes);
+    }
+
+    /**
+	 * number
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function number($attributes = [])
+    {
+        return $this->input('number', $attributes);
+    }
+
+    /**
 	 * password
 	 *
 	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
 	 */
     public function password($attributes = [])
     {
@@ -138,9 +353,154 @@ class Formular
     }
 
     /**
+	 * radio
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function radio($attributes = [])
+    {
+        return $this->input('radio', $attributes);
+    }
+
+    /**
+	 * range
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function range($attributes = [])
+    {
+        return $this->input('range', $attributes);
+    }
+
+    /**
+	 * reset
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function reset($attributes = [])
+    {
+        return $this->input('reset', $attributes);
+    }
+
+    /**
+	 * search
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function search($attributes = [])
+    {
+        return $this->input('search', $attributes);
+    }
+
+    /**
+	 * submit
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function submit($attributes = [])
+    {
+        return $this->input('submit', $attributes);
+    }
+
+    /**
+	 * tel
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function tel($attributes = [])
+    {
+        return $this->input('tel', $attributes);
+    }
+
+    /**
+	 * text
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function text($attributes = [])
+    {
+        return $this->input('text', $attributes);
+    }
+
+    /**
+	 * time
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function time($attributes = [])
+    {
+        return $this->input('time', $attributes);
+    }
+
+    /**
+	 * url
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function url($attributes = [])
+    {
+        return $this->input('url', $attributes);
+    }
+
+    /**
+	 * week
+	 *
+	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
+	 */
+    public function week($attributes = [])
+    {
+        return $this->input('week', $attributes);
+    }
+
+    /**
 	 * input
 	 *
 	 * TODO
+     * 
+     * @param string $type TODO
+     * @param array $attributes TODO
+     * 
+     * @return TODO
 	 */
     public function input($type, $attributes = [])
     {
@@ -151,19 +511,14 @@ class Formular
     }
 
     /**
-	 * submit
-	 *
-	 * TODO
-	 */
-    public function submit($attributes = [])
-    {
-        return $this->input('submit', $attributes);
-    }
-
-    /**
 	 * button
 	 *
 	 * TODO
+     * 
+     * @param string $content TODO
+     * @param array $attributes TODO
+     * 
+     * @return TODO
 	 */
     public function button($content = '', $attributes = [])
     {
@@ -176,6 +531,11 @@ class Formular
 	 * textarea
 	 *
 	 * TODO
+     * 
+     * @param string $content TODO
+     * @param array $attributes TODO
+     * 
+     * @return TODO
 	 */
     public function textarea($content = '', $attributes = [])
     {
@@ -188,6 +548,11 @@ class Formular
 	 * select
 	 *
 	 * TODO
+     * 
+     * @param array $options TODO
+     * @param array $attributes TODO
+     * 
+     * @return TODO
 	 */
     public function select($options = [], $attributes = [])
     {
@@ -205,6 +570,11 @@ class Formular
 	 * option
 	 *
 	 * TODO
+     * 
+     * @param string $key TODO
+     * @param string $value TODO
+     * 
+     * @return TODO
 	 */
     private function option($key, $value)
     {       
@@ -215,6 +585,10 @@ class Formular
 	 * getAttributesAsString
 	 *
 	 * TODO
+     * 
+     * @param array $attributes TODO
+     * 
+     * @return TODO
 	 */
     private static function getAttributes($attributes)
     {
