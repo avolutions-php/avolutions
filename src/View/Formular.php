@@ -17,7 +17,7 @@ use Avolutions\Orm\EntityConfiguration;
 /**
  * Formular class
  *
- * TODO 
+ * Provides methods to create HTML formulars with or without a Entity context. 
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.2.0
@@ -25,31 +25,32 @@ use Avolutions\Orm\EntityConfiguration;
 class Formular
 {
     /**
-     * @var Entity $Entity TODO
+     * @var Entity $Entity The Entity context of the formular.
      */
     private $Entity = null;
 
     /**
-     * @var EntityConfiguration $EntityConfiguration TODO
+     * @var EntityConfiguration $EntityConfiguration The configuration of the Entity.
      */
     private $EntityConfiguration = null;
 
     /**
-     * @var EntityMapping $EntityMapping TODO
+     * @var EntityMapping $EntityMapping The mapping of the Entity.
      */
     private $EntityMapping = null;
 
     /**
-     * @var string $entityName TODO
+     * @var string $entityName The name of the Entity.
      */
     private $entityName = null;
 
     /**
 	 * __construct
 	 *
-	 * TODO
+	 * Creates a new Formular instance. If a Entity is given the method loads
+     * the EntityConfiguration and EntityMapping automatically.
      * 
-     * @param Entity $Entity TODO
+     * @param Entity $Entity The Entity context of the formular.
 	 */
     public function __construct($Entity = null) 
     {
@@ -64,12 +65,13 @@ class Formular
     /**
 	 * inputFor
 	 *
-	 * TODO find better name?
+	 * Creates a HTML input element for the given Entity field depending on
+     * the Mapping of this field.
      * 
-     * @param string $fieldName TODO
-     * @param bool $label TODO
+     * @param string $fieldName The field of the Entity.
+     * @param bool $label Indicates if a label should be generated or not.
      * 
-     * @return TODO
+     * @return string A HTML input element for the field.
 	 */
     public function inputFor($fieldName, $label = true) 
     {   
@@ -120,12 +122,13 @@ class Formular
      /**
 	 * labelFor
 	 *
-	 * TODO find better name?
+	 * Creates a HTML label element for the given Entity field depending on
+     * the Mapping for this field.
      * 
-     * @param string $fieldName TODO
+     * @param string $fieldName The field of the Entity.
      * 
-     * @return TODO
-	 */
+     * @return string A HTML label element depending for the field.
+     */ 
     public function labelFor($fieldName) 
     {   
         $label = $this->EntityMapping->$fieldName['form']['label'] ?? $fieldName;
@@ -136,12 +139,13 @@ class Formular
     /**
 	 * generate
 	 *
-	 * TODO
+	 * Generates a Formular for all fields of the Entity, depending on
+     * the Mapping of the Entity.
      * 
-     * @param array $formAttributes TODO
-     * @param bool $submitButton TODO
+     * @param array $formAttributes The attributes for the opening form tag.
+     * @param bool $submitButton Indicates if a submit button should be generated automatically.
      * 
-     * @return TODO
+     * @return string A HTML formular for the Entity.
 	 */
     public function generate($formAttributes, $submitButton = true) 
     {                
@@ -162,11 +166,11 @@ class Formular
     /**
 	 * open
 	 *
-	 * TODO
+	 * Opens a formular.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the form tag.
      * 
-     * @return TODO
+     * @return string An opening HTML form tag.
 	 */
     public function open($attributes = [])
     {
@@ -178,9 +182,9 @@ class Formular
     /**
 	 * close
 	 *
-	 * TODO
+	 * Close a formular.
      * 
-     * @return TODO
+     * @return string A closing HTML form tag.
 	 */
     public function close()
     {
@@ -190,11 +194,11 @@ class Formular
     /**
 	 * checkbox
 	 *
-	 * TODO
+	 * Creates a HTML input element of type checkbox.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type checkbox.
 	 */
     public function checkbox($attributes = [])
     {
@@ -204,11 +208,11 @@ class Formular
     /**
 	 * color
 	 *
-	 * TODO
+	 * Creates a HTML input element of type color.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type color.
 	 */
     public function color($attributes = [])
     {
@@ -216,13 +220,13 @@ class Formular
     }
 
     /**
-	 * text
+	 * date
 	 *
-	 * TODO
+	 * Creates a HTML input element of type date.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type date.
 	 */
     public function date($attributes = [])
     {
@@ -232,11 +236,11 @@ class Formular
     /**
 	 * datetime
 	 *
-	 * TODO
+	 * Creates a HTML input element of type datetime-local.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type datetime-local.
 	 */
     public function datetime($attributes = [])
     {
@@ -246,11 +250,11 @@ class Formular
     /**
 	 * email
 	 *
-	 * TODO
+	 * Creates a HTML input element of type email.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type email.
 	 */
     public function email($attributes = [])
     {
@@ -260,11 +264,11 @@ class Formular
     /**
 	 * file
 	 *
-	 * TODO
+	 * Creates a HTML input element of type file.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type file.
 	 */
     public function file($attributes = [])
     {
@@ -274,11 +278,11 @@ class Formular
     /**
 	 * hidden
 	 *
-	 * TODO
+	 * Creates a HTML input element of type hidden.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type hidden.
 	 */
     public function hidden($attributes = [])
     {
@@ -288,11 +292,11 @@ class Formular
     /**
 	 * image
 	 *
-	 * TODO
+	 * Creates a HTML input element of type image.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type image.
 	 */
     public function image($attributes = [])
     {
@@ -302,13 +306,14 @@ class Formular
     /**
 	 * label
 	 *
-	 * TODO
+	 * Creates a HTML label element.
      * 
-     * @param array $attributes TODO
+     * @param string $text The text of the label element.
+     * @param array $attributes The attributes for the label tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type image.
 	 */
-    public function label($value, $attributes = [])
+    public function label($text, $attributes = [])
     {
         $attributesAsString = self::getAttributes($attributes); 
 
@@ -318,11 +323,11 @@ class Formular
     /**
 	 * month
 	 *
-	 * TODO
+	 * Creates a HTML input element of type month.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type month.
 	 */
     public function month($attributes = [])
     {
@@ -332,11 +337,11 @@ class Formular
     /**
 	 * number
 	 *
-	 * TODO
+	 * Creates a HTML input element of type number.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type number.
 	 */
     public function number($attributes = [])
     {
@@ -346,11 +351,11 @@ class Formular
     /**
 	 * password
 	 *
-	 * TODO
+	 * Creates a HTML input element of type password.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type password.
 	 */
     public function password($attributes = [])
     {
@@ -360,11 +365,11 @@ class Formular
     /**
 	 * radio
 	 *
-	 * TODO
+	 * Creates a HTML input element of type radio.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type radio.
 	 */
     public function radio($attributes = [])
     {
@@ -374,11 +379,11 @@ class Formular
     /**
 	 * range
 	 *
-	 * TODO
+	 * Creates a HTML input element of type range.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type range.
 	 */
     public function range($attributes = [])
     {
@@ -388,11 +393,11 @@ class Formular
     /**
 	 * reset
 	 *
-	 * TODO
+	 * Creates a HTML input element of type reset.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type reset.
 	 */
     public function reset($attributes = [])
     {
@@ -402,11 +407,11 @@ class Formular
     /**
 	 * search
 	 *
-	 * TODO
+	 * Creates a HTML input element of type search.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type search.
 	 */
     public function search($attributes = [])
     {
@@ -416,11 +421,11 @@ class Formular
     /**
 	 * submit
 	 *
-	 * TODO
+	 * Creates a HTML input element of type submit.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type submit.
 	 */
     public function submit($attributes = [])
     {
@@ -430,11 +435,11 @@ class Formular
     /**
 	 * tel
 	 *
-	 * TODO
+	 * Creates a HTML input element of type tel.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type tel.
 	 */
     public function tel($attributes = [])
     {
@@ -444,11 +449,11 @@ class Formular
     /**
 	 * text
 	 *
-	 * TODO
+	 * Creates a HTML input element of type text.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type text.
 	 */
     public function text($attributes = [])
     {
@@ -458,11 +463,11 @@ class Formular
     /**
 	 * time
 	 *
-	 * TODO
+	 * Creates a HTML input element of type time.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type time.
 	 */
     public function time($attributes = [])
     {
@@ -472,11 +477,11 @@ class Formular
     /**
 	 * url
 	 *
-	 * TODO
+	 * Creates a HTML input element of type url.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type url.
 	 */
     public function url($attributes = [])
     {
@@ -486,11 +491,11 @@ class Formular
     /**
 	 * week
 	 *
-	 * TODO
+	 * Creates a HTML input element of type week.
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of type week.
 	 */
     public function week($attributes = [])
     {
@@ -500,12 +505,12 @@ class Formular
     /**
 	 * input
 	 *
-	 * TODO
+	 * Creates a HTML input element.
      * 
-     * @param string $type TODO
-     * @param array $attributes TODO
+     * @param string $type The type for the input tag.
+     * @param array $attributes The attributes for the input tag.
      * 
-     * @return TODO
+     * @return string A HTML input element of given type.
 	 */
     public function input($type, $attributes = [])
     {
@@ -518,12 +523,12 @@ class Formular
     /**
 	 * button
 	 *
-	 * TODO
+	 * Creates a HTML button element.
      * 
-     * @param string $content TODO
-     * @param array $attributes TODO
+     * @param string $text The text of the button element.
+     * @param array $attributes The attributes for the button tag.
      * 
-     * @return TODO
+     * @return string A HTML element of type button.
 	 */
     public function button($content = '', $attributes = [])
     {
@@ -535,12 +540,12 @@ class Formular
     /**
 	 * textarea
 	 *
-	 * TODO
+	 * Creates a HTML textarea element.
      * 
-     * @param string $content TODO
-     * @param array $attributes TODO
+     * @param string $text The text of the textarea element.
+     * @param array $attributes The attributes for the textarea tag.
      * 
-     * @return TODO
+     * @return string A HTML element of type textarea.
 	 */
     public function textarea($content = '', $attributes = [])
     {
@@ -552,12 +557,12 @@ class Formular
     /**
 	 * select
 	 *
-	 * TODO
+	 * Creates a HTML select element with the given options.
      * 
-     * @param array $options TODO
-     * @param array $attributes TODO
+     * @param array $options The options for the select list.
+     * @param array $attributes The attributes for the select tag.
      * 
-     * @return TODO
+     * @return string A HTML element of type select.
 	 */
     public function select($options = [], $attributes = [])
     {
@@ -574,26 +579,26 @@ class Formular
     /**
 	 * option
 	 *
-	 * TODO
+	 * Creates a HTML option element.
      * 
-     * @param string $key TODO
-     * @param string $value TODO
+     * @param string $value The value of the option tag.
+     * @param string $text The text of the option element.
      * 
-     * @return TODO
+     * @return string A HTML element of type option.
 	 */
-    private function option($key, $value)
+    private function option($value, $text)
     {       
-        return '<option value="'.$key.'">'.$value.'</option>';
+        return '<option value="'.$value.'">'.$text.'</option>';
     }
 
     /**
 	 * getAttributesAsString
 	 *
-	 * TODO
+	 * Returns the attributes as a string in the format attribute="value"
      * 
-     * @param array $attributes TODO
+     * @param array $attributes The attributes for the select tag.
      * 
-     * @return TODO
+     * @return string The attributes as a string.
 	 */
     private static function getAttributes($attributes)
     {
