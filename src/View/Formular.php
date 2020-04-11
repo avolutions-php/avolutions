@@ -75,43 +75,30 @@ class Formular
 	 */
     public function inputFor($fieldName, $label = true) 
     {   
-        // TODO set values from Entity
         $input = '';
-        $value = null;
 
-        if($this->Entity->exists()) {
-            $value = $this->Entity->$fieldName;
-        }
-
-        $inputType = $this->EntityMapping->$fieldName['form']['type'];
         $attributes = [
-            'name' => lcfirst($this->entityName).'['.$fieldName.']'
+            'name' => lcfirst($this->entityName).'['.$fieldName.']',
+            'value' => $this->Entity->exists() ? $this->Entity->$fieldName : null
         ];
 
         if($label) {            
             $input .= $this->labelFor($fieldName);
         }
 
+        $inputType = $this->EntityMapping->$fieldName['form']['type'];
         switch ($inputType) {
-            case 'button':
-                // TODO use label as text?
-                $input .= $this->button($value, $attributes);
-                break;
-
             case 'select':        
-                // TODO selected option   
                 $options = $this->EntityMapping->$fieldName['form']['options'] ?? [];
                 $input .= $this->select($options, $attributes);
                 break;
 
-            case 'textarea':             
-                // TODO set value
-                $input .= $this->textarea($value, $attributes);
+            case 'textarea':
+                $input .= $this->textarea($attributes);
                 break;
     
 
             default:            
-                $attributes['value'] = $value;    
                 $input .= $this->input($inputType, $attributes);
                 break;
         }
@@ -317,7 +304,7 @@ class Formular
     {
         $attributesAsString = self::getAttributes($attributes); 
 
-        return '<label'.$attributesAsString.'>'.$value.'</label>';
+        return '<label'.$attributesAsString.'>'.$text.'</label>';
     }
 
     /**
@@ -525,16 +512,18 @@ class Formular
 	 *
 	 * Creates a HTML button element.
      * 
-     * @param string $text The text of the button element.
      * @param array $attributes The attributes for the button tag.
      * 
      * @return string A HTML element of type button.
 	 */
-    public function button($content = '', $attributes = [])
+    public function button($attributes = [])
     {
+        $value = $attributes['value'] ?? null;
+        unset($attributes['value']); // To not render it to the select tag
+        
         $attributesAsString = self::getAttributes($attributes); 
 
-        return '<button'.$attributesAsString.'>'.$content.'</button>';
+        return '<button'.$attributesAsString.'>'.$value.'</button>';
     }
 
     /**
@@ -542,16 +531,18 @@ class Formular
 	 *
 	 * Creates a HTML textarea element.
      * 
-     * @param string $text The text of the textarea element.
      * @param array $attributes The attributes for the textarea tag.
      * 
      * @return string A HTML element of type textarea.
 	 */
-    public function textarea($content = '', $attributes = [])
+    public function textarea($attributes = [])
     {
+        $value = $attributes['value'] ?? null;
+        unset($attributes['value']); // To not render it to the select tag
+
         $attributesAsString = self::getAttributes($attributes); 
 
-        return '<textarea'.$attributesAsString.'>'.$content.'</textarea>';
+        return '<textarea'.$attributesAsString.'>'.$value.'</textarea>';
     }
 
     /**
@@ -566,11 +557,14 @@ class Formular
 	 */
     public function select($options = [], $attributes = [])
     {
+        $selectedValue = $attributes['value'] ?? null;
+        unset($attributes['value']); // To not render it to the select tag
+
         $attributesAsString = self::getAttributes($attributes); 
         $optionsAsString = '';
 
         foreach ($options as $key => $value) {
-            $optionsAsString .= $this->option($key, $value);
+            $optionsAsString .= $this->option($key, $value, $selectedValue);
         }
 
         return '<select'.$attributesAsString.'>'.$optionsAsString.'</select>';
@@ -583,12 +577,15 @@ class Formular
      * 
      * @param string $value The value of the option tag.
      * @param string $text The text of the option element.
+     * @param string $selectedValue The selected value of the option element.
      * 
      * @return string A HTML element of type option.
 	 */
-    private function option($value, $text)
+    private function option($value, $text, $selectedValue = null)
     {       
-        return '<option value="'.$value.'">'.$text.'</option>';
+        $selected = $value == $selectedValue ? ' selected' : '';
+
+        return '<option value="'.$value.'"'.$selected.'>'.$text.'</option>';
     }
 
     /**
