@@ -39,6 +39,13 @@ class EntityMapping
              * Set default values
              */    
 
+            // If type is an Entity
+            if (isset($value['type']) && is_a(APP_MODEL_NAMESPACE.$value['type'], 'Avolutions\Orm\Entity', true)) {
+                $value['isEntity'] = true;
+            } else {
+                $value['isEntity'] = false;
+            }
+
             // If no column is specified use the name of the property as database column     
             $value['column'] = $value['column'] ?? $key;
 

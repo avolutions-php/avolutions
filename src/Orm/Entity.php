@@ -60,7 +60,7 @@ class Entity
             foreach ($this->EntityMapping as $key => $value) {
                 if (isset($values[$key])) {
                      // If the property is of type Entity
-                    if (isset($value['type']) && is_a(APP_MODEL_NAMESPACE.$value['type'], 'Avolutions\Orm\Entity', true)) {
+                    if ($value['isEntity']) {
                         // Create a the linked Entity and pass the values
                         $entityName = APP_MODEL_NAMESPACE.$value['type'];
                         $this->$key = new $entityName($values[$key]);
@@ -128,10 +128,13 @@ class Entity
 		$columns = [];
 		$parameters = [];
 
-		foreach ($this->EntityMapping as $key => $value) {
-			$columns[] = $value['column'];
-			$parameters[] = ':'.$key;
-			$values[$key] = $this->$key;
+		foreach ($this->EntityMapping as $key => $value) {         
+            // Only for simple fields, no Entities   
+            if (!$value['isEntity']) {
+                $columns[] = $value['column'];
+                $parameters[] = ':'.$key;
+                $values[$key] = $this->$key;
+            }
 		}	
 
 		$query = 'INSERT INTO ';
@@ -148,7 +151,7 @@ class Entity
 	/**
 	 * update
 	 * 
-	 * Updateds the existing database entry for the Entity object.
+	 * Updates the existing database entry for the Entity object.
 	 */
     private function update()
     {
@@ -157,9 +160,12 @@ class Entity
 		$query = 'UPDATE ';
 		$query .= $this->EntityConfiguration->getTable();
 		$query .= ' SET ';
-		foreach ($this->EntityMapping as $key => $value) {
-			$query .= $value['column'].' = :'.$key.', ';
-			$values[$key] = $this->$key;
+		foreach ($this->EntityMapping as $key => $value) {            
+            // Only for simple fields, no Entities   
+            if (!$value['isEntity']) {
+                $query .= $value['column'].' = :'.$key.', ';
+                $values[$key] = $this->$key;
+            }
 		}
 		$query = rtrim($query, ', ');
 		$query .= ' WHERE ';
