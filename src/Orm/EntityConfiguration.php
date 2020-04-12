@@ -129,22 +129,37 @@ class EntityConfiguration
 	/**
 	 * getFieldQuery
 	 * 
-	 * Loads the fields from the EntityMapping and generates the field phrase for
+	 * Loads the fields from the EntityMapping and returns the field phrase for
 	 * the database query.
+     * 
+     * @return string The field phrase for the database query.
 	 */
     public function getFieldQuery()
     {
 		$fieldQuery = '';
 
-		foreach ($this->Mapping as $key => $value) {
+        // Check all properties from the EntityMapping
+		foreach ($this->Mapping as $property => $value) {
+            // If the property is of type Entity
             if (isset($value['type']) && is_a(APP_MODEL_NAMESPACE.$value['type'], 'Avolutions\Orm\Entity', true)) {
+                 // Load the configuration of the linked Entity
                 $EntityConfiguration = new EntityConfiguration($value['type']);
+
+                 // Get and add the field query for the linked Entity
                 $fieldQuery .= $EntityConfiguration->getFieldQuery();
             } else {
-                $fieldQuery .= $this->getTable().'.'.$value['column'].' AS `'.$this->entity.'.'.$key.'`, ';
+                /**
+                 * Get the field query for the entity:
+                 * " {Table}.{Column} AS `{Entity}.{property}`, "
+                 */ 
+                $fieldQuery .= $this->getTable().'.'.$value['column'];
+                $fieldQuery .= ' AS ';
+                $fieldQuery .= `'.$this->entity.'.'.$property.'`;
+                $fieldQuery .= ', ';
             }
         }
 
+        // Remove last comma from the query
 		return rtrim($fieldQuery, ', ');
 	}
 }

@@ -114,21 +114,23 @@ class EntityCollection implements CollectionInterface
 
 		$stmt->execute();
 
-		while ($properties = $stmt->fetch($Database::FETCH_ASSOC)) {     
+		while ($row = $stmt->fetch($Database::FETCH_ASSOC)) {     
             $entityValues = [];
 
-            foreach($properties AS $key => $value) {
-                $explodedKey = explode('.', $key);
+            foreach($row AS $columnKey => $columnValue) {
+                $explodedKey = explode('.', $columnKey);
+                $entityName = $explodedKey[0];
+                $columnName = $explodedKey[1];
 
-                if($explodedKey[0] == $this->entity) {
-                    $entityValues[$explodedKey[1]] = $value;
+                if($entityName == $this->entity) {
+                    $entityValues[$columnName] = $columnValue;
                 } else {
-                    $entityValues[$explodedKey[0]][$explodedKey[1]] = $value;
+                    $entityValues[$entityName][$columnName] = $columnValue;
                 }
             }
 
-            $entityName = APP_MODEL_NAMESPACE.$this->entity;
-            $Entity = new $entityName($entityValues);
+            $fullEntityName = APP_MODEL_NAMESPACE.$this->entity;
+            $Entity = new $fullEntityName($entityValues);
 
             $this->items[] = $Entity;
 		}
@@ -202,21 +204,35 @@ class EntityCollection implements CollectionInterface
     /**
 	 * getJoinStatement
 	 * 
-	 * TODO
+	 * Returns a join statement if the Entity has a joined Entity defined in the EntityMapping.
+     * 
+     * @return string The join statement
 	 */
     private function getJoinStatement()
     {
         $joinStmt = '';
 
+        // Check all properties from the EntityMapping
         foreach ($this->EntityMapping as $key => $value) {
+            // If the property is of type Entity
             if (isset($value['type']) && is_a(APP_MODEL_NAMESPACE.$value['type'], 'Avolutions\Orm\Entity', true)) {
+                // Load the configuration of the linked Entity
                 $EntityConfiguration = new EntityConfiguration($value['type']);
                 
-                $joinStmt .= '`'.$EntityConfiguration->getTable().'` ON '.$this->EntityConfiguration->getTable().'.'.$value['column'].' = '.$EntityConfiguration->getTable().'.'.$EntityConfiguration->getIdColumn();
+                /**
+                 * Create the JOIN statement:
+                 * " JOIN {JoinedTable} ON {Table}.{Column} = {JoinedTable}.{JoinedColumn}"
+                 */
+                $joinStmt .= ' JOIN ';
+                $joinStmt .= '`'.$EntityConfiguration->getTable().'`';
+                $joinStmt .= ' ON ';
+                $joinStmt .= $this->EntityConfiguration->getTable().'.'.$value['column'];
+                $joinStmt .= ' = ';
+                $joinStmt .= $EntityConfiguration->getTable().'.'.$EntityConfiguration->getIdColumn();
             }
         }
 
-		return strlen($joinStmt) > 0 ? ' JOIN '.$joinStmt : $joinStmt;
+		return $joinStmt;
 	}
 
 	/**
