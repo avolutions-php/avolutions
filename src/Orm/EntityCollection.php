@@ -45,11 +45,6 @@ class EntityCollection implements CollectionInterface
 	private $EntityMapping;
 
 	/**
-	 * @var string $fieldQuery The field phrase for the query.
-	 */
-	private $fieldQuery;
-
-	/**
 	 * @var string $limitClause The limit clause for the query.
 	 */
 	private $limitClause;
@@ -78,8 +73,6 @@ class EntityCollection implements CollectionInterface
 		
 		$this->EntityConfiguration = new EntityConfiguration($this->entity);
 		$this->EntityMapping = $this->EntityConfiguration->getMapping();
-
-		$this->setFieldQuery();
     }	
     
     /**
@@ -107,9 +100,10 @@ class EntityCollection implements CollectionInterface
 		$Database = new Database();
 
 		$query = 'SELECT ';
-		$query .= $this->fieldQuery;
+		$query .= $this->EntityConfiguration->getFieldQuery();
 		$query .= ' FROM ';
-		$query .= '`'.$this->EntityConfiguration->getTable().'`';
+        $query .= '`'.$this->EntityConfiguration->getTable().'`';
+        $query .= $this->getJoinStatement();
 		$query .= $this->getWhereClause();
 		$query .= $this->getOrderByClause();
 		$query .= $this->getLimitClause();
@@ -120,13 +114,25 @@ class EntityCollection implements CollectionInterface
 
 		$stmt->execute();
 
-		while ($properties = $stmt->fetch($Database::FETCH_ASSOC)) {        
-			// TODO: Entity factory?
-			$Entity = new $this->entity();
-			foreach ($properties as $property => $value) {
-				$Entity->$property = $value;
-			}		
-			$this->items[] = $Entity;
+		while ($properties = $stmt->fetch($Database::FETCH_ASSOC)) {     
+            $entityValues = [];
+
+            print_r($properties);
+
+            foreach($properties AS $key => $value) {
+                $explodedKey = explode('.', $key);
+                $entityValues[$explodedKey[0]][$explodedKey[1]] = $value;
+            }
+
+            print_r($entityValues);
+            foreach($entityValues AS $entity => $values) {
+                $entityName = APP_MODEL_NAMESPACE.$this->entity;
+                $Entity = new $entityName();
+                foreach ($entityValues[$this->entity] as $property => $value) {
+                    $Entity->$property = $value;
+                }		
+                $this->items[] = $Entity;
+            }
 		}
 	}	
 
@@ -192,13 +198,33 @@ class EntityCollection implements CollectionInterface
     {
 		$this->limit(1)->execute();
 
-		return $this->items[0];
+		return $this->items[0] ?? null;
+    }
+    
+    /**
+	 * getJoinStatement
+	 * 
+	 * TODO
+	 */
+    private function getJoinStatement()
+    {
+        $joinStmt = '';
+
+        foreach ($this->EntityMapping as $key => $value) {
+            if (isset($value['type']) && is_a(APP_MODEL_NAMESPACE.$value['type'], 'Avolutions\Orm\Entity', true)) {
+                $EntityConfiguration = new EntityConfiguration($value['type']);
+                
+                $joinStmt .= '`'.$EntityConfiguration->getTable().'` ON '.$this->EntityConfiguration->getTable().'.'.$value['column'].' = '.$EntityConfiguration->getTable().'.'.$EntityConfiguration->getIdColumn();
+            }
+        }
+
+		return strlen($joinStmt) > 0 ? ' JOIN '.$joinStmt : $joinStmt;
 	}
 
 	/**
 	 * getLast
 	 * 
-	* Returns the last Entity of the EntityCollection.
+	 * Returns the last Entity of the EntityCollection.
 	 * 
 	 * @return Entity The last Entity of the EntityCollection.
 	 */
@@ -278,23 +304,6 @@ class EntityCollection implements CollectionInterface
 
 		return $this;
 	}	
-
-	/**
-	 * setFieldQuery
-	 * 
-	 * Loads the fields from the EntityMapping and generates the field phrase for
-	 * the database query.
-	 */
-    private function setFieldQuery()
-    {
-		$fieldQuery = '';
-
-		foreach ($this->EntityMapping as $key => $value) {
-			$fieldQuery .= $value['column'].' AS '.$key.', ';
-		}
-
-		$this->fieldQuery = rtrim($fieldQuery, ', ');
-	}
 
 	/**
 	 * where

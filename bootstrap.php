@@ -76,8 +76,9 @@ $Config->initialize();
  * Define application namespaces
  */
 define('APPLICATION_NAMESPACE', Config::get('application/namespace'));
-define('APP_DATABASE_NAMESPACE', APPLICATION_NAMESPACE.'\\'.DATABASE.'\\');
 define('APP_CONTROLLER_NAMESPACE', APPLICATION_NAMESPACE.'\\'.CONTROLLER.'\\');
+define('APP_DATABASE_NAMESPACE', APPLICATION_NAMESPACE.'\\'.DATABASE.'\\');
+define('APP_MODEL_NAMESPACE', APPLICATION_NAMESPACE.'\\'.MODEL.'\\');
 
 /**
  * Migrate the Database

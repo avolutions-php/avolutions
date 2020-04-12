@@ -124,5 +124,27 @@ class EntityConfiguration
     public function getMapping()
     {	
 		return $this->Mapping;
+    }
+
+	/**
+	 * getFieldQuery
+	 * 
+	 * Loads the fields from the EntityMapping and generates the field phrase for
+	 * the database query.
+	 */
+    public function getFieldQuery()
+    {
+		$fieldQuery = '';
+
+		foreach ($this->Mapping as $key => $value) {
+            if (isset($value['type']) && is_a(APP_MODEL_NAMESPACE.$value['type'], 'Avolutions\Orm\Entity', true)) {
+                $EntityConfiguration = new EntityConfiguration($value['type']);
+                $fieldQuery .= $EntityConfiguration->getFieldQuery();
+            } else {
+                $fieldQuery .= $this->getTable().'.'.$value['column'].' AS `'.$this->entity.'.'.$key.'`, ';
+            }
+        }
+
+		return rtrim($fieldQuery, ', ');
 	}
 }
