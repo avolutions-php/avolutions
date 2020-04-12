@@ -69,11 +69,11 @@ class Formular
      * the Mapping of this field.
      * 
      * @param string $fieldName The field of the Entity.
-     * @param bool $label Indicates if a label should be generated or not.
+     * @param bool $showLabel Indicates if a label should be generated or not.
      * 
      * @return string A HTML input element for the field.
 	 */
-    public function inputFor($fieldName, $label = true) 
+    public function inputFor($fieldName, $showLabel = true) 
     {   
         $input = '';
 
@@ -82,11 +82,13 @@ class Formular
             'value' => $this->Entity->exists() ? $this->Entity->$fieldName : null
         ];
 
-        if($label) {            
+        $inputType = $this->EntityMapping->$fieldName['form']['type'];
+
+        // Do not show labels for input type hidden
+        if($showLabel && $inputType != 'hidden') {            
             $input .= $this->labelFor($fieldName);
         }
 
-        $inputType = $this->EntityMapping->$fieldName['form']['type'];
         switch ($inputType) {
             case 'select':        
                 $options = $this->EntityMapping->$fieldName['form']['options'] ?? [];

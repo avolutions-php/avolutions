@@ -50,18 +50,18 @@ class EntityMapping
             $value['column'] = $value['column'] ?? $key;
 
             if ($key == 'id') {
-                // Always set form hidden to true for id property
-                $value['form']['hidden'] = true;
-            } else {
-                // If no form type is specified set to 'text'. Only needed if property is not the id.
-                $value['form']['type'] = $value['form']['type'] ?? 'text';
-            }
+                // Set id property to input type hidden by default
+                $value['form']['type'] = $value['form']['type'] ?? 'hidden';
+            } 
+
+            // If no form type is specified set to 'text'
+            $value['form']['type'] = $value['form']['type'] ?? 'text';
 
             /**
              * Set property
              */
 			$this->$key = $value;
-		}
+        }
 	}	
 	
 	/**
