@@ -38,7 +38,8 @@ class EntityMapping
             /**
              * Set default values
              */    
-            // If no column is specified use the property name as database column     
+
+            // If no column is specified use the name of the property as database column     
             $value['column'] = $value['column'] ?? $key;
 
             if ($key == 'id') {
@@ -85,7 +86,7 @@ class EntityMapping
 	 */
     public function getFormularFields()
     {
-        return array_filter (get_object_vars($this), function($field) {
+        return array_filter(get_object_vars($this), function($field) {
             return isset($field['form']['hidden']) ? !$field['form']['hidden'] : true;
         });
     }
