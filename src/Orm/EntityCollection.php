@@ -117,22 +117,20 @@ class EntityCollection implements CollectionInterface
 		while ($properties = $stmt->fetch($Database::FETCH_ASSOC)) {     
             $entityValues = [];
 
-            print_r($properties);
-
             foreach($properties AS $key => $value) {
                 $explodedKey = explode('.', $key);
-                $entityValues[$explodedKey[0]][$explodedKey[1]] = $value;
+
+                if($explodedKey[0] == $this->entity) {
+                    $entityValues[$explodedKey[1]] = $value;
+                } else {
+                    $entityValues[$explodedKey[0]][$explodedKey[1]] = $value;
+                }
             }
 
-            print_r($entityValues);
-            foreach($entityValues AS $entity => $values) {
-                $entityName = APP_MODEL_NAMESPACE.$this->entity;
-                $Entity = new $entityName();
-                foreach ($entityValues[$this->entity] as $property => $value) {
-                    $Entity->$property = $value;
-                }		
-                $this->items[] = $Entity;
-            }
+            $entityName = APP_MODEL_NAMESPACE.$this->entity;
+            $Entity = new $entityName($entityValues);
+
+            $this->items[] = $Entity;
 		}
 	}	
 
