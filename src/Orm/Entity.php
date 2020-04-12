@@ -45,11 +45,26 @@ class Entity
 	 * 
 	 * Creates a new Entity object and loads the corresponding EntityConfiguration
 	 * and EntityMapping.
+     * 
+     * @param array $values TODO
 	 */
-    public function __construct()
+    public function __construct($values = [])
     {
 		$this->EntityConfiguration = new EntityConfiguration((new \ReflectionClass($this))->getShortName());
-		$this->EntityMapping = $this->EntityConfiguration->getMapping();
+        $this->EntityMapping = $this->EntityConfiguration->getMapping();
+        
+        if (!empty($values)) {
+            foreach ($this->EntityMapping as $key => $value) {
+                if(isset($values[$key])) {
+                    if (isset($value['type']) && is_a(APP_MODEL_NAMESPACE.$value['type'], 'Avolutions\Orm\Entity', true)) {
+                        $entityName = APP_MODEL_NAMESPACE.$value['type'];
+                        $this->$key = new $entityName($values[$key]);
+                    } else {
+                        $this->$key = $values[$key];
+                    }
+                }
+            }
+        }	
 	}	
 		
 	/**
