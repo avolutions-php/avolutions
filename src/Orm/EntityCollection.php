@@ -215,7 +215,7 @@ class EntityCollection implements CollectionInterface
         // Check all properties from the EntityMapping
         foreach ($this->EntityMapping as $key => $value) {
             // If the property is of type Entity
-            if (isset($value['type']) && is_a(APP_MODEL_NAMESPACE.$value['type'], 'Avolutions\Orm\Entity', true)) {
+            if ($value['isEntity']) {
                 // Load the configuration of the linked Entity
                 $EntityConfiguration = new EntityConfiguration($value['type']);
                 

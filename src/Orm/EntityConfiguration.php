@@ -140,8 +140,8 @@ class EntityConfiguration
 
         // Check all properties from the EntityMapping
 		foreach ($this->Mapping as $property => $value) {
-            // If the property is of type Entity
-            if (isset($value['type']) && is_a(APP_MODEL_NAMESPACE.$value['type'], 'Avolutions\Orm\Entity', true)) {
+            // If the property is of type Entity            
+            if ($value['isEntity']) {
                  // Load the configuration of the linked Entity
                 $EntityConfiguration = new EntityConfiguration($value['type']);
 
@@ -154,7 +154,7 @@ class EntityConfiguration
                  */ 
                 $fieldQuery .= $this->getTable().'.'.$value['column'];
                 $fieldQuery .= ' AS ';
-                $fieldQuery .= `'.$this->entity.'.'.$property.'`;
+                $fieldQuery .= '`'.$this->entity.'.'.$property.'`';
                 $fieldQuery .= ', ';
             }
         }

@@ -35,9 +35,31 @@ class EntityMapping
 		$mapping = $this->loadMappingFile(APP_MAPPING_PATH.$entity.'Mapping.php');
 
 		foreach ($mapping as $key => $value) {
-			if (!isset($value['column'])) {
-				$value['column'] = $key;
-			}
+            /**
+             * Set default values
+             */    
+
+            // If type is an Entity
+            if (isset($value['type']) && is_a(APP_MODEL_NAMESPACE.$value['type'], 'Avolutions\Orm\Entity', true)) {
+                $value['isEntity'] = true;
+            } else {
+                $value['isEntity'] = false;
+            }
+
+            // If no column is specified use the name of the property as database column     
+            $value['column'] = $value['column'] ?? $key;
+
+            if ($key == 'id') {
+                // Always set form hidden to true for id property
+                $value['form']['hidden'] = true;
+            } else {
+                // If no form type is specified set to 'text'. Only needed if property is not the id.
+                $value['form']['type'] = $value['form']['type'] ?? 'text';
+            }
+
+            /**
+             * Set property
+             */
 			$this->$key = $value;
 		}
 	}	
