@@ -53,9 +53,7 @@ class Entity
 		$this->EntityConfiguration = new EntityConfiguration($this->getEntityName());
 		$this->EntityMapping = $this->EntityConfiguration->getMapping();
         
-        /**
-         * Fill Entity attributes from values
-         */
+        // Fill Entity attributes from values
         if (!empty($values)) {            
             foreach ($this->EntityMapping as $key => $value) {
                 if (isset($values[$key])) {

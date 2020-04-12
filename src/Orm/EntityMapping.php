@@ -35,10 +35,7 @@ class EntityMapping
 		$mapping = $this->loadMappingFile(APP_MAPPING_PATH.$entity.'Mapping.php');
 
 		foreach ($mapping as $key => $value) {
-            /**
-             * Set default values
-             */    
-
+            // Set default values
             // If type is an Entity
             if (isset($value['type']) && is_a(APP_MODEL_NAMESPACE.$value['type'], 'Avolutions\Orm\Entity', true)) {
                 $value['isEntity'] = true;
@@ -56,10 +53,8 @@ class EntityMapping
 
             // If no form type is specified set to 'text'
             $value['form']['type'] = $value['form']['type'] ?? 'text';
-
-            /**
-             * Set property
-             */
+            
+            // Set property
 			$this->$key = $value;
         }
 	}	

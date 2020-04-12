@@ -219,10 +219,8 @@ class EntityCollection implements CollectionInterface
                 // Load the configuration of the linked Entity
                 $EntityConfiguration = new EntityConfiguration($value['type']);
                 
-                /**
-                 * Create the JOIN statement:
-                 * " JOIN {JoinedTable} ON {Table}.{Column} = {JoinedTable}.{JoinedColumn}"
-                 */
+                // Create the JOIN statement:
+                // " JOIN {JoinedTable} ON {Table}.{Column} = {JoinedTable}.{JoinedColumn}"
                 $joinStmt .= ' JOIN ';
                 $joinStmt .= '`'.$EntityConfiguration->getTable().'`';
                 $joinStmt .= ' ON ';
