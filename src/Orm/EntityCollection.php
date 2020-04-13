@@ -45,11 +45,6 @@ class EntityCollection implements CollectionInterface
 	private $EntityMapping;
 
 	/**
-	 * @var string $fieldQuery The field phrase for the query.
-	 */
-	private $fieldQuery;
-
-	/**
 	 * @var string $limitClause The limit clause for the query.
 	 */
 	private $limitClause;
@@ -78,8 +73,6 @@ class EntityCollection implements CollectionInterface
 		
 		$this->EntityConfiguration = new EntityConfiguration($this->entity);
 		$this->EntityMapping = $this->EntityConfiguration->getMapping();
-
-		$this->setFieldQuery();
     }	
     
     /**
@@ -107,9 +100,10 @@ class EntityCollection implements CollectionInterface
 		$Database = new Database();
 
 		$query = 'SELECT ';
-		$query .= $this->fieldQuery;
+		$query .= $this->EntityConfiguration->getFieldQuery();
 		$query .= ' FROM ';
-		$query .= '`'.$this->EntityConfiguration->getTable().'`';
+        $query .= '`'.$this->EntityConfiguration->getTable().'`';
+        $query .= $this->getJoinStatement();
 		$query .= $this->getWhereClause();
 		$query .= $this->getOrderByClause();
 		$query .= $this->getLimitClause();
@@ -120,13 +114,25 @@ class EntityCollection implements CollectionInterface
 
 		$stmt->execute();
 
-		while ($properties = $stmt->fetch($Database::FETCH_ASSOC)) {        
-			// TODO: Entity factory?
-			$Entity = new $this->entity();
-			foreach ($properties as $property => $value) {
-				$Entity->$property = $value;
-			}		
-			$this->items[] = $Entity;
+		while ($row = $stmt->fetch($Database::FETCH_ASSOC)) {     
+            $entityValues = [];
+
+            foreach($row AS $columnKey => $columnValue) {
+                $explodedKey = explode('.', $columnKey);
+                $entityName = $explodedKey[0];
+                $columnName = $explodedKey[1];
+
+                if($entityName == $this->entity) {
+                    $entityValues[$columnName] = $columnValue;
+                } else {
+                    $entityValues[$entityName][$columnName] = $columnValue;
+                }
+            }
+
+            $fullEntityName = APP_MODEL_NAMESPACE.$this->entity;
+            $Entity = new $fullEntityName($entityValues);
+
+            $this->items[] = $Entity;
 		}
 	}	
 
@@ -192,13 +198,45 @@ class EntityCollection implements CollectionInterface
     {
 		$this->limit(1)->execute();
 
-		return $this->items[0];
+		return $this->items[0] ?? null;
+    }
+    
+    /**
+	 * getJoinStatement
+	 * 
+	 * Returns a join statement if the Entity has a joined Entity defined in the EntityMapping.
+     * 
+     * @return string The join statement
+	 */
+    private function getJoinStatement()
+    {
+        $joinStmt = '';
+
+        // Check all properties from the EntityMapping
+        foreach ($this->EntityMapping as $key => $value) {
+            // If the property is of type Entity
+            if ($value['isEntity']) {
+                // Load the configuration of the linked Entity
+                $EntityConfiguration = new EntityConfiguration($value['type']);
+                
+                // Create the JOIN statement:
+                // " JOIN {JoinedTable} ON {Table}.{Column} = {JoinedTable}.{JoinedColumn}"
+                $joinStmt .= ' JOIN ';
+                $joinStmt .= '`'.$EntityConfiguration->getTable().'`';
+                $joinStmt .= ' ON ';
+                $joinStmt .= $this->EntityConfiguration->getTable().'.'.$value['column'];
+                $joinStmt .= ' = ';
+                $joinStmt .= $EntityConfiguration->getTable().'.'.$EntityConfiguration->getIdColumn();
+            }
+        }
+
+		return $joinStmt;
 	}
 
 	/**
 	 * getLast
 	 * 
-	* Returns the last Entity of the EntityCollection.
+	 * Returns the last Entity of the EntityCollection.
 	 * 
 	 * @return Entity The last Entity of the EntityCollection.
 	 */
@@ -278,23 +316,6 @@ class EntityCollection implements CollectionInterface
 
 		return $this;
 	}	
-
-	/**
-	 * setFieldQuery
-	 * 
-	 * Loads the fields from the EntityMapping and generates the field phrase for
-	 * the database query.
-	 */
-    private function setFieldQuery()
-    {
-		$fieldQuery = '';
-
-		foreach ($this->EntityMapping as $key => $value) {
-			$fieldQuery .= $value['column'].' AS '.$key.', ';
-		}
-
-		$this->fieldQuery = rtrim($fieldQuery, ', ');
-	}
 
 	/**
 	 * where

@@ -35,11 +35,28 @@ class EntityMapping
 		$mapping = $this->loadMappingFile(APP_MAPPING_PATH.$entity.'Mapping.php');
 
 		foreach ($mapping as $key => $value) {
-			if (!isset($value['column'])) {
-				$value['column'] = $key;
-			}
+            // Set default values
+            // If type is an Entity
+            if (isset($value['type']) && is_a(APP_MODEL_NAMESPACE.$value['type'], 'Avolutions\Orm\Entity', true)) {
+                $value['isEntity'] = true;
+            } else {
+                $value['isEntity'] = false;
+            }
+
+            // If no column is specified use the name of the property as database column     
+            $value['column'] = $value['column'] ?? $key;
+
+            if ($key == 'id') {
+                // Set id property to input type hidden by default
+                $value['form']['type'] = $value['form']['type'] ?? 'hidden';
+            } 
+
+            // If no form type is specified set to 'text'
+            $value['form']['type'] = $value['form']['type'] ?? 'text';
+            
+            // Set property
 			$this->$key = $value;
-		}
+        }
 	}	
 	
 	/**
@@ -60,5 +77,19 @@ class EntityMapping
 		}
 		
 		return [];
-	}
+    }
+    
+    /**
+	 * getFormFields
+	 * 
+	 * Returns all fields where the form hidden attribute is not set or where it is false.
+     * 
+     * @return array An array with all Entity fields not hidden in forms.
+	 */
+    public function getFormFields()
+    {
+        return array_filter(get_object_vars($this), function($field) {
+            return isset($field['form']['hidden']) ? !$field['form']['hidden'] : true;
+        });
+    }
 }

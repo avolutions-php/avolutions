@@ -32,7 +32,12 @@ class Request
 	/** 
 	 * @var string $method The method of the request.
 	 */
-	public $method;
+    public $method;
+        
+	/** 
+	 * @var array $parameters The variables from $_REQUEST.
+	 */
+	public $parameters = [];
 		
 	/**
 	 * __construct
@@ -43,7 +48,12 @@ class Request
     public function __construct()
     {
 		$this->uri = $_SERVER['REQUEST_URI'];
-		$this->method = $_SERVER['REQUEST_METHOD'];
+        $this->method = $_SERVER['REQUEST_METHOD'];
+
+        // Get all values of the request, remove $_REQUEST['path] and set as $this->parameters 
+        $parameters = $_REQUEST;
+        unset($parameters['path']);
+        $this->parameters = $parameters;
 	}
 	
 	/**
@@ -60,10 +70,12 @@ class Request
 		$fullControllerName = APP_CONTROLLER_NAMESPACE.ucfirst($MatchedRoute->controllerName).'Controller';
 		$Controller = new $fullControllerName();		
 		
-		$fullActionName = $MatchedRoute->actionName.'Action';
-				
+        $fullActionName = $MatchedRoute->actionName.'Action';        
+        // Merge the parameters of the route with the values of $_REQUEST
+        $parameters = array_merge($MatchedRoute->parameters, $this->parameters);
+
 		$Response = new Response();
-		$Response->setBody(call_user_func_array([$Controller, $fullActionName], $MatchedRoute->parameters));
+		$Response->setBody(call_user_func_array([$Controller, $fullActionName], $parameters));
 		$Response->send();
 	}
 }
