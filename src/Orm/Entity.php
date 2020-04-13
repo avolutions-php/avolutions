@@ -45,11 +45,29 @@ class Entity
 	 * 
 	 * Creates a new Entity object and loads the corresponding EntityConfiguration
 	 * and EntityMapping.
+     * 
+     * @param array $values The Entity attributes as an array
 	 */
-    public function __construct()
+    public function __construct($values = [])
     {
-		$this->EntityConfiguration = new EntityConfiguration((new \ReflectionClass($this))->getShortName());
+		$this->EntityConfiguration = new EntityConfiguration($this->getEntityName());
 		$this->EntityMapping = $this->EntityConfiguration->getMapping();
+        
+        // Fill Entity attributes from values
+        if (!empty($values)) {            
+            foreach ($this->EntityMapping as $key => $value) {
+                if (isset($values[$key])) {
+                     // If the property is of type Entity
+                    if ($value['isEntity']) {
+                        // Create a the linked Entity and pass the values
+                        $entityName = APP_MODEL_NAMESPACE.$value['type'];
+                        $this->$key = new $entityName($values[$key]);
+                    } else {
+                        $this->$key = $values[$key];
+                    }
+                }
+            }
+        }	
 	}	
 		
 	/**
@@ -83,6 +101,18 @@ class Entity
 		$query .= ' = :id';
 
 		$this->execute($query, $values);
+    }	
+    
+    /**
+	 * getEntityName
+	 * 
+	 * Returns the shortname of the reflected class.
+     * 
+     * @return string The name of the entity.
+	 */
+    public function getEntityName()
+    {
+		return (new \ReflectionClass($this))->getShortName();
 	}	
 
 	/**
@@ -96,10 +126,13 @@ class Entity
 		$columns = [];
 		$parameters = [];
 
-		foreach ($this->EntityMapping as $key => $value) {
-			$columns[] = $value['column'];
-			$parameters[] = ':'.$key;
-			$values[$key] = $this->$key;
+		foreach ($this->EntityMapping as $key => $value) {         
+            // Only for simple fields, no Entities   
+            if (!$value['isEntity']) {
+                $columns[] = $value['column'];
+                $parameters[] = ':'.$key;
+                $values[$key] = $this->$key;
+            }
 		}	
 
 		$query = 'INSERT INTO ';
@@ -116,7 +149,7 @@ class Entity
 	/**
 	 * update
 	 * 
-	 * Updateds the existing database entry for the Entity object.
+	 * Updates the existing database entry for the Entity object.
 	 */
     private function update()
     {
@@ -125,9 +158,12 @@ class Entity
 		$query = 'UPDATE ';
 		$query .= $this->EntityConfiguration->getTable();
 		$query .= ' SET ';
-		foreach ($this->EntityMapping as $key => $value) {
-			$query .= $value['column'].' = :'.$key.', ';
-			$values[$key] = $this->$key;
+		foreach ($this->EntityMapping as $key => $value) {            
+            // Only for simple fields, no Entities   
+            if (!$value['isEntity']) {
+                $query .= $value['column'].' = :'.$key.', ';
+                $values[$key] = $this->$key;
+            }
 		}
 		$query = rtrim($query, ', ');
 		$query .= ' WHERE ';
@@ -144,7 +180,7 @@ class Entity
 	 * 
 	 * @return bool Returns true if the entity exists in the database, false if not.
 	 */
-    private function exists()
+    public function exists()
     {
 		return $this->id != null;	
 	}
