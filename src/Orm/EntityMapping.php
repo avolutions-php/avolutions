@@ -80,13 +80,13 @@ class EntityMapping
     }
     
     /**
-	 * getFormularFields
+	 * getFormFields
 	 * 
 	 * Returns all fields where the form hidden attribute is not set or where it is false.
      * 
-     * @return array An array with all Entity fields not hidden in formulars.
+     * @return array An array with all Entity fields not hidden in forms.
 	 */
-    public function getFormularFields()
+    public function getFormFields()
     {
         return array_filter(get_object_vars($this), function($field) {
             return isset($field['form']['hidden']) ? !$field['form']['hidden'] : true;

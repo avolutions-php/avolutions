@@ -15,17 +15,17 @@ use Avolutions\Orm\Entity;
 use Avolutions\Orm\EntityConfiguration;
 
 /**
- * Formular class
+ * Form class
  *
- * Provides methods to create HTML formulars with or without a Entity context. 
+ * Provides methods to create HTML forms with or without a Entity context. 
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.2.0
  */
-class Formular
+class Form
 {
     /**
-     * @var Entity $Entity The Entity context of the formular.
+     * @var Entity $Entity The Entity context of the form.
      */
     private $Entity = null;
 
@@ -47,10 +47,10 @@ class Formular
     /**
 	 * __construct
 	 *
-	 * Creates a new Formular instance. If a Entity is given the method loads
+	 * Creates a new Form instance. If a Entity is given the method loads
      * the EntityConfiguration and EntityMapping automatically.
      * 
-     * @param Entity $Entity The Entity context of the formular.
+     * @param Entity $Entity The Entity context of the form.
 	 */
     public function __construct($Entity = null) 
     {
@@ -128,34 +128,34 @@ class Formular
     /**
 	 * generate
 	 *
-	 * Generates a Formular for all fields of the Entity, depending on
+	 * Generates a Form for all fields of the Entity, depending on
      * the Mapping of the Entity.
      * 
      * @param array $formAttributes The attributes for the opening form tag.
      * @param bool $submitButton Indicates if a submit button should be generated automatically.
      * 
-     * @return string A HTML formular for the Entity.
+     * @return string A HTML form for the Entity.
 	 */
     public function generate($formAttributes, $submitButton = true) 
     {                
-        $formularFields = $this->EntityMapping->getFormularFields();
+        $formFields = $this->EntityMapping->getFormFields();
 
-        $formular = $this->open($formAttributes);
-        foreach (array_keys($formularFields) as $formularField) {
-            $formular .= $this->inputFor($formularField);
+        $form = $this->open($formAttributes);
+        foreach (array_keys($formFields) as $formField) {
+            $form .= $this->inputFor($formField);
         }
         if ($submitButton) {
-            $formular .= $this->submit();
+            $form .= $this->submit();
         }
-        $formular .= $this->close();
+        $form .= $this->close();
 
-        return $formular;
+        return $form;
     }
 
     /**
 	 * open
 	 *
-	 * Opens a formular.
+	 * Opens a form.
      * 
      * @param array $attributes The attributes for the form tag.
      * 
@@ -171,7 +171,7 @@ class Formular
     /**
 	 * close
 	 *
-	 * Close a formular.
+	 * Close a form.
      * 
      * @return string A closing HTML form tag.
 	 */
