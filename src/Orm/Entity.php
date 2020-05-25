@@ -12,6 +12,8 @@
 namespace Avolutions\Orm;
 
 use Avolutions\Database\Database;
+use Avolutions\Event\EntityEvent;
+use Avolutions\Event\EventDispatcher;
 use Avolutions\Logging\Logger;
 
 /**
@@ -38,7 +40,12 @@ class Entity
 	/**
 	 * @var string $EntityMapping The mapping of the entity.
 	 */
-	private $EntityMapping;
+    private $EntityMapping;
+        
+	/**
+	 * @var TODO
+	 */
+	private $EntityBeforeChange;
 			
 	/**
 	 * __construct
@@ -68,6 +75,8 @@ class Entity
                 }
             }
         }	
+
+        $this->EntityBeforeChange = clone $this;
 	}	
 		
 	/**
@@ -77,12 +86,20 @@ class Entity
 	 * depending on whether the Entity already exists or not.
 	 */
     public function save()
-    {		
-		if ($this->exists()) {
-			$this->update();
+    {		        
+        EventDispatcher::dispatch(new EntityEvent('BeforeSave', $this));
+
+		if ($this->exists()) {       
+            EventDispatcher::dispatch(new EntityEvent('BeforeUpdate', $this, $this->EntityBeforeChange));
+            $this->update();
+            EventDispatcher::dispatch(new EntityEvent('AfterUpdate', $this, $this->EntityBeforeChange));
 		} else {
-			$this->insert();
-		}
+            EventDispatcher::dispatch(new EntityEvent('BeforeInsert', $this));
+            $this->insert();
+            EventDispatcher::dispatch(new EntityEvent('AfterInsert', $this));
+        }
+        
+        EventDispatcher::dispatch(new EntityEvent('AfterSave', $this));
 	}	
 
 	/**
@@ -92,6 +109,8 @@ class Entity
 	 */
     public function delete()
     {
+        EventDispatcher::dispatch(new EntityEvent('BeforeDelete', $this));
+
 		$values = ['id' => $this->id];	
 
 		$query = 'DELETE FROM ';
@@ -100,7 +119,9 @@ class Entity
 		$query .= $this->EntityConfiguration->getIdColumn();
 		$query .= ' = :id';
 
-		$this->execute($query, $values);
+        $this->execute($query, $values);
+        
+        EventDispatcher::dispatch(new EntityEvent('AfterDelete', $this));
     }	
     
     /**
