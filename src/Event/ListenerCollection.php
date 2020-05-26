@@ -18,7 +18,7 @@ use Avolutions\Core\AbstractSingleton;
 /**
  * ListenerCollection class
  *
- * TODO
+ * The ListenerCollection contains all registered event listener.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.3.0
@@ -30,17 +30,24 @@ class ListenerCollection extends AbstractSingleton implements CollectionInterfac
 	/**
 	 * addListener
 	 * 
-	 * TODO
+	 * Adds a listener for an event the ListenerCollection.
+	 * 
+	 * @param string $eventName The name of the event.
+     * @param callable $listener A callable containing the Listener class and method.
 	 */
-    public function addListener($event, $listener)
+    public function addListener($eventName, $listener)
     {
-		$this->items[$event] = $listener;
+		$this->items[$eventName] = $listener;
     }
     
     /**
 	 * getListener
 	 * 
-	 * TODO
+     * Returns a callable listener for the given event from the ListenerCollection.
+     * 
+	 * @param string $eventName The name of the event.
+     * 
+     * @return callable The listener callable.
 	 */
     public function getListener($eventName)
     {

@@ -16,7 +16,7 @@ use Avolutions\Event\EntityEvent;
 /**
  * EventDispatcher class
  *
- * TODO
+ * The EventDispatcher is responsible to call all relevant listener for the dispatched Event. 
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.3.0
@@ -24,7 +24,11 @@ use Avolutions\Event\EntityEvent;
 class EventDispatcher
 {
 	/**
-     * TODO
+     * dispatch
+     * 
+     * Find and calls all relevant listener from the ListenerCollection for the passed Event. 
+     * 
+     * @param Event $Event The Event to dispatch
      */
     public static function dispatch($Event)
     {

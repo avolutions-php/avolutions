@@ -43,7 +43,7 @@ class Entity
     private $EntityMapping;
         
 	/**
-	 * @var TODO
+	 * @var Entity $EntityBeforeChange The Entity after initializing
 	 */
 	private $EntityBeforeChange;
 			

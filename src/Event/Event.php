@@ -14,7 +14,7 @@ namespace Avolutions\Event;
 /**
  * Event class
  *
- * TODO
+ * The Event is the base class for every event class. 
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.3.0
@@ -24,7 +24,10 @@ class Event
     /**
 	 * getName
      * 
-     * TODO
+     * Returns the name of the Event. 
+     * This is either the name of the class or if defined the value of the name property.
+     * 
+     * @return string The name of the Event.
 	 */
     public function getName()
     {
