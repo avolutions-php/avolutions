@@ -30,6 +30,7 @@ define('CONTROLLER', 'Controller');
 define('DATABASE', 'Database');
 define('MAPPING', 'Mapping');
 define('MODEL', 'Model');
+define('LISTENER', 'Listener');
 define('VIEW', 'View');
 define('VIEWMODEL', 'Viewmodel');
 
@@ -78,6 +79,7 @@ $Config->initialize();
 define('APPLICATION_NAMESPACE', Config::get('application/namespace'));
 define('APP_CONTROLLER_NAMESPACE', APPLICATION_NAMESPACE.'\\'.CONTROLLER.'\\');
 define('APP_DATABASE_NAMESPACE', APPLICATION_NAMESPACE.'\\'.DATABASE.'\\');
+define('APP_LISTENER_NAMESPACE', APPLICATION_NAMESPACE.'\\'.LISTENER.'\\');
 define('APP_MODEL_NAMESPACE', APPLICATION_NAMESPACE.'\\'.MODEL.'\\');
 
 /**

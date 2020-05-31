@@ -18,12 +18,15 @@ use Avolutions\Routing\Router;
  */
 require_once '../bootstrap.php';
 
-
 /**
  * Load the routes file
  */
 require_once '../routes.php'; 
 
+/**
+ * Load the events file
+ */
+require_once '../events.php'; 
 
 /**
  * Start the application
