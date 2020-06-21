@@ -35,8 +35,10 @@ class EventDispatcher
         if ($Event instanceof EntityEvent) {            
             $entityName = $Event->Entity->getEntityName();
             $listener = APP_LISTENER_NAMESPACE.$entityName.'Listener';
+            $Listener = new $listener();
             $method = 'handle'.$Event->getName();
-            $callable = [$listener, $method];
+
+            $callable = [$Listener, $method];
 
             if (\is_callable($callable)) {
                 call_user_func($callable, $Event);
@@ -47,7 +49,14 @@ class EventDispatcher
 
         $ListenerCollection = ListenerCollection::getInstance();
         foreach ($ListenerCollection->getListener($Event->getName()) as $listener) {
-            call_user_func($listener, $Event);
+            $Listener = new $listener[0];
+            $method = $listener[1];
+
+            $callable = [$Listener, $method];
+
+            if (\is_callable($callable)) {
+                call_user_func($callable, $Event);
+            }
         }
     }
 }
