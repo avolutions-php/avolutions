@@ -63,11 +63,20 @@ class Cookie
      * 
      * @param string $name TODO
      * @param string $value TODO
-     * ...
+     * @param int $expires TODO
+     * @param string $path TODO
+     * @param string $domain TODO
+     * @param bool $secure TODO
+     * @param bool $httpOnly TODO
 	 */
-    public function __construct($name, $value)
+    public function __construct($name, $value, $expires = 0, $path = '', $domain = '', $secure = false, $httpOnly = false)
     {
         $this->name = $name;
         $this->value = $value;
+        $this->expires = $expires;
+        $this->path = $path;
+        $this->domain = $domain;
+        $this->secure = $secure;
+        $this->httpOnly = $httpOnly;
 	}	
 }
