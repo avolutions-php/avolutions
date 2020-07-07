@@ -16,7 +16,8 @@ use Avolutions\Http\Cookie;
 /**
  * CookieCollection class
  *
- * TODO
+ * The CookieCollection provides the functionality to store and retrieve
+ * Cookie objects.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.4.0
@@ -26,9 +27,11 @@ class CookieCollection
     /**
 	 * add
 	 * 
-	 * TODO
+	 * Adds a new Cookie object. Will call the native php setcookie method.
      * 
-     * @param TODO
+     * @param Cookie The Cookie object to add.
+     * 
+     * @throws \InvalidArgumentException
 	 */
     public static function add($Cookie)
     {
@@ -42,11 +45,11 @@ class CookieCollection
     /**
 	 * get
 	 * 
-	 * TODO
+	 * Returns the value of a cookie by its name.
      * 
-     * @param TODO
+     * @param $name The name of the cookie.
      * 
-     * @return TODO
+     * @return The value of the cookie.
 	 */
     public static function get($name)
     {
@@ -56,9 +59,9 @@ class CookieCollection
     /**
 	 * delete
 	 * 
-	 * TODO
+	 * Deletes a cookie by its name.
      * 
-     * @param TODO
+     * @param $name The name of the cookie.
 	 */
     public static function delete($name)
     {

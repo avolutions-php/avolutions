@@ -14,7 +14,7 @@ namespace Avolutions\Http;
 /**
  * Session class
  *
- * TODO
+ * The Session class provides functionality for the session handling.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.4.0
@@ -24,9 +24,9 @@ class Session
     /**
 	 * delete
 	 * 
-	 * TODO
+	 * Deletes a session value by its key.
      * 
-     * @param TODO
+     * @param $key The key of the session value.
 	 */
     public static function delete($key)
     {
@@ -38,7 +38,7 @@ class Session
     /**
 	 * destroy
 	 * 
-	 * TODO
+	 * Destroys the session and unset all values.
 	 */
     public static function destroy()
     {
@@ -51,11 +51,11 @@ class Session
     /**
 	 * get
 	 * 
-	 * TODO
+	 * Returns a session value by its key.
      * 
-     * @param TODO
+     * @param $key The key of the session value.
      * 
-     * @return TODO
+     * @return mixed
 	 */
     public static function get($key)
     {
@@ -67,10 +67,10 @@ class Session
     /**
 	 * set
 	 * 
-	 * TODO
+	 * Set a new session value.
      * 
-     * @param TODO
-     * @param TODO
+     * @param $key The key of the session value.
+     * @param $value The value to store.
 	 */
     public static function set($key, $value)
     {
@@ -82,7 +82,7 @@ class Session
     /**
 	 * start
 	 * 
-	 * TODO
+	 * Starts and initializes a new session. 
 	 */
     public static function start()
     {
@@ -95,9 +95,9 @@ class Session
     /**
 	 * isStarted
 	 * 
-	 * TODO
+	 * Checks if a session is already started.
      * 
-     * @return TODO
+     * @return bool
 	 */
     public static function isStarted()
     {
