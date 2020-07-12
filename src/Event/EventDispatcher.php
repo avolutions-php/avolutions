@@ -35,10 +35,9 @@ class EventDispatcher
         if ($Event instanceof EntityEvent) {            
             $entityName = $Event->Entity->getEntityName();
             $listener = APP_LISTENER_NAMESPACE.$entityName.'Listener';
-            $Listener = new $listener();
             $method = 'handle'.$Event->getName();
 
-            $callable = [$Listener, $method];
+            $callable = [$listener, $method];
 
             if (\is_callable($callable)) {
                 call_user_func($callable, $Event);
