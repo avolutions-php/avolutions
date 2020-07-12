@@ -29,7 +29,7 @@ class CookieCollection
 	 * 
 	 * Adds a new Cookie object. Will call the native php setcookie method.
      * 
-     * @param Cookie The Cookie object to add.
+     * @param Cookie $Cookie The Cookie object to add.
      * 
      * @throws \InvalidArgumentException
 	 */
@@ -47,9 +47,9 @@ class CookieCollection
 	 * 
 	 * Returns the value of a cookie by its name.
      * 
-     * @param $name The name of the cookie.
+     * @param string $name The name of the cookie.
      * 
-     * @return The value of the cookie.
+     * @return mixed The value of the cookie.
 	 */
     public static function get($name)
     {
@@ -61,7 +61,7 @@ class CookieCollection
 	 * 
 	 * Deletes a cookie by its name.
      * 
-     * @param $name The name of the cookie.
+     * @param string $name The name of the cookie.
 	 */
     public static function delete($name)
     {

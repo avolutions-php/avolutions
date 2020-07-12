@@ -26,7 +26,7 @@ class Session
 	 * 
 	 * Deletes a session value by its key.
      * 
-     * @param $key The key of the session value.
+     * @param string $key The key of the session value.
 	 */
     public static function delete($key)
     {
@@ -53,9 +53,9 @@ class Session
 	 * 
 	 * Returns a session value by its key.
      * 
-     * @param $key The key of the session value.
+     * @param string $key The key of the session value.
      * 
-     * @return mixed
+     * @return mixed The value of the session entry.
 	 */
     public static function get($key)
     {
@@ -69,8 +69,8 @@ class Session
 	 * 
 	 * Set a new session value.
      * 
-     * @param $key The key of the session value.
-     * @param $value The value to store.
+     * @param string $key The key of the session value.
+     * @param mixed $value The value to store.
 	 */
     public static function set($key, $value)
     {
@@ -97,7 +97,7 @@ class Session
 	 * 
 	 * Checks if a session is already started.
      * 
-     * @return bool
+     * @return bool If the session is already started.
 	 */
     public static function isStarted()
     {
