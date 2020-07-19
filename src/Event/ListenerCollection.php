@@ -37,7 +37,7 @@ class ListenerCollection extends AbstractSingleton implements CollectionInterfac
 	 */
     public function addListener($eventName, $listener)
     {
-		$this->items[$eventName] = $listener;
+		$this->items[$eventName][] = $listener;
     }
     
     /**

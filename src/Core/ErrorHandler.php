@@ -34,7 +34,7 @@ class ErrorHandler
 	 * @param string $file The filename the error was raised in.
 	 * @param int $line The line number the error was raised at.
 	 *
-     * @throws \ErrorException;
+     * @throws \ErrorException
 	 */
     public function handleError($code, $message, $file = null, $line = null) 
     {
