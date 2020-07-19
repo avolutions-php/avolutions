@@ -49,6 +49,9 @@ class Database extends \PDO
 	 * migrate
 	 * 
 	 * Executes all migrations from the applications database directory.
+     * 
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
 	 */
     public static function migrate()
     {
