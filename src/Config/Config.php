@@ -62,6 +62,8 @@ class Config extends AbstractSingleton
 	 * Returns the config value for the given key. The key is seperated by slashes (/).
 	 *
 	 * @param string $key The key (slash separated) of the config value.
+     * 
+     * @throws \Exception
 	 *
 	 * @return mixed The config value
 	 */
