@@ -7,7 +7,7 @@ class ConfigTest extends TestCase
 {
     public function test_default_config_values_can_be_read()
     {
-        $this->assertEquals(Config::get("database/host"), "127.0.0.1");
+        $this->assertEquals(Config::get("database/host"), "123456789");
         $this->assertEquals(Config::get("database/user"), "avolutions");
         $this->assertEquals(Config::get("database/password"), "avolutions");
         $this->assertEquals(Config::get("database/charset"), "utf8");
