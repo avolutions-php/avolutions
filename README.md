@@ -1,5 +1,7 @@
 <p align="center"><img src="http://avolutions.org/image/logo.png" width="200"></p>
 
+![Tests](https://github.com/avolutions/avolutions/workflows/Tests/badge.svg) [![Total Downloads](https://poser.pugx.org/avolutions/avolutions/downloads)](//packagist.org/packages/avolutions/avolutions) [![Latest Unstable Version](https://poser.pugx.org/avolutions/avolutions/v/unstable)](//packagist.org/packages/avolutions/avolutions) [![License](https://poser.pugx.org/avolutions/avolutions/license)](//packagist.org/packages/avolutions/avolutions)
+
 # About
 AVOLUTIONS is just another open source PHP framework. 
 
