@@ -17,7 +17,9 @@ jobs:
           MYSQL_DATABASE: avolutions
           MYSQL_USER: avolutions
           MYSQL_PASSWORD: avolutions
-
+        ports:
+          - 33306:3306
+            
     steps:      
     - name: Checkout code
       uses: actions/checkout@v2
@@ -30,3 +32,6 @@ jobs:
 
     - name: Run tests
       run: vendor/bin/phpunit --verbose
+      env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+          DB_USERNAME: root
