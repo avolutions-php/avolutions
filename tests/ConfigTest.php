@@ -16,7 +16,7 @@ use Avolutions\Logging\LogLevel;
 
 class ConfigTest extends TestCase
 {
-    public function test_default_config_values_can_be_read()
+    public function testDefaultConfigValuesCanBeRead()
     {
         $this->assertEquals(Config::get("application/namespace"), "Application");
 
