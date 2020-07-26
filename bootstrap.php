@@ -59,8 +59,8 @@ Autoloader::register();
  * Set error handler
  */
 $ErrorHandler = new Avolutions\Core\ErrorHandler();
-set_error_handler([$ErrorHandler, 'handleError']);
-set_exception_handler([$ErrorHandler, 'handleException']);
+//set_error_handler([$ErrorHandler, 'handleError']);
+//set_exception_handler([$ErrorHandler, 'handleException']);
 
 /**
  * Start session
