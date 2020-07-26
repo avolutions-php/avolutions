@@ -10,6 +10,13 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    services:
+      mysql:        
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: avolutions
+          MYSQL_USER: avolutions
+          MYSQL_PASSWORD: avolutions
 
     steps:      
     - name: Checkout code
