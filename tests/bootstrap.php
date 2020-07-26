@@ -8,4 +8,4 @@
  * @license		MIT License (http://avolutions.org/license)
  * @link		http://avolutions.org
  */
-require_once '../bootstrap.php';
+require_once __DIR__.'../bootstrap.php';
