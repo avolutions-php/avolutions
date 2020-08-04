@@ -22,8 +22,9 @@ class LoggerTest extends TestCase
 
     protected function setUp(): void
     {
-        // empty logfile     
         $this->logFile = Config::get("logger/logpath").Config::get("logger/logfile");
+
+        // empty logfile
         file_put_contents($this->logFile, '');
     }
 
@@ -32,6 +33,83 @@ class LoggerTest extends TestCase
         $message = $this->logMessage.LogLevel::EMERGENCY;
 
         Logger::emergency($message);
+
+        $logfileContent = file_get_contents($this->logFile);
+
+        $this->assertStringContainsString($message, $logfileContent);
+    }
+
+    public function testLoggerWithLogLevelAlert()
+    {
+        $message = $this->logMessage.LogLevel::ALERT;
+
+        Logger::alert($message);
+
+        $logfileContent = file_get_contents($this->logFile);
+
+        $this->assertStringContainsString($message, $logfileContent);
+    }
+
+    public function testLoggerWithLogLevelCritical()
+    {
+        $message = $this->logMessage.LogLevel::CRITICAL;
+
+        Logger::critical($message);
+
+        $logfileContent = file_get_contents($this->logFile);
+
+        $this->assertStringContainsString($message, $logfileContent);
+    }
+
+    public function testLoggerWithLogLevelError()
+    {
+        $message = $this->logMessage.LogLevel::ERROR;
+
+        Logger::error($message);
+
+        $logfileContent = file_get_contents($this->logFile);
+
+        $this->assertStringContainsString($message, $logfileContent);
+    }
+
+    public function testLoggerWithLogLevelWarning()
+    {
+        $message = $this->logMessage.LogLevel::WARNING;
+
+        Logger::warning($message);
+
+        $logfileContent = file_get_contents($this->logFile);
+
+        $this->assertStringContainsString($message, $logfileContent);
+    }
+
+    public function testLoggerWithLogLevelNotice()
+    {
+        $message = $this->logMessage.LogLevel::NOTICE;
+
+        Logger::notice($message);
+
+        $logfileContent = file_get_contents($this->logFile);
+
+        $this->assertStringContainsString($message, $logfileContent);
+    }
+
+    public function testLoggerWithLogLevelInfo()
+    {
+        $message = $this->logMessage.LogLevel::INFO;
+
+        Logger::info($message);
+
+        $logfileContent = file_get_contents($this->logFile);
+
+        $this->assertStringContainsString($message, $logfileContent);
+    }
+
+    public function testLoggerWithLogLevelDebug()
+    {
+        $message = $this->logMessage.LogLevel::DEBUG;
+
+        Logger::debug($message);
 
         $logfileContent = file_get_contents($this->logFile);
 
