@@ -27,7 +27,7 @@ class RouteTest extends TestCase
         $url = '/route/to/succes'; 
         $Route = new Route($url);
         
-        $this->assertInstanceOf('Avolutions\Routing\Route', $Route); 
+        $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
         $this->assertEquals($Route->url, $url);
     }
 
