@@ -10,6 +10,13 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    services:
+      mysql:
+          image: mysql:5.7
+          env:
+              MYSQL_DATABASE: avolutions
+              MYSQL_USER: avolutions
+              MYSQL_PASSWORD: avolutions
                 
     steps:      
     - name: Checkout code
@@ -23,3 +30,5 @@ jobs:
 
     - name: Run tests
       run: vendor/bin/phpunit --verbose
+      env:
+        DB_PORT: ${{ job.services.mysql.ports[3306] }}
