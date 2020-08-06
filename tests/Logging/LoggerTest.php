@@ -25,7 +25,7 @@ class LoggerTest extends TestCase
         $this->logFile = Config::get("logger/logpath").Config::get("logger/logfile");
 
         // empty logfile
-        file_put_contents($this->logFile, '');
+        //file_put_contents($this->logFile, '');
     }
 
     public function testLoggerWithLogLevelEmergency()
