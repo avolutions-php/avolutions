@@ -13,11 +13,15 @@ use PHPUnit\Framework\TestCase;
 
 use Avolutions\Config\Config;
 use Avolutions\Logging\LogLevel;
+use Avolutions\Database\Database;
 
 class ConfigTest extends TestCase
 {
     public function testDefaultConfigValuesCanBeRead()
     {
+        // test
+        $Database = new Database();
+
         $this->assertEquals(Config::get("application/namespace"), "Application");
 
         $this->assertEquals(Config::get("database/host"), "127.0.0.1");
