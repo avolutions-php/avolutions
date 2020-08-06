@@ -23,10 +23,6 @@ class LoggerTest extends TestCase
     protected function setUp(): void
     {
         $this->logFile = Config::get("logger/logpath").Config::get("logger/logfile");
-
-        // empty logfile
-        $handle = fopen($this->logFile, 'w');
-		fclose($handle);
     }
 
     public function testLoggerWithLogLevelEmergency()
