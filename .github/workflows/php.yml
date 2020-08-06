@@ -17,6 +17,8 @@ jobs:
               MYSQL_DATABASE: avolutions
               MYSQL_USER: avolutions
               MYSQL_PASSWORD: avolutions
+          ports:
+            - 33306:3306
                 
     steps:      
     - name: Checkout code
