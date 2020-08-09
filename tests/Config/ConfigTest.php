@@ -13,7 +13,6 @@ use PHPUnit\Framework\TestCase;
 
 use Avolutions\Config\Config;
 use Avolutions\Logging\LogLevel;
-use Avolutions\Database\Database;
 
 class ConfigTest extends TestCase
 {
