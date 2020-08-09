@@ -15,5 +15,5 @@ return [
 	'user' => 'avolutions',
 	'password' => 'avolutions',
 	'charset' => 'utf8',
-	'migrateOnAppStart' => false	
+	'migrateOnAppStart' => true	
 ];

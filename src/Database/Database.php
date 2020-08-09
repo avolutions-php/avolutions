@@ -37,7 +37,7 @@ class Database extends \PDO
 
 		$host	  = Config::get('database/host');
 		$database = Config::get('database/database');
-		$dsn 	  = 'mysql:dbname='.$database.';host='.$host.';port='.$port.';';
+		$dsn 	  = 'mysql:dbname='.$database.';host='.$host.';';
 		$user     = Config::get('database/user');
 		$password = Config::get('database/password');
 		$charset  = Config::get('database/charset');
