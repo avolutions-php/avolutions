@@ -31,10 +31,6 @@ class Database extends \PDO
 	 */
     public function __construct()
     {
-        
-        $port = getenv('DB_PORT');
-        print $port;
-
 		$host	  = Config::get('database/host');
 		$database = Config::get('database/database');
 		$dsn 	  = 'mysql:dbname='.$database.';host='.$host.';';
