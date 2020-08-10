@@ -7,5 +7,6 @@
     </testsuites>
     <php>
        <env name="DB_PORT" value="3306" />
+       <cookie name="name" value="value"/>
     </php>
 </phpunit>
