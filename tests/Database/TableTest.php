@@ -168,4 +168,27 @@ class TableTest extends TestCase
         
         $this->assertEquals($rows[1], $column);
     }
+
+    public function testForeignKeyConstraintCanBeAdded()
+    {
+        $this->createUserTable();
+        Table::addIndex('user', Table::INDEX, ['Firstname']);
+        Table::addForeignKeyConstraint('user', 'Lastname', 'user', 'Firstname', Table::RESTRICT, Table::RESTRICT, 'fk_constraint');
+
+        $Database = new Database();
+
+        $query = 'SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = \'avolutions\' AND REFERENCED_TABLE_NAME = \'user\'';
+        $stmt = $Database->prepare($query);
+		$stmt->execute();
+
+        $row = $stmt->fetch($Database::FETCH_ASSOC);
+        
+        $this->assertEquals($row['CONSTRAINT_NAME'], 'fk_constraint');
+        $this->assertEquals($row['TABLE_SCHEMA'], 'avolutions');
+        $this->assertEquals($row['TABLE_NAME'], 'user');
+        $this->assertEquals($row['COLUMN_NAME'], 'Lastname');
+        $this->assertEquals($row['REFERENCED_TABLE_SCHEMA'], 'avolutions');
+        $this->assertEquals($row['REFERENCED_TABLE_NAME'], 'user');
+        $this->assertEquals($row['REFERENCED_COLUMN_NAME'], 'Firstname');
+    }
 }
