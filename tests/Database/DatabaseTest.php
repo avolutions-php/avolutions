@@ -68,6 +68,8 @@ class DatabaseTest extends TestCase
 
         $rows = $stmt->fetchAll($Database::FETCH_ASSOC);
         
+        print_r($rows);
+
         $this->assertEquals($rows, $table);
     }
 }
