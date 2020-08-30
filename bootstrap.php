@@ -63,11 +63,6 @@ set_error_handler([$ErrorHandler, 'handleError']);
 set_exception_handler([$ErrorHandler, 'handleException']);
 
 /**
- * Start session
- */
-session_start();
-
-/**
  * Initialize the Configuration
  */	 
 $Config = Config::getInstance();
