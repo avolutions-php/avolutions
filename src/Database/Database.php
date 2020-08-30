@@ -61,8 +61,10 @@ class Database extends \PDO
 
 		$migrationsToExecute = [];
 		$migrationFiles = array_map('basename', glob(APP_DATABASE_PATH.'*.php'));
-		
-		$executedMigrations = self::getExecutedMigrations();
+        print_r($migrationFiles);
+        
+        $executedMigrations = self::getExecutedMigrations();
+        print_r($executedMigrations);
 		
 		foreach ($migrationFiles as $migrationFile) {
 			$migrationClassName = APP_DATABASE_NAMESPACE.pathinfo($migrationFile, PATHINFO_FILENAME);
