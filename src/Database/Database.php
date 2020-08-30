@@ -57,6 +57,8 @@ class Database extends \PDO
 	 */
     public static function migrate()
     {
+        print 'migrate()';
+
 		$migrationsToExecute = [];
 		$migrationFiles = array_map('basename', glob(APP_DATABASE_PATH.'*.php'));
 		
@@ -83,12 +85,16 @@ class Database extends \PDO
 			}
 		}
 		
-		ksort($migrationsToExecute);
+        ksort($migrationsToExecute);
+        
+        print_r($migrationsToExecute);
 		
 		$Database = new Database();
 		foreach ($migrationsToExecute as $version => $Migration) {
 			$Migration->migrate();
-			
+            
+            print 'after Migration->migrate()';
+
 			$stmt = $Database->prepare('INSERT INTO migration (Version, Name) VALUES (?, ?)');
 			$stmt->execute([$version, (new \ReflectionClass($Migration))->getShortName()]);
 		}

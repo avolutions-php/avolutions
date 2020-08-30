@@ -38,6 +38,8 @@ class CreateMigrationTable extends AbstractMigration
 	 */
     public function migrate()
     {
+        print 'CreateMigrationTable->migrate()';
+
         $columns = [];
         $columns[] = new Column('MigrationID', ColumnType::INT, 255, null, null, true, true);
         $columns[] = new Column('Version', ColumnType::BIGINT, 255);
