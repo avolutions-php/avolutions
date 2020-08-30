@@ -16,5 +16,5 @@ return [
 	'user' => getenv('DB_USER') ?: 'avolutions',
 	'password' => getenv('DB_PASSWORD') ?: 'avolutions',
 	'charset' => 'utf8',
-	'migrateOnAppStart' => true	
+	'migrateOnAppStart' => false	
 ];
