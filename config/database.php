@@ -10,10 +10,11 @@
  */
 
 return [
-	'host' => '127.0.0.1',
-	'database' => 'avolutions',
-	'user' => 'avolutions',
-	'password' => 'avolutions',
+	'host' => getenv('DB_HOST') ?: '127.0.0.1',
+	'database' => getenv('DB_DATABASE') ?: 'avolutions',
+	'port' => getenv('DB_PORT') ?: '3306',
+	'user' => getenv('DB_USER') ?: 'avolutions',
+	'password' => getenv('DB_PASSWORD') ?: 'avolutions',
 	'charset' => 'utf8',
-	'migrateOnAppStart' => true	
+	'migrateOnAppStart' => false	
 ];

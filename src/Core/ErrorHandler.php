@@ -51,5 +51,7 @@ class ErrorHandler
     public function handleException($exception) 
     {
         Logger::error($exception);
+
+        throw $exception;
     }
 }

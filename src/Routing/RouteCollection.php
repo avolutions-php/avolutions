@@ -52,11 +52,11 @@ class RouteCollection extends AbstractSingleton implements CollectionInterface
 	 */ 
     public function getAllByMethod($method)
     {
-		return array_filter(
+		return array_values(array_filter(
 			$this->items,
 			function ($Route) use ($method) {
 				return $Route->method == $method;
 			}
-		);
+		));
 	}	
 }
