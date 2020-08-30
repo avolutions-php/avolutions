@@ -12,6 +12,7 @@
 return [
 	'host' => '127.0.0.1',
 	'database' => 'avolutions',
+	'port' => '3306',
 	'user' => 'avolutions',
 	'password' => 'avolutions',
 	'charset' => 'utf8',
