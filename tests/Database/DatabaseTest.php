@@ -62,7 +62,7 @@ class DatabaseTest extends TestCase
         $Database = new Database();
         $Database->migrate();
 
-        $query = 'DESCRIBE migration';
+        $query = 'DESCRIBE \'migration\'';
         $stmt = $Database->prepare($query);
 		$stmt->execute();
 
