@@ -69,6 +69,9 @@ class DatabaseTest extends TestCase
 
         $rows = $stmt->fetchAll($Database::FETCH_ASSOC);
 
+        // workaround because unix system return 'CURRENT_TIMESTAMP' and windows returns 'current_timestamp()'
+        $rows[3]['Default'] = str_replace('current_timestamp()', 'CURRENT_TIMESTAMP', $rows[3]['Default']);
+
         $this->assertEquals($rows, $table);
     }
 }
