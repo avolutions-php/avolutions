@@ -74,12 +74,8 @@ class Table
 		$query = rtrim($query, ',');
 		$query .= ')';
 			
-        $Database = new Database();
-        print $query;
-
-        $Database->query($query);
-        
-        print 'after query';
+		$Database = new Database();
+		$Database->query($query);
 	}
 	
 	/**

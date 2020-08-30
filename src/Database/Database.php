@@ -57,14 +57,10 @@ class Database extends \PDO
 	 */
     public static function migrate()
     {
-        print 'migrate()';
-
 		$migrationsToExecute = [];
 		$migrationFiles = array_map('basename', glob(APP_DATABASE_PATH.'*.php'));
-        print_r($migrationFiles);
-        
-        $executedMigrations = self::getExecutedMigrations();
-        print_r($executedMigrations);
+		
+		$executedMigrations = self::getExecutedMigrations();
 		
 		foreach ($migrationFiles as $migrationFile) {
 			$migrationClassName = APP_DATABASE_NAMESPACE.pathinfo($migrationFile, PATHINFO_FILENAME);
@@ -87,16 +83,12 @@ class Database extends \PDO
 			}
 		}
 		
-        ksort($migrationsToExecute);
-        
-        print_r($migrationsToExecute);
+		ksort($migrationsToExecute);
 		
 		$Database = new Database();
 		foreach ($migrationsToExecute as $version => $Migration) {
 			$Migration->migrate();
-            
-            print 'after Migration->migrate()';
-
+			
 			$stmt = $Database->prepare('INSERT INTO migration (Version, Name) VALUES (?, ?)');
 			$stmt->execute([$version, (new \ReflectionClass($Migration))->getShortName()]);
 		}
