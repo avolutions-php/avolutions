@@ -22,8 +22,6 @@ class RouterTest extends TestCase
         $RouteCollection = RouteCollection::getInstance();
         $RouteCollection->items = [];
 
-        $RouteCollection->addRoute(new Route('/<controller>/<action>'));
-
         $RouteCollection->addRoute(new Route('/user/<id>',
         [
             'controller' => 'user',
@@ -61,7 +59,9 @@ class RouterTest extends TestCase
                 'default'  => 1
             ]
         ]
-        ));
+        ));        
+
+        $RouteCollection->addRoute(new Route('/<controller>/<action>'));
 
         $RouteCollection->addRoute(new Route('/<controller>/<action>/<param1>/<param2>',
         [],
