@@ -54,7 +54,7 @@ class DatabaseTest extends TestCase
                 'Type' => 'datetime',
                 'Null' => 'NO',
                 'Key' => '', 
-                'Default' => 'current_timestamp()',
+                'Default' => 'CURRENT_TIMESTAMP',
                 'Extra' => ''
             ]
         ];
@@ -68,8 +68,6 @@ class DatabaseTest extends TestCase
 		$stmt->execute();
 
         $rows = $stmt->fetchAll($Database::FETCH_ASSOC);
-
-        print_r($rows);
 
         $this->assertEquals($rows, $table);
     }
