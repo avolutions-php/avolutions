@@ -59,16 +59,15 @@ class DatabaseTest extends TestCase
             ]
         ];
  
-        $Database = new Database();
-        $Database->migrate();
+        Database::migrate();
 
-        $query = 'DESCRIBE \'migration\'';
+        $Database = new Database();
+
+        $query = 'DESCRIBE migration';
         $stmt = $Database->prepare($query);
 		$stmt->execute();
 
         $rows = $stmt->fetchAll($Database::FETCH_ASSOC);
-        
-        print_r($rows);
 
         $this->assertEquals($rows, $table);
     }
