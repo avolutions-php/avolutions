@@ -163,7 +163,7 @@ class Form
 	 */
     public function open($attributes = [])
     {
-        $attributesAsString = self::getAttributes($attributes); 
+        $attributesAsString = self::getAttributesAsString($attributes); 
 
         return '<form'.$attributesAsString.'>';
     }
@@ -304,7 +304,7 @@ class Form
 	 */
     public function label($text, $attributes = [])
     {
-        $attributesAsString = self::getAttributes($attributes); 
+        $attributesAsString = self::getAttributesAsString($attributes); 
 
         return '<label'.$attributesAsString.'>'.$text.'</label>';
     }
@@ -504,7 +504,7 @@ class Form
     public function input($type, $attributes = [])
     {
         $attributes['type'] = $type;
-        $attributesAsString = self::getAttributes($attributes); 
+        $attributesAsString = self::getAttributesAsString($attributes); 
 
         return '<input'.$attributesAsString.' />';
     }
@@ -523,7 +523,7 @@ class Form
         $value = $attributes['value'] ?? null;
         unset($attributes['value']); // To not render it to the select tag
         
-        $attributesAsString = self::getAttributes($attributes); 
+        $attributesAsString = self::getAttributesAsString($attributes); 
 
         return '<button'.$attributesAsString.'>'.$value.'</button>';
     }
@@ -542,7 +542,7 @@ class Form
         $value = $attributes['value'] ?? null;
         unset($attributes['value']); // To not render it to the select tag
 
-        $attributesAsString = self::getAttributes($attributes); 
+        $attributesAsString = self::getAttributesAsString($attributes); 
 
         return '<textarea'.$attributesAsString.'>'.$value.'</textarea>';
     }
@@ -562,7 +562,7 @@ class Form
         $selectedValue = $attributes['value'] ?? null;
         unset($attributes['value']); // To not render it to the select tag
 
-        $attributesAsString = self::getAttributes($attributes); 
+        $attributesAsString = self::getAttributesAsString($attributes); 
         $optionsAsString = '';
 
         foreach ($options as $key => $value) {
@@ -599,7 +599,7 @@ class Form
      * 
      * @return string The attributes as a string.
 	 */
-    private static function getAttributes($attributes)
+    private static function getAttributesAsString($attributes)
     {
         $attributesAsString = '';
 
