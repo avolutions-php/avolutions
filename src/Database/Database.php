@@ -31,16 +31,18 @@ class Database extends \PDO
 	 */
     public function __construct()
     {
-		$host	  = Config::get('database/host');
+		$host = Config::get('database/host');
 		$database = Config::get('database/database');
-		$dsn 	  = 'mysql:dbname='.$database.';host='.$host.';';
-		$user     = Config::get('database/user');
+		$port = Config::get('database/port');
+		$user = Config::get('database/user');
 		$password = Config::get('database/password');
 		$charset  = Config::get('database/charset');
 		$options  = [
             \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES '.$charset,
 			\PDO::ATTR_PERSISTENT => true
         ];
+        
+		$dsn = 'mysql:dbname='.$database.';host='.$host.';port='.$port.'';
 		
 		parent::__construct($dsn, $user, $password, $options);			
     }

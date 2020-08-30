@@ -13,6 +13,9 @@
     "require": {
         "php": "^7.2"
     },
+    "require-dev": {
+        "phpunit/phpunit": "9.0"
+    },
     "license": "MIT",
     "homepage": "https://avolutions.org",
     "authors": [

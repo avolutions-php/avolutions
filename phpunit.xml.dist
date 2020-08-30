@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/bootstrap.php"
+         stderr="true">
+    <testsuites>
+        <testsuite name="AVOLUTIONS Test Suite">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+       <env name="DB_PORT" value="3306" />
+       <cookie name="name" value="value"/>
+    </php>
+</phpunit>

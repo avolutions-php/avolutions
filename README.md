@@ -1,5 +1,12 @@
 <p align="center"><img src="http://avolutions.org/image/logo.png" width="200"></p>
 
+<p align="center">
+  <a href="https://github.com/avolutions/avolutions/actions"><img src="https://github.com/avolutions/avolutions/workflows/Tests/badge.svg" alt="Tests"></a>  
+  <a href="https://packagist.org/packages/avolutions/avolutions"><img src="https://poser.pugx.org/avolutions/avolutions/downloads.svg" alt="Total Downloads"></a>  
+  <a href="https://packagist.org/packages/avolutions/avolutions"><img src="https://poser.pugx.org/avolutions/avolutions/v/unstable.svg" alt="Latest Unstable Version"></a>
+  <a href="https://packagist.org/packages/avolutions/avolutions"><img src="https://poser.pugx.org/avolutions/avolutions/license.svg" alt="License"></a>
+</p>
+
 # About
 AVOLUTIONS is just another open source PHP framework. 
 
