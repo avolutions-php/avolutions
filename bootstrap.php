@@ -62,8 +62,6 @@ $ErrorHandler = new Avolutions\Core\ErrorHandler();
 set_error_handler([$ErrorHandler, 'handleError']);
 set_exception_handler([$ErrorHandler, 'handleException']);
 
-ini_set('display_errors', 'On');
-
 /**
  * Start session
  */
