@@ -22,7 +22,6 @@ class ConfigTest extends TestCase
 
         $this->assertEquals(Config::get("database/host"), "127.0.0.1");
         $this->assertEquals(Config::get("database/database"), "avolutions");
-        $this->assertEquals(Config::get("database/port"), "3306");
         $this->assertEquals(Config::get("database/user"), "avolutions");
         $this->assertEquals(Config::get("database/password"), "avolutions");
         $this->assertEquals(Config::get("database/charset"), "utf8");
