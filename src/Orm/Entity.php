@@ -16,6 +16,8 @@ use Avolutions\Event\EntityEvent;
 use Avolutions\Event\EventDispatcher;
 use Avolutions\Logging\Logger;
 
+use Avolutions\Validation\Validator;
+
 /**
  * Entity class
  *
@@ -222,5 +224,34 @@ class Entity
 		$Database = new Database();
 		$stmt = $Database->prepare($query);
 		$stmt->execute($values);	
-	}
+    }
+    
+    /**
+     * validate
+     * 
+     * TODO
+     * 
+     * @return TODO
+     */
+    public function validate()
+    {
+        $isValid = true;
+
+        //print_r($this);
+        foreach ($this->EntityMapping as $key => $value) {            
+            if(isset($value['validation'])) {
+                foreach($value['validation'] as $validator => $options) {
+                    $fullValidatorName = VALIDATOR_NAMESPACE.ucfirst($validator).VALIDATOR;
+		            $Validator = new $fullValidatorName($options);	
+                    if(!$Validator->isValid($this->$key)) {
+                        $isValid = false;
+                    }
+                }
+            }
+		}
+
+        //$Validator = new Validator\LengthValidator([9]);
+        //return $Validator->isValid($this->firstname);
+        return $isValid;
+    }
 }
