@@ -30,4 +30,14 @@ abstract class Validator implements ValidatorInterface
     }
 
     public abstract function isValid($values);
+
+    protected function getSize($value) {
+        if(\is_numeric($value)) {
+            return $value;
+        } elseif (is_array($value)) {
+            return count($value);
+        } else {
+            return strlen($value);
+        }
+    }
 }
