@@ -15,7 +15,6 @@ use Avolutions\Database\Database;
 use Avolutions\Event\EntityEvent;
 use Avolutions\Event\EventDispatcher;
 use Avolutions\Logging\Logger;
-
 use Avolutions\Validation\Validator;
 
 /**
@@ -231,27 +230,26 @@ class Entity
      * 
      * TODO
      * 
-     * @return TODO
+     * @return bool|array TODO
      */
     public function validate()
     {
-        $isValid = true;
+        $messages = [];
 
         //print_r($this);
-        foreach ($this->EntityMapping as $key => $value) {            
+        foreach ($this->EntityMapping as $property => $value) {            
             if(isset($value['validation'])) {
                 foreach($value['validation'] as $validator => $options) {
                     $fullValidatorName = VALIDATOR_NAMESPACE.ucfirst($validator).VALIDATOR;
 		            $Validator = new $fullValidatorName($options);	
-                    if(!$Validator->isValid($this->$key)) {
-                        $isValid = false;
+                    if(!$Validator->isValid($this->$property)) {
+                        // TODO fill messages
+                        $messages[$property][$validator] = 'Fehler '.$property.' '.$validator;
                     }
                 }
             }
-		}
-
-        //$Validator = new Validator\LengthValidator([9]);
-        //return $Validator->isValid($this->firstname);
-        return $isValid;
+        }
+        
+        return count($messages) > 0 ? $messages : true;
     }
 }
