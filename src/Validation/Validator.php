@@ -23,10 +23,17 @@ use Avolutions\Validation\ValidatorInterface;
  */
 abstract class Validator implements ValidatorInterface
 {		
+    /**
+	 * TODO
+	 */
     protected $options;
 
-    public function __construct($options) {
-        $this->options = $options;
+    public function __construct($options = null) {
+        $this->setOptions($options);
+    }
+
+    public function setOptions($options = null) {
+        $this->options = $options; 
     }
 
     public abstract function isValid($values);
@@ -35,7 +42,7 @@ abstract class Validator implements ValidatorInterface
         if(\is_numeric($value)) {
             return $value;
         } elseif (is_array($value)) {
-            return count($value);
+            return count($value); 
         } else {
             return strlen($value);
         }
