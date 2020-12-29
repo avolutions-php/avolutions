@@ -24,6 +24,25 @@ use Avolutions\Validation\Validator;
 class FormatValidator extends Validator
 {
     /**
+     * TODO
+     */
+    private $operator;
+
+    /**
+     * setOptions
+     * 
+     * TODO
+     */
+    public function setOptions($options = null) {
+        $validFormats = ['ip', 'ip4', 'ip6', 'mail', 'url', 'json'];
+        if(!isset($options['format']) || !in_array($options['format'], $validFormats)) {
+            throw new \Exception('Invalid format, must be either '.\implode($validFormats, ' '));
+        } else {
+            $this->format = $options['format'];
+        }
+    }
+
+    /**
      * isValid
      * 
      * TODO
@@ -31,7 +50,7 @@ class FormatValidator extends Validator
      * @return bool TODO
      */
     public function isValid($value) {
-        switch($this->options) {
+        switch($this->format) {
             case 'ip':
                 return filter_var($value, FILTER_VALIDATE_IP) !== false;
             case 'ip4':
