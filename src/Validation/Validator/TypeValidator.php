@@ -24,6 +24,26 @@ use Avolutions\Validation\Validator;
 class TypeValidator extends Validator
 {
     /**
+     * TODO
+     */
+    private $type;
+
+    /**
+     * setOptions
+     * 
+     * TODO
+     */
+    public function setOptions($options = null) {
+        $validTypes = ['int', 'string', 'bool', 'array'];
+        if(isset($options['type']) && !in_array($options['type'], $validTypes)) {
+            throw new \Exception('Invalid type, must be either '.\implode($validTypes, ' '));
+        } else {
+            // TODO get type of property, exception not a explicit datatype
+            $this->type = $options['type'];
+        }
+    }
+
+    /**
      * isValid
      * 
      * TODO
@@ -31,7 +51,7 @@ class TypeValidator extends Validator
      * @return bool TODO
      */
     public function isValid($value) {
-        switch($this->options) {
+        switch($this->type) {
             case 'int':
                 return is_int($value);
             case 'string':
