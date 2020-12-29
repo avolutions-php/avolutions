@@ -24,6 +24,31 @@ use Avolutions\Validation\Validator;
 class SizeValidator extends Validator
 {
     /**
+     * TODO
+     */
+    private $size;
+
+    /**
+     * TODO
+     */
+    private $min;
+
+    /**
+     * TODO
+     */
+    private $max;
+
+    /**
+     * setOptions
+     * 
+     * TODO
+     */
+    public function setOptions($options = null) {
+        // TODO
+        $this->type = $options['type'];
+    }
+
+    /**
      * isValid
      * 
      * TODO
