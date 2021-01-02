@@ -44,8 +44,17 @@ class SizeValidator extends Validator
      * TODO
      */
     public function setOptions($options = null) {
+        if(isset($options['size']) && is_int($options['size'])) {
+            $this->size = $options['size'];
+        }
+        if(isset($options['min']) && is_int($options['min']) &&
+           isset($options['max']) && is_int($options['max'])) {
+            $this->min = $options['min'];
+            $this->max = $options['max'];
+        }
+
+
         // TODO
-        $this->type = $options['type'];
     }
 
     /**
@@ -59,10 +68,10 @@ class SizeValidator extends Validator
         $size = $this->getSize($value);
 
         // min & max value
-        if(\is_array($this->options) && count($this->options) == 2) {
-            return $size > $this->options[0] && $size < $this->options[1];
+        if(!is_null($this->min) && !is_null($this->max)) {
+            return $size > $this->min && $size < $this->max;
         } else {
-            return $size == $this->options;
+            return $size == $this->size;
         }
     }
 }
