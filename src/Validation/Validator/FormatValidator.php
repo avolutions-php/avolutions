@@ -63,7 +63,7 @@ class FormatValidator extends Validator
                 return filter_var($value, FILTER_VALIDATE_URL) !== false;
             case 'json':
                 json_decode($value);
-                return (json_last_error() == JSON_ERROR_NONE);
+                return !(json_last_error() == JSON_ERROR_NONE);
             default:
                 return false;
         }
