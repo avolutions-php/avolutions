@@ -27,6 +27,11 @@ class RegexValidator extends Validator
      * TODO
      */
     private $pattern;
+    
+    /**
+     * TODO
+     */
+    private $not = false;
 
     /**
      * setOptions
@@ -39,6 +44,14 @@ class RegexValidator extends Validator
         } else {
             $this->pattern = $options['pattern'];
         }
+
+        if(isset($options['not'])) {
+            if(!is_bool($options['not'])) {
+                // TODO
+            } else {
+                $this->not = $options['not'];
+            }
+        }
     }
 
     /**
@@ -49,6 +62,10 @@ class RegexValidator extends Validator
      * @return bool TODO
      */
     public function isValid($value) {
-        return preg_match($this->pattern, $value);
+        if($this->not) {
+            return !preg_match($this->pattern, $value);
+        } else {
+            return preg_match($this->pattern, $value);
+        }
     }
 }
