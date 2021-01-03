@@ -33,7 +33,7 @@ class FormatValidator extends Validator
      * 
      * TODO
      */
-    public function setOptions($options = null) {
+    public function setOptions($options = null, $Entity = null) {
         $validFormats = ['ip', 'ip4', 'ip6', 'mail', 'url', 'json'];
         if(!isset($options['format']) || !in_array($options['format'], $validFormats)) {
             throw new \Exception('Invalid format, must be either '.\implode($validFormats, ' '));

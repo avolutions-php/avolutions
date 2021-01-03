@@ -43,7 +43,7 @@ class SizeValidator extends Validator
      * 
      * TODO
      */
-    public function setOptions($options = null) {
+    public function setOptions($options = null, $Entity = null) {
         if(isset($options['size']) && is_int($options['size'])) {
             $this->size = $options['size'];
         }

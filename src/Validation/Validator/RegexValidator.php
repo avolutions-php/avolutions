@@ -33,7 +33,7 @@ class RegexValidator extends Validator
      * 
      * TODO
      */
-    public function setOptions($options = null) {
+    public function setOptions($options = null, $Entity = null) {
         if(!isset($options['pattern']) || !is_string($options['pattern'])) {
             // TODO
         } else {

@@ -22,22 +22,31 @@ use Avolutions\Validation\ValidatorInterface;
  * @since	0.6.0
  */
 abstract class Validator implements ValidatorInterface
-{		
+{
     /**
 	 * TODO
 	 */
-    protected $options;
+    protected $options = [];	
 
-    public function __construct($options = null) {
-        $this->setOptions($options);
+    /**
+	 * TODO
+	 */
+    protected $Entity = null;
+    
+    /**
+     * __construct
+     * 
+     * TODO
+     */
+    public function __construct($options = null, $Entity = null) {
+        $this->setOptions($options, $Entity);
     }
 
-    public function setOptions($options = null) {
-        $this->options = $options; 
-    }
-
-    public abstract function isValid($values);
-
+    /**
+     * getSize
+     * 
+     * TODO
+     */
     protected function getSize($value) {
         if(\is_numeric($value)) {
             return $value;
@@ -46,5 +55,22 @@ abstract class Validator implements ValidatorInterface
         } else {
             return strlen($value);
         }
+    }
+
+    /**
+     * isValid
+     * 
+     * TODO
+     */
+    public abstract function isValid($values);
+
+    /**
+     * setOptions
+     * 
+     * TODO
+     */
+    public function setOptions($options = null, $Entity = null) {
+        $this->options = $options;
+        $this->Entity = $Entity;
     }
 }
