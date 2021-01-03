@@ -44,10 +44,22 @@ class RangeValidator extends Validator
      * TODO
      */
     public function setOptions($options = null, $Entity = null) {
-        if(!isset($options['range']) || !is_array($options['range'])) {
-            // TODO
+        if(isset($options['range'])) {
+            if(!is_array($options['range'])) {
+                // TODO
+            } else {
+                $this->range = $options['range'];
+            }
+        } elseif(isset($options['attribute'])) {
+            if(!is_string($options['attribute']) || !property_exists($Entity, $options['attribute'])) {
+                // TODO
+            } else {
+                $attribute = $options['attribute'];
+                // TODO check if attribute is array?
+                $this->range = $Entity->$attribute;
+            }
         } else {
-            $this->range = $options['range'];
+            // TODO
         }
 
         if(isset($options['not'])) {
