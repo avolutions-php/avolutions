@@ -46,7 +46,18 @@ class CompareValidator extends Validator
             $this->operator = $options['operator'];
         }
 
-        $this->compareValue = $options['value'];
+        if(isset($options['value'])) {
+            $this->compareValue = $options['value'];
+        } elseif(isset($options['attribute'])) {
+            if(!is_string($options['attribute']) || !property_exists($Entity, $options['attribute'])) {
+                // TODO
+            } else {
+                $attribute = $options['attribute'];
+                $this->compareValue = $Entity->$attribute;
+            }
+        } else {
+            // TODO
+        }        
     }
 
     /**
