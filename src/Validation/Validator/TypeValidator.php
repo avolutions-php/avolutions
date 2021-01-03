@@ -33,7 +33,7 @@ class TypeValidator extends Validator
      * 
      * TODO
      */
-    public function setOptions($options = null, $Entity = null) {
+    public function setOptions($options = [], $property = null, $Entity = null) {
         $validTypes = ['int', 'string', 'bool', 'array'];
         if(isset($options['type']) && !in_array($options['type'], $validTypes)) {
             throw new \Exception('Invalid type, must be either '.\implode($validTypes, ' '));

@@ -31,6 +31,11 @@ abstract class Validator implements ValidatorInterface
     /**
 	 * TODO
 	 */
+    protected $property = [];	
+
+    /**
+	 * TODO
+	 */
     protected $Entity = null;
     
     /**
@@ -38,8 +43,8 @@ abstract class Validator implements ValidatorInterface
      * 
      * TODO
      */
-    public function __construct($options = null, $Entity = null) {
-        $this->setOptions($options, $Entity);
+    public function __construct($options = [], $property = null, $Entity = null) {
+        $this->setOptions($options, $property, $Entity);
     }
 
     /**
@@ -69,8 +74,9 @@ abstract class Validator implements ValidatorInterface
      * 
      * TODO
      */
-    public function setOptions($options = null, $Entity = null) {
+    public function setOptions($options = [], $property = null, $Entity = null) {
         $this->options = $options;
+        $this->property = $property;
         $this->Entity = $Entity;
     }
 }

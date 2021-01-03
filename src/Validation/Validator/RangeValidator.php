@@ -43,7 +43,7 @@ class RangeValidator extends Validator
      * 
      * TODO
      */
-    public function setOptions($options = null, $Entity = null) {
+    public function setOptions($options = [], $property = null, $Entity = null) {
         if(isset($options['range'])) {
             if(!is_array($options['range'])) {
                 // TODO

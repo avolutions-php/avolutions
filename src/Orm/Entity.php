@@ -241,7 +241,7 @@ class Entity
             if(isset($value['validation'])) {
                 foreach($value['validation'] as $validator => $options) {
                     $fullValidatorName = VALIDATOR_NAMESPACE.ucfirst($validator).VALIDATOR;
-		            $Validator = new $fullValidatorName($options, $this);	
+		            $Validator = new $fullValidatorName($options, $property, $this);	
                     if(!$Validator->isValid($this->$property)) {
                         // TODO fill messages
                         $messages[$property][$validator] = 'Fehler '.$property.' '.$validator;

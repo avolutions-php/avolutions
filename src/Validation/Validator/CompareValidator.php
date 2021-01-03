@@ -38,7 +38,7 @@ class CompareValidator extends Validator
      * 
      * TODO
      */
-    public function setOptions($options = null, $Entity = null) {
+    public function setOptions($options = [], $property = null, $Entity = null) {
         $validOperators = ['==', '===', '!=', '!==', '>', '>=', '<', '<='];
         if(isset($options['operator']) && !in_array($options['operator'], $validOperators)) {
             throw new \Exception('Invalid operator, must be either '.\implode($validOperators, ' '));
@@ -57,7 +57,7 @@ class CompareValidator extends Validator
             }
         } else {
             // TODO
-        }        
+        }
     }
 
     /**
