@@ -45,14 +45,20 @@ class Form
     private $entityName = null;
 
     /**
+     * @var array $errors TODO
+     */
+    private $errors = null;
+
+    /**
 	 * __construct
 	 *
 	 * Creates a new Form instance. If a Entity is given the method loads
      * the EntityConfiguration and EntityMapping automatically.
      * 
      * @param Entity $Entity The Entity context of the form.
+     * @param array $errors TODO
 	 */
-    public function __construct($Entity = null) 
+    public function __construct($Entity = null, $errors = null) 
     {
         if($Entity instanceof Entity) {
             $this->Entity = $Entity;
@@ -60,6 +66,8 @@ class Form
             $this->EntityConfiguration = new EntityConfiguration($this->entityName);
             $this->EntityMapping = $this->EntityConfiguration->getMapping();
         }
+
+        $this->errors = $errors;
     }
 
     /**
@@ -79,7 +87,7 @@ class Form
 
         $attributes = [
             'name' => lcfirst($this->entityName).'['.$fieldName.']',
-            'value' => $this->Entity->exists() ? $this->Entity->$fieldName : null
+            'value' => $this->Entity->$fieldName
         ];
 
         $inputType = $this->EntityMapping->$fieldName['form']['type'];
@@ -105,10 +113,34 @@ class Form
                 break;
         }
 
+        if(isset($this->errors[$fieldName])) {
+            $input .= $this->error($this->errors[$fieldName]);
+        }
+
         return $input;
     }
 
-     /**
+    /**
+	 * error
+	 *
+	 * TODO
+     * 
+     * @param string $message TODO
+     * 
+     * @return string TODO
+     */ 
+    public function error($messages) 
+    {   
+        $error = '';
+
+        foreach($messages as $message) {
+            $error .= '<div class="error">'.$message.'</div>';
+        }
+
+        return $error;
+    }
+
+    /**
 	 * labelFor
 	 *
 	 * Creates a HTML label element for the given Entity field depending on
