@@ -41,7 +41,7 @@ class CompareValidator extends Validator
     public function setOptions($options = [], $property = null, $Entity = null) {
         $validOperators = ['==', '===', '!=', '!==', '>', '>=', '<', '<='];
         if(isset($options['operator']) && !in_array($options['operator'], $validOperators)) {
-            throw new \Exception('Invalid operator, must be either '.\implode($validOperators, ' '));
+            throw new \InvalidArgumentException('Invalid operator, must be either '.\implode($validOperators, ' '));
         } else {
             $this->operator = $options['operator'];
         }
@@ -50,13 +50,13 @@ class CompareValidator extends Validator
             $this->compareValue = $options['value'];
         } elseif(isset($options['attribute'])) {
             if(!is_string($options['attribute']) || !property_exists($Entity, $options['attribute'])) {
-                // TODO
+                throw new \InvalidArgumentException('Attribute does not exist in entity.');
             } else {
                 $attribute = $options['attribute'];
                 $this->compareValue = $Entity->$attribute;
             }
         } else {
-            // TODO
+            throw new \InvalidArgumentException('Either option "value" or "attribute" must be set.');
         }
     }
 

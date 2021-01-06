@@ -46,25 +46,24 @@ class RangeValidator extends Validator
     public function setOptions($options = [], $property = null, $Entity = null) {
         if(isset($options['range'])) {
             if(!is_array($options['range'])) {
-                // TODO
+                throw new \InvalidArgumentException('Option "range" must be of type array.');
             } else {
                 $this->range = $options['range'];
             }
         } elseif(isset($options['attribute'])) {
             if(!is_string($options['attribute']) || !property_exists($Entity, $options['attribute'])) {
-                // TODO
+                throw new \InvalidArgumentException('Attribute does not exist in entity.');
             } else {
                 $attribute = $options['attribute'];
-                // TODO check if attribute is array?
                 $this->range = $Entity->$attribute;
             }
         } else {
-            // TODO
+            throw new \InvalidArgumentException('Either option "range" or "attribute" must be set.');
         }
 
         if(isset($options['not'])) {
             if(!is_bool($options['not'])) {
-                // TODO
+                throw new \InvalidArgumentException('Option "not" must be of type boolean.');
             } else {
                 $this->not = $options['not'];
             }
@@ -72,7 +71,7 @@ class RangeValidator extends Validator
 
         if(isset($options['strict'])) {
             if(!is_bool($options['strict'])) {
-                // TODO
+                throw new \InvalidArgumentException('Option "strict" must be of type boolean.');
             } else {
                 $this->strict = $options['strict'];
             }

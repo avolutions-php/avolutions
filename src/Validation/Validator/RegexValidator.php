@@ -40,14 +40,14 @@ class RegexValidator extends Validator
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
         if(!isset($options['pattern']) || !is_string($options['pattern'])) {
-            // TODO
+            throw new \InvalidArgumentException('Option "pattern" must be set.');
         } else {
             $this->pattern = $options['pattern'];
         }
 
         if(isset($options['not'])) {
             if(!is_bool($options['not'])) {
-                // TODO
+                throw new \InvalidArgumentException('Option "not" must be of type boolean.');
             } else {
                 $this->not = $options['not'];
             }
