@@ -83,11 +83,16 @@ class SizeValidator extends Validator
     public function isValid($value) {
         $size = $this->getSize($value);
 
-        // min & max value
-        if(!is_null($this->min) && !is_null($this->max)) {
-            return $size > $this->min && $size < $this->max;
-        } else {
+        if(!is_null($this->size)) {
             return $size == $this->size;
+        } if(!is_null($this->min) && !is_null($this->max)) {
+            return $size >= $this->min && $size <= $this->max;
+        } elseif (!is_null($this->min) && is_null($this->max)) {
+            return $size >= $this->min;
+        } elseif (is_null($this->min) && !is_null($this->max)) {
+            return $size <= $this->max;
+        } else {
+            return false;
         }
     }
 }
