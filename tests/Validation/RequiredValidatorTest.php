@@ -25,12 +25,22 @@ class RequiredValidatorTest extends TestCase
         $Validator = new RequiredValidator();
         $this->assertEquals($Validator->isValid(1), true);
         $this->assertEquals($Validator->isValid(0), true);
-        $this->assertEquals($Validator->isValid(null), false);
     }
 
     public function testArrayIsValid() {
         $Validator = new RequiredValidator();
         $this->assertEquals($Validator->isValid([1,2,3]), true);
         $this->assertEquals($Validator->isValid([]), false);
+    }
+
+    public function testBoolIsValid() {
+        $Validator = new RequiredValidator();
+        $this->assertEquals($Validator->isValid(true), true);
+        $this->assertEquals($Validator->isValid(false), true);
+    }
+
+    public function testNullIsNotValid() {
+        $Validator = new RequiredValidator();
+        $this->assertEquals($Validator->isValid(null), false);
     }
 }

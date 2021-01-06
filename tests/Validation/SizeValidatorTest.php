@@ -15,67 +15,159 @@ use Avolutions\Validation\Validator\SizeValidator;
 
 class SizeValidatorTest extends TestCase
 {
-    public function testStringIsValid() {
-        $Validator = new SizeValidator(4);
-        $this->assertEquals($Validator->isValid('test'), true);
-        $this->assertEquals($Validator->isValid(''), false);
-        $this->assertEquals($Validator->isValid('testtest'), false);
-        $this->assertEquals($Validator->isValid(null), false);
+    public function testMandatoryOptionsAreSet() {
+        $Validator = new SizeValidator(['size' => 12]);
+        $this->assertInstanceOf(SizeValidator::class, $Validator);
+
+        $Validator = new SizeValidator(['min' => 12]);
+        $this->assertInstanceOf(SizeValidator::class, $Validator);
         
-        $Validator = new SizeValidator([0, 5]);
+        $Validator = new SizeValidator(['max' => 12]);
+        $this->assertInstanceOf(SizeValidator::class, $Validator);
+        
+        $this->expectException(InvalidArgumentException::class);
+        $Validator = new SizeValidator();
+    }
+
+    public function testOptionsValidFormat() {        
+        $this->expectException(InvalidArgumentException::class);
+        $Validator = new SizeValidator(['size' => '12']);
+
+        $this->expectException(InvalidArgumentException::class);
+        $Validator = new SizeValidator(['min' => 'test']);
+        
+        $this->expectException(InvalidArgumentException::class);
+        $Validator = new SizeValidator(['max' => true]);
+    }
+
+    public function testSizeIsValid() {
+        $Validator = new SizeValidator(['size' => 4]);
+
+        // string
+        $this->assertEquals($Validator->isValid(''), false);
+        $this->assertEquals($Validator->isValid('test'), true);
+        $this->assertEquals($Validator->isValid('testt'), false);
+
+        // int        
+        $this->assertEquals($Validator->isValid(0), false);
+        $this->assertEquals($Validator->isValid(4), true);
+        $this->assertEquals($Validator->isValid(5), false);
+
+        // array        
+        $this->assertEquals($Validator->isValid([]), false);
+        $this->assertEquals($Validator->isValid([1,2,3,4]), true);
+        $this->assertEquals($Validator->isValid([1,2,3,4,5]), false);
+
+        // invalid types
+        $this->assertEquals($Validator->isValid(null), false);
+        $this->assertEquals($Validator->isValid(false), false);
+    }
+
+    public function testMinIsValid() {
+        $Validator = new SizeValidator(['min' => 1]);
+
+        // string
+        $this->assertEquals($Validator->isValid(''), false);
         $this->assertEquals($Validator->isValid('t'), true);
         $this->assertEquals($Validator->isValid('test'), true);
-        $this->assertEquals($Validator->isValid(''), false);
-        $this->assertEquals($Validator->isValid('testt'), false);
-        $this->assertEquals($Validator->isValid(null), false);
 
-        $Validator = new SizeValidator([4]);
-        $this->assertEquals($Validator->isValid('test'), false);
-
-        $Validator = new SizeValidator([0,5,10]);
-        $this->assertEquals($Validator->isValid('test'), false);
-    }
-
-    public function testIntIsValid() {
-        $Validator = new SizeValidator(4);
-        $this->assertEquals($Validator->isValid(4), true);
+        // int
         $this->assertEquals($Validator->isValid(0), false);
-        $this->assertEquals($Validator->isValid(5), false);
-        $this->assertEquals($Validator->isValid(null), false);
-        
-        $Validator = new SizeValidator([0, 5]);
         $this->assertEquals($Validator->isValid(1), true);
         $this->assertEquals($Validator->isValid(4), true);
-        $this->assertEquals($Validator->isValid(0), false);
-        $this->assertEquals($Validator->isValid(6), false);
-        $this->assertEquals($Validator->isValid(null), false);
 
-        $Validator = new SizeValidator([4]);
-        $this->assertEquals($Validator->isValid(4), false);
-
-        $Validator = new SizeValidator([0,5,10]);
-        $this->assertEquals($Validator->isValid(4), false);
-    }
-
-    public function testArrayIsValid() {
-        $Validator = new SizeValidator(4);
-        $this->assertEquals($Validator->isValid([1,2,3,4]), true);
-        $this->assertEquals($Validator->isValid([1,2,3]), false);
-        $this->assertEquals($Validator->isValid([1,2,3,4,5]), false);
+        // array        
         $this->assertEquals($Validator->isValid([]), false);
-        $this->assertEquals($Validator->isValid(null), false);
-        
-        $Validator = new SizeValidator([0, 5]);
         $this->assertEquals($Validator->isValid([1]), true);
         $this->assertEquals($Validator->isValid([1,2,3,4]), true);
-        $this->assertEquals($Validator->isValid([]), false);
-        $this->assertEquals($Validator->isValid([1,2,3,4,5]), false);
+
+        // invalid types
         $this->assertEquals($Validator->isValid(null), false);
+        $this->assertEquals($Validator->isValid(false), false);
+    }
 
-        $Validator = new SizeValidator([4]);
-        $this->assertEquals($Validator->isValid([1,2,3,4]), false);
+    public function testMaxIsValid() {
+        $Validator = new SizeValidator(['max' => 4]);
 
-        $Validator = new SizeValidator([0,5,10]);
+        // string
+        $this->assertEquals($Validator->isValid(''), true);
+        $this->assertEquals($Validator->isValid('t'), true);
+        $this->assertEquals($Validator->isValid('test'), true);
+        $this->assertEquals($Validator->isValid('testt'), false);
+
+        // int
+        $this->assertEquals($Validator->isValid(0), true);
+        $this->assertEquals($Validator->isValid(1), true);
+        $this->assertEquals($Validator->isValid(4), true);
+        $this->assertEquals($Validator->isValid(5), false);
+
+        // array
+        $this->assertEquals($Validator->isValid([]), true);
+        $this->assertEquals($Validator->isValid([1]), true);
+        $this->assertEquals($Validator->isValid([1,2,3,4]), true);
+        $this->assertEquals($Validator->isValid([1,2,3,4,5]), false);
+
+        // invalid types
+        $this->assertEquals($Validator->isValid(null), true);
+        $this->assertEquals($Validator->isValid(false), true);
+    }
+
+    public function testMinAndMaxIsValid() {
+        $Validator = new SizeValidator(['min' => 1, 'max' => 4]);
+
+        // string
+        $this->assertEquals($Validator->isValid(''), false);
+        $this->assertEquals($Validator->isValid('t'), true);
+        $this->assertEquals($Validator->isValid('tes'), true);
+        $this->assertEquals($Validator->isValid('test'), true);
+        $this->assertEquals($Validator->isValid('testt'), false);
+
+        // int
+        $this->assertEquals($Validator->isValid(0), false);
+        $this->assertEquals($Validator->isValid(1), true);
+        $this->assertEquals($Validator->isValid(3), true);
+        $this->assertEquals($Validator->isValid(4), true);
+        $this->assertEquals($Validator->isValid(5), false);
+
+        // array
+        $this->assertEquals($Validator->isValid([]), false);
+        $this->assertEquals($Validator->isValid([1]), true);
+        $this->assertEquals($Validator->isValid([1,2,3]), true);
+        $this->assertEquals($Validator->isValid([1,2,3,4]), true);
+        $this->assertEquals($Validator->isValid([1,2,3,4,5]), false);
+
+        // invalid types
+        $this->assertEquals($Validator->isValid(null), false);
+        $this->assertEquals($Validator->isValid(false), false);
+    }
+
+    public function testSizeAsDefaultIsValid() {
+        // Test if 'size' is used if 'size' and 'min/max' are specified
+        $Validator = new SizeValidator(['size' => 3, 'min' => 1, 'max' => 4]);
+
+        // string
+        $this->assertEquals($Validator->isValid(''), false);
+        $this->assertEquals($Validator->isValid('t'), false);
+        $this->assertEquals($Validator->isValid('tes'), true);
+        $this->assertEquals($Validator->isValid('test'), false);
+        $this->assertEquals($Validator->isValid('testt'), false);
+
+        // int
+        $this->assertEquals($Validator->isValid(0), false);
+        $this->assertEquals($Validator->isValid(1), false);
+        $this->assertEquals($Validator->isValid(3), true);
+        $this->assertEquals($Validator->isValid(4), false);
+        $this->assertEquals($Validator->isValid(5), false);
+
+        // array
+        $this->assertEquals($Validator->isValid([]), false);
+        $this->assertEquals($Validator->isValid([1]), false);
+        $this->assertEquals($Validator->isValid([1,2,3]), true);
         $this->assertEquals($Validator->isValid([1,2,3,4]), false);
+        $this->assertEquals($Validator->isValid([1,2,3,4,5]), false);
+
+        // invalid types
+        $this->assertEquals($Validator->isValid(null), false);
+        $this->assertEquals($Validator->isValid(false), false);
     }
 }
