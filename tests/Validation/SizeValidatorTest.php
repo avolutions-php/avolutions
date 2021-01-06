@@ -29,15 +29,28 @@ class SizeValidatorTest extends TestCase
         $Validator = new SizeValidator();
     }
 
-    public function testOptionsValidFormat() {        
+    public function testOptionSizeValidFormat() {   
+        $Validator = new SizeValidator(['size' => 12]);
+        $this->assertInstanceOf(SizeValidator::class, $Validator);
+
         $this->expectException(InvalidArgumentException::class);
         $Validator = new SizeValidator(['size' => '12']);
+    }
+
+    public function testOptionMinValidFormat() {        
+        $Validator = new SizeValidator(['min' => 12]);
+        $this->assertInstanceOf(SizeValidator::class, $Validator);
 
         $this->expectException(InvalidArgumentException::class);
         $Validator = new SizeValidator(['min' => 'test']);
-        
+    }
+
+    public function testOptionMaxValidFormat() {
+        $Validator = new SizeValidator(['max' => 12]);
+        $this->assertInstanceOf(SizeValidator::class, $Validator);
+
         $this->expectException(InvalidArgumentException::class);
-        $Validator = new SizeValidator(['max' => true]);
+        $Validator = new SizeValidator(['max' => 'test']);
     }
 
     public function testSizeIsValid() {

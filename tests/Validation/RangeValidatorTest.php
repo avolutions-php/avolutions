@@ -38,24 +38,36 @@ class RangeValidatorTest extends TestCase
         $Validator = new RangeValidator();
     }
 
-    public function testOptionsValidFormat() {        
+    public function testOptionRangeValidFormat() {      
+        $Validator = new RangeValidator(['range' => []]);
+        $this->assertInstanceOf(RangeValidator::class, $Validator);
+
         $this->expectException(InvalidArgumentException::class);
         $Validator = new RangeValidator(['range' => 'test']);
+    }
+
+    public function testOptionAttributeValidFormat() {  
+        $Validator = new RangeValidator(['attribute' => 'range'], null, $this->Entity);
+        $this->assertInstanceOf(RangeValidator::class, $Validator);
 
         $this->expectException(InvalidArgumentException::class);
         $Validator = new RangeValidator(['attribute' => 'test'], null, $this->Entity);
-        
-        $this->expectException(InvalidArgumentException::class);
-        $Validator = new RangeValidator(['range' => [],'not' => 'test']);
-
+    }
+    
+    public function testOptionNotValidFormat() {  
         $Validator = new RangeValidator(['range' => [], 'not' => true]);
         $this->assertInstanceOf(RangeValidator::class, $Validator);
 
         $this->expectException(InvalidArgumentException::class);
-        $Validator = new RangeValidator(['range' => [], 'strict' => 'test']);
+        $Validator = new RangeValidator(['range' => [],'not' => 'test']);
+    }
 
+    public function testOptionStrictValidFormat() {
         $Validator = new RangeValidator(['range' => [], 'strict' => true]);
         $this->assertInstanceOf(RangeValidator::class, $Validator);
+
+        $this->expectException(InvalidArgumentException::class);
+        $Validator = new RangeValidator(['range' => [], 'strict' => 'test']);
     }
 
     public function testRangeIsValid() {        
@@ -64,19 +76,19 @@ class RangeValidatorTest extends TestCase
 
         foreach($Validators as $Validator) {
             // string
-            $this->assertEquals($Validator->isValid(''), false); // TODO why is this true?
+            $this->assertEquals($Validator->isValid(''), true); // because of null
             $this->assertEquals($Validator->isValid('test'), true);
             $this->assertEquals($Validator->isValid('1'), true);
-            $this->assertEquals($Validator->isValid('false'), true);
+            $this->assertEquals($Validator->isValid('false'), false);
 
             // int
-            $this->assertEquals($Validator->isValid(0), false);
+            $this->assertEquals($Validator->isValid(0), true);
             $this->assertEquals($Validator->isValid(1), true);
-            $this->assertEquals($Validator->isValid(2), true);
+            $this->assertEquals($Validator->isValid(2), false);
             $this->assertEquals($Validator->isValid(4), true);
 
             // bool
-            $this->assertEquals($Validator->isValid(true), false);
+            $this->assertEquals($Validator->isValid(true), true); // because of 1
             $this->assertEquals($Validator->isValid(false), true);
 
             // array
@@ -94,19 +106,19 @@ class RangeValidatorTest extends TestCase
 
         foreach($Validators as $Validator) {
             // string
-            $this->assertEquals($Validator->isValid(''), true); // TODO why is this false?
+            $this->assertEquals($Validator->isValid(''), false); // because of null
             $this->assertEquals($Validator->isValid('test'), false);
             $this->assertEquals($Validator->isValid('1'), false);
-            $this->assertEquals($Validator->isValid('false'), false);
+            $this->assertEquals($Validator->isValid('false'), true);
 
             // int
-            $this->assertEquals($Validator->isValid(0), true);
+            $this->assertEquals($Validator->isValid(0), false);
             $this->assertEquals($Validator->isValid(1), false);
-            $this->assertEquals($Validator->isValid(2), false);
+            $this->assertEquals($Validator->isValid(2), true);
             $this->assertEquals($Validator->isValid(4), false);
 
             // bool
-            $this->assertEquals($Validator->isValid(true), true);
+            $this->assertEquals($Validator->isValid(true), false); // because of 1
             $this->assertEquals($Validator->isValid(false), false);
 
             // array
@@ -124,7 +136,7 @@ class RangeValidatorTest extends TestCase
 
         foreach($Validators as $Validator) {
             // string
-            $this->assertEquals($Validator->isValid(''), false); // TODO why is this true?
+            $this->assertEquals($Validator->isValid(''), false); // because of null
             $this->assertEquals($Validator->isValid('test'), true);
             $this->assertEquals($Validator->isValid('1'), false);
             $this->assertEquals($Validator->isValid('false'), false);
@@ -132,11 +144,11 @@ class RangeValidatorTest extends TestCase
             // int
             $this->assertEquals($Validator->isValid(0), false);
             $this->assertEquals($Validator->isValid(1), true);
-            $this->assertEquals($Validator->isValid(2), true);
+            $this->assertEquals($Validator->isValid(2), false);
             $this->assertEquals($Validator->isValid(4), false);
 
             // bool
-            $this->assertEquals($Validator->isValid(true), false);
+            $this->assertEquals($Validator->isValid(true), false); // because of 1
             $this->assertEquals($Validator->isValid(false), true);
 
             // array

@@ -25,27 +25,18 @@ class CompareValidatorTest extends TestCase
         $this->Entity->testInt = 123;
     }
 
-    public function testMandatoryOptionsAreSet() {        
+    public function testMandatoryOptionOperatorIsSet() {
         $Validator = new CompareValidator(['operator' => '==', 'value' => 'test']);
         $this->assertInstanceOf(CompareValidator::class, $Validator);
-        
+
         $Validator = new CompareValidator(['operator' => '==', 'attribute' => 'testString'], null, $this->Entity);
         $this->assertInstanceOf(CompareValidator::class, $Validator);
 
         $this->expectException(InvalidArgumentException::class);
-        $Validator = new CompareValidator();
-
-        $this->expectException(InvalidArgumentException::class);
         $Validator = new CompareValidator(['operator' => '==']);
-        
-        $this->expectException(InvalidArgumentException::class);
-        $Validator = new CompareValidator(['value' => 'test']);
-        
-        $this->expectException(InvalidArgumentException::class);
-        $Validator = new CompareValidator(['attribute' => 'test']);
     }
 
-    public function testOptionsValidFormat() {
+    public function testOptionOperatorValidFormat() {
         $validOperators = ['==', '===', '!=', '!==', '>', '>=', '<', '<='];
         foreach($validOperators as $validOperator) {
             $Validator = new CompareValidator(['operator' => $validOperator, 'value' => 'test']);
@@ -64,7 +55,7 @@ class CompareValidatorTest extends TestCase
             $this->assertEquals($Validator->isValid('123'), true);
             $this->assertEquals($Validator->isValid('test'), false);
             $this->assertEquals($Validator->isValid(123), true);
-            $this->assertEquals($Validator->isValid(true), false);
+            $this->assertEquals($Validator->isValid(true), true);
             $this->assertEquals($Validator->isValid([1,2,3]), false);
         }
     }
@@ -90,7 +81,7 @@ class CompareValidatorTest extends TestCase
             $this->assertEquals($Validator->isValid('123'), false);
             $this->assertEquals($Validator->isValid('test'), true);
             $this->assertEquals($Validator->isValid(123), false);
-            $this->assertEquals($Validator->isValid(true), true);
+            $this->assertEquals($Validator->isValid(true), false);
             $this->assertEquals($Validator->isValid([1,2,3]), true);
         }
     }
@@ -119,7 +110,7 @@ class CompareValidatorTest extends TestCase
             $this->assertEquals($Validator->isValid(123), false);
             $this->assertEquals($Validator->isValid(124), true);
             $this->assertEquals($Validator->isValid(true), false);
-            $this->assertEquals($Validator->isValid([1,2,3]), false);
+            $this->assertEquals($Validator->isValid([1,2,3]), true);
         }
     }
 
@@ -128,13 +119,13 @@ class CompareValidatorTest extends TestCase
         $Validators[] = new CompareValidator(['operator' => '>=', 'attribute' => 'testInt'], null, $this->Entity);
 
         foreach($Validators as $Validator) {
-            $this->assertEquals($Validator->isValid('123'), false);
+            $this->assertEquals($Validator->isValid('123'), true);
             $this->assertEquals($Validator->isValid('test'), false);
             $this->assertEquals($Validator->isValid(122), false);
             $this->assertEquals($Validator->isValid(123), true);
             $this->assertEquals($Validator->isValid(124), true);
-            $this->assertEquals($Validator->isValid(true), false);
-            $this->assertEquals($Validator->isValid([1,2,3]), false);
+            $this->assertEquals($Validator->isValid(true), true);
+            $this->assertEquals($Validator->isValid([1,2,3]), true);
         }
     }
 
@@ -144,7 +135,7 @@ class CompareValidatorTest extends TestCase
 
         foreach($Validators as $Validator) {
             $this->assertEquals($Validator->isValid('123'), false);
-            $this->assertEquals($Validator->isValid('test'), false);
+            $this->assertEquals($Validator->isValid('test'), true);
             $this->assertEquals($Validator->isValid(122), true);
             $this->assertEquals($Validator->isValid(123), false);
             $this->assertEquals($Validator->isValid(124), false);
@@ -158,12 +149,12 @@ class CompareValidatorTest extends TestCase
         $Validators[] = new CompareValidator(['operator' => '<=', 'attribute' => 'testInt'], null, $this->Entity);
 
         foreach($Validators as $Validator) {
-            $this->assertEquals($Validator->isValid('123'), false);
-            $this->assertEquals($Validator->isValid('test'), false);
+            $this->assertEquals($Validator->isValid('123'), true);
+            $this->assertEquals($Validator->isValid('test'), true);
             $this->assertEquals($Validator->isValid(122), true);
             $this->assertEquals($Validator->isValid(123), true);
             $this->assertEquals($Validator->isValid(124), false);
-            $this->assertEquals($Validator->isValid(true), false);
+            $this->assertEquals($Validator->isValid(true), true);
             $this->assertEquals($Validator->isValid([1,2,3]), false);
         }
     }

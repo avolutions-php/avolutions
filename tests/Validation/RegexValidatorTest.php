@@ -23,16 +23,21 @@ class RegexValidatorTest extends TestCase
         $Validator = new RegexValidator();
     }
 
-    public function testOptionsValidFormat() {                    
+    public function testOptionPatternValidFormat() {
+        $Validator = new RegexValidator(['pattern' => '/[a-z]/']);
+        $this->assertInstanceOf(RegexValidator::class, $Validator);
+
         $this->expectException(InvalidArgumentException::class);
         $Validator = new RegexValidator(['pattern' => 123]);
-        
-        $Validator = new RegexValidator(['pattern' => '/[a-z]/', 'not' => true]);        
+    }
+
+    public function testOptionNotValidFormat() {
+        $Validator = new RegexValidator(['pattern' => '/[a-z]/', 'not' => true]);
         $this->assertInstanceOf(RegexValidator::class, $Validator);
-        
+
         $this->expectException(InvalidArgumentException::class);
         $Validator = new RegexValidator(['pattern' => '/[a-z]/', 'not' => 123]);
-    }
+    }      
 
     public function testPatternIsValid() {
         $Validator = new RegexValidator(['pattern' => '/[a-z]/']);
@@ -41,7 +46,7 @@ class RegexValidatorTest extends TestCase
     }
 
     public function testPatternIsNotValid() {
-        $Validator = new RegexValidator(['pattern' => '/[a-z]/', 'not' => 'true']);
+        $Validator = new RegexValidator(['pattern' => '/[a-z]/', 'not' => true]);
         $this->assertEquals($Validator->isValid('abc'), false);
         $this->assertEquals($Validator->isValid(123), true);
     }
