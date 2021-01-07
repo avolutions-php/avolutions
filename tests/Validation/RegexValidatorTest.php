@@ -11,7 +11,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-use Avolutions\Validation\Validator\RegexValidator;
+use Avolutions\Validation\RegexValidator;
 
 class RegexValidatorTest extends TestCase
 {

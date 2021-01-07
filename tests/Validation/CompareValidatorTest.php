@@ -12,7 +12,7 @@
 use PHPUnit\Framework\TestCase;
 
 use Avolutions\Orm\Entity;
-use Avolutions\Validation\Validator\CompareValidator;
+use Avolutions\Validation\CompareValidator;
 
 class CompareValidatorTest extends TestCase
 {

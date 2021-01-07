@@ -11,7 +11,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-use Avolutions\Validation\Validator\FormatValidator;
+use Avolutions\Validation\FormatValidator;
 
 class FormatValidatorTest extends TestCase
 {

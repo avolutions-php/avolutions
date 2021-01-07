@@ -9,7 +9,7 @@
  * @link		http://avolutions.org
  */
 
-namespace Avolutions\Validation\Validator;
+namespace Avolutions\Validation;
 
 use Avolutions\Orm\EntityCollection;
 use Avolutions\Validation\Validator;

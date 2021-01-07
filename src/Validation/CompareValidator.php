@@ -9,7 +9,7 @@
  * @link		http://avolutions.org
  */
 
-namespace Avolutions\Validation\Validator;
+namespace Avolutions\Validation;
 
 use Avolutions\Validation\Validator;
 

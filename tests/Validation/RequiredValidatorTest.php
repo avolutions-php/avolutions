@@ -11,7 +11,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-use Avolutions\Validation\Validator\RequiredValidator;
+use Avolutions\Validation\RequiredValidator;
 
 class RequiredValidatorTest extends TestCase
 {

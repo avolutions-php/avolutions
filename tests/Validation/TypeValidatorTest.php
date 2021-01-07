@@ -11,7 +11,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-use Avolutions\Validation\Validator\TypeValidator;
+use Avolutions\Validation\TypeValidator;
 
 class TypeValidatorTest extends TestCase
 {

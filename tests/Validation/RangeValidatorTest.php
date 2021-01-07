@@ -12,7 +12,7 @@
 use PHPUnit\Framework\TestCase;
 
 use Avolutions\Orm\Entity;
-use Avolutions\Validation\Validator\RangeValidator;
+use Avolutions\Validation\RangeValidator;
 
 class RangeValidatorTest extends TestCase
 {

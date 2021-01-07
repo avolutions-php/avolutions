@@ -11,7 +11,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-use Avolutions\Validation\Validator\SizeValidator;
+use Avolutions\Validation\SizeValidator;
 
 class SizeValidatorTest extends TestCase
 {
