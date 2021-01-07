@@ -1,10 +1,10 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
+ *
+ * @copyright	Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license		MIT License (http://avolutions.org/license)
  * @link		http://avolutions.org
  */
@@ -22,7 +22,7 @@ class TypeValidatorTest extends TestCase
 
     public function testOptionsValidFormat() {
         $validTypes = ['int', 'integer', 'string', 'bool', 'boolean', 'array'];
-        foreach($validTypes as $validType) {
+        foreach ($validTypes as $validType) {
             $Validator = new TypeValidator(['type' => $validType]);
             $this->assertInstanceOf(TypeValidator::class, $Validator);
         }
@@ -33,6 +33,7 @@ class TypeValidatorTest extends TestCase
 
     public function testStringIsValid() {
         $Validator = new TypeValidator(['type' => 'string']);
+
         $this->assertEquals($Validator->isValid('test'), true);
         $this->assertEquals($Validator->isValid(''), true);
         $this->assertEquals($Validator->isValid(123), false);
@@ -43,6 +44,7 @@ class TypeValidatorTest extends TestCase
 
     public function testIntIsValid() {
         $Validator = new TypeValidator(['type' => 'int']);
+
         $this->assertEquals($Validator->isValid(123), true);
         $this->assertEquals($Validator->isValid(0), true);
         $this->assertEquals($Validator->isValid('123'), false);
@@ -53,6 +55,7 @@ class TypeValidatorTest extends TestCase
 
     public function testIntegerIsValid() {
         $Validator = new TypeValidator(['type' => 'integer']);
+
         $this->assertEquals($Validator->isValid(123), true);
         $this->assertEquals($Validator->isValid(0), true);
         $this->assertEquals($Validator->isValid('123'), false);
@@ -63,6 +66,7 @@ class TypeValidatorTest extends TestCase
 
     public function testBoolIsValid() {
         $Validator = new TypeValidator(['type' => 'bool']);
+
         $this->assertEquals($Validator->isValid(true), true);
         $this->assertEquals($Validator->isValid(false), true);
         $this->assertEquals($Validator->isValid('123'), false);
@@ -73,6 +77,7 @@ class TypeValidatorTest extends TestCase
 
     public function testBooleanIsValid() {
         $Validator = new TypeValidator(['type' => 'boolean']);
+
         $this->assertEquals($Validator->isValid(true), true);
         $this->assertEquals($Validator->isValid(false), true);
         $this->assertEquals($Validator->isValid('123'), false);
@@ -83,6 +88,7 @@ class TypeValidatorTest extends TestCase
 
     public function testArrayIsValid() {
         $Validator = new TypeValidator(['type' => 'array']);
+
         $this->assertEquals($Validator->isValid([1,2,3]), true);
         $this->assertEquals($Validator->isValid(['1','2','3']), true);
         $this->assertEquals($Validator->isValid([]), true);

@@ -1,10 +1,10 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
+ *
+ * @copyright	Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license		MIT License (http://avolutions.org/license)
  * @link		http://avolutions.org
  */
@@ -38,7 +38,7 @@ class CompareValidatorTest extends TestCase
 
     public function testOptionOperatorValidFormat() {
         $validOperators = ['==', '===', '!=', '!==', '>', '>=', '<', '<='];
-        foreach($validOperators as $validOperator) {
+        foreach ($validOperators as $validOperator) {
             $Validator = new CompareValidator(['operator' => $validOperator, 'value' => 'test']);
             $this->assertInstanceOf(CompareValidator::class, $Validator);
         }
@@ -51,7 +51,7 @@ class CompareValidatorTest extends TestCase
         $Validators[] = new CompareValidator(['operator' => '==', 'value' => '123']);
         $Validators[] = new CompareValidator(['operator' => '==', 'attribute' => 'testString'], null, $this->Entity);
 
-        foreach($Validators as $Validator) {
+        foreach ($Validators as $Validator) {
             $this->assertEquals($Validator->isValid('123'), true);
             $this->assertEquals($Validator->isValid('test'), false);
             $this->assertEquals($Validator->isValid(123), true);
@@ -59,12 +59,12 @@ class CompareValidatorTest extends TestCase
             $this->assertEquals($Validator->isValid([1,2,3]), false);
         }
     }
-    
-    public function testIsIdentical() {        
+
+    public function testIsIdentical() {
         $Validators[] = new CompareValidator(['operator' => '===', 'value' => '123']);
         $Validators[] = new CompareValidator(['operator' => '===', 'attribute' => 'testString'], null, $this->Entity);
 
-        foreach($Validators as $Validator) {
+        foreach ($Validators as $Validator) {
             $this->assertEquals($Validator->isValid('123'), true);
             $this->assertEquals($Validator->isValid('test'), false);
             $this->assertEquals($Validator->isValid(123), false);
@@ -77,7 +77,7 @@ class CompareValidatorTest extends TestCase
         $Validators[] = new CompareValidator(['operator' => '!=', 'value' => '123']);
         $Validators[] = new CompareValidator(['operator' => '!=', 'attribute' => 'testString'], null, $this->Entity);
 
-        foreach($Validators as $Validator) {
+        foreach ($Validators as $Validator) {
             $this->assertEquals($Validator->isValid('123'), false);
             $this->assertEquals($Validator->isValid('test'), true);
             $this->assertEquals($Validator->isValid(123), false);
@@ -90,7 +90,7 @@ class CompareValidatorTest extends TestCase
         $Validators[] = new CompareValidator(['operator' => '!==', 'value' => '123']);
         $Validators[] = new CompareValidator(['operator' => '!==', 'attribute' => 'testString'], null, $this->Entity);
 
-        foreach($Validators as $Validator) {
+        foreach ($Validators as $Validator) {
             $this->assertEquals($Validator->isValid('123'), false);
             $this->assertEquals($Validator->isValid('test'), true);
             $this->assertEquals($Validator->isValid(123), true);
@@ -103,7 +103,7 @@ class CompareValidatorTest extends TestCase
         $Validators[] = new CompareValidator(['operator' => '>', 'value' => 123]);
         $Validators[] = new CompareValidator(['operator' => '>', 'attribute' => 'testInt'], null, $this->Entity);
 
-        foreach($Validators as $Validator) {
+        foreach ($Validators as $Validator) {
             $this->assertEquals($Validator->isValid('123'), false);
             $this->assertEquals($Validator->isValid('test'), false);
             $this->assertEquals($Validator->isValid(122), false);
@@ -114,11 +114,11 @@ class CompareValidatorTest extends TestCase
         }
     }
 
-    public function testIsGreaterOrEqualThan() {        
+    public function testIsGreaterOrEqualThan() {
         $Validators[] = new CompareValidator(['operator' => '>=', 'value' => 123]);
         $Validators[] = new CompareValidator(['operator' => '>=', 'attribute' => 'testInt'], null, $this->Entity);
 
-        foreach($Validators as $Validator) {
+        foreach ($Validators as $Validator) {
             $this->assertEquals($Validator->isValid('123'), true);
             $this->assertEquals($Validator->isValid('test'), false);
             $this->assertEquals($Validator->isValid(122), false);
@@ -129,11 +129,11 @@ class CompareValidatorTest extends TestCase
         }
     }
 
-    public function testIsLessThan() {      
+    public function testIsLessThan() {
         $Validators[] = new CompareValidator(['operator' => '<', 'value' => 123]);
         $Validators[] = new CompareValidator(['operator' => '<', 'attribute' => 'testInt'], null, $this->Entity);
 
-        foreach($Validators as $Validator) {
+        foreach ($Validators as $Validator) {
             $this->assertEquals($Validator->isValid('123'), false);
             $this->assertEquals($Validator->isValid('test'), true);
             $this->assertEquals($Validator->isValid(122), true);
@@ -148,7 +148,7 @@ class CompareValidatorTest extends TestCase
         $Validators[] = new CompareValidator(['operator' => '<=', 'value' => 123]);
         $Validators[] = new CompareValidator(['operator' => '<=', 'attribute' => 'testInt'], null, $this->Entity);
 
-        foreach($Validators as $Validator) {
+        foreach ($Validators as $Validator) {
             $this->assertEquals($Validator->isValid('123'), true);
             $this->assertEquals($Validator->isValid('test'), true);
             $this->assertEquals($Validator->isValid(122), true);

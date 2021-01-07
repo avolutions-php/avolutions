@@ -1,10 +1,10 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
+ *
+ * @copyright	Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license		MIT License (http://avolutions.org/license)
  * @link		http://avolutions.org
  */
@@ -17,7 +17,7 @@ use Avolutions\Validation\Validator;
  * FormatValidator
  *
  * TODO
- * 
+ *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
  */
@@ -30,12 +30,12 @@ class FormatValidator extends Validator
 
     /**
      * setOptions
-     * 
+     *
      * TODO
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
         $validFormats = ['ip', 'ip4', 'ip6', 'mail', 'url', 'json'];
-        if(!isset($options['format']) || !in_array($options['format'], $validFormats)) {
+        if (!isset($options['format']) || !in_array($options['format'], $validFormats)) {
             throw new \InvalidArgumentException('Invalid format, must be either '.\implode($validFormats, ' '));
         } else {
             $this->format = $options['format'];
@@ -44,13 +44,13 @@ class FormatValidator extends Validator
 
     /**
      * isValid
-     * 
+     *
      * TODO
-     * 
+     *
      * @return bool TODO
      */
     public function isValid($value) {
-        switch($this->format) {
+        switch ($this->format) {
             case 'ip':
                 return filter_var($value, FILTER_VALIDATE_IP) !== false;
             case 'ip4':

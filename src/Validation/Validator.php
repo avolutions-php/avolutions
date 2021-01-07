@@ -1,10 +1,10 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
+ *
+ * @copyright	Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license		MIT License (http://avolutions.org/license)
  * @link		http://avolutions.org
  */
@@ -17,7 +17,7 @@ use Avolutions\Validation\ValidatorInterface;
  * Validator
  *
  * TODO
- * 
+ *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
  */
@@ -26,21 +26,21 @@ abstract class Validator implements ValidatorInterface
     /**
 	 * TODO
 	 */
-    protected $options = [];	
+    protected $options = [];
 
     /**
 	 * TODO
 	 */
-    protected $property = [];	
+    protected $property = [];
 
     /**
 	 * TODO
 	 */
     protected $Entity = null;
-    
+
     /**
      * __construct
-     * 
+     *
      * TODO
      */
     public function __construct($options = [], $property = null, $Entity = null) {
@@ -49,14 +49,14 @@ abstract class Validator implements ValidatorInterface
 
     /**
      * getSize
-     * 
+     *
      * TODO
      */
     protected function getSize($value) {
-        if(\is_numeric($value)) {
+        if (is_numeric($value)) {
             return $value;
         } elseif (is_array($value)) {
-            return count($value); 
+            return count($value);
         } else {
             return strlen($value);
         }
@@ -64,14 +64,14 @@ abstract class Validator implements ValidatorInterface
 
     /**
      * isValid
-     * 
+     *
      * TODO
      */
-    public abstract function isValid($values);
+    abstract public function isValid($values);
 
     /**
      * setOptions
-     * 
+     *
      * TODO
      */
     public function setOptions($options = [], $property = null, $Entity = null) {

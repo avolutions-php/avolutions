@@ -1,10 +1,10 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
+ *
+ * @copyright	Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license		MIT License (http://avolutions.org/license)
  * @link		http://avolutions.org
  */
@@ -27,7 +27,7 @@ class FormatValidatorTest extends TestCase
 
     public function testOptionsValidFormat() {
         $validFormats = ['ip', 'ip4', 'ip6', 'mail', 'url', 'json'];
-        foreach($validFormats as $validFormat) {
+        foreach ($validFormats as $validFormat) {
             $Validator = new FormatValidator(['format' => $validFormat]);
             $this->assertInstanceOf(FormatValidator::class, $Validator);
         }
@@ -38,6 +38,7 @@ class FormatValidatorTest extends TestCase
 
     public function testIpIsValid() {
         $Validator = new FormatValidator(['format' => 'ip']);
+
         $this->assertEquals($Validator->isValid($this->validIp4), true);
         $this->assertEquals($Validator->isValid($this->invalidIp4), false);
         $this->assertEquals($Validator->isValid($this->validIp6), true);
@@ -46,6 +47,7 @@ class FormatValidatorTest extends TestCase
 
     public function testIp4IsValid() {
         $Validator = new FormatValidator(['format' => 'ip4']);
+
         $this->assertEquals($Validator->isValid($this->validIp4), true);
         $this->assertEquals($Validator->isValid($this->invalidIp4), false);
         $this->assertEquals($Validator->isValid($this->validIp6), false);
@@ -54,6 +56,7 @@ class FormatValidatorTest extends TestCase
 
     public function testIp6IsValid() {
         $Validator = new FormatValidator(['format' => 'ip6']);
+
         $this->assertEquals($Validator->isValid($this->validIp4), false);
         $this->assertEquals($Validator->isValid($this->invalidIp4), false);
         $this->assertEquals($Validator->isValid($this->validIp6), true);
@@ -62,6 +65,7 @@ class FormatValidatorTest extends TestCase
 
     public function testMailIsValid() {
         $Validator = new FormatValidator(['format' => 'mail']);
+
         $this->assertEquals($Validator->isValid('alexander.vogt@avolutions.org'), true);
         $this->assertEquals($Validator->isValid('alexander.vogt@avolutionsorg'), false);
         $this->assertEquals($Validator->isValid('alexander.vogtavolutions.org'), false);
@@ -70,6 +74,7 @@ class FormatValidatorTest extends TestCase
 
     public function testUrlIsValid() {
         $Validator = new FormatValidator(['format' => 'url']);
+
         $this->assertEquals($Validator->isValid('https://avolutions.org'), true);
         $this->assertEquals($Validator->isValid('https://avolutionsorg'), true);
         $this->assertEquals($Validator->isValid('http:/avolutions.org'), false);
@@ -99,9 +104,10 @@ class FormatValidatorTest extends TestCase
                 {"value": "Close", "onclick": "CloseDoc()"}
               ]
             }
-          }';  
+          }';
 
         $Validator = new FormatValidator(['format' => 'json']);
+
         $this->assertEquals($Validator->isValid($validJson), true);
         $this->assertEquals($Validator->isValid($invalidJson), false);
     }

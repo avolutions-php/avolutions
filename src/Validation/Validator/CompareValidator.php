@@ -1,10 +1,10 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
+ *
+ * @copyright	Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license		MIT License (http://avolutions.org/license)
  * @link		http://avolutions.org
  */
@@ -17,7 +17,7 @@ use Avolutions\Validation\Validator;
  * CompareValidator
  *
  * TODO
- * 
+ *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
  */
@@ -35,21 +35,21 @@ class CompareValidator extends Validator
 
     /**
      * setOptions
-     * 
+     *
      * TODO
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
         $validOperators = ['==', '===', '!=', '!==', '>', '>=', '<', '<='];
-        if(isset($options['operator']) && !in_array($options['operator'], $validOperators)) {
+        if (isset($options['operator']) && !in_array($options['operator'], $validOperators)) {
             throw new \InvalidArgumentException('Invalid operator, must be either '.\implode($validOperators, ' '));
         } else {
             $this->operator = $options['operator'];
         }
 
-        if(isset($options['value'])) {
+        if (isset($options['value'])) {
             $this->compareValue = $options['value'];
-        } elseif(isset($options['attribute'])) {
-            if(!is_string($options['attribute']) || !property_exists($Entity, $options['attribute'])) {
+        } elseif (isset($options['attribute'])) {
+            if (!is_string($options['attribute']) || !property_exists($Entity, $options['attribute'])) {
                 throw new \InvalidArgumentException('Attribute does not exist in entity.');
             } else {
                 $attribute = $options['attribute'];
@@ -62,19 +62,19 @@ class CompareValidator extends Validator
 
     /**
      * isValid
-     * 
+     *
      * TODO
-     * 
+     *
      * @return bool TODO
      */
     public function isValid($value) {
-        switch($this->operator) {
+        switch ($this->operator) {
             case '==':
                 return $value == $this->compareValue;
             case '===':
                 return $value === $this->compareValue;
             case '!=':
-                return $value != $this->compareValue;                
+                return $value != $this->compareValue;
             case '!==':
                 return $value !== $this->compareValue;
             case '>':

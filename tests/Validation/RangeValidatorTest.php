@@ -1,10 +1,10 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
+ *
+ * @copyright	Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license		MIT License (http://avolutions.org/license)
  * @link		http://avolutions.org
  */
@@ -33,12 +33,12 @@ class RangeValidatorTest extends TestCase
 
         $Validator = new RangeValidator(['attribute' => 'range'], null, $this->Entity);
         $this->assertInstanceOf(RangeValidator::class, $Validator);
-        
+
         $this->expectException(InvalidArgumentException::class);
         $Validator = new RangeValidator();
     }
 
-    public function testOptionRangeValidFormat() {      
+    public function testOptionRangeValidFormat() {
         $Validator = new RangeValidator(['range' => []]);
         $this->assertInstanceOf(RangeValidator::class, $Validator);
 
@@ -46,15 +46,15 @@ class RangeValidatorTest extends TestCase
         $Validator = new RangeValidator(['range' => 'test']);
     }
 
-    public function testOptionAttributeValidFormat() {  
+    public function testOptionAttributeValidFormat() {
         $Validator = new RangeValidator(['attribute' => 'range'], null, $this->Entity);
         $this->assertInstanceOf(RangeValidator::class, $Validator);
 
         $this->expectException(InvalidArgumentException::class);
         $Validator = new RangeValidator(['attribute' => 'test'], null, $this->Entity);
     }
-    
-    public function testOptionNotValidFormat() {  
+
+    public function testOptionNotValidFormat() {
         $Validator = new RangeValidator(['range' => [], 'not' => true]);
         $this->assertInstanceOf(RangeValidator::class, $Validator);
 
@@ -70,11 +70,11 @@ class RangeValidatorTest extends TestCase
         $Validator = new RangeValidator(['range' => [], 'strict' => 'test']);
     }
 
-    public function testRangeIsValid() {        
+    public function testRangeIsValid() {
         $Validators[] = new RangeValidator(['range' => $this->range]);
         $Validators[] = new RangeValidator(['attribute' => 'range'], null, $this->Entity);
 
-        foreach($Validators as $Validator) {
+        foreach ($Validators as $Validator) {
             // string
             $this->assertEquals($Validator->isValid(''), true); // because of null
             $this->assertEquals($Validator->isValid('test'), true);
@@ -95,7 +95,7 @@ class RangeValidatorTest extends TestCase
             $this->assertEquals($Validator->isValid([2,3]), true);
             $this->assertEquals($Validator->isValid([4,5]), false);
 
-            // other        
+            // other
             $this->assertEquals($Validator->isValid(null), true);
         }
     }
@@ -104,7 +104,7 @@ class RangeValidatorTest extends TestCase
         $Validators[] = new RangeValidator(['range' => $this->range, 'not' => true]);
         $Validators[] = new RangeValidator(['attribute' => 'range', 'not' => true], null, $this->Entity);
 
-        foreach($Validators as $Validator) {
+        foreach ($Validators as $Validator) {
             // string
             $this->assertEquals($Validator->isValid(''), false); // because of null
             $this->assertEquals($Validator->isValid('test'), false);
@@ -125,7 +125,7 @@ class RangeValidatorTest extends TestCase
             $this->assertEquals($Validator->isValid([2,3]), false);
             $this->assertEquals($Validator->isValid([4,5]), true);
 
-            // other        
+            // other
             $this->assertEquals($Validator->isValid(null), false);
         }
     }
@@ -134,7 +134,7 @@ class RangeValidatorTest extends TestCase
         $Validators[] = new RangeValidator(['range' => $this->range, 'strict' => true]);
         $Validators[] = new RangeValidator(['attribute' => 'range', 'strict' => true], null, $this->Entity);
 
-        foreach($Validators as $Validator) {
+        foreach ($Validators as $Validator) {
             // string
             $this->assertEquals($Validator->isValid(''), false); // because of null
             $this->assertEquals($Validator->isValid('test'), true);
@@ -155,7 +155,7 @@ class RangeValidatorTest extends TestCase
             $this->assertEquals($Validator->isValid([2,3]), true);
             $this->assertEquals($Validator->isValid([4,5]), false);
 
-            // other        
+            // other
             $this->assertEquals($Validator->isValid(null), true);
         }
     }

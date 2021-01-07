@@ -1,10 +1,10 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
+ *
+ * @copyright	Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license		MIT License (http://avolutions.org/license)
  * @link		http://avolutions.org
  */
@@ -21,15 +21,15 @@ class SizeValidatorTest extends TestCase
 
         $Validator = new SizeValidator(['min' => 12]);
         $this->assertInstanceOf(SizeValidator::class, $Validator);
-        
+
         $Validator = new SizeValidator(['max' => 12]);
         $this->assertInstanceOf(SizeValidator::class, $Validator);
-        
+
         $this->expectException(InvalidArgumentException::class);
         $Validator = new SizeValidator();
     }
 
-    public function testOptionSizeValidFormat() {   
+    public function testOptionSizeValidFormat() {
         $Validator = new SizeValidator(['size' => 12]);
         $this->assertInstanceOf(SizeValidator::class, $Validator);
 
@@ -37,7 +37,7 @@ class SizeValidatorTest extends TestCase
         $Validator = new SizeValidator(['size' => '12']);
     }
 
-    public function testOptionMinValidFormat() {        
+    public function testOptionMinValidFormat() {
         $Validator = new SizeValidator(['min' => 12]);
         $this->assertInstanceOf(SizeValidator::class, $Validator);
 
@@ -61,12 +61,12 @@ class SizeValidatorTest extends TestCase
         $this->assertEquals($Validator->isValid('test'), true);
         $this->assertEquals($Validator->isValid('testt'), false);
 
-        // int        
+        // int
         $this->assertEquals($Validator->isValid(0), false);
         $this->assertEquals($Validator->isValid(4), true);
         $this->assertEquals($Validator->isValid(5), false);
 
-        // array        
+        // array
         $this->assertEquals($Validator->isValid([]), false);
         $this->assertEquals($Validator->isValid([1,2,3,4]), true);
         $this->assertEquals($Validator->isValid([1,2,3,4,5]), false);
@@ -89,7 +89,7 @@ class SizeValidatorTest extends TestCase
         $this->assertEquals($Validator->isValid(1), true);
         $this->assertEquals($Validator->isValid(4), true);
 
-        // array        
+        // array
         $this->assertEquals($Validator->isValid([]), false);
         $this->assertEquals($Validator->isValid([1]), true);
         $this->assertEquals($Validator->isValid([1,2,3,4]), true);
