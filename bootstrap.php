@@ -92,3 +92,8 @@ define('APP_MODEL_NAMESPACE', APPLICATION_NAMESPACE.'\\'.MODEL.'\\');
 if (Config::get('database/migrateOnAppStart')) {
 	Database::migrate();
 }
+
+/**
+ * Include helper
+ */
+require_once SRC_PATH.'Util'.DIRECTORY_SEPARATOR.'helper.php';
