@@ -4,7 +4,7 @@
  *
  * Just another open source PHP framework.
  *
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
+ * @copyright	Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license		MIT License (http://avolutions.org/license)
  * @link		http://avolutions.org
  */
@@ -55,6 +55,10 @@ class Translation extends ConfigFileLoader
 	 */
     public function initialize()
     {
+        if(!is_dir(TRANSLATION_PATH)) {
+            return;
+        }
+
         $DirectoryIterator = new \RecursiveDirectoryIterator(TRANSLATION_PATH, \RecursiveDirectoryIterator::SKIP_DOTS);
         $Iterator = new \RecursiveIteratorIterator($DirectoryIterator);
 
