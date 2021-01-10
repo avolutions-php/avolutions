@@ -23,6 +23,31 @@ use Avolutions\Config\ConfigFileLoader;
  */
 class Translation extends ConfigFileLoader
 {
+    /**
+	 * get
+	 *
+	 * Returns the value for the given key. The key is seperated by slashes (/).
+	 *
+	 * @param string $key The key (slash separated) of the config value.
+	 * @param array $params TODO
+     *
+     * @throws \Exception
+	 *
+	 * @return mixed The config value
+	 */
+    public static function getTranslation($key, $params)
+    {
+        $translation = parent::get($key);
+
+        if (\is_array($params) && count($params) > 0) {
+            foreach ($params as $key => $value) {
+                $translation = str_replace('{'.$key.'}', $value, $translation);
+            }
+        }
+
+        return $translation;
+    }
+
 	/**
 	 * initialize
 	 *

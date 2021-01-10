@@ -11,9 +11,9 @@
 
 use Avolutions\Util\Translation;
 
-function translate($key, $language = null) {
+function translate($key, $params = [], $language = null) {
     if(is_null($language)) {
         $language = config('application/defaultLanguage');
     }
-    return Translation::get($language.'/'.$key);
+    return Translation::getTranslation($language.'/'.$key, $params);
 }
