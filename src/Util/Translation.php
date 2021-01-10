@@ -11,6 +11,7 @@
 
 namespace Avolutions\Util;
 
+use Avolutions\Config\Config;
 use Avolutions\Config\ConfigFileLoader;
 
 /**
@@ -35,13 +36,17 @@ class Translation extends ConfigFileLoader
 	 *
 	 * @return mixed The config value
 	 */
-    public static function getTranslation($key, $params)
+    public static function getTranslation($key, $params = [], $language = null)
     {
-        $translation = parent::get($key);
+        if(is_null($language)) {
+            $language = Config::get('application/defaultLanguage');
+        }
+
+        $translation = parent::get($language.'/'.$key);
 
         if (\is_array($params) && count($params) > 0) {
-            foreach ($params as $key => $value) {
-                $translation = str_replace('{'.$key.'}', $value, $translation);
+            foreach ($params as $paramKey => $paramValue) {
+                $translation = str_replace('{'.$paramKey.'}', $paramValue, $translation);
             }
         }
 
