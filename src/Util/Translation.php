@@ -17,7 +17,8 @@ use Avolutions\Config\ConfigFileLoader;
 /**
  * Translation class
  *
- * TODO
+ * The Translation class loads all translation files at the bootstrapping and can be used to
+ * get the translated values anywhere in the framework or application.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
@@ -25,12 +26,14 @@ use Avolutions\Config\ConfigFileLoader;
 class Translation extends ConfigFileLoader
 {
     /**
-	 * get
+	 * getTranslation
 	 *
-	 * Returns the value for the given key. The key is seperated by slashes (/).
+	 * Returns the translation of the given key and language and replace all placeholders
+     * if params are passed.
 	 *
-	 * @param string $key The key (slash separated) of the config value.
-	 * @param array $params TODO
+	 * @param string $key The key of the translation string.
+     * @param array $params An array with values to replace the placeholders in translation.
+     * @param string $language The language in which the translation should be loaded.
      *
      * @throws \Exception
 	 *
@@ -56,7 +59,7 @@ class Translation extends ConfigFileLoader
 	/**
 	 * initialize
 	 *
-	 * TODO
+	 * Loads all translation values from the translations files.
 	 */
     public function initialize()
     {

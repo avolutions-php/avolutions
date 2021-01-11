@@ -16,7 +16,8 @@ use Avolutions\Core\AbstractSingleton;
 /**
  * ConfigFileLoader class
  *
- * TODO
+ * The ConfigFileLoader class provides the functionality to load config files
+ * from a given path and get single values from it.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
