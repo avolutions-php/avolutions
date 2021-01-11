@@ -1,9 +1,9 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
+ *
  * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
  * @license		MIT License (http://avolutions.org/license)
  * @link		http://avolutions.org
@@ -18,6 +18,7 @@ class ConfigTest extends TestCase
 {
     public function testDefaultConfigValuesCanBeRead()
     {
+        $this->assertEquals(Config::get("application/defaultLanguage"), "en");
         $this->assertEquals(Config::get("application/namespace"), "Application");
 
         $this->assertEquals(Config::get("database/host"), "127.0.0.1");
