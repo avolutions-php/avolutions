@@ -2,7 +2,7 @@
 
 * [Introduction](#introduction)
 * [Helpers](#helpers)
-  * [Translate](#translate)
+  * [translate](#translate)
 
 ## Introduction
 

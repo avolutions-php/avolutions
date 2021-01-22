@@ -64,7 +64,7 @@ Hello Alex
 
 Configuration key | Default value | Description
 --- | --- | ---
-application/defaultLanguage | "en"  | The default language for your application
+application/defaultLanguage | "en" | The default language for your application
 application/namespace | "Application" | The namespace for your application
 database/host | "127.0.0.1" | The host name for the database connection
 database/port | "3306" | The port for the database connection

@@ -12,6 +12,7 @@
 namespace Avolutions\Config;
 
 use Avolutions\Core\AbstractSingleton;
+use Exception;
 
 /**
  * ConfigFileLoader class
@@ -32,11 +33,11 @@ class ConfigFileLoader extends AbstractSingleton
 	/**
 	 * get
 	 *
-	 * Returns the value for the given key. The key is seperated by slashes (/).
+	 * Returns the value for the given key. The key is separated by slashes (/).
 	 *
 	 * @param string $key The key (slash separated) of the config value.
      *
-     * @throws \Exception
+     * @throws Exception
 	 *
 	 * @return mixed The config value
 	 */
@@ -48,7 +49,7 @@ class ConfigFileLoader extends AbstractSingleton
 
 		foreach ($identifier as $value) {
 			if (!isset($values[$value])) {
-				throw new \Exception('Key "'.$key.'" could not be found');
+				throw new Exception('Key "'.$key.'" could not be found');
 			}
 
 			$values = $values[$value];
@@ -68,7 +69,7 @@ class ConfigFileLoader extends AbstractSingleton
 	 * @return array An array with the loaded config values or an empty array if
      *				 file can not be found.
 	 */
-    protected function loadConfigFile($configFile)
+    protected static function loadConfigFile($configFile)
     {
 		if (file_exists($configFile)) {
 			return require $configFile;

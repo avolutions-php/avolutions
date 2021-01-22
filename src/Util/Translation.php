@@ -14,6 +14,9 @@ namespace Avolutions\Util;
 use Avolutions\Config\Config;
 use Avolutions\Config\ConfigFileLoader;
 use Avolutions\Http\Session;
+use Exception;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 /**
  * Translation class
@@ -27,19 +30,19 @@ use Avolutions\Http\Session;
 class Translation extends ConfigFileLoader
 {
     /**
-	 * getTranslation
-	 *
-	 * Returns the translation of the given key and language and replace all placeholders
+     * getTranslation
+     *
+     * Returns the translation of the given key and language and replace all placeholders
      * if params are passed.
-	 *
-	 * @param string $key The key of the translation string.
+     *
+     * @param string $key The key of the translation string.
      * @param array $params An array with values to replace the placeholders in translation.
      * @param string $language The language in which the translation should be loaded.
      *
-     * @throws \Exception
-	 *
-	 * @return mixed The config value
-	 */
+     * @throws Exception
+     *
+     * @return mixed The config value
+     */
     public static function getTranslation($key, $params = [], $language = null)
     {
         if (is_null($language)) {
@@ -72,8 +75,8 @@ class Translation extends ConfigFileLoader
             return;
         }
 
-        $DirectoryIterator = new \RecursiveDirectoryIterator(TRANSLATION_PATH, \RecursiveDirectoryIterator::SKIP_DOTS);
-        $Iterator = new \RecursiveIteratorIterator($DirectoryIterator);
+        $DirectoryIterator = new RecursiveDirectoryIterator(TRANSLATION_PATH, RecursiveDirectoryIterator::SKIP_DOTS);
+        $Iterator = new RecursiveIteratorIterator($DirectoryIterator);
 
         foreach ($Iterator as $translationFile) {
             if ($translationFile->isDir()) {

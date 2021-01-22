@@ -37,7 +37,7 @@ define('VIEW', 'View');
 define('VIEWMODEL', 'Viewmodel');
 
 /**
- * Define pathes
+ * Define paths
  */
 define('BASE_PATH', realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR);
 

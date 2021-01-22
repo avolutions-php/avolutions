@@ -11,8 +11,6 @@
 
 namespace Avolutions\Config;
 
-use Avolutions\Config\ConfigFileLoader;
-
 /**
  * Config class
  *
@@ -38,10 +36,6 @@ class Config extends ConfigFileLoader
 		$configFiles = array_unique(array_merge($coreConfigFiles, $appConfigFiles));
 
 		foreach ($configFiles as $configFile) {
-			$configValues = [];
-			$coreConfigValues = [];
-			$appConfigValues = [];
-
 			$coreConfigValues = self::loadConfigFile(CONFIG_PATH.$configFile);
 			$appConfigValues = self::loadConfigFile(APP_CONFIG_PATH.$configFile);
 
