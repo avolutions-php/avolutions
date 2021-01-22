@@ -13,6 +13,7 @@ namespace Avolutions\Util;
 
 use Avolutions\Config\Config;
 use Avolutions\Config\ConfigFileLoader;
+use Avolutions\Http\Session;
 
 /**
  * Translation class
@@ -41,8 +42,12 @@ class Translation extends ConfigFileLoader
 	 */
     public static function getTranslation($key, $params = [], $language = null)
     {
-        if(is_null($language)) {
-            $language = Config::get('application/defaultLanguage');
+        if (is_null($language)) {
+            if (!is_null(Session::get('language'))) {
+                $language = Session::get('language');
+            } else {
+                $language = Config::get('application/defaultLanguage');
+            }
         }
 
         $translation = parent::get($language.'/'.$key);
