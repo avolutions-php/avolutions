@@ -24,6 +24,7 @@ AVOLUTIONS is just another open source PHP framework.
 * [Configuration](https://avolutions.org/guide/config)
 * [Forms](https://avolutions.org/guide/form)
 * [Events](https://avolutions.org/guide/events)
+* [Translations](https://avolutions.org/guide/translation)
 
 # Installation
 The system requirements, configuration and a detailed installation guide can be found at the official [AVOLUTIONS Guide](http://avolutions.org/guide/installation).
