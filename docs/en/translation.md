@@ -34,7 +34,7 @@ The translation files will look like the following.
 ```php
 return [
   'welcome' => 'Hello world',
-  'name' => 'My name is {1}',
+  'name' => 'My name is {0}',
   'age' => 'I\'m {years} years old'
 ];
 ```
@@ -42,7 +42,7 @@ return [
 ```php
 return [
   'welcome' => 'Hallo Welt',
-  'name' => 'Mein Name ist {1}',
+  'name' => 'Mein Name ist {0}',
   'age' => 'Ich bin {years} Jahre alt'
 ];
 ```

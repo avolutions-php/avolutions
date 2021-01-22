@@ -64,11 +64,11 @@ class Translation extends ConfigFileLoader
         return $translation;
     }
 
-	/**
-	 * initialize
-	 *
-	 * Loads all translation values from the translations files.
-	 */
+    /**
+     * initialize
+     *
+     * Loads all translation values from the translations files.
+     */
     public function initialize()
     {
         if (!is_dir(TRANSLATION_PATH)) {
