@@ -1,11 +1,23 @@
+# Form
+
+* [Introduction](#introduction)
+* [The manual way](#the-manual-way)
+  * [A simple form](#a-simple-form)
+  * [Configure a form](#configure-a-form)
+  * [Passing a form from Controller/ViewModel](#passing-a-form-from-controllerviewmodel)
+* [Generate forms for Entities](#generate-forms-for-entities)
+* [Input controls](#input-controls)
+
+## Introduction
+
 With the help of the *Form* class, forms can be easily created manually or generated automatically for Entities.
 
-#### The manual way
+## The manual way
 
 There are several methods in the *Form* class to create forms very easy and fast.
 A HTML form consists of an opening *<form>* tag, one or multiple input controls and a closing *</form>* tag.
 
-##### A simple form
+### A simple form
 All these elements can be created with the help of the Form class, see the following example:
 ```php
 use Avolutions\View\Form;
@@ -26,7 +38,7 @@ This will result in the following output:
 ```
 A very simple but working form. A list with all input types can be found further down.
 
-##### Configure a form
+### Configure a form
 
 In most cases, the HTML elements of an form needs to have attributes. Therefore nearly every *Form* method accepts an array of attributes (keys) and values (value):
 ```php
@@ -47,7 +59,7 @@ This will result in the following output:
 </form>
 ```
 
-##### Passing a form from Controller/ViewModel
+### Passing a form from Controller/ViewModel
 
 It is of course possible to initialize a *Form* in the ViewModel/Controller and pass it to the *View*.
 
@@ -76,7 +88,7 @@ print $ViewModel->Form->text(['name' => 'username']);
 print $ViewModel->Form->submit(['name' => 'submit', 'value' => 'save']);
 print $ViewModel->Form->close();
 ```
-#### Generate forms for Entities
+## Generate forms for Entities
 
 The easiest way to generate a form for an *Entity* is to use the *generate* method.
 This method will generate a form depending on the fields and the *Mapping* of the *Entity*.
@@ -175,7 +187,7 @@ This will only create inputs for "firstname" and "gender" but still based on the
   <input type="submit" name="submit" value="save" />
 </form>
 ```
-#### Input controls
+## Input controls
 
 The following input control can be generated with the *Form* class:
 

@@ -1,7 +1,19 @@
+# Event handling
+
+* [Introduction](#introduction)
+* [Register Events and Listeners](#register-events-and-listeners)
+* [Create an Event](#create-an-event)
+* [Create a Listener](#create-a-listener)
+* [Dispatch an Event](#dispatch-an-event)
+* [Application Events](#application-events)
+  * [EntityEvents](#entityevents)
+
+## Introduction
+
 The AVOLUTIONS event implementation is a simple way to listen to different events created by the application.
 Every raised event can handled by one or multiple listeners.
 
-#### Register Events and Listeners
+## Register Events and Listeners
 To connect a Listener to an Event the *ListenerCollection* is used. All Listener should be registered in the *events.php* file by using the *addListener()* method.
 The *addListener()* method takes two arguments, the name of the Event and a callable (Listener class and method).
 ```php
@@ -10,7 +22,7 @@ $ListenerCollection->addListener('TestEvent', ['Application\Listener\TestEventLi
 
 In this example the *handleEvent* method of the class *Application\Listener\TestEventListener* will be called every time the *TestEvent* is raised/dispatched.
 
-#### Create a Event
+## Create an Event
 
 A Event is a simple class used as a container to store all information related to the event. It is passed to the Listener.
 If no *$name* attribute is defined for the event, the full class name (including namespace) is used as the Event name and has to be registered by this in the ListenerCollection.
@@ -27,7 +39,7 @@ class TestEvent extends Event
     public $test = 'Lorem ipsum';
 }
 ```
-#### Create a Listener
+## Create a Listener
 
 The Listener is a class which can contains several methods to handle Events. Events has to be stored in the *Application/Listener* folder. The Listener to handle the *TestEvent* from our example above could look like this:
 
@@ -46,17 +58,17 @@ This will result in the following output:
 ```
 TestEvent : Lorem Ipsum
 ```
-#### Dispatch a Event
+## Dispatch an Event
 To dispatch/raise a Event the EventDispatcher is used. You only need to create the Event and pass it to the *dispatch()* method:
 ```php
 $event = new TestEvent();
 EventDispatcher::dispatch($event);
 ```
-#### Application Events
+## Application Events
 
 There are several *built in* Events.
 
-##### EntityEvents
+### EntityEvents
 EntityEvents are automatically raised by the ORM module. There are the following events:
 
 EntityEvent | Description | Parameters

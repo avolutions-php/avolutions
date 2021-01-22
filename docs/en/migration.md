@@ -1,8 +1,22 @@
+# Migration
+
+* [Introduction](#introduction)
+* [Run migrations](#run-migrations)
+* [Create migration](#create-migration)
+* [Operations](#operations)
+  * [Create new table](#create-new-table)
+  * [Add column to table](#add-column-to-table)
+  * [Remove column from table](#remove-column-from-table)
+  * [Add index to table](#add-index-to-table)
+  * [Add foreign key constraint to table](#add-foreign-key-constraint-to-table)
+
+## Introduction
 To made changes to your database schema (add or remove tables/columns etc.) the AVOLUTIONS framework provides a bunch of methods.
 
 These methods can be used to write migrations for your Database. The framework will check for the current version of your Database and execute changes if they are not added to the Database schema already.
 
-By default the migrations will be executed automatically, if you do not want this you have to change the value of *database/migrateOnAppStart* to false.
+## Run migrations
+By default the migrations will not be executed automatically. If you want to execute the migrations automatically you have to change the value of *database/migrateOnAppStart* to true.
 
 To exectue the migrations by yourself use the following code:
 ```php
@@ -12,6 +26,8 @@ use Avolutions\Database\Database;
 
 Database::migrate();
 ```
+
+## Create migration
 
 To create a new migration add a new file in *application/Database*, e.g. *CreateUserTable.php*. This file has to contain a class (with the same name as the file) which extends the *AbstractMigration*.
 Therefore it needs a property *version* and a method *migrate()*:
@@ -32,8 +48,8 @@ class CreateUserTable extends AbstractMigration {
 All migrations in the *application/Database* folder will be executed in the order of the version, from low to high.
 The version should be unique, best practice is to use the current datetime of the creation as integer, e.g. 20190915143000.
 
-#### Operations
-##### Create new table
+## Operations
+### Create new table
 
 To create a new table use the method *create*:
 ```php
@@ -59,7 +75,7 @@ class CreateUserTable extends AbstractMigration {
 }
 ```
 
-##### Add column to table
+### Add column to table
 
 To add a new column to a table use the method *addColumn*:
 ```php
@@ -80,7 +96,7 @@ class AddMailToUserTable extends AbstractMigration {
 }
 ```
 
-##### Remove column from table
+### Remove column from table
 
 To remove a column from a table use the method *removeColumn*:
 ```php
@@ -101,7 +117,7 @@ class RemoveMailFromUserTable extends AbstractMigration {
 }
 ```
 
-##### Add index to table
+### Add index to table
 
 To add an index (index, unique, primary key) to a table use the method *addIndex*:
 ```php
@@ -122,7 +138,7 @@ class AddUniqueIndexToUserTable extends AbstractMigration {
 }
 ```
 
-##### Add foreign key constraint to table
+### Add foreign key constraint to table
 
 To add an foreign key constraint to a table use the method *addForeignKeyConstraint*:
 ```php

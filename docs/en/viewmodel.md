@@ -1,8 +1,17 @@
+# ViewModels
+
+* [Introduction](#introduction)
+* [Examples](#examples)
+  * [Use a dynamic ViewModel](#use-a-dynamic-viewmodel)
+  * [Use a typed ViewModel](#use-a-typed-viewmodel)
+
+## Introduction
+
 A ViewModel is a class that provides data for the [View](view.md). It is created/filled by the [Controller](controller.md).
 It is the connection between the application data and the presentation and is used to separate the [Model](model.md) (data) from the [View](view.md) (presentation) logic.
 
-##### Examples
-###### Use a dynamic ViewModel
+## Examples
+### Use a dynamic ViewModel
 
 ```php
 namespace Application\ViewModel;
@@ -21,7 +30,7 @@ class UserController extends Controller {
 }
 ```
 
-###### Use a typed ViewModel
+### Use a typed ViewModel
 
 Edit the View form the second View example like this:
 ```html

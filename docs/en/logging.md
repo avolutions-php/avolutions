@@ -1,7 +1,19 @@
+# Logging
+
+* [Introduction](#introduction)
+* [Configuration](#configuration)
+* [Usage](#usage)
+
+## Introduction
+
 To log messages to a logfile the Logger class is introduced. There are eight different log levels from high to low:
 *EMERGENCY*, *ALERT*, *CRITICAL*, *ERROR*, *WARNING*, *NOTICE*, *INFO*, *DEBUG*.
 
+## Configuration
+
 The path and name of the logfile are [configured](config.md) in *config/logger.php*. Messages with level *DEBUG* will only be logged if the config parameter *logger/debug* is set to true.
+
+## Usage
 
 The Logger can be used like this:
 ```php

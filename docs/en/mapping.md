@@ -1,7 +1,15 @@
+# Mapping
+
+* [Introduction](#introduction)
+* [Mapping attributes](#mapping-attributes)
+* [Example](#example)
+
+## Introduction
+
 The mapping file contains a multidimensional array, where every key represents one property of the Entity.
 Every property can have an multidimensional array of options as value.
 
-#### Mapping attributes
+## Mapping attributes
 
 Attribute | Default value | Description
 --- | --- | ---
@@ -12,7 +20,9 @@ Attribute | Default value | Description
 [form][hidden] | false | If set to true this field will not be rendered into forms.
 [form][options] | | An array of options if the form type is set to "select".
 
-**Example of a mapping file** (*application/Mapping/UserMapping.php*):
+## Example
+
+*Example of a mapping file (application/Mapping/UserMapping.php*):
 ```php
 return [
     'id' => [

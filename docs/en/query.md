@@ -1,6 +1,14 @@
+# Queries
+
+* [Introduction](#introduction)
+* [Database connection](#database-connection)
+* [Database queries](#database-queries)
+
+## Introduction
+
 The Database module provides some functions to connect to a MySQL database, execute queries and perform schema changes ([Migrations](migration.md)) on the database.
 
-#### Database connection
+## Database connection
 
 To connect to a (MySQL) database you have to configure your connection parameters.
 Have a look to the *config/database.php* [Configuration](config.md) file.
@@ -12,7 +20,7 @@ use Avolutions\Database\Database;
 $Database = new Database();
 ```
 
-#### Database queries
+## Database queries
 
 To execute queries on your Database you can just use the query() method of the Database class:
 ```php

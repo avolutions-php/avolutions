@@ -1,8 +1,20 @@
+# Model/Entity
+
+* [Introduction](#introduction)
+* [Model](#model)
+* [Mapping](#mapping)
+* [CRUD Operations](#crud-operations)
+  * [Create/Update](#createupdate)
+  * [Delete](#delete)
+  * [Read](#read)
+
+## Introduction
+
 With the AVOLUTIONS ORM module is it possible to represent Database tables/rows as objects.
 
 For every Entity a [Database](migration.md) table, a model and a Mapping is needed.
 
-#### Model
+## Model
 
 The model is an object (class) which represents a Databse table where every column of the table is a property of the model.
 All models are stored in the *application/Model* folder and have to inherit from the Entity class:
@@ -18,7 +30,7 @@ class User extends Entity
 }
 ```
 
-#### Mapping
+## Mapping
 
 The mapping is the connection between the model and the database. Every Entity needs a mapping file stored in *application/Mapping*.
 The file has to be named like the Model and the postfix *Mapping*, e.g. *application/Mapping/UserMapping.php*.
@@ -29,11 +41,11 @@ The mapping also provides the functionality to use different names in model (pro
 
 See the [Mapping chapter](mapping.md) to get a list of all available options for the Mapping file.
 
-#### CRUD operations
+## CRUD operations
 
 With the AVOLUTIONS ORM module **C**reate, **R**ead, **U**pdate, **D**elete operations for entites can be perfomend.
 
-##### Create/Update
+### Create/Update
 
 Everytime properties of an Entity are changed the *save* method has to be called.
 The save method detects if the Entity already exists or not and therefore update or create it.
@@ -50,7 +62,7 @@ $User->firstname = 'Alexander';
 $User->save();
 ```
 
-##### Delete
+### Delete
 
 To delete an Entity just call the *delete* method:
 ```php
@@ -58,7 +70,7 @@ $User = EntityCollection('user')->getById(1);
 $User->delete();
 ```
 
-##### Read
+### Read
 
 To read/select an entity the [EntityCollection](entitycollection.md) is used.
 Because of its complexity you can find a own chapter for it [here](entitycollection.md).

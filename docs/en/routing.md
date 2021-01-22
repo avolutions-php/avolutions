@@ -1,8 +1,19 @@
+# Routing
+
+* [Introduction](#introduction)
+* [Create a new Route](#create-a-new-route)
+* [Examples](#examples)
+  * [Call a static Controller and Action](#call-a-static-controller-and-action)
+  * [Call a dynamic Controller and Action](#call-a-dynamic-controller-and-action)
+  * [Call a Route with Parameter(s)](#call-a-route-with-parameters)
+
+## Introduction
+
 A route is the mapping between the requested URL and the [Controller](controller.md) and Action that will be called and executed.
 
 All Routes of your application will be defined in *./routes.php*. The Routes has to be added to the *RouteCollection* by using the *addRoute()* method.
 
-#### Create a new Route
+## Create a new Route
 
 A Route object can have three parameters:
 1. The URL that should be mapped
@@ -28,8 +39,8 @@ A Route object can have three parameters:
   ]
 ```
 
-##### Examples
-###### Call a static Controller and Action
+## Examples
+### Call a static Controller and Action
 
 ```php
 $RouteCollection->addRoute(new Route('/login',
@@ -41,7 +52,7 @@ $RouteCollection->addRoute(new Route('/login',
 ```
 This Route will call the *loginAction()* method of the *AuthController*, every time someone request the URL *http://yourapp/login*.
 
-###### Call a dynamic Controller and Action
+### Call a dynamic Controller and Action
 
 ```php
 $RouteCollection->addRoute(new Route('/&lt;controller>/&lt;action>'));
@@ -49,7 +60,7 @@ $RouteCollection->addRoute(new Route('/&lt;controller>/&lt;action>'));
 This Route uses the reserved keywords. These keywords can be used to call *Controllers* and *Actions* based on the requested URL.
 If a user requests the URL *http://yourapp/user/create* the routing engine will call the *createAction()* method of the *UserController* in this example.
 
-###### Call a Route with Parameter(s)
+### Call a Route with Parameter(s)
 
 ```php
 $RouteCollection->addRoute(new Route('/user/&lt;id>',
