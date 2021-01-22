@@ -27,3 +27,5 @@ The online version of the guide can be found at https://avolutions.org/guide
 ## Utils
 * [Config](config.md)
 * [Logging](logging.md)
+* [Translation](translation.md)
+* [Helper](helper.md)
