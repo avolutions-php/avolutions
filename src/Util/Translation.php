@@ -55,6 +55,11 @@ class Translation extends ConfigFileLoader
 
         $translation = parent::get($language.'/'.$key);
 
+        // if $key not point on a translation but on a parent element
+        if (!is_string($translation)) {
+            throw new Exception();
+        }
+
         if (is_array($params) && count($params) > 0) {
             foreach ($params as $paramKey => $paramValue) {
                 $translation = str_replace('{'.$paramKey.'}', $paramValue, $translation);
