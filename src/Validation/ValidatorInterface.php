@@ -14,19 +14,21 @@ namespace Avolutions\Validation;
 /**
  * Validator interface
  *
- * TODO
+ * An interface which declares the base methods for Validators.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
  */
 interface ValidatorInterface
 {
-	/**
-	 * isValid
-	 *
-	 * TODO
-	 *
-	 * @return bool TODO
-	 */
+    /**
+     * isValid
+     *
+     * Checks if the passed value is valid considering the validator type and passed options.
+     *
+     * @param $value The value to validate.
+     *
+     * @return bool Data is valid (true) or not (false).
+     */
 	public function isValid($value);
 }

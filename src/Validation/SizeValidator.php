@@ -16,7 +16,7 @@ use InvalidArgumentException;
 /**
  * SizeValidator
  *
- * TODO
+ * The SizeValidator validates that a value has a specific size or is withing a min/max value.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
@@ -24,24 +24,49 @@ use InvalidArgumentException;
 class SizeValidator extends AbstractValidator
 {
     /**
-     * TODO
+     * @var int $size The exact size of the value.
      */
     private $size;
 
     /**
-     * TODO
+     * @var int $min The minimum size (inclusive) for the value.
      */
     private $min;
 
     /**
-     * TODO
+     * @var int $max The maximum size (inclusive) for the value.
      */
     private $max;
 
     /**
+     * getSize
+     *
+     * Returns the size of the passed value. If value is of type integer the size is just the value of this integer.
+     * If it is of type string the size will be the length of the string.
+     * In case the value is of type array the size will be the count of elements.
+     *
+     * @param mixed $value The value to get the size of.
+     *
+     * @return int The size of the value.
+     */
+    private function getSize($value) {
+        if (is_numeric($value)) {
+            return $value;
+        } elseif (is_array($value)) {
+            return count($value);
+        } else {
+            return strlen($value);
+        }
+    }
+
+    /**
      * setOptions
      *
-     * TODO
+     * Set the passed options, property and Entity to internal properties.
+     *
+     * @param array $options An associative array with options.
+     * @param string $property The property of the Entity to validate.
+     * @param null $Entity The Entity to validate.
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
         parent::setOptions($options, $property, $Entity);
@@ -82,9 +107,11 @@ class SizeValidator extends AbstractValidator
     /**
      * isValid
      *
-     * TODO
+     * Checks if the passed value is valid considering the validator type and passed options.
      *
-     * @return bool TODO
+     * @param $value The value to validate.
+     *
+     * @return bool Data is valid (true) or not (false).
      */
     public function isValid($value) {
         $size = $this->getSize($value);

@@ -16,7 +16,7 @@ use InvalidArgumentException;
 /**
  * RegexValidator
  *
- * TODO
+ * The CompareValidator performs validations against a regular expression.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
@@ -24,19 +24,23 @@ use InvalidArgumentException;
 class RegexValidator extends AbstractValidator
 {
     /**
-     * TODO
+     * @var string $pattern The regular expression to validate.
      */
     private $pattern;
 
     /**
-     * TODO
+     * @var bool $not Inverts the result of the validation.
      */
     private $not = false;
 
     /**
      * setOptions
      *
-     * TODO
+     * Set the passed options, property and Entity to internal properties.
+     *
+     * @param array $options An associative array with options.
+     * @param string $property The property of the Entity to validate.
+     * @param null $Entity The Entity to validate.
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
         parent::setOptions($options, $property, $Entity);
@@ -59,9 +63,11 @@ class RegexValidator extends AbstractValidator
     /**
      * isValid
      *
-     * TODO
+     * Checks if the passed value is valid considering the validator type and passed options.
      *
-     * @return bool TODO
+     * @param $value The value to validate.
+     *
+     * @return bool Data is valid (true) or not (false).
      */
     public function isValid($value) {
         if ($this->not) {

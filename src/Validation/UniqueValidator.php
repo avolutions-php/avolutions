@@ -16,7 +16,7 @@ use Avolutions\Orm\EntityCollection;
 /**
  * UniqueValidator
  *
- * TODO
+ * The UniqueValidator validates if the value of an Entity attribute is unique in database.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
@@ -26,9 +26,11 @@ class UniqueValidator extends AbstractValidator
     /**
      * isValid
      *
-     * TODO
+     * Checks if the passed value is valid considering the validator type and passed options.
      *
-     * @return bool TODO
+     * @param $value The value to validate.
+     *
+     * @return bool Data is valid (true) or not (false).
      */
     public function isValid($value) {
         $EntityCollection = new EntityCollection($this->Entity->getEntityName());

@@ -17,7 +17,7 @@ use function implode;
 /**
  * TypeValidator
  *
- * TODO
+ * The TypeValidator validates the data type of the value.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
@@ -25,14 +25,18 @@ use function implode;
 class TypeValidator extends AbstractValidator
 {
     /**
-     * TODO
+     * @var string $type The data type to compare.
      */
     private $type;
 
     /**
      * setOptions
      *
-     * TODO
+     * Set the passed options, property and Entity to internal properties.
+     *
+     * @param array $options An associative array with options.
+     * @param string $property The property of the Entity to validate.
+     * @param null $Entity The Entity to validate.
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
         parent::setOptions($options, $property, $Entity);
@@ -51,9 +55,11 @@ class TypeValidator extends AbstractValidator
     /**
      * isValid
      *
-     * TODO
+     * Checks if the passed value is valid considering the validator type and passed options.
      *
-     * @return bool TODO
+     * @param $value The value to validate.
+     *
+     * @return bool Data is valid (true) or not (false).
      */
     public function isValid($value) {
         switch ($this->type) {

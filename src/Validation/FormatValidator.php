@@ -17,7 +17,7 @@ use function implode;
 /**
  * FormatValidator
  *
- * TODO
+ * The FormatValidator checks if a value has a valid format.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
@@ -25,17 +25,18 @@ use function implode;
 class FormatValidator extends AbstractValidator
 {
     /**
-     * TODO
+     * @var string $format The format to check against.
      */
     private $format;
 
     /**
      * setOptions
      *
-     * TODO
-     * @param array $options
-     * @param null $property
-     * @param null $Entity
+     * Set the passed options, property and Entity to internal properties.
+     *
+     * @param array $options An associative array with options.
+     * @param string $property The property of the Entity to validate.
+     * @param null $Entity The Entity to validate.
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
         parent::setOptions($options, $property, $Entity);
@@ -51,10 +52,11 @@ class FormatValidator extends AbstractValidator
     /**
      * isValid
      *
-     * TODO
+     * Checks if the passed value is valid considering the validator type and passed options.
      *
-     * @param $value
-     * @return bool TODO
+     * @param $value The value to validate.
+     *
+     * @return bool Data is valid (true) or not (false).
      */
     public function isValid($value) {
         switch ($this->format) {

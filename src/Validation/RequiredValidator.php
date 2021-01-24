@@ -14,7 +14,7 @@ namespace Avolutions\Validation;
 /**
  * RequiredValidator
  *
- * TODO
+ * The RequiredValidator indicates that a value is mandatory.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
@@ -24,9 +24,11 @@ class RequiredValidator extends AbstractValidator
     /**
      * isValid
      *
-     * TODO
+     * Checks if the passed value is valid considering the validator type and passed options.
      *
-     * @return bool TODO
+     * @param $value The value to validate.
+     *
+     * @return bool Data is valid (true) or not (false).
      */
     public function isValid($value) {
         return !(

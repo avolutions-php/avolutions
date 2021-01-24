@@ -47,47 +47,24 @@ abstract class AbstractValidator implements ValidatorInterface
     /**
      * __construct
      *
-     * TODO
-     * @param array $options
-     * @param null $property
-     * @param null $Entity
+     * Creates an new Validator object and set the options.
+     *
+     * @param array $options An associative array with options.
+     * @param string $property The property of the Entity to validate.
+     * @param null $Entity The Entity to validate.
      */
     public function __construct($options = [], $property = null, $Entity = null) {
         $this->setOptions($options, $property, $Entity);
     }
 
     /**
-     * getSize
-     *
-     * TODO
-     * @param $value
-     * @return int|string
-     */
-    protected function getSize($value) {
-        if (is_numeric($value)) {
-            return $value;
-        } elseif (is_array($value)) {
-            return count($value);
-        } else {
-            return strlen($value);
-        }
-    }
-
-    /**
-     * isValid
-     *
-     * TODO
-     * @param $value
-     */
-    abstract public function isValid($value);
-
-    /**
      * setOptions
      *
-     * TODO
-     * @param array $options
-     * @param null $property
-     * @param null $Entity
+     * Set the passed options, property and Entity to internal properties.
+     *
+     * @param array $options An associative array with options.
+     * @param string $property The property of the Entity to validate.
+     * @param null $Entity The Entity to validate.
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
         $this->options = $options;
@@ -101,7 +78,7 @@ abstract class AbstractValidator implements ValidatorInterface
     /**
      * getValidatorName
      *
-     * Returns the name of the validator.
+     * Returns the name of the validator in lowercase and without suffix 'Validator'.
      *
      * @return string The name of the validator.
      */
@@ -114,7 +91,11 @@ abstract class AbstractValidator implements ValidatorInterface
     }
 
     /**
-     * TODO
+     * getMessage
+     *
+     * Returns the error message of the validator.
+     *
+     * @return string The error message.
      */
     public function getMessage() {
         if (!is_null($this->message)) {

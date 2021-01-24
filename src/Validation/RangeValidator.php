@@ -16,7 +16,7 @@ use InvalidArgumentException;
 /**
  * RangeValidator
  *
- * TODO
+ * The RangeValidator validates if a value is inside a specific range (array).
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
@@ -24,24 +24,28 @@ use InvalidArgumentException;
 class RangeValidator extends AbstractValidator
 {
     /**
-     * TODO
+     * @var array $range A static array to check the value against.
      */
     private $range = [];
 
     /**
-     * TODO
+     * @var bool $not Inverts the result of the validation.
      */
     private $not = false;
 
     /**
-     * TODO
+     * @var bool $strict Indicates if data type should be considered.
      */
     private $strict = false;
 
     /**
      * setOptions
      *
-     * TODO
+     * Set the passed options, property and Entity to internal properties.
+     *
+     * @param array $options An associative array with options.
+     * @param string $property The property of the Entity to validate.
+     * @param null $Entity The Entity to validate.
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
         parent::setOptions($options, $property, $Entity);
@@ -83,9 +87,11 @@ class RangeValidator extends AbstractValidator
     /**
      * isValid
      *
-     * TODO
+     * Checks if the passed value is valid considering the validator type and passed options.
      *
-     * @return bool TODO
+     * @param $value The value to validate.
+     *
+     * @return bool Data is valid (true) or not (false).
      */
     public function isValid($value) {
         if ($this->not) {
