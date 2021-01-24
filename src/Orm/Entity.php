@@ -237,11 +237,15 @@ class Entity
         $messages = [];
 
         //print_r($this);
-        foreach ($this->EntityMapping as $property => $value) {            
+        foreach ($this->EntityMapping as $property => $value) {
             if(isset($value['validation'])) {
                 foreach($value['validation'] as $validator => $options) {
                     $fullValidatorName = VALIDATOR_NAMESPACE.ucfirst($validator).VALIDATOR;
-		            $Validator = new $fullValidatorName($options, $property, $this);	
+                    if (!class_exists($fullValidatorName)) {
+                        // if validator can not be found in core namespace try in application namespace
+                        $fullValidatorName = APP_VALIDATOR_NAMESPACE.ucfirst($validator).VALIDATOR;
+                    }
+                    $Validator = new $fullValidatorName($options, $property, $this);
                     if(!$Validator->isValid($this->$property)) {
                         // TODO fill messages
                         $messages[$property][$validator] = 'Fehler '.$property.' '.$validator;
