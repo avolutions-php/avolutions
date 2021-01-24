@@ -11,7 +11,7 @@
 
 namespace Avolutions\Validation;
 
-use Avolutions\Validation\Validator;
+use InvalidArgumentException;
 
 /**
  * RegexValidator
@@ -39,15 +39,17 @@ class RegexValidator extends Validator
      * TODO
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
+        parent::setOptions($options, $property, $Entity);
+
         if (!isset($options['pattern']) || !is_string($options['pattern'])) {
-            throw new \InvalidArgumentException('Option "pattern" must be set.');
+            throw new InvalidArgumentException('Option "pattern" must be set.');
         } else {
             $this->pattern = $options['pattern'];
         }
 
         if (isset($options['not'])) {
             if(!is_bool($options['not'])) {
-                throw new \InvalidArgumentException('Option "not" must be of type boolean.');
+                throw new InvalidArgumentException('Option "not" must be of type boolean.');
             } else {
                 $this->not = $options['not'];
             }

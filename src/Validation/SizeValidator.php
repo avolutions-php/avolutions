@@ -11,7 +11,7 @@
 
 namespace Avolutions\Validation;
 
-use Avolutions\Validation\Validator;
+use InvalidArgumentException;
 
 /**
  * SizeValidator
@@ -44,17 +44,19 @@ class SizeValidator extends Validator
      * TODO
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
+        parent::setOptions($options, $property, $Entity);
+
         if (
             !isset($options['size'])
             && !isset($options['min'])
             && !isset($options['max'])
         ) {
-            throw new \InvalidArgumentException('Either option "size", "min" or "max" must be set.');
+            throw new InvalidArgumentException('Either option "size", "min" or "max" must be set.');
         }
 
         if (isset($options['size'])) {
             if (!is_int($options['size'])) {
-                throw new \InvalidArgumentException('Size must be of type integer.');
+                throw new InvalidArgumentException('Size must be of type integer.');
             } else {
                 $this->size = $options['size'];
             }
@@ -62,7 +64,7 @@ class SizeValidator extends Validator
 
         if (isset($options['min'])) {
             if (!is_int($options['min'])) {
-                throw new \InvalidArgumentException('Min must be of type integer.');
+                throw new InvalidArgumentException('Min must be of type integer.');
             } else {
                 $this->min = $options['min'];
             }
@@ -70,7 +72,7 @@ class SizeValidator extends Validator
 
         if (isset($options['max'])) {
             if (!is_int($options['max'])) {
-                throw new \InvalidArgumentException('Max must be of type integer.');
+                throw new InvalidArgumentException('Max must be of type integer.');
             } else {
                 $this->max = $options['max'];
             }

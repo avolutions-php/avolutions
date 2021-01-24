@@ -12,7 +12,6 @@
 namespace Avolutions\Validation;
 
 use Avolutions\Orm\EntityCollection;
-use Avolutions\Validation\Validator;
 
 /**
  * UniqueValidator

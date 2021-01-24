@@ -11,7 +11,7 @@
 
 namespace Avolutions\Validation;
 
-use Avolutions\Validation\Validator;
+use InvalidArgumentException;
 
 /**
  * RangeValidator
@@ -44,26 +44,28 @@ class RangeValidator extends Validator
      * TODO
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
+        parent::setOptions($options, $property, $Entity);
+
         if (isset($options['range'])) {
             if (!is_array($options['range'])) {
-                throw new \InvalidArgumentException('Option "range" must be of type array.');
+                throw new InvalidArgumentException('Option "range" must be of type array.');
             } else {
                 $this->range = $options['range'];
             }
         } elseif (isset($options['attribute'])) {
             if (!is_string($options['attribute']) || !property_exists($Entity, $options['attribute'])) {
-                throw new \InvalidArgumentException('Attribute does not exist in entity.');
+                throw new InvalidArgumentException('Attribute does not exist in entity.');
             } else {
                 $attribute = $options['attribute'];
                 $this->range = $Entity->$attribute;
             }
         } else {
-            throw new \InvalidArgumentException('Either option "range" or "attribute" must be set.');
+            throw new InvalidArgumentException('Either option "range" or "attribute" must be set.');
         }
 
         if (isset($options['not'])) {
             if (!is_bool($options['not'])) {
-                throw new \InvalidArgumentException('Option "not" must be of type boolean.');
+                throw new InvalidArgumentException('Option "not" must be of type boolean.');
             } else {
                 $this->not = $options['not'];
             }
@@ -71,7 +73,7 @@ class RangeValidator extends Validator
 
         if (isset($options['strict'])) {
             if (!is_bool($options['strict'])) {
-                throw new \InvalidArgumentException('Option "strict" must be of type boolean.');
+                throw new InvalidArgumentException('Option "strict" must be of type boolean.');
             } else {
                 $this->strict = $options['strict'];
             }

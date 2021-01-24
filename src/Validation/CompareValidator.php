@@ -11,7 +11,8 @@
 
 namespace Avolutions\Validation;
 
-use Avolutions\Validation\Validator;
+use InvalidArgumentException;
+use function implode;
 
 /**
  * CompareValidator
@@ -37,11 +38,16 @@ class CompareValidator extends Validator
      * setOptions
      *
      * TODO
+     * @param array $options
+     * @param null $property
+     * @param null $Entity
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
+        parent::setOptions($options, $property, $Entity);
+
         $validOperators = ['==', '===', '!=', '!==', '>', '>=', '<', '<='];
         if (isset($options['operator']) && !in_array($options['operator'], $validOperators)) {
-            throw new \InvalidArgumentException('Invalid operator, must be either '.\implode($validOperators, ' '));
+            throw new InvalidArgumentException('Invalid operator, must be either '.implode($validOperators, ' '));
         } else {
             $this->operator = $options['operator'];
         }
@@ -50,13 +56,13 @@ class CompareValidator extends Validator
             $this->compareValue = $options['value'];
         } elseif (isset($options['attribute'])) {
             if (!is_string($options['attribute']) || !property_exists($Entity, $options['attribute'])) {
-                throw new \InvalidArgumentException('Attribute does not exist in entity.');
+                throw new InvalidArgumentException('Attribute does not exist in entity.');
             } else {
                 $attribute = $options['attribute'];
                 $this->compareValue = $Entity->$attribute;
             }
         } else {
-            throw new \InvalidArgumentException('Either option "value" or "attribute" must be set.');
+            throw new InvalidArgumentException('Either option "value" or "attribute" must be set.');
         }
     }
 
@@ -65,6 +71,7 @@ class CompareValidator extends Validator
      *
      * TODO
      *
+     * @param $value
      * @return bool TODO
      */
     public function isValid($value) {

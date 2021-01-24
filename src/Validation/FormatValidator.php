@@ -32,6 +32,9 @@ class FormatValidator extends Validator
      * setOptions
      *
      * TODO
+     * @param array $options
+     * @param null $property
+     * @param null $Entity
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
         $validFormats = ['ip', 'ip4', 'ip6', 'mail', 'url', 'json'];
@@ -47,6 +50,7 @@ class FormatValidator extends Validator
      *
      * TODO
      *
+     * @param $value
      * @return bool TODO
      */
     public function isValid($value) {

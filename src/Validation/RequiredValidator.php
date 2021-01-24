@@ -11,8 +11,6 @@
 
 namespace Avolutions\Validation;
 
-use Avolutions\Validation\Validator;
-
 /**
  * RequiredValidator
  *

@@ -11,7 +11,8 @@
 
 namespace Avolutions\Validation;
 
-use Avolutions\Validation\Validator;
+use InvalidArgumentException;
+use function implode;
 
 /**
  * TypeValidator
@@ -34,12 +35,14 @@ class TypeValidator extends Validator
      * TODO
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
+        parent::setOptions($options, $property, $Entity);
+
         $validTypes = ['int', 'integer', 'string', 'bool', 'boolean', 'array'];
         if (
             !isset($options['type'])
             || !in_array($options['type'], $validTypes)
         ) {
-            throw new \InvalidArgumentException('Invalid type, must be either '.\implode($validTypes, ', '));
+            throw new InvalidArgumentException('Invalid type, must be either '.implode($validTypes, ', '));
         } else {
             $this->type = $options['type'];
         }
