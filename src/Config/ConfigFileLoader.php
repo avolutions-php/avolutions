@@ -12,7 +12,7 @@
 namespace Avolutions\Config;
 
 use Avolutions\Core\AbstractSingleton;
-use Exception;
+use OutOfBoundsException;
 
 /**
  * ConfigFileLoader class
@@ -49,7 +49,7 @@ class ConfigFileLoader extends AbstractSingleton
 
 		foreach ($identifier as $value) {
 			if (!isset($values[$value])) {
-				throw new Exception('Key "'.$key.'" could not be found');
+				throw new OutOfBoundsException('Key "'.$key.'" could not be found');
 			}
 
 			$values = $values[$value];
