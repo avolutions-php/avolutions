@@ -21,7 +21,7 @@ use InvalidArgumentException;
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
  */
-class RegexValidator extends Validator
+class RegexValidator extends AbstractValidator
 {
     /**
      * TODO

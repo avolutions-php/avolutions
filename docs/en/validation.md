@@ -112,9 +112,9 @@ You can also pass custom options to your validator, see the following example. D
 ```php
 namespace Application\Validation;
 
-use Avolutions\Validation\Validator;
+use Avolutions\Validation\AbstractValidator;
 
-class CustomValidator extends Validator
+class CustomValidator extends AbstractValidator
 {
     private $foo;
 

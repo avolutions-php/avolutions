@@ -15,32 +15,32 @@ use Exception;
 use ReflectionClass;
 
 /**
- * Validator
+ * AbstractValidator
  *
- * TODO
+ * An abstract class which has to be extended by every Validator.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
  */
-abstract class Validator implements ValidatorInterface
+abstract class AbstractValidator implements ValidatorInterface
 {
     /**
-	 * TODO
+	 * @var array $options An associative array with options.
 	 */
     protected $options = [];
 
     /**
-	 * TODO
+	 * @var array $property The property of the Entity to validate.
 	 */
     protected $property = null;
 
     /**
-	 * TODO
+	 * @var Entity $Entity The Entity to validate.
 	 */
     protected $Entity = null;
 
     /**
-     * TODO
+     * @var string $message A custom error message.
      */
     protected $message = null;
 
@@ -131,11 +131,10 @@ abstract class Validator implements ValidatorInterface
                     return translate($validatorKey.'/'.$this->property);
                 }
 
-                // TODO specify message for Entity and property?
-                // TODO use name of validator
                 return translate($validatorKey);
             } catch (Exception $ex) {
                 // TODO use label of property?
+                // TODO how to handle AdHoc Validation?
                 return $this->property.' is not valid';
             }
         }

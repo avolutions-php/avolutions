@@ -19,7 +19,7 @@ namespace Avolutions\Validation;
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
  */
-class RequiredValidator extends Validator
+class RequiredValidator extends AbstractValidator
 {
     /**
      * isValid

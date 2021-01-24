@@ -22,7 +22,7 @@ use function implode;
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
  */
-class TypeValidator extends Validator
+class TypeValidator extends AbstractValidator
 {
     /**
      * TODO

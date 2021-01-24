@@ -21,7 +21,7 @@ use Avolutions\Orm\EntityCollection;
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0
  */
-class UniqueValidator extends Validator
+class UniqueValidator extends AbstractValidator
 {
     /**
      * isValid
