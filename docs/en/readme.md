@@ -12,6 +12,7 @@ The online version of the guide can be found at https://avolutions.org/guide
 * [ViewModels](viewmodel.md)
 * [Form](form.md)
 * [Events](event.md)
+* [Validation](validation.md)
 * [Sessions](session.md)
 * [Cookies](cookie.md)
 
