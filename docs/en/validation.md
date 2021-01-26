@@ -14,6 +14,8 @@
   * [Custom validators](#custom-validators)
 * [AdHoc validation](#adhoc-validation)
 * [Error messages](#error-messages)
+  * [Default message](#default-message)
+  * [Localized messages](#localized-messages)
 
 ## Introduction
 
@@ -156,8 +158,94 @@ if ($Validator->isValid($url)) {
     // is a valid URL
 } else {
     // is not a valid URL
-    print $Validator->getMessage();
 }
 ```
 
 ## Error messages
+
+Every *Validator* have an own error message which can be retrieved by using the `getMessage()` method.
+The message can be customized in multiple ways.
+
+### Default message
+
+By default, the error message looks like: `{property} is not valid`. If the property has a label defined in the mapping file, this label is used for the error message.
+This message will not be translated.
+
+To override the default message, every *Validator* accepts an option called ´message´ which can be defined in mapping file:
+```php
+return [
+    'firstname' => [
+        'validation' => [
+            'type' => [..., 'message' => 'My custom message']
+        ]
+    ]
+];
+```
+
+This way the default message looks like `My custom message` instead of `{property} is not valid`. 
+To use variables in error messages see [Available variables](#available-variables).
+
+### Localized messages
+
+To use translated error messages for validation you have to add a new file called *validation.php* to the translation folders.
+Add a new key for every *Validator* you want to have custom and translated error message:
+```php
+return [
+    'type' => ..., // all messages for TypeValidator
+    'custom' => ..., // all messages for CustomValidator
+    ...
+];
+```
+
+There are three ways to specifiy error message per validator:
+1. Global error message for *Validator*:
+```php
+return [
+    'type' => 'You are using an invalid type'
+];
+```
+This error message will be displayed for every invalid attribute validated with TypeValidator.
+
+2. Global error message for attribute:
+```php
+return [
+        'type' => [
+            'firstname' => 'Firstname must be of type string'
+        ]
+];
+```
+This error message will be displayed for every invalid attribute called "firstname" validated with TypeValidator.
+
+3. Error message for attribute per *Entity*:
+```php
+return [
+        'type' => [
+            'User' => [
+                'firstname' => 'Firstname of user must be of type string'
+            ],
+            'Person' => [
+                'firstname' => 'Firstname of person must be of type string'
+            ]
+        ]
+];
+```
+If configured like this, the error message is dependent on the *attribute* **and** the Entity context:  
+If a *User* is validated, the *TypeValidator* will display `Firstname of user must be of type string` in case of invalid *firstname*.  
+If a *Person* is validated, the *TypeValidator* will display `Firstname of person must be of type string` in case of invalid *firstname*.
+
+### Priority of messages
+
+The order on how messages are used is the following, from highest to lowest:
+1. Translated message for *Validator/Entity/attribute*
+2. Translated message for *Validator/attribute*
+3. Translated message for *Validator*
+4. *message* option
+5. Default message
+
+### Available variables
+
+Every error message can use predefined variables. To use this just add the variable name in brackets to your message.
+The following variables are available:
+* `{property}`: The validated property. Not working in AdHoc validation. If a label is specified in mapping file, this label is used.
+* `{entity}`: The name of the validated Entity. Not working in AdHoc validation.
+* TODO
