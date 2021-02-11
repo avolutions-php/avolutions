@@ -9,7 +9,22 @@
  * @link		http://avolutions.org
  */
 
+use Avolutions\Util\StringHelper;
 use Avolutions\Util\Translation;
+
+/**
+ * interpolate
+ *
+ * Replaces placeholders in a string with given values.
+ *
+ * @param string $string String with placeholders.
+ * @param array $params An array with values to replace the placeholders with.
+ */
+if (!function_exists('interpolate')) {
+    function interpolate($string, $params = []) {
+        return StringHelper::interpolate($string, $params);
+    }
+}
 
 /**
  * translate
