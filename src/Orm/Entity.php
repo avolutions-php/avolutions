@@ -280,7 +280,7 @@ class Entity
                 }
             }
         }
-        
-        return count($messages) > 0 ? $messages : true;
+
+        return $this->isValid();
     }
 }
