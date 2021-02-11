@@ -55,11 +55,7 @@ class Translation extends ConfigFileLoader
 
         $translation = parent::get($language.'/'.$key);
 
-        if (is_array($params) && count($params) > 0) {
-            foreach ($params as $paramKey => $paramValue) {
-                $translation = str_replace('{'.$paramKey.'}', $paramValue, $translation);
-            }
-        }
+        $translation = StringHelper::interpolate($translation, $params);
 
         return $translation;
     }
@@ -86,5 +82,5 @@ class Translation extends ConfigFileLoader
             $language = basename(dirname($translationFile));
             self::$values[$language][pathinfo($translationFile, PATHINFO_FILENAME)] = self::loadConfigFile($translationFile);
         }
-	}
+    }
 }
