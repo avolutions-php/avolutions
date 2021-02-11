@@ -47,8 +47,13 @@ class Entity
 	 * @var Entity $EntityBeforeChange The Entity after initializing
 	 */
 	private $EntityBeforeChange;
-			
-	/**
+
+    /**
+     * @var array $errors TODO
+     */
+    private $errors = [];
+
+    /**
 	 * __construct
 	 * 
 	 * Creates a new Entity object and loads the corresponding EntityConfiguration
@@ -137,6 +142,18 @@ class Entity
 		return (new \ReflectionClass($this))->getShortName();
 	}	
 
+    /**
+     * getErrors
+     *
+     * TODO
+     *
+     * @return array TODO
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
 	/**
 	 * insert
 	 * 
@@ -222,21 +239,32 @@ class Entity
 
 		$Database = new Database();
 		$stmt = $Database->prepare($query);
-		$stmt->execute($values);	
+		$stmt->execute($values);
     }
-    
+
+    /**
+     * isValid
+     *
+     * Checks if entity was validated successfully last time by checking if errors are set or not.
+     *
+     * @return bool Returns true if Entity has no errors or false if it has errors.
+     */
+    public function isValid()
+    {
+        return count($this->errors) == 0;
+    }
+
+
     /**
      * validate
-     * 
-     * TODO
-     * 
-     * @return bool|array TODO
+     *
+     * Validates the Entity by using the Validators specified in mapping file.
+     * TODO describe that $errors will be filled automatically
+     *
+     * @return bool Returns true if all validations passed or false if not.
      */
     public function validate()
     {
-        $messages = [];
-
-        //print_r($this);
         foreach ($this->EntityMapping as $property => $value) {
             if(isset($value['validation'])) {
                 foreach($value['validation'] as $validator => $options) {
@@ -247,8 +275,7 @@ class Entity
                     }
                     $Validator = new $fullValidatorName($options, $property, $this);
                     if(!$Validator->isValid($this->$property)) {
-                        // TODO fill messages
-                        $messages[$property][$validator] = 'Fehler '.$property.' '.$validator;
+                        $this->errors[$property][$validator] = $Validator->getMessage();
                     }
                 }
             }

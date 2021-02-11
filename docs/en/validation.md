@@ -2,6 +2,8 @@
 
 * [Introduction](#introduction)
 * [Entity validation](#entity-validation)
+  * [Validate an Entity](#validate-an-entity)
+  * [Add validation to Entity](#add-validation-to-entity)
   * [Built in validators](#built-in-validators)
     * [CompareValidator](#comparevalidator)
     * [FormatValidator](#formatvalidator)
@@ -19,11 +21,19 @@
 
 ## Introduction
 
-
+TODO
 
 ## Entity validation
 
-### Add validation to Entity
+TODO
+
+### Validate an Entity
+
+TODO
+
+### Add Validators to Entity
+
+TODO
 
 ### Built in validators
 
@@ -168,7 +178,7 @@ The message can be customized in multiple ways.
 
 ### Default message
 
-By default, the error message looks like: `{property} is not valid`. If the property has a label defined in the mapping file, this label is used for the error message.
+By default, the error message looks like: `{property} is not valid`.
 This message will not be translated.
 
 To override the default message, every *Validator* accepts an option called ´message´ which can be defined in mapping file:
@@ -246,6 +256,6 @@ The order on how messages are used is the following, from highest to lowest:
 
 Every error message can use predefined variables. To use this just add the variable name in brackets to your message.
 The following variables are available:
-* `{property}`: The validated property. Not working in AdHoc validation. If a label is specified in mapping file, this label is used.
+* `{property}`: The validated property. Not working in AdHoc validation.
 * `{entity}`: The name of the validated Entity. Not working in AdHoc validation.
-* TODO
+* All options of built in validators, e.g. `{operator}` in CompareValidator or `{min}` in SizeValidator
