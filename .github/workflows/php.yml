@@ -1,3 +1,11 @@
+# AVOLUTIONS
+#
+# Just another open source PHP framework.
+#
+# @copyright    Copyright (c) 2019 - 2021 AVOLUTIONS
+# @license		MIT License (http://avolutions.org/license)
+# @link         http://avolutions.org
+
 name: Tests
 
 on:
@@ -19,13 +27,13 @@ jobs:
               MYSQL_USER: avolutions
               MYSQL_PASSWORD: avolutions
           ports:
-            - 3306          
+            - 3306
           options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
-                
-    steps:      
+
+    steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      
+
     - name: Setup PHP with PECL extension
       uses: shivammathur/setup-php@v2
       with:
