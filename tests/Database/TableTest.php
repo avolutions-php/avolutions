@@ -1,9 +1,9 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
+ *
  * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license     MIT License (http://avolutions.org/license)
  * @link        http://avolutions.org
@@ -27,12 +27,12 @@ class TableTest extends TestCase
 		$stmt->execute();
     }
 
-    private function createUserTable() 
+    private function createUserTable()
     {
         $columns = array();
         $columns[] = new Column('UserID', ColumnType::INT, 255, null, null, true, true);
         $columns[] = new Column('Firstname', ColumnType::VARCHAR, 255);
-        $columns[] = new Column('Lastname', ColumnType::VARCHAR, 255);	
+        $columns[] = new Column('Lastname', ColumnType::VARCHAR, 255);
         Table::create('user', $columns);
     }
 
@@ -65,7 +65,7 @@ class TableTest extends TestCase
             ]
         ];
 
-        $this->createUserTable();        
+        $this->createUserTable();
 
         $Database = new Database();
 
@@ -74,11 +74,11 @@ class TableTest extends TestCase
 		$stmt->execute();
 
         $rows = $stmt->fetchAll($Database::FETCH_ASSOC);
-        
+
         $this->assertEquals($rows, $table);
     }
 
-    public function testColumnCanBeAddedToTable() 
+    public function testColumnCanBeAddedToTable()
     {
         $column = [
             'Field' => 'NewColumn',
@@ -89,7 +89,7 @@ class TableTest extends TestCase
             'Extra' => ''
         ];
 
-        $this->createUserTable(); 
+        $this->createUserTable();
         Table::addColumn('user', new Column('NewColumn', ColumnType::VARCHAR, 255));
 
         $Database = new Database();
@@ -99,11 +99,11 @@ class TableTest extends TestCase
 		$stmt->execute();
 
         $rows = $stmt->fetchAll($Database::FETCH_ASSOC);
-        
+
         $this->assertEquals($rows[3], $column);
     }
 
-    public function testColumnCanBeAddedToTableAtSpecificPosition() 
+    public function testColumnCanBeAddedToTableAtSpecificPosition()
     {
         $column = [
             'Field' => 'NewColumnAtPosition',
@@ -113,8 +113,8 @@ class TableTest extends TestCase
             'Default' => '',
             'Extra' => ''
         ];
-        
-        $this->createUserTable(); 
+
+        $this->createUserTable();
         Table::addColumn('user', new Column('NewColumnAtPosition', ColumnType::VARCHAR, 255), 'Firstname');
 
         $Database = new Database();
@@ -124,11 +124,11 @@ class TableTest extends TestCase
 		$stmt->execute();
 
         $rows = $stmt->fetchAll($Database::FETCH_ASSOC);
-        
+
         $this->assertEquals($rows[2], $column);
     }
 
-    public function testColumnCanBeRemovedFromTable() 
+    public function testColumnCanBeRemovedFromTable()
     {
         $this->createUserTable();
         Table::removeColumn('user', 'Firstname');
@@ -140,11 +140,11 @@ class TableTest extends TestCase
 		$stmt->execute();
 
         $rows = $stmt->fetchAll($Database::FETCH_ASSOC);
-        
+
         $this->assertEquals(count($rows), 2);
     }
 
-    public function testIndexCanBeAddedToTable() 
+    public function testIndexCanBeAddedToTable()
     {
         $column = [
             'Field' => 'Firstname',
@@ -165,7 +165,7 @@ class TableTest extends TestCase
 		$stmt->execute();
 
         $rows = $stmt->fetchAll($Database::FETCH_ASSOC);
-        
+
         $this->assertEquals($rows[1], $column);
     }
 
@@ -182,7 +182,7 @@ class TableTest extends TestCase
 		$stmt->execute();
 
         $row = $stmt->fetch($Database::FETCH_ASSOC);
-        
+
         $this->assertEquals($row['CONSTRAINT_NAME'], 'fk_constraint');
         $this->assertEquals($row['TABLE_SCHEMA'], 'avolutions');
         $this->assertEquals($row['TABLE_NAME'], 'user');

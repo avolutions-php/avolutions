@@ -1,9 +1,9 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
+ *
  * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license     MIT License (http://avolutions.org/license)
  * @link        http://avolutions.org
@@ -23,7 +23,7 @@ class ColumnTest extends TestCase
 
         $Column = new Column($name, $type);
 
-        $this->assertInstanceOf('Avolutions\Database\Column', $Column); 
+        $this->assertInstanceOf('Avolutions\Database\Column', $Column);
         $this->assertEquals($Column->getPattern(), '`'.$name.'` '.$type.' NOT NULL');
     }
 
@@ -35,7 +35,7 @@ class ColumnTest extends TestCase
 
         $Column = new Column($name, $type, $length);
 
-        $this->assertInstanceOf('Avolutions\Database\Column', $Column); 
+        $this->assertInstanceOf('Avolutions\Database\Column', $Column);
         $this->assertEquals($Column->getPattern(), '`'.$name.'` '.$type.'('.$length.') NOT NULL');
     }
 
@@ -48,7 +48,7 @@ class ColumnTest extends TestCase
 
         $Column = new Column($name, $type, $length, $default);
 
-        $this->assertInstanceOf('Avolutions\Database\Column', $Column); 
+        $this->assertInstanceOf('Avolutions\Database\Column', $Column);
         $this->assertEquals($Column->getPattern(), '`'.$name.'` '.$type.'('.$length.') NOT NULL DEFAULT '.$default);
     }
 
@@ -61,7 +61,7 @@ class ColumnTest extends TestCase
 
         $Column = new Column($name, $type, $length, $default);
 
-        $this->assertInstanceOf('Avolutions\Database\Column', $Column); 
+        $this->assertInstanceOf('Avolutions\Database\Column', $Column);
         $this->assertEquals($Column->getPattern(), '`'.$name.'` '.$type.'('.$length.') NOT NULL DEFAULT FALSE');
     }
 
@@ -75,7 +75,7 @@ class ColumnTest extends TestCase
 
         $Column = new Column($name, $type, $length, $default, $null);
 
-        $this->assertInstanceOf('Avolutions\Database\Column', $Column); 
+        $this->assertInstanceOf('Avolutions\Database\Column', $Column);
         $this->assertEquals($Column->getPattern(), '`'.$name.'` '.$type.'('.$length.') NULL DEFAULT '.$default);
     }
 
@@ -90,7 +90,7 @@ class ColumnTest extends TestCase
 
         $Column = new Column($name, $type, $length, $default, $null, $primaryKey);
 
-        $this->assertInstanceOf('Avolutions\Database\Column', $Column); 
+        $this->assertInstanceOf('Avolutions\Database\Column', $Column);
         $this->assertEquals($Column->getPattern(), '`'.$name.'` '.$type.'('.$length.') NULL DEFAULT '.$default.' PRIMARY KEY');
     }
 
@@ -106,7 +106,7 @@ class ColumnTest extends TestCase
 
         $Column = new Column($name, $type, $length, $default, $null, $primaryKey, $autoIncrement);
 
-        $this->assertInstanceOf('Avolutions\Database\Column', $Column); 
+        $this->assertInstanceOf('Avolutions\Database\Column', $Column);
         $this->assertEquals($Column->getPattern(), '`'.$name.'` '.$type.'('.$length.') NULL DEFAULT '.$default.' PRIMARY KEY AUTO_INCREMENT');
     }
 }

@@ -1,9 +1,9 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
+ *
  * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license     MIT License (http://avolutions.org/license)
  * @link        http://avolutions.org
@@ -19,8 +19,8 @@ class RouteCollectionTest extends TestCase
     public function testRouteCollectionCanBeCreated()
     {
         $RouteCollection = RouteCollection::getInstance();
-        
-        $this->assertInstanceOf('Avolutions\Routing\RouteCollection', $RouteCollection);    
+
+        $this->assertInstanceOf('Avolutions\Routing\RouteCollection', $RouteCollection);
     }
 
     public function testRoutesCanBeAddedToCollection()
@@ -28,11 +28,11 @@ class RouteCollectionTest extends TestCase
         $RouteCollection = RouteCollection::getInstance();
         $Route = new Route('');
         $Route2 = new Route('', ['method' => 'POST']);
-        
+
         $RouteCollection->addRoute($Route);
         $RouteCollection->addRoute($Route2);
 
-        $this->assertContains($Route, $RouteCollection->items);        
+        $this->assertContains($Route, $RouteCollection->items);
         $this->assertContains($Route2, $RouteCollection->items);
     }
 
@@ -58,14 +58,14 @@ class RouteCollectionTest extends TestCase
     {
         $RouteCollection = RouteCollection::getInstance();
 
-        $allGet = $RouteCollection->getAllByMethod('GET');        
+        $allGet = $RouteCollection->getAllByMethod('GET');
         $allPost = $RouteCollection->getAllByMethod('POST');
 
-        $this->assertEquals(1, count($allGet));        
+        $this->assertEquals(1, count($allGet));
         $this->assertEquals(1, count($allPost));
         $this->assertInstanceOf('Avolutions\Routing\Route', $allGet[0]);
         $this->assertInstanceOf('Avolutions\Routing\Route', $allPost[0]);
-        $this->assertEquals($allGet[0]->method, 'GET');        
+        $this->assertEquals($allGet[0]->method, 'GET');
         $this->assertEquals($allPost[0]->method, 'POST');
     }
 }

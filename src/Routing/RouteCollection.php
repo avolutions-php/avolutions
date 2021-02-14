@@ -1,9 +1,9 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
+ *
  * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license     MIT License (http://avolutions.org/license)
  * @link        http://avolutions.org
@@ -28,28 +28,28 @@ use Avolutions\Core\AbstractSingleton;
 class RouteCollection extends AbstractSingleton implements CollectionInterface
 {
 	use CollectionTrait;
-	
+
 	/**
 	 * addRoute
-	 * 
+	 *
 	 * Adds an given Route object to the RouteCollection.
-	 * 
+	 *
 	 * @param Route $Route An Route object to add to the collection
 	 */
     public function addRoute($Route)
     {
 		$this->items[] = $Route;
 	}
-	
+
 	/**
 	 * getAllByMethod
-	 * 
+	 *
 	 * Returns an array with all Routes of the RouteCollection filtered by the method.
 	 *
 	 * @param string $method Name of the method (GET|POST)
-	 * 
+	 *
 	 * @return array An array with all Routes of the RouteCollection filtered by the method
-	 */ 
+	 */
     public function getAllByMethod($method)
     {
 		return array_values(array_filter(
@@ -58,5 +58,5 @@ class RouteCollection extends AbstractSingleton implements CollectionInterface
 				return $Route->method == $method;
 			}
 		));
-	}	
+	}
 }
