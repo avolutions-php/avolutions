@@ -4,9 +4,9 @@
  *
  * Just another open source PHP framework.
  *
- * @copyright	Copyright (c) 2019 - 2021 AVOLUTIONS
- * @license		MIT License (http://avolutions.org/license)
- * @link		http://avolutions.org
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (http://avolutions.org/license)
+ * @link        http://avolutions.org
  */
 
 namespace Avolutions\Validation;
@@ -114,7 +114,6 @@ abstract class AbstractValidator implements ValidatorInterface
 
                 return translate($validatorKey);
             } catch (Exception $ex) {
-                // TODO use label of property?
                 // TODO how to handle AdHoc Validation?
                 return $this->property.' is not valid';
             }

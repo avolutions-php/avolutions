@@ -4,9 +4,9 @@
  *
  * Just another open source PHP framework.
  *
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
- * @license		MIT License (http://avolutions.org/license)
- * @link		http://avolutions.org
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (http://avolutions.org/license)
+ * @link        http://avolutions.org
  */
 
 namespace Avolutions\Orm;
@@ -44,12 +44,12 @@ class Entity
     private $EntityMapping;
 
 	/**
-	 * @var Entity $EntityBeforeChange The Entity after initializing
+	 * @var Entity $EntityBeforeChange The Entity after initializing.
 	 */
 	private $EntityBeforeChange;
 
     /**
-     * @var array $errors TODO
+     * @var array $errors Validation error messages.
      */
     private $errors = [];
 
@@ -145,9 +145,9 @@ class Entity
     /**
      * getErrors
      *
-     * TODO
+     * Returns all validation error messages.
      *
-     * @return array TODO
+     * @return array Validation error messages.
      */
     public function getErrors()
     {
@@ -259,22 +259,22 @@ class Entity
      * validate
      *
      * Validates the Entity by using the Validators specified in mapping file.
-     * TODO describe that $errors will be filled automatically
+     * If a property is not valid the error message of the Validator will be added to the error array.
      *
      * @return bool Returns true if all validations passed or false if not.
      */
     public function validate()
     {
         foreach ($this->EntityMapping as $property => $value) {
-            if(isset($value['validation'])) {
-                foreach($value['validation'] as $validator => $options) {
+            if (isset($value['validation'])) {
+                foreach ($value['validation'] as $validator => $options) {
                     $fullValidatorName = VALIDATOR_NAMESPACE.ucfirst($validator).VALIDATOR;
                     if (!class_exists($fullValidatorName)) {
                         // if validator can not be found in core namespace try in application namespace
                         $fullValidatorName = APP_VALIDATOR_NAMESPACE.ucfirst($validator).VALIDATOR;
                     }
                     $Validator = new $fullValidatorName($options, $property, $this);
-                    if(!$Validator->isValid($this->$property)) {
+                    if (!$Validator->isValid($this->$property)) {
                         $this->errors[$property][$validator] = $Validator->getMessage();
                     }
                 }

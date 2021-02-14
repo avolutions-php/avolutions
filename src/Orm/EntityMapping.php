@@ -4,9 +4,9 @@
  *
  * Just another open source PHP framework.
  *
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
- * @license		MIT License (http://avolutions.org/license)
- * @link		http://avolutions.org
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (http://avolutions.org/license)
+ * @link        http://avolutions.org
  */
 
 namespace Avolutions\Orm;
@@ -55,9 +55,9 @@ class EntityMapping
             $value['form']['type'] = $value['form']['type'] ?? 'text';
 
             // TODO
-            if(isset($value['validation'])) {
-                foreach($value['validation'] as $validation => $options) {
-                    if(is_int($validation)) {
+            if (isset($value['validation'])) {
+                foreach ($value['validation'] as $validation => $options) {
+                    if (is_int($validation)) {
                         unset($value['validation'][$validation]);
                         $value['validation'][$options] = null;
                     }
