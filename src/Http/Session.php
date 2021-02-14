@@ -1,14 +1,14 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
+ *
  * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license     MIT License (http://avolutions.org/license)
  * @link        http://avolutions.org
  */
- 
+
 namespace Avolutions\Http;
 
 /**
@@ -23,9 +23,9 @@ class Session
 {
     /**
 	 * delete
-	 * 
+	 *
 	 * Deletes a session value by its key.
-     * 
+     *
      * @param string $key The key of the session value.
 	 */
     public static function delete($key)
@@ -37,7 +37,7 @@ class Session
 
     /**
 	 * destroy
-	 * 
+	 *
 	 * Destroys the session and unset all values.
 	 */
     public static function destroy()
@@ -50,11 +50,11 @@ class Session
 
     /**
 	 * get
-	 * 
+	 *
 	 * Returns a session value by its key.
-     * 
+     *
      * @param string $key The key of the session value.
-     * 
+     *
      * @return mixed The value of the session entry.
 	 */
     public static function get($key)
@@ -66,9 +66,9 @@ class Session
 
     /**
 	 * set
-	 * 
+	 *
 	 * Set a new session value.
-     * 
+     *
      * @param string $key The key of the session value.
      * @param mixed $value The value to store.
 	 */
@@ -81,8 +81,8 @@ class Session
 
     /**
 	 * start
-	 * 
-	 * Starts and initializes a new session. 
+	 *
+	 * Starts and initializes a new session.
 	 */
     public static function start()
     {
@@ -94,13 +94,13 @@ class Session
 
     /**
 	 * isStarted
-	 * 
+	 *
 	 * Checks if a session is already started.
-     * 
+     *
      * @return bool If the session is already started.
 	 */
     public static function isStarted()
     {
-        return session_status() === \PHP_SESSION_ACTIVE; 
+        return session_status() === \PHP_SESSION_ACTIVE;
     }
 }

@@ -1,9 +1,9 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
+ *
  * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license     MIT License (http://avolutions.org/license)
  * @link        http://avolutions.org
@@ -25,12 +25,12 @@ class LogLevel
 	 * @var string EMERGENCY Text for log level emergency
 	 */
 	const EMERGENCY = 'EMERGENCY';
-	
+
 	/**
 	 * @var string ALERT Text for log level alert
 	 */
 	const ALERT = 'ALERT';
-	
+
 	/**
 	 * @var string CRITICAL Text for log level critical
 	 */
@@ -40,22 +40,22 @@ class LogLevel
 	 * @var string ERROR Text for log level error
 	 */
 	const ERROR = 'ERROR';
-	
+
 	/**
 	 * @var string WARNING Text for log level warning
 	 */
 	const WARNING = 'WARNING';
-	
+
 	/**
 	 * @var string NOTICE Text for log level notice
 	 */
 	const NOTICE = 'NOTICE';
-	
+
 	/**
 	 * @var string INFO Text for log level info
 	 */
 	const INFO = 'INFO';
-	
+
 	/**
 	 * @var string DEBUG Text for log level debug
 	 */

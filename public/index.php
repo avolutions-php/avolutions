@@ -1,9 +1,9 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
+ *
  * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license     MIT License (http://avolutions.org/license)
  * @link        http://avolutions.org
@@ -21,12 +21,12 @@ require_once '../bootstrap.php';
 /**
  * Load the routes file
  */
-require_once '../routes.php'; 
+require_once '../routes.php';
 
 /**
  * Load the events file
  */
-require_once '../events.php'; 
+require_once '../events.php';
 
 /**
  * Start the application

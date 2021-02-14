@@ -1,9 +1,9 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
+ *
  * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license     MIT License (http://avolutions.org/license)
  * @link        http://avolutions.org
@@ -59,7 +59,7 @@ class RouterTest extends TestCase
                 'default'  => 1
             ]
         ]
-        ));        
+        ));
 
         $RouteCollection->addRoute(new Route('/<controller>/<action>'));
 
@@ -82,7 +82,7 @@ class RouterTest extends TestCase
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
         $this->assertEquals($Route->controllerName, 'user');
-        $this->assertEquals($Route->actionName, 'new'); 
+        $this->assertEquals($Route->actionName, 'new');
         $this->assertEquals($Route->method, 'GET');
     }
 
@@ -92,7 +92,7 @@ class RouterTest extends TestCase
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
         $this->assertEquals($Route->controllerName, 'user');
-        $this->assertEquals($Route->actionName, 'show');  
+        $this->assertEquals($Route->actionName, 'show');
         $this->assertEquals($Route->method, 'GET');
         $this->assertEquals($Route->parameters[0], 9);
     }
@@ -103,7 +103,7 @@ class RouterTest extends TestCase
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
         $this->assertEquals($Route->controllerName, 'user');
-        $this->assertEquals($Route->actionName, 'delete');  
+        $this->assertEquals($Route->actionName, 'delete');
         $this->assertEquals($Route->method, 'GET');
         $this->assertEmpty($Route->parameters);
     }
@@ -114,7 +114,7 @@ class RouterTest extends TestCase
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
         $this->assertEquals($Route->controllerName, 'user');
-        $this->assertEquals($Route->actionName, 'edit');  
+        $this->assertEquals($Route->actionName, 'edit');
         $this->assertEquals($Route->method, 'GET');
         $this->assertEquals($Route->parameters[0], 1);
     }
@@ -125,7 +125,7 @@ class RouterTest extends TestCase
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
         $this->assertEquals($Route->controllerName, 'user');
-        $this->assertEquals($Route->actionName, 'copy');  
+        $this->assertEquals($Route->actionName, 'copy');
         $this->assertEquals($Route->method, 'GET');
         $this->assertEquals($Route->parameters[0], 1);
         $this->assertEquals($Route->parameters[1], 2);
