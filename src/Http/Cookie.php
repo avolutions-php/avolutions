@@ -1,67 +1,67 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
- * @license		MIT License (http://avolutions.org/license)
- * @link		http://avolutions.org
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (http://avolutions.org/license)
+ * @link        http://avolutions.org
  */
- 
+
 namespace Avolutions\Http;
 
 /**
  * Cookie class
  *
  * The Cookie class is an object represeting a HTTP Cookie. This can be used to store information
- * on the client. 
+ * on the client.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.4.0
  */
 class Cookie
-{	
-    /** 
+{
+    /**
      * @var string $domain The (sub)domain that the cookie is available to.
      */
     public $domain = '';
 
-    /** 
+    /**
      * @var int $expires The time the cookie expires as UNIX timestamp.
      */
     public $expires = 0;
 
-    /** 
+    /**
      * @var bool $httpOnly Indicates if the cookie is only accessible through the HTTP protocol.
      */
     public $httpOnly = false;
 
-    /** 
+    /**
      * @var string $name The name of the cookie.
      */
     public $name;
 
-    /** 
+    /**
      * @var string $path The path on the server in which the cookie will be available on.
      */
     public $path = '';
 
-    /** 
+    /**
      * @var bool $secure Indicates if the cookie should only be transmitted over a secure HTTPS connection.
      */
     public $secure = false;
 
-    /** 
+    /**
      * @var string $value The value of the cookie.
      */
     public $value = '';
 
     /**
 	 * __construct
-	 * 
+	 *
 	 * Creates a new Cookie object with the given parameters.
-     * 
+     *
      * @param string $name The name of the cookie.
      * @param string $value The value of the cookie.
      * @param int $expires The time the cookie expires as UNIX timestamp.
@@ -79,5 +79,5 @@ class Cookie
         $this->domain = $domain;
         $this->secure = $secure;
         $this->httpOnly = $httpOnly;
-	}	
+	}
 }

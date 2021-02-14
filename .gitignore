@@ -1,14 +1,19 @@
-#       GENERAL      #
-######################
+# AVOLUTIONS
+#
+# Just another open source PHP framework.
+#
+# @copyright    Copyright (c) 2019 - 2021 AVOLUTIONS
+# @license      MIT License (http://avolutions.org/license)
+# @link         http://avolutions.org
+
+# GENERAL
 vendor/*
 composer.lock
 
-#     AVOLUTIONS     #
-######################
+# AVOLUTIONS
 log/*
 
-# IDE specific files #
-######################
+# IDE specific files
 # Eclipse
 .settings/*
 .buildpath

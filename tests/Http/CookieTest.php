@@ -1,12 +1,12 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
- * @license		MIT License (http://avolutions.org/license)
- * @link		http://avolutions.org
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (http://avolutions.org/license)
+ * @link        http://avolutions.org
  */
 
 use PHPUnit\Framework\TestCase;
@@ -15,7 +15,7 @@ use Avolutions\Http\Cookie;
 
 class CookieTest extends TestCase
 {
-    public function testCookieObjectCanBeCreated() 
+    public function testCookieObjectCanBeCreated()
     {
         $name = 'name';
         $value = 'value';
@@ -36,7 +36,7 @@ class CookieTest extends TestCase
         $this->assertEquals($Cookie->httpOnly, $httpOnly);
     }
 
-    public function testCookieObjectDefaultValues() 
+    public function testCookieObjectDefaultValues()
     {
         $name = 'name';
         $value = 'value';
