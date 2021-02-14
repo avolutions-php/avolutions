@@ -54,7 +54,6 @@ class Translation extends ConfigFileLoader
         }
 
         $translation = parent::get($language.'/'.$key);
-
         $translation = StringHelper::interpolate($translation, $params);
 
         return $translation;

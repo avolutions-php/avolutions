@@ -4,9 +4,9 @@
  *
  * Just another open source PHP framework.
  *
- * @copyright	Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
  * @license     MIT License (http://avolutions.org/license)
- * @link		http://avolutions.org
+ * @link        http://avolutions.org
  */
 
 namespace Avolutions\Util;
@@ -29,7 +29,7 @@ class StringHelper
      * @param string $string String with placeholders.
      * @param array $params An array with values to replace the placeholders with.
      *
-     * @return string String with replaces values.
+     * @return string String with replaced values.
      */
     public static function interpolate($string, $params = [])
     {
