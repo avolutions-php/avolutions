@@ -84,9 +84,6 @@ class DateTimeValidator extends AbstractValidator
                     break;
             }
         }
-
-        print_r($this->type);
-        print_r($this->format);
     }
 
     /**
@@ -100,6 +97,6 @@ class DateTimeValidator extends AbstractValidator
      */
     public function isValid($value) {
         // TODO Timezone
-        return DateTime::createFromFormat($this->format, $value, $this->timezone) !== false;
+        return DateTime::createFromFormat($this->format, $value) !== false;
     }
 }
