@@ -6,6 +6,7 @@
   * [Add validation to Entity](#add-validation-to-entity)
   * [Built in validators](#built-in-validators)
     * [CompareValidator](#comparevalidator)
+    * [DateTimeValidator](#datetimevalidator)
     * [FormatValidator](#formatvalidator)
     * [RangeValidator](#rangevalidator)
     * [RegexValidator](#regexvalidator)
@@ -49,6 +50,16 @@ The *CompareValidator* can be used to perform validations using the common compa
 * `attribute`: the name of an Entity attribute to compare you value to.
 
 Either *value* or *attribute* must be set. If both are passed, *attribute* will be used.
+
+#### DateTimeValidator
+
+The *DateTimeValidator* can be used to check if a string is in a valid date/time format by using `DateTime::createFromFormat` method.
+
+*Options*:
+* `format`: a date/time format. Check [PHP docs](https://www.php.net/manual/en/datetime.format.php) for supported formats. 
+* `type`: a predefined type to check the string against. Possible values: `date`, `time`, `datetime`. Default value `datetime`. If `type` is passed, the default formats from the [config](config.md#default-values) will be used to validate the input.
+
+If `format` and `type` are passed, `format` will be used.
 
 #### FormatValidator
 

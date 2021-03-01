@@ -64,6 +64,9 @@ Hello Alex
 
 Configuration key | Default value | Description
 --- | --- | ---
+application/defaultDateFormat | "Y-m-d" | The default date format for your application. Will be used in [DateTimeValidator](validation.md#datetimevalidator) if `type` "date" is passed.
+application/defaultDateTimeFormat | "Y-m-d H:i:s" | The default datetime format for your application. Will be used in [DateTimeValidator](validation.md#datetimevalidator) if `type` "datetime" is passed.
+application/defaultTimeFormat | "H:i:s" | The default time format for your application. Will be used in [DateTimeValidator](validation.md#datetimevalidator) if `type` "time" is passed.
 application/defaultLanguage | "en" | The default language for your application
 application/namespace | "Application" | The namespace for your application
 database/host | "127.0.0.1" | The host name for the database connection

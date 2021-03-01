@@ -27,17 +27,12 @@ use function implode;
 class DateTimeValidator extends AbstractValidator
 {
     /**
-     * @var string $format TODO
+     * @var string $format The date/time format to check against.
      */
     private $format;
 
     /**
-     * @var DateTimeZone $timezone TODO
-     */
-    private $timezone = null;
-
-    /**
-     * @var string $type TODO
+     * @var string $type Predefined type to check against.
      */
     private $type = 'datetime';
 
@@ -62,7 +57,6 @@ class DateTimeValidator extends AbstractValidator
             }
         }
 
-        // TODO check if format is a valid format?
         if (isset($options['format'])) {
             if(!is_string($options['format'])) {
                 throw new InvalidArgumentException('Option "format" must be of type string.');
@@ -96,7 +90,6 @@ class DateTimeValidator extends AbstractValidator
      * @return bool Data is valid (true) or not (false).
      */
     public function isValid($value) {
-        // TODO Timezone
         return DateTime::createFromFormat($this->format, $value) !== false;
     }
 }
