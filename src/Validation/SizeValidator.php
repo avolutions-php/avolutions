@@ -109,7 +109,7 @@ class SizeValidator extends AbstractValidator
      *
      * Checks if the passed value is valid considering the validator type and passed options.
      *
-     * @param $value The value to validate.
+     * @param mixed $value The value to validate.
      *
      * @return bool Data is valid (true) or not (false).
      */
