@@ -106,7 +106,7 @@ If *min* and *max* are passed the *Validator* will check if the value is between
 The *TypeValidator* can be used to check the data type of your value.
 
 *Options*:
-* `type`: a data type to compare. Valid data types: `int`/`integer`, `string`, `bool`/`boolean`, `array`
+* `type`: a data type to compare. Valid data types: `int`/`integer`, `string`, `bool`/`boolean`, `array`, `datetime`
 
 *type* is a mandatory option.
 

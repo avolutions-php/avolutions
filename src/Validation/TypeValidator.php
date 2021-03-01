@@ -11,6 +11,7 @@
 
 namespace Avolutions\Validation;
 
+use DateTime;
 use InvalidArgumentException;
 use function implode;
 
@@ -41,7 +42,7 @@ class TypeValidator extends AbstractValidator
     public function setOptions($options = [], $property = null, $Entity = null) {
         parent::setOptions($options, $property, $Entity);
 
-        $validTypes = ['int', 'integer', 'string', 'bool', 'boolean', 'array'];
+        $validTypes = ['int', 'integer', 'string', 'bool', 'boolean', 'array', 'datetime'];
         if (
             !isset($options['type'])
             || !in_array($options['type'], $validTypes)
@@ -73,6 +74,8 @@ class TypeValidator extends AbstractValidator
                 return is_bool($value);
             case 'array':
                 return is_array($value);
+            case 'datetime':
+                return $value instanceof DateTime;
             default:
                 return false;
         }

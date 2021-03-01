@@ -21,7 +21,7 @@ class TypeValidatorTest extends TestCase
     }
 
     public function testOptionsValidFormat() {
-        $validTypes = ['int', 'integer', 'string', 'bool', 'boolean', 'array'];
+        $validTypes = ['int', 'integer', 'string', 'bool', 'boolean', 'array', 'datetime'];
         foreach ($validTypes as $validType) {
             $Validator = new TypeValidator(['type' => $validType]);
             $this->assertInstanceOf(TypeValidator::class, $Validator);
@@ -40,6 +40,7 @@ class TypeValidatorTest extends TestCase
         $this->assertEquals($Validator->isValid(true), false);
         $this->assertEquals($Validator->isValid(['1','2','3']), false);
         $this->assertEquals($Validator->isValid(null), false);
+        $this->assertEquals($Validator->isValid(new DateTime()), false);
     }
 
     public function testIntIsValid() {
@@ -51,6 +52,7 @@ class TypeValidatorTest extends TestCase
         $this->assertEquals($Validator->isValid(true), false);
         $this->assertEquals($Validator->isValid(['1','2','3']), false);
         $this->assertEquals($Validator->isValid(null), false);
+        $this->assertEquals($Validator->isValid(new DateTime()), false);
     }
 
     public function testIntegerIsValid() {
@@ -62,6 +64,7 @@ class TypeValidatorTest extends TestCase
         $this->assertEquals($Validator->isValid(true), false);
         $this->assertEquals($Validator->isValid(['1','2','3']), false);
         $this->assertEquals($Validator->isValid(null), false);
+        $this->assertEquals($Validator->isValid(new DateTime()), false);
     }
 
     public function testBoolIsValid() {
@@ -73,6 +76,7 @@ class TypeValidatorTest extends TestCase
         $this->assertEquals($Validator->isValid(123), false);
         $this->assertEquals($Validator->isValid(['1','2','3']), false);
         $this->assertEquals($Validator->isValid(null), false);
+        $this->assertEquals($Validator->isValid(new DateTime()), false);
     }
 
     public function testBooleanIsValid() {
@@ -84,6 +88,7 @@ class TypeValidatorTest extends TestCase
         $this->assertEquals($Validator->isValid(123), false);
         $this->assertEquals($Validator->isValid(['1','2','3']), false);
         $this->assertEquals($Validator->isValid(null), false);
+        $this->assertEquals($Validator->isValid(new DateTime()), false);
     }
 
     public function testArrayIsValid() {
@@ -95,6 +100,19 @@ class TypeValidatorTest extends TestCase
         $this->assertEquals($Validator->isValid('123'), false);
         $this->assertEquals($Validator->isValid(123), false);
         $this->assertEquals($Validator->isValid(true), false);
+        $this->assertEquals($Validator->isValid(null), false);
+        $this->assertEquals($Validator->isValid(new DateTime()), false);
+    }
+
+    public function testDateTimesValid() {
+        $Validator = new TypeValidator(['type' => 'datetime']);
+
+        $this->assertEquals($Validator->isValid(new DateTime()), true);
+        $this->assertEquals($Validator->isValid('test'), false);
+        $this->assertEquals($Validator->isValid(''), false);
+        $this->assertEquals($Validator->isValid(123), false);
+        $this->assertEquals($Validator->isValid(true), false);
+        $this->assertEquals($Validator->isValid(['1','2','3']), false);
         $this->assertEquals($Validator->isValid(null), false);
     }
 }
