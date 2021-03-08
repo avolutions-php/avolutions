@@ -90,6 +90,8 @@ class DateTimeValidator extends AbstractValidator
      * @return bool Data is valid (true) or not (false).
      */
     public function isValid($value) {
-        return DateTime::createFromFormat($this->format, $value) !== false;
+        $DateTime = DateTime::createFromFormat($this->format, $value);
+
+        return $DateTime && $DateTime->format($this->format) === $value;
     }
 }
