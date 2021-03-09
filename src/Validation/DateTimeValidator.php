@@ -19,7 +19,7 @@ use function implode;
 /**
  * DateValidator
  *
- * TODO
+ * The DateValidator checks if a value is a valid date, time or datetime.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.6.0

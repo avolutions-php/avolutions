@@ -45,7 +45,7 @@ class Form
     private $entityName = null;
 
     /**
-     * @var array $errors TODO
+     * @var array $errors The validation error messages.
      */
     private $errors = null;
 
