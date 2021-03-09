@@ -22,19 +22,65 @@
 
 ## Introduction
 
-TODO
+The *Validation* module or *Validators* can be used to check either if properties of an *[Entity](#entity-validation)* are valid or to check any other [value](#adhoc-validation) in your application.
+You can use the [built-in](#built-in-validators) *Validators* from *AVOLUTIONS* or write your [own](#custom-validators) *Validators*.
 
 ## Entity validation
 
-TODO
+The most common case to use *Validators* are the validation of an *Entity*.
+This provides an easy way to check if your *Entity* properties are correct before storing it to database.
+Also, you can ensure to have consistent data in your application and check the user input e.g. in forms.
 
 ### Validate an Entity
 
-TODO
+To validate your *Entity* just use the `validate()` method:
+```php
+$User = new User();
+$User->validate();
+```
+This will automatically validate all properties and run the *Validators* like defined in [mapping](#add-validators-to-entity). 
+
+In case everything is valid the method will return `true`, if one or more validations failed it will return `false`.
+This information can also be received by the `isValid()` method:
+```php
+$User = new User();
+$User->validate();
+...
+$User->isValid();
+```
+The `isValid()` will return same result as `validate()` but **without** executing the *Validation* again.
+
+In case you *Entity* was not validated successfully you can get the occurred error message by calling `getErrors()` method:
+```php
+$User = new User();
+if(!$User->validate()) {
+  print_r($User->getErrors());
+}
+```
+This method will return an multidimensional array with all errors from the last *Entity* validation.
+Key of the first dimension is the property of the *Entity*, key of the second dimension is the name of the *Validator*. 
+Value of second dimension contains the error message itself.
+
+For more details check the [error message chapter](#error-messages).
 
 ### Add Validators to Entity
 
-TODO
+*Validation* or better said a *Validator* are bind to an *Entity* by using the *[Mapping](mapping.md)* file.
+To do so, just add an array under the key `validation` to the property you want to validate.
+Add an array under `validation` for every 'Validator' for this property. Use the name of the 'Validator' (without postfix "Validator") as key.
+If you have to pass *options* to the *Validator* (see next chapters) add them as associative array.
+
+Lets say we have an *Entity* with an property called *firstname*. And we want to have the firstname a max. length of 15 and as required, the *EntityMapping* will look like this:
+```php
+...
+  'firstname' => [
+    'validation' => [
+      'size' => ['max' => 15],
+      'required'
+    ]
+  ]
+...
+```
 
 ### Built in validators
 
@@ -192,7 +238,7 @@ The message can be customized in multiple ways.
 By default, the error message looks like: `{property} is not valid`.
 This message will not be translated.
 
-To override the default message, every *Validator* accepts an option called ´message´ which can be defined in mapping file:
+To override the default message, every *Validator* accepts an option called `message` which can be defined in mapping file:
 ```php
 return [
     'firstname' => [
