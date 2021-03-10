@@ -114,8 +114,12 @@ abstract class AbstractValidator implements ValidatorInterface
 
                 return translate($validatorKey);
             } catch (Exception $ex) {
-                // TODO how to handle AdHoc Validation?
-                return $this->property.' is not valid';
+                if (is_null($this->property)) {
+                    // AdHoc validation
+                    return 'Not valid';
+                } else {
+                    return $this->property.' is not valid';
+                }
             }
         }
     }

@@ -303,10 +303,10 @@ If a *Person* is validated, the *TypeValidator* will display `Firstname of perso
 ### Priority of messages
 
 The order on how messages are used is the following, from highest to lowest:
-1. Translated message for *Validator/Entity/attribute*
-2. Translated message for *Validator/attribute*
-3. Translated message for *Validator*
-4. *message* option
+1. *message* option
+2. Translated message for *Validator/Entity/attribute*
+3. Translated message for *Validator/attribute*
+4. Translated message for *Validator*
 5. Default message
 
 ### Available variables
