@@ -45,7 +45,7 @@ class Form
     private $entityName = null;
 
     /**
-     * @var array $errors The validation error messages.
+     * @var array $errors Validation error messages.
      */
     private $errors = null;
 
@@ -56,18 +56,21 @@ class Form
      * the EntityConfiguration and EntityMapping automatically.
      *
      * @param Entity $Entity The Entity context of the form.
-     * @param array $errors TODO
+     * @param array $errors Validation error messages.
 	 */
-    public function __construct($Entity = null, $errors = null)
+    public function __construct($Entity = null, $errors = [])
     {
         if($Entity instanceof Entity) {
             $this->Entity = $Entity;
+            $this->errors = $Entity->getErrors();
             $this->entityName = $this->Entity->getEntityName();
             $this->EntityConfiguration = new EntityConfiguration($this->entityName);
             $this->EntityMapping = $this->EntityConfiguration->getMapping();
         }
 
-        $this->errors = $errors;
+        if(is_array($errors)) {
+            $this->errors = array_merge($this->errors, $errors);
+        }
     }
 
     /**
@@ -123,11 +126,11 @@ class Form
     /**
 	 * error
 	 *
-	 * TODO
+	 * Creates a div with validation error message for an input field.
      *
-     * @param string $message TODO
+     * @param array $messages The error messages to display.
      *
-     * @return string TODO
+     * @return string A div with error message.
      */
     public function error($messages)
     {
