@@ -47,7 +47,7 @@ class Form
     /**
      * @var array $errors Validation error messages.
      */
-    private $errors = null;
+    private $errors = [];
 
     /**
 	 * __construct
