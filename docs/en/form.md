@@ -187,6 +187,38 @@ This will only create inputs for "firstname" and "gender" but still based on the
   <input type="submit" name="submit" value="save" />
 </form>
 ```
+
+## Show validation errors
+
+If you create a form for an *Entity*, validation errors will be automatically rendered as soon as the Entity was validated.
+The message is rendered as a simple `div` tag after the input element. There is one `div` for every Validator message.
+You can customize the message by using the automatically added CSS class `error`.
+
+```html
+<form method="POST">
+  <label>firstname</label><input name="user[firstname]" type="text" />
+  <div class="error">Firstname is required.</div>
+  ...
+</form>
+```
+
+If you want to pass custom error messages to a *Form*, this can be done by using the `error` parameter of the Form constructor:
+```php
+use Avolutions\View\Form;
+
+$Form = new Form(null, ['firstname' => 'Firstname is required.']);
+
+print $Form->open(['method' => 'POST']);
+print $Form->inputFor('firstname', false);
+print $Form->close();
+```
+```html
+<form method="POST">
+  <input name="user[firstname]" type="text" />
+  <div class="error">Firstname is required.</div>
+</form>
+```
+
 ## Input controls
 
 The following input control can be generated with the *Form* class:
