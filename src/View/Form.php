@@ -60,7 +60,7 @@ class Form
 	 */
     public function __construct($Entity = null, $errors = [])
     {
-        if($Entity instanceof Entity) {
+        if ($Entity instanceof Entity) {
             $this->Entity = $Entity;
             $this->errors = $Entity->getErrors();
             $this->entityName = $this->Entity->getEntityName();
@@ -68,7 +68,7 @@ class Form
             $this->EntityMapping = $this->EntityConfiguration->getMapping();
         }
 
-        if(is_array($errors)) {
+        if (is_array($errors)) {
             $this->errors = array_merge($this->errors, $errors);
         }
     }
@@ -96,7 +96,7 @@ class Form
         $inputType = $this->EntityMapping->$fieldName['form']['type'];
 
         // Do not show labels for input type hidden
-        if($showLabel && $inputType != 'hidden') {
+        if ($showLabel && $inputType != 'hidden') {
             $input .= $this->labelFor($fieldName);
         }
 
@@ -116,7 +116,7 @@ class Form
                 break;
         }
 
-        if(isset($this->errors[$fieldName])) {
+        if (isset($this->errors[$fieldName])) {
             $input .= $this->error($this->errors[$fieldName]);
         }
 
@@ -136,7 +136,7 @@ class Form
     {
         $error = '';
 
-        foreach($messages as $message) {
+        foreach ($messages as $message) {
             $error .= '<div class="error">'.$message.'</div>';
         }
 

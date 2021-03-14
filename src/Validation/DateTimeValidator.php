@@ -58,7 +58,7 @@ class DateTimeValidator extends AbstractValidator
         }
 
         if (isset($options['format'])) {
-            if(!is_string($options['format'])) {
+            if (!is_string($options['format'])) {
                 throw new InvalidArgumentException('Option "format" must be of type string.');
             } else {
                 $this->format = $options['format'];

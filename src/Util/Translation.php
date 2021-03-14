@@ -56,7 +56,7 @@ class Translation extends ConfigFileLoader
         $translation = parent::get($language.'/'.$key);
         // if $key not point on a translation but on a parent element
         if (!is_string($translation)) {
-            throw new Exception();
+            throw new Exception('Value must be of type string to translate it.');
         }
 
         $translation = StringHelper::interpolate($translation, $params);

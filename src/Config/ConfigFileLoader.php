@@ -37,7 +37,7 @@ class ConfigFileLoader extends AbstractSingleton
 	 *
 	 * @param string $key The key (slash separated) of the config value.
      *
-     * @throws Exception
+     * @throws OutOfBoundsException
 	 *
 	 * @return mixed The config value
 	 */

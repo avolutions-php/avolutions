@@ -52,7 +52,7 @@ class RegexValidator extends AbstractValidator
         }
 
         if (isset($options['not'])) {
-            if(!is_bool($options['not'])) {
+            if (!is_bool($options['not'])) {
                 throw new InvalidArgumentException('Option "not" must be of type boolean.');
             } else {
                 $this->not = $options['not'];
