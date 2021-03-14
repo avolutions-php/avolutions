@@ -10,6 +10,9 @@
  */
 
 return [
+    'defaultDateFormat' => 'Y-m-d',
+    'defaultDateTimeFormat' => 'Y-m-d H:i:s',
+    'defaultTimeFormat' => 'H:i:s',
 	'defaultLanguage' => 'en',
 	'namespace' => 'Application'
 ];

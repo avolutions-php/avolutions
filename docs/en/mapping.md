@@ -19,6 +19,7 @@ Attribute | Default value | Description
 [form][label] | The name of the property | Defines the text for the label in forms.
 [form][hidden] | false | If set to true this field will not be rendered into forms.
 [form][options] | | An array of options if the form type is set to "select".
+[validation] | | An array of *Validators*, see [Validation](validation.md)
 
 ## Example
 
@@ -28,7 +29,12 @@ return [
     'id' => [
         'column' => 'UserID'
     ],
-    'firstname' => [],
+    'firstname' => [
+        'validation' => [
+            'required',
+            'size' => ['max' => 15]
+        ]
+    ],
     'lastname' => [],
     'hobbies' => [
         'form' => [
@@ -58,6 +64,7 @@ This example will do the following:
 2. The property id (inherits from Entity class) will be mapped to the table field "UserID".
 3. The properties "firstname", "lastname" and "hobbies" are mapped to the columns "firstname", "lastname" and "hobbies" by naming convention, because no "column" property is set.
 4. The properties "firstname", "lastname" will be rendered as a input of type "text" (default value).
+5. The property "firstname" is required and may not be longer than 15 characters.
 5. The property "hobbies" will be rendered as a "textarea"
 6. The property "genderID" will be mapped to the column "GenderID" and displayed as a select box with the options "male", "female" and "other". The label will show the text "Choose gender".
 7. The property "Gender" will also be mapped to the column "GenderID" but will be of type "Gender (= Entity) in the User model automatically. The ORM framework will automatically join the defined column (GenderID) to the id column of the Gender entity. The field will not be displayed in generated forms.

@@ -45,20 +45,31 @@ class Form
     private $entityName = null;
 
     /**
+     * @var array $errors Validation error messages.
+     */
+    private $errors = [];
+
+    /**
 	 * __construct
 	 *
 	 * Creates a new Form instance. If a Entity is given the method loads
      * the EntityConfiguration and EntityMapping automatically.
      *
      * @param Entity $Entity The Entity context of the form.
+     * @param array $errors Validation error messages.
 	 */
-    public function __construct($Entity = null)
+    public function __construct($Entity = null, $errors = [])
     {
-        if($Entity instanceof Entity) {
+        if ($Entity instanceof Entity) {
             $this->Entity = $Entity;
+            $this->errors = $Entity->getErrors();
             $this->entityName = $this->Entity->getEntityName();
             $this->EntityConfiguration = new EntityConfiguration($this->entityName);
             $this->EntityMapping = $this->EntityConfiguration->getMapping();
+        }
+
+        if (is_array($errors)) {
+            $this->errors = array_merge($this->errors, $errors);
         }
     }
 
@@ -79,13 +90,13 @@ class Form
 
         $attributes = [
             'name' => lcfirst($this->entityName).'['.$fieldName.']',
-            'value' => $this->Entity->exists() ? $this->Entity->$fieldName : null
+            'value' => $this->Entity->$fieldName
         ];
 
         $inputType = $this->EntityMapping->$fieldName['form']['type'];
 
         // Do not show labels for input type hidden
-        if($showLabel && $inputType != 'hidden') {
+        if ($showLabel && $inputType != 'hidden') {
             $input .= $this->labelFor($fieldName);
         }
 
@@ -105,10 +116,34 @@ class Form
                 break;
         }
 
+        if (isset($this->errors[$fieldName])) {
+            $input .= $this->error($this->errors[$fieldName]);
+        }
+
         return $input;
     }
 
-     /**
+    /**
+	 * error
+	 *
+	 * Creates a div with validation error message for an input field.
+     *
+     * @param array $messages The error messages to display.
+     *
+     * @return string A div with error message.
+     */
+    public function error($messages)
+    {
+        $error = '';
+
+        foreach ($messages as $message) {
+            $error .= '<div class="error">'.$message.'</div>';
+        }
+
+        return $error;
+    }
+
+    /**
 	 * labelFor
 	 *
 	 * Creates a HTML label element for the given Entity field depending on

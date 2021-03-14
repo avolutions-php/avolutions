@@ -54,6 +54,16 @@ class EntityMapping
             // If no form type is specified set to 'text'
             $value['form']['type'] = $value['form']['type'] ?? 'text';
 
+            if (isset($value['validation'])) {
+                foreach ($value['validation'] as $validation => $options) {
+                    // If no options are passed to a Validator
+                    if (is_int($validation)) {
+                        unset($value['validation'][$validation]);
+                        $value['validation'][$options] = null;
+                    }
+                }
+            }
+
             // Set property
 			$this->$key = $value;
         }
