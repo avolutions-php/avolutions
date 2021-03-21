@@ -12,7 +12,7 @@
 
 The AVOLUTIONS framework has only a few requirements:
 * HTTP Server (only Apache supported at the moment)
-* PHP >= 7.2
+* PHP >= 7.3
 * PDO PHP Extension
 
 ## Installing AVOLUTIONS
