@@ -19,11 +19,13 @@ AVOLUTIONS is just another open source PHP framework.
 * [Routing](https://avolutions.org/guide/routing)
 * [MVC](https://avolutions.org/guide/view)
 * [ORM](https://avolutions.org/guide/model)
+* [Event handling](https://avolutions.org/guide/events)
+* [Cookies](https://avolutions.org/guide/cookie) & [Session](https://avolutions.org/guide/session)
 * [Logging](https://avolutions.org/guide/logging)
 * [Database](https://avolutions.org/guide/query)
 * [Configuration](https://avolutions.org/guide/config)
+* [Validation](https://avolutions.org/guide/validation)
 * [Forms](https://avolutions.org/guide/form)
-* [Events](https://avolutions.org/guide/events)
 * [Translations](https://avolutions.org/guide/translation)
 
 # Installation
