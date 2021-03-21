@@ -19,6 +19,8 @@
 * [Error messages](#error-messages)
   * [Default message](#default-message)
   * [Localized messages](#localized-messages)
+  * [Priority of messages](#priority-of-messages)
+  * [Available variables](#available-variables)
 
 ## Introduction
 

@@ -6,6 +6,7 @@
   * [Configure a form](#configure-a-form)
   * [Passing a form from Controller/ViewModel](#passing-a-form-from-controllerviewmodel)
 * [Generate forms for Entities](#generate-forms-for-entities)
+* [Show validation errors](#show-validation-errors)
 * [Input controls](#input-controls)
 
 ## Introduction
