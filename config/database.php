@@ -1,12 +1,12 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
- * @license		MIT License (http://avolutions.org/license)
- * @link		http://avolutions.org
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (http://avolutions.org/license)
+ * @link        http://avolutions.org
  */
 
 return [
@@ -16,5 +16,5 @@ return [
 	'user' => getenv('DB_USER') ?: 'avolutions',
 	'password' => getenv('DB_PASSWORD') ?: 'avolutions',
 	'charset' => 'utf8',
-	'migrateOnAppStart' => false	
+	'migrateOnAppStart' => false
 ];

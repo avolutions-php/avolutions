@@ -1,12 +1,12 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
- * @license		MIT License (http://avolutions.org/license)
- * @link		http://avolutions.org
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (http://avolutions.org/license)
+ * @link        http://avolutions.org
  */
 
 use PHPUnit\Framework\TestCase;
@@ -30,7 +30,7 @@ class SessionTest extends TestCase
         $this->assertEquals($isStarted, true);
     }
 
-    public function testSetSessionValues() 
+    public function testSetSessionValues()
     {
         Session::set('value1', 'foo');
         Session::set('value2', 4711);
@@ -41,7 +41,7 @@ class SessionTest extends TestCase
         $this->assertEquals($_SESSION['value3'], true);
     }
 
-    public function testGetsessionValues() 
+    public function testGetsessionValues()
     {
         $value1 = Session::get('value1');
         $value2 = Session::get('value2');
@@ -52,10 +52,10 @@ class SessionTest extends TestCase
         $this->assertEquals($value3, true);
     }
 
-    public function testDeleteSessionValue() 
+    public function testDeleteSessionValue()
     {
         Session::delete('value2');
-        
+
         $this->assertEquals(Session::get('value1'), 'foo');
         $this->assertEquals(Session::get('value2'), null);
         $this->assertEquals(Session::get('value3'), true);
@@ -64,7 +64,7 @@ class SessionTest extends TestCase
     public function testSessionCanBeDestroyed()
     {
         Session::destroy();
-        
+
         $this->assertEquals(Session::get('value1'), null);
         $this->assertEquals(Session::get('value2'), null);
         $this->assertEquals(Session::get('value3'), null);

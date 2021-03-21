@@ -1,12 +1,12 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
- * @license		MIT License (http://avolutions.org/license)
- * @link		http://avolutions.org
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (http://avolutions.org/license)
+ * @link        http://avolutions.org
  */
 
 namespace Avolutions\View;
@@ -17,7 +17,7 @@ use Avolutions\Orm\EntityConfiguration;
 /**
  * Form class
  *
- * Provides methods to create HTML forms with or without a Entity context. 
+ * Provides methods to create HTML forms with or without a Entity context.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.2.0
@@ -45,20 +45,31 @@ class Form
     private $entityName = null;
 
     /**
+     * @var array $errors Validation error messages.
+     */
+    private $errors = [];
+
+    /**
 	 * __construct
 	 *
 	 * Creates a new Form instance. If a Entity is given the method loads
      * the EntityConfiguration and EntityMapping automatically.
-     * 
+     *
      * @param Entity $Entity The Entity context of the form.
+     * @param array $errors Validation error messages.
 	 */
-    public function __construct($Entity = null) 
+    public function __construct($Entity = null, $errors = [])
     {
-        if($Entity instanceof Entity) {
+        if ($Entity instanceof Entity) {
             $this->Entity = $Entity;
+            $this->errors = $Entity->getErrors();
             $this->entityName = $this->Entity->getEntityName();
             $this->EntityConfiguration = new EntityConfiguration($this->entityName);
             $this->EntityMapping = $this->EntityConfiguration->getMapping();
+        }
+
+        if (is_array($errors)) {
+            $this->errors = array_merge($this->errors, $errors);
         }
     }
 
@@ -67,30 +78,30 @@ class Form
 	 *
 	 * Creates a HTML input element for the given Entity field depending on
      * the Mapping of this field.
-     * 
+     *
      * @param string $fieldName The field of the Entity.
      * @param bool $showLabel Indicates if a label should be generated or not.
-     * 
+     *
      * @return string A HTML input element for the field.
 	 */
-    public function inputFor($fieldName, $showLabel = true) 
-    {   
+    public function inputFor($fieldName, $showLabel = true)
+    {
         $input = '';
 
         $attributes = [
             'name' => lcfirst($this->entityName).'['.$fieldName.']',
-            'value' => $this->Entity->exists() ? $this->Entity->$fieldName : null
+            'value' => $this->Entity->$fieldName
         ];
 
         $inputType = $this->EntityMapping->$fieldName['form']['type'];
 
         // Do not show labels for input type hidden
-        if($showLabel && $inputType != 'hidden') {            
+        if ($showLabel && $inputType != 'hidden') {
             $input .= $this->labelFor($fieldName);
         }
 
         switch ($inputType) {
-            case 'select':        
+            case 'select':
                 $options = $this->EntityMapping->$fieldName['form']['options'] ?? [];
                 $input .= $this->select($options, $attributes);
                 break;
@@ -98,28 +109,52 @@ class Form
             case 'textarea':
                 $input .= $this->textarea($attributes);
                 break;
-    
 
-            default:            
+
+            default:
                 $input .= $this->input($inputType, $attributes);
                 break;
+        }
+
+        if (isset($this->errors[$fieldName])) {
+            $input .= $this->error($this->errors[$fieldName]);
         }
 
         return $input;
     }
 
-     /**
+    /**
+	 * error
+	 *
+	 * Creates a div with validation error message for an input field.
+     *
+     * @param array $messages The error messages to display.
+     *
+     * @return string A div with error message.
+     */
+    public function error($messages)
+    {
+        $error = '';
+
+        foreach ($messages as $message) {
+            $error .= '<div class="error">'.$message.'</div>';
+        }
+
+        return $error;
+    }
+
+    /**
 	 * labelFor
 	 *
 	 * Creates a HTML label element for the given Entity field depending on
      * the Mapping for this field.
-     * 
+     *
      * @param string $fieldName The field of the Entity.
-     * 
+     *
      * @return string A HTML label element depending for the field.
-     */ 
-    public function labelFor($fieldName) 
-    {   
+     */
+    public function labelFor($fieldName)
+    {
         $label = $this->EntityMapping->$fieldName['form']['label'] ?? $fieldName;
 
         return $this->label($label);
@@ -130,14 +165,14 @@ class Form
 	 *
 	 * Generates a Form for all fields of the Entity, depending on
      * the Mapping of the Entity.
-     * 
+     *
      * @param array $formAttributes The attributes for the opening form tag.
      * @param bool $submitButton Indicates if a submit button should be generated automatically.
-     * 
+     *
      * @return string A HTML form for the Entity.
 	 */
-    public function generate($formAttributes, $submitButton = true) 
-    {                
+    public function generate($formAttributes, $submitButton = true)
+    {
         $formFields = $this->EntityMapping->getFormFields();
 
         $form = $this->open($formAttributes);
@@ -156,14 +191,14 @@ class Form
 	 * open
 	 *
 	 * Opens a form.
-     * 
+     *
      * @param array $attributes The attributes for the form tag.
-     * 
+     *
      * @return string An opening HTML form tag.
 	 */
     public function open($attributes = [])
     {
-        $attributesAsString = self::getAttributesAsString($attributes); 
+        $attributesAsString = self::getAttributesAsString($attributes);
 
         return '<form'.$attributesAsString.'>';
     }
@@ -172,7 +207,7 @@ class Form
 	 * close
 	 *
 	 * Close a form.
-     * 
+     *
      * @return string A closing HTML form tag.
 	 */
     public function close()
@@ -184,9 +219,9 @@ class Form
 	 * checkbox
 	 *
 	 * Creates a HTML input element of type checkbox.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type checkbox.
 	 */
     public function checkbox($attributes = [])
@@ -198,9 +233,9 @@ class Form
 	 * color
 	 *
 	 * Creates a HTML input element of type color.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type color.
 	 */
     public function color($attributes = [])
@@ -212,9 +247,9 @@ class Form
 	 * date
 	 *
 	 * Creates a HTML input element of type date.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type date.
 	 */
     public function date($attributes = [])
@@ -226,9 +261,9 @@ class Form
 	 * datetime
 	 *
 	 * Creates a HTML input element of type datetime-local.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type datetime-local.
 	 */
     public function datetime($attributes = [])
@@ -240,9 +275,9 @@ class Form
 	 * email
 	 *
 	 * Creates a HTML input element of type email.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type email.
 	 */
     public function email($attributes = [])
@@ -254,9 +289,9 @@ class Form
 	 * file
 	 *
 	 * Creates a HTML input element of type file.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type file.
 	 */
     public function file($attributes = [])
@@ -268,9 +303,9 @@ class Form
 	 * hidden
 	 *
 	 * Creates a HTML input element of type hidden.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type hidden.
 	 */
     public function hidden($attributes = [])
@@ -282,9 +317,9 @@ class Form
 	 * image
 	 *
 	 * Creates a HTML input element of type image.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type image.
 	 */
     public function image($attributes = [])
@@ -296,15 +331,15 @@ class Form
 	 * label
 	 *
 	 * Creates a HTML label element.
-     * 
+     *
      * @param string $text The text of the label element.
      * @param array $attributes The attributes for the label tag.
-     * 
+     *
      * @return string A HTML input element of type image.
 	 */
     public function label($text, $attributes = [])
     {
-        $attributesAsString = self::getAttributesAsString($attributes); 
+        $attributesAsString = self::getAttributesAsString($attributes);
 
         return '<label'.$attributesAsString.'>'.$text.'</label>';
     }
@@ -313,9 +348,9 @@ class Form
 	 * month
 	 *
 	 * Creates a HTML input element of type month.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type month.
 	 */
     public function month($attributes = [])
@@ -327,9 +362,9 @@ class Form
 	 * number
 	 *
 	 * Creates a HTML input element of type number.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type number.
 	 */
     public function number($attributes = [])
@@ -341,9 +376,9 @@ class Form
 	 * password
 	 *
 	 * Creates a HTML input element of type password.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type password.
 	 */
     public function password($attributes = [])
@@ -355,9 +390,9 @@ class Form
 	 * radio
 	 *
 	 * Creates a HTML input element of type radio.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type radio.
 	 */
     public function radio($attributes = [])
@@ -369,9 +404,9 @@ class Form
 	 * range
 	 *
 	 * Creates a HTML input element of type range.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type range.
 	 */
     public function range($attributes = [])
@@ -383,9 +418,9 @@ class Form
 	 * reset
 	 *
 	 * Creates a HTML input element of type reset.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type reset.
 	 */
     public function reset($attributes = [])
@@ -397,9 +432,9 @@ class Form
 	 * search
 	 *
 	 * Creates a HTML input element of type search.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type search.
 	 */
     public function search($attributes = [])
@@ -411,9 +446,9 @@ class Form
 	 * submit
 	 *
 	 * Creates a HTML input element of type submit.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type submit.
 	 */
     public function submit($attributes = [])
@@ -425,9 +460,9 @@ class Form
 	 * tel
 	 *
 	 * Creates a HTML input element of type tel.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type tel.
 	 */
     public function tel($attributes = [])
@@ -439,9 +474,9 @@ class Form
 	 * text
 	 *
 	 * Creates a HTML input element of type text.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type text.
 	 */
     public function text($attributes = [])
@@ -453,9 +488,9 @@ class Form
 	 * time
 	 *
 	 * Creates a HTML input element of type time.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type time.
 	 */
     public function time($attributes = [])
@@ -467,9 +502,9 @@ class Form
 	 * url
 	 *
 	 * Creates a HTML input element of type url.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type url.
 	 */
     public function url($attributes = [])
@@ -481,9 +516,9 @@ class Form
 	 * week
 	 *
 	 * Creates a HTML input element of type week.
-     * 
+     *
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of type week.
 	 */
     public function week($attributes = [])
@@ -495,16 +530,16 @@ class Form
 	 * input
 	 *
 	 * Creates a HTML input element.
-     * 
+     *
      * @param string $type The type for the input tag.
      * @param array $attributes The attributes for the input tag.
-     * 
+     *
      * @return string A HTML input element of given type.
 	 */
     public function input($type, $attributes = [])
     {
         $attributes['type'] = $type;
-        $attributesAsString = self::getAttributesAsString($attributes); 
+        $attributesAsString = self::getAttributesAsString($attributes);
 
         return '<input'.$attributesAsString.' />';
     }
@@ -513,17 +548,17 @@ class Form
 	 * button
 	 *
 	 * Creates a HTML button element.
-     * 
+     *
      * @param array $attributes The attributes for the button tag.
-     * 
+     *
      * @return string A HTML element of type button.
 	 */
     public function button($attributes = [])
     {
         $value = $attributes['value'] ?? null;
         unset($attributes['value']); // To not render it to the select tag
-        
-        $attributesAsString = self::getAttributesAsString($attributes); 
+
+        $attributesAsString = self::getAttributesAsString($attributes);
 
         return '<button'.$attributesAsString.'>'.$value.'</button>';
     }
@@ -532,9 +567,9 @@ class Form
 	 * textarea
 	 *
 	 * Creates a HTML textarea element.
-     * 
+     *
      * @param array $attributes The attributes for the textarea tag.
-     * 
+     *
      * @return string A HTML element of type textarea.
 	 */
     public function textarea($attributes = [])
@@ -542,7 +577,7 @@ class Form
         $value = $attributes['value'] ?? null;
         unset($attributes['value']); // To not render it to the select tag
 
-        $attributesAsString = self::getAttributesAsString($attributes); 
+        $attributesAsString = self::getAttributesAsString($attributes);
 
         return '<textarea'.$attributesAsString.'>'.$value.'</textarea>';
     }
@@ -551,10 +586,10 @@ class Form
 	 * select
 	 *
 	 * Creates a HTML select element with the given options.
-     * 
+     *
      * @param array $options The options for the select list.
      * @param array $attributes The attributes for the select tag.
-     * 
+     *
      * @return string A HTML element of type select.
 	 */
     public function select($options = [], $attributes = [])
@@ -562,7 +597,7 @@ class Form
         $selectedValue = $attributes['value'] ?? null;
         unset($attributes['value']); // To not render it to the select tag
 
-        $attributesAsString = self::getAttributesAsString($attributes); 
+        $attributesAsString = self::getAttributesAsString($attributes);
         $optionsAsString = '';
 
         foreach ($options as $key => $value) {
@@ -576,15 +611,15 @@ class Form
 	 * option
 	 *
 	 * Creates a HTML option element.
-     * 
+     *
      * @param string $value The value of the option tag.
      * @param string $text The text of the option element.
      * @param string $selectedValue The selected value of the option element.
-     * 
+     *
      * @return string A HTML element of type option.
 	 */
     private function option($value, $text, $selectedValue = null)
-    {       
+    {
         $selected = $value == $selectedValue ? ' selected' : '';
 
         return '<option value="'.$value.'"'.$selected.'>'.$text.'</option>';
@@ -594,9 +629,9 @@ class Form
 	 * getAttributesAsString
 	 *
 	 * Returns the attributes as a string in the format attribute="value"
-     * 
+     *
      * @param array $attributes The attributes for the select tag.
-     * 
+     *
      * @return string The attributes as a string.
 	 */
     private static function getAttributesAsString($attributes)

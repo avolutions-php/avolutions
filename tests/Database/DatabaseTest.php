@@ -1,12 +1,12 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
- * @license		MIT License (http://avolutions.org/license)
- * @link		http://avolutions.org
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (http://avolutions.org/license)
+ * @link        http://avolutions.org
  */
 
 use PHPUnit\Framework\TestCase;
@@ -22,7 +22,7 @@ class DatabaseTest extends TestCase
         $this->assertInstanceOf('\PDO', $Database);
     }
 
-    public function testMigrationTableCanBeCreated()  
+    public function testMigrationTableCanBeCreated()
     {
         $table = [
             [
@@ -53,12 +53,12 @@ class DatabaseTest extends TestCase
                 'Field' => 'CreateDate',
                 'Type' => 'datetime',
                 'Null' => 'NO',
-                'Key' => '', 
+                'Key' => '',
                 'Default' => 'CURRENT_TIMESTAMP',
                 'Extra' => ''
             ]
         ];
- 
+
         Database::migrate();
 
         $Database = new Database();

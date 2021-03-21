@@ -1,12 +1,12 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
- * @license		MIT License (http://avolutions.org/license)
- * @link		http://avolutions.org
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (http://avolutions.org/license)
+ * @link        http://avolutions.org
  */
 
 use PHPUnit\Framework\TestCase;
@@ -16,17 +16,27 @@ use Avolutions\Logging\LogLevel;
 
 class ConfigTest extends TestCase
 {
-    public function testDefaultConfigValuesCanBeRead()
+    public function testDefaultApplicationConfigValuesCanBeRead()
     {
+        $this->assertEquals(Config::get("application/defaultDateFormat"), 'Y-m-d');
+        $this->assertEquals(Config::get("application/defaultDateTimeFormat"), 'Y-m-d H:i:s');
+        $this->assertEquals(Config::get("application/defaultTimeFormat"), 'H:i:s');
+        $this->assertEquals(Config::get("application/defaultLanguage"), "en");
         $this->assertEquals(Config::get("application/namespace"), "Application");
+    }
 
+    public function testDefaultDatabaseConfigValuesCanBeRead()
+    {
         $this->assertEquals(Config::get("database/host"), "127.0.0.1");
         $this->assertEquals(Config::get("database/database"), "avolutions");
         $this->assertEquals(Config::get("database/user"), "avolutions");
         $this->assertEquals(Config::get("database/password"), "avolutions");
         $this->assertEquals(Config::get("database/charset"), "utf8");
         $this->assertEquals(Config::get("database/migrateOnAppStart"), false);
+    }
 
+    public function testDefaultLoggerConfigValuesCanBeRead()
+    {
         $this->assertEquals(Config::get("logger/loglevel"), LogLevel::DEBUG);
         $this->assertEquals(Config::get("logger/logfile"), "logfile.log");
         $this->assertEquals(Config::get("logger/logpath"), LOG_PATH);

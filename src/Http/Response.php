@@ -1,14 +1,14 @@
 <?php
 /**
  * AVOLUTIONS
- * 
+ *
  * Just another open source PHP framework.
- * 
- * @copyright	Copyright (c) 2019 - 2020 AVOLUTIONS
- * @license		MIT License (http://avolutions.org/license)
- * @link		http://avolutions.org
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (http://avolutions.org/license)
+ * @link        http://avolutions.org
  */
- 
+
 namespace Avolutions\Http;
 
 use Avolutions\View\View;
@@ -23,26 +23,26 @@ use Avolutions\View\View;
  */
 class Response
 {
-	/** 
+	/**
 	 * @var string $body The content of the response.
 	 */
-	public $body;	
-	
+	public $body;
+
 	/**
 	 * setBody
-	 * 
+	 *
 	 * Fills the body of the Response with the passed value.
-	 * 
+	 *
 	 * @param string $value The value for the body
 	 */
     public function setBody($value)
     {
 		$this->body = $value;
 	}
-	
+
 	/**
 	 * send
-	 * 
+	 *
 	 * Displays the content of the Response.
 	 */
     public function send()
