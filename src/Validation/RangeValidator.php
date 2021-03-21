@@ -45,7 +45,7 @@ class RangeValidator extends AbstractValidator
      *
      * @param array $options An associative array with options.
      * @param string $property The property of the Entity to validate.
-     * @param null $Entity The Entity to validate.
+     * @param Entity $Entity The Entity to validate.
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
         parent::setOptions($options, $property, $Entity);

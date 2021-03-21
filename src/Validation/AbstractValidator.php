@@ -51,7 +51,7 @@ abstract class AbstractValidator implements ValidatorInterface
      *
      * @param array $options An associative array with options.
      * @param string $property The property of the Entity to validate.
-     * @param null $Entity The Entity to validate.
+     * @param Entity $Entity The Entity to validate.
      */
     public function __construct($options = [], $property = null, $Entity = null) {
         $this->setOptions($options, $property, $Entity);
@@ -64,7 +64,7 @@ abstract class AbstractValidator implements ValidatorInterface
      *
      * @param array $options An associative array with options.
      * @param string $property The property of the Entity to validate.
-     * @param null $Entity The Entity to validate.
+     * @param Entity $Entity The Entity to validate.
      */
     public function setOptions($options = [], $property = null, $Entity = null) {
         $this->options = $options;
