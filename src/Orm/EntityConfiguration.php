@@ -155,8 +155,9 @@ class EntityConfiguration
                 $fieldQuery .= $this->getTable().'.'.$value['column'];
                 $fieldQuery .= ' AS ';
                 $fieldQuery .= '`'.$this->entity.'.'.$property.'`';
-                $fieldQuery .= ', ';
             }
+
+            $fieldQuery .= ', ';
         }
 
         // Remove last comma from the query
