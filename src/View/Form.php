@@ -170,7 +170,7 @@ class Form
      *
      * @return string A HTML form for the Entity.
 	 */
-    public function generate($formAttributes, $submitButton = true)
+    public function generate($formAttributes = [], $submitButton = true)
     {
         $formFields = $this->EntityMapping->getFormFields();
 
