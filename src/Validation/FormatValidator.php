@@ -43,7 +43,7 @@ class FormatValidator extends AbstractValidator
 
         $validFormats = ['ip', 'ip4', 'ip6', 'mail', 'url', 'json'];
         if (!isset($options['format']) || !in_array($options['format'], $validFormats)) {
-            throw new InvalidArgumentException('Invalid format, must be either '.implode($validFormats, ' '));
+            throw new InvalidArgumentException('Invalid format, must be either '.implode(' ', $validFormats));
         } else {
             $this->format = $options['format'];
         }
