@@ -12,6 +12,7 @@
 namespace Avolutions\Database;
 
 use Avolutions\Config\Config;
+use PDOException;
 
 /**
  * Database class
@@ -100,6 +101,8 @@ class Database extends \PDO
 	 * Gets all executed migrations from the database and return the versions.
 	 *
 	 * @return array The version numbers of the executed migrations.
+     *
+     * @throws PDOException
 	 */
     private static function getExecutedMigrations()
     {
@@ -107,11 +110,19 @@ class Database extends \PDO
 
 		$Database = new Database();
 
-		$stmt = $Database->prepare('SELECT * FROM migration');
-		$stmt->execute();
-		while ($row = $stmt->fetch(Database::FETCH_ASSOC)) {
-			$executedMigrations[] = $row['Version'];
-		}
+		try {
+            $stmt = $Database->prepare('SELECT * FROM migration');
+            $stmt->execute();
+            while ($row = $stmt->fetch(Database::FETCH_ASSOC)) {
+                $executedMigrations[] = $row['Version'];
+            }
+        } catch (PDOException $ex) {
+            // In case PDO::ATTR_ERRMODE is set to "PDO::ERRMODE_EXCEPTION"
+            // 1146 = Table 'migration' doesn't exist
+		    if ($ex->errorInfo[1] != 1146) {
+                throw $ex;
+           }
+        }
 
 		return $executedMigrations;
 	}
