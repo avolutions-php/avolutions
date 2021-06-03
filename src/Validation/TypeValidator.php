@@ -47,7 +47,7 @@ class TypeValidator extends AbstractValidator
             !isset($options['type'])
             || !in_array($options['type'], $validTypes)
         ) {
-            throw new InvalidArgumentException('Invalid type, must be either '.implode($validTypes, ', '));
+            throw new InvalidArgumentException('Invalid type, must be either '.implode(', ', $validTypes));
         } else {
             $this->type = $options['type'];
         }
