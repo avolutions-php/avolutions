@@ -29,7 +29,7 @@ class CreateMigrationTable extends AbstractMigration
     /**
 	 * @var int version The version of the migration
 	 */
-    public ?int $version = 1;
+    public int $version = 1;
 
     /**
 	 * migrate
