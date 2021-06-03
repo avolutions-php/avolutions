@@ -11,6 +11,7 @@
 
 namespace Avolutions\Validation;
 
+use Avolutions\Orm\Entity;
 use Exception;
 use ReflectionClass;
 
@@ -27,22 +28,22 @@ abstract class AbstractValidator implements ValidatorInterface
     /**
 	 * @var array $options An associative array with options.
 	 */
-    protected $options = [];
+    protected array $options = [];
 
     /**
-	 * @var array $property The property of the Entity to validate.
+	 * @var string|null $property The property of the Entity to validate.
 	 */
-    protected $property = null;
+    protected ?string $property = null;
 
     /**
-	 * @var Entity $Entity The Entity to validate.
+	 * @var Entity|null $Entity The Entity to validate.
 	 */
-    protected $Entity = null;
+    protected ?Entity $Entity = null;
 
     /**
-     * @var string $message A custom error message.
+     * @var string|null $message A custom error message.
      */
-    protected $message = null;
+    protected ?string $message = null;
 
     /**
      * __construct
@@ -50,10 +51,10 @@ abstract class AbstractValidator implements ValidatorInterface
      * Creates an new Validator object and set the options.
      *
      * @param array $options An associative array with options.
-     * @param string $property The property of the Entity to validate.
-     * @param Entity $Entity The Entity to validate.
+     * @param string|null $property The property of the Entity to validate.
+     * @param Entity|null $Entity $Entity The Entity to validate.
      */
-    public function __construct($options = [], $property = null, $Entity = null) {
+    public function __construct($options = [], ?string $property = null, ?Entity $Entity = null) {
         $this->setOptions($options, $property, $Entity);
     }
 
@@ -63,10 +64,10 @@ abstract class AbstractValidator implements ValidatorInterface
      * Set the passed options, property and Entity to internal properties.
      *
      * @param array $options An associative array with options.
-     * @param string $property The property of the Entity to validate.
-     * @param Entity $Entity The Entity to validate.
+     * @param string|null $property The property of the Entity to validate.
+     * @param Entity|null $Entity $Entity The Entity to validate.
      */
-    public function setOptions($options = [], $property = null, $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
         $this->options = $options;
         if (isset($options['message'])) {
             $this->message = $options['message'];
@@ -82,7 +83,7 @@ abstract class AbstractValidator implements ValidatorInterface
      *
      * @return string The name of the validator.
      */
-    protected function getValidatorName()
+    protected function getValidatorName(): string
     {
         $validatorName = (new ReflectionClass($this))->getShortName();
         $validatorName = strtolower(str_replace(VALIDATOR, '', $validatorName));
@@ -97,7 +98,8 @@ abstract class AbstractValidator implements ValidatorInterface
      *
      * @return string The error message.
      */
-    public function getMessage() {
+    public function getMessage(): string
+    {
         if (!is_null($this->message)) {
             return $this->message;
         } else {
@@ -113,7 +115,7 @@ abstract class AbstractValidator implements ValidatorInterface
                 }
 
                 return translate($validatorKey);
-            } catch (Exception $ex) {
+            } catch (Exception) {
                 if (is_null($this->property)) {
                     // AdHoc validation
                     return 'Not valid';

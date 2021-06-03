@@ -30,7 +30,7 @@ class RequiredValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid($value) {
+    public function isValid(mixed $value): bool {
         return !(
             is_null($value)
             || (is_string($value) && strlen($value) == 0)

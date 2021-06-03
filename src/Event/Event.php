@@ -11,6 +11,8 @@
 
 namespace Avolutions\Event;
 
+use ReflectionClass;
+
 /**
  * Event class
  *
@@ -29,8 +31,8 @@ class Event
      *
      * @return string The name of the Event.
 	 */
-    public function getName()
+    public function getName(): string
     {
-		return $this->name ?? (new \ReflectionClass($this))->getName();
+		return $this->name ?? (new ReflectionClass($this))->getName();
 	}
 }

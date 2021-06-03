@@ -31,7 +31,7 @@ class StringHelper
      *
      * @return string String with replaced values.
      */
-    public static function interpolate($string, $params = [])
+    public static function interpolate(string $string, array $params = []): string
     {
         if (is_array($params) && count($params) > 0) {
             foreach ($params as $paramKey => $paramValue) {

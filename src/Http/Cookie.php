@@ -14,7 +14,7 @@ namespace Avolutions\Http;
 /**
  * Cookie class
  *
- * The Cookie class is an object represeting a HTTP Cookie. This can be used to store information
+ * The Cookie class is an object representing a HTTP Cookie. This can be used to store information
  * on the client.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
@@ -25,42 +25,42 @@ class Cookie
     /**
      * @var string $domain The (sub)domain that the cookie is available to.
      */
-    public $domain = '';
+    public string $domain;
 
     /**
      * @var int $expires The time the cookie expires as UNIX timestamp.
      */
-    public $expires = 0;
+    public int $expires = 0;
 
     /**
      * @var bool $httpOnly Indicates if the cookie is only accessible through the HTTP protocol.
      */
-    public $httpOnly = false;
+    public bool $httpOnly = false;
 
     /**
      * @var string $name The name of the cookie.
      */
-    public $name;
+    public string $name;
 
     /**
      * @var string $path The path on the server in which the cookie will be available on.
      */
-    public $path = '';
+    public string $path;
 
     /**
      * @var bool $secure Indicates if the cookie should only be transmitted over a secure HTTPS connection.
      */
-    public $secure = false;
+    public bool $secure = false;
 
     /**
      * @var string $value The value of the cookie.
      */
-    public $value = '';
+    public string $value;
 
     /**
-	 * __construct
-	 *
-	 * Creates a new Cookie object with the given parameters.
+     * __construct
+     *
+     * Creates a new Cookie object with the given parameters.
      *
      * @param string $name The name of the cookie.
      * @param string $value The value of the cookie.
@@ -69,9 +69,16 @@ class Cookie
      * @param string $domain The (sub)domain that the cookie is available to.
      * @param bool $secure Indicates if the cookie should only be transmitted over a secure HTTPS connection.
      * @param bool $httpOnly Indicates if the cookie is only accessible through the HTTP protocol.
-	 */
-    public function __construct($name, $value, $expires = 0, $path = '', $domain = '', $secure = false, $httpOnly = false)
-    {
+     */
+    public function __construct(
+        string $name,
+        string $value,
+        int $expires = 0,
+        string $path = '',
+        string $domain = '',
+        bool $secure = false,
+        bool $httpOnly = false
+    ) {
         $this->name = $name;
         $this->value = $value;
         $this->expires = $expires;

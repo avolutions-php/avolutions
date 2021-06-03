@@ -11,12 +11,10 @@
 
 namespace Avolutions\Core;
 
-use Avolutions\Config\Config;
-
 /**
  * Autoloader class
  *
- * Autoloads all required classes
+ * Loads all required classes automatically.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.1.0
@@ -26,7 +24,7 @@ class Autoloader
 	/**
 	 * register
 	 *
-	 * This method finds the absolute pathes for all required classes and
+	 * This method finds the absolute paths for all required classes and
 	 * includes them. Has to be called before the usage of any class in the
 	 * framework.
 	 */

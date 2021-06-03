@@ -11,8 +11,6 @@
 
 namespace Avolutions\Database;
 
-use Avolutions\Database\ColumnType;
-
 /**
  * Column class
  *
@@ -26,37 +24,37 @@ class Column
 	/**
 	 * @var string $name The name of the column.
 	 */
-	private $name;
+	private string $name;
 
 	/**
 	 * @var string $type The data type of the column.
 	 */
-	private $type;
+	private string $type;
 
 	/**
-	 * @var string $length The length of the column.
+	 * @var string|null $length The length of the column.
 	 */
-	private $length;
+	private ?string $length;
 
 	/**
-	 * @var string $default The default value of the column.
+	 * @var string|null $default The default value of the column.
 	 */
-	private $default;
+	private ?string $default;
 
 	/**
 	 * @var string $null A flag if the column can be null or not.
 	 */
-	private $null;
+	private string $null;
 
 	/**
 	 * @var bool $primaryKey A flag if the column is a primary key or not.
 	 */
-	private $primaryKey;
+	private bool $primaryKey;
 
 	/**
 	 * @var bool $autoIncrement A flag if the column is a auto increment column or not.
 	 */
-	private $autoIncrement;
+	private bool $autoIncrement;
 
 	/**
 	 * @var string NULL A constant for the string "NULL"
@@ -73,22 +71,28 @@ class Column
 	 */
 	const CURRENT_TIMESTAMP = 'CURRENT_TIMESTAMP';
 
-	/**
-	 * __construct
-	 *
-	 * Creates a new Column object.
-	 *
-	 * @param string $name The name of the column.
-	 * @param string $type The data type of the column.
-	 * @param string $length The length of the column.
-	 * @param string $default The default value of the column.
-	 * @param string $null A flag if the column can be null or not.
-	 * @param bool $primaryKey A flag if the column is a primary key or not.
-	 * @param bool $autoIncrement A flag if the column is a auto increment column or not.
-	 *
-	 */
-    public function __construct($name, $type, $length = null, $default = null, $null = Column::NOT_NULL, $primaryKey = false, $autoIncrement = false)
-    {
+    /**
+     * __construct
+     *
+     * Creates a new Column object.
+     *
+     * @param string $name The name of the column.
+     * @param string $type The data type of the column.
+     * @param string|null $length The length of the column.
+     * @param string|null $default The default value of the column.
+     * @param string $null A flag if the column can be null or not.
+     * @param bool $primaryKey A flag if the column is a primary key or not.
+     * @param bool $autoIncrement A flag if the column is a auto increment column or not.
+     */
+    public function __construct(
+        string $name,
+        string $type,
+        ?string $length = null,
+        ?string $default = null,
+        string $null = Column::NOT_NULL,
+        bool $primaryKey = false,
+        bool $autoIncrement = false
+    ) {
 		$this->name = $name;
 		$this->type = $type;
 		$this->length = $length;
@@ -105,7 +109,7 @@ class Column
 	 *
 	 * @return string The SQL pattern for the column.
 	 */
-    public function getPattern()
+    public function getPattern(): string
     {
 		$pattern = '';
 		$pattern .= $this->getNamePattern();
@@ -125,7 +129,7 @@ class Column
 	 *
 	 * @return string The SQL pattern for the name attribute.
 	 */
-    private function getNamePattern()
+    private function getNamePattern(): string
     {
 		return '`'.$this->name.'` ';
 	}
@@ -137,7 +141,7 @@ class Column
 	 *
 	 * @return string The SQL pattern for the type attribute.
 	 */
-    private function getTypePattern()
+    private function getTypePattern(): string
     {
 		$typePattern = $this->type;
 
@@ -156,7 +160,7 @@ class Column
 	 *
 	 * @return string The SQL pattern for the null attribute.
 	 */
-    private function getNullPattern()
+    private function getNullPattern(): string
     {
 		return $this->null;
 	}
@@ -168,7 +172,7 @@ class Column
 	 *
 	 * @return string The SQL pattern for the default attribute.
 	 */
-    private function getDefaultPattern()
+    private function getDefaultPattern(): string
     {
 		if ($this->type == ColumnType::BOOLEAN) {
 			$this->default = $this->default ? 'TRUE' : 'FALSE';
@@ -188,7 +192,7 @@ class Column
 	 *
 	 * @return string The SQL pattern for the primary key attribute.
 	 */
-    private function getPrimaryKeyPattern()
+    private function getPrimaryKeyPattern(): string
     {
 		if ($this->primaryKey) {
 			return ' PRIMARY KEY';
@@ -204,7 +208,7 @@ class Column
 	 *
 	 * @return string The SQL pattern for the auto increment attribute.
 	 */
-    private function getAutoIncrementPattern()
+    private function getAutoIncrementPattern(): string
     {
 		if ($this->autoIncrement) {
 			return ' AUTO_INCREMENT';

@@ -25,5 +25,5 @@ abstract class AbstractMigration implements MigrationInterface
     /**
 	 * @var int $version The version of the migration
 	 */
-    public $version = null;
+    public int $version;
 }

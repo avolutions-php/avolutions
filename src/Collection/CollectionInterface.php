@@ -28,7 +28,7 @@ interface CollectionInterface
 	 *
 	 * @return array An array of all items of the Collection
 	 */
-    public function getAll();
+    public function getAll(): array;
 
     /**
 	 * count
@@ -37,5 +37,5 @@ interface CollectionInterface
 	 *
 	 * @return int The number of items in the Collection.
 	 */
-	public function count();
+	public function count(): int;
 }

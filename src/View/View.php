@@ -26,18 +26,18 @@ class View
 	/**
 	 * @var string $view The content of the view file
 	 */
-	private $view = '';
+	private string $view;
 
-	/**
-	 * __construct
-	 *
-	 * Creates a new View object that contains the content of the view file and
-	 * the data of the passed ViewModel.
-	 *
-	 * @param string $viewname The name of the View file.
-	 * @param object $ViewModel The ViewModel object that will passed to the View.
-	 */
-	public function __construct($viewname = null, $ViewModel = null)
+    /**
+     * __construct
+     *
+     * Creates a new View object that contains the content of the view file and
+     * the data of the passed ViewModel.
+     *
+     * @param string|null $viewname The name of the View file.
+     * @param ViewModel|null $ViewModel $ViewModel The ViewModel object that will passed to the View.
+     */
+	public function __construct(?string $viewname = null, ?ViewModel $ViewModel = null)
 	{
 		$filename = $this->getFilename($viewname);
 
@@ -46,16 +46,16 @@ class View
 		}
 	}
 
-	/**
-	 * loadViewFile
-	 *
-	 * @param string $filename The path and filename of the View file.
-	 * @param object $ViewModel The ViewModel object that will passed to the View.
-	 *
-	 * @return string The content of the loaded view file.
-	 */
-	private function loadViewFile($filename, $ViewModel = null)
-	{
+    /**
+     * loadViewFile
+     *
+     * @param string $filename The path and filename of the View file.
+     * @param ViewModel|null $ViewModel The ViewModel object that will passed to the View.
+     *
+     * @return string The content of the loaded view file.
+     */
+	private function loadViewFile(string $filename, ViewModel $ViewModel = null): string
+    {
 		ob_start();
 		include $filename;
 		$content = ob_get_contents();
@@ -63,18 +63,18 @@ class View
 		return $content;
 	}
 
-	/**
-	 * getFilename
-	 *
-	 * Returns the full filename including the absoulte path. If filename parameter
-	 * is not specified it will be resolved by the calling controller and action name.
-	 *
-	 * @param string $filename The name of the View file.
-	 *
-	 * @return string The filename of the loaded view file included the absolute path.
-	 */
-	private function getFilename($filename)
-	{
+    /**
+     * getFilename
+     *
+     * Returns the full filename including the absolute path. If filename parameter
+     * is not specified it will be resolved by the calling controller and action name.
+     *
+     * @param string|null $filename The name of the View file.
+     *
+     * @return string The filename of the loaded view file included the absolute path.
+     */
+	private function getFilename(?string $filename = null): string
+    {
 		if ($filename == null) {
 			$debugBacktrace = debug_backtrace()[2];
 
@@ -100,7 +100,7 @@ class View
 	 *
 	 * @return string The content of the loaded view file.
 	 */
-	public function __toString()
+	public function __toString(): string
     {
         return $this->view;
     }

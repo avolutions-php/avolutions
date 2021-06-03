@@ -11,7 +11,7 @@
 
 namespace Avolutions\Http;
 
-use Avolutions\Http\Cookie;
+use InvalidArgumentException;
 
 /**
  * CookieCollection class
@@ -25,45 +25,45 @@ use Avolutions\Http\Cookie;
 class CookieCollection
 {
     /**
-	 * add
-	 *
-	 * Adds a new Cookie object. Will call the native php setcookie method.
+     * add
+     *
+     * Adds a new Cookie object. Will call the native php setcookie method.
      *
      * @param Cookie $Cookie The Cookie object to add.
      *
-     * @throws \InvalidArgumentException
-	 */
-    public static function add($Cookie)
+     * @throws InvalidArgumentException
+     */
+    public static function add(Cookie $Cookie)
     {
         if (!$Cookie instanceof Cookie) {
-            throw new \InvalidArgumentException('The passed parameter must be of type Cookie');
+            throw new InvalidArgumentException('The passed parameter must be of type Cookie');
         }
 
         setcookie($Cookie->name, $Cookie->value, $Cookie->expires, $Cookie->path, $Cookie->domain, $Cookie->secure, $Cookie->httpOnly);
     }
 
     /**
-	 * get
-	 *
-	 * Returns the value of a cookie by its name.
+     * get
+     *
+     * Returns the value of a cookie by its name.
      *
      * @param string $name The name of the cookie.
      *
      * @return mixed The value of the cookie.
-	 */
-    public static function get($name)
+     */
+    public static function get(string $name): mixed
     {
         return $_COOKIE[$name] ?? null;
     }
 
     /**
-	 * delete
-	 *
-	 * Deletes a cookie by its name.
+     * delete
+     *
+     * Deletes a cookie by its name.
      *
      * @param string $name The name of the cookie.
-	 */
-    public static function delete($name)
+     */
+    public static function delete(string $name)
     {
         unset($_COOKIE[$name]);
         setcookie($name, null, -1);

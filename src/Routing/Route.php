@@ -26,49 +26,48 @@ class Route
 	/**
 	 * @var string $url The url of the Route
 	 */
-	public $url;
+	public string $url;
 
 	/**
 	 * @var string $method The method of the Route
 	 */
-	public $method = 'GET';
+	public string $method = 'GET';
 
 	/**
 	 * @var string $controllerName The name of the Controller
 	 */
-	public $controllerName;
+	public string $controllerName;
 
 	/**
 	 * @var string $actionName The name of the Controller action
 	 */
-	public $actionName;
+	public string $actionName;
 
 	/**
 	 * @var array $parameters An array with all parameters and their options
 	 */
-	public $parameters = [];
+	public array $parameters = [];
 
-	/**
-	 * __construct
-	 *
-	 * Creates a new Route object with the given parameters.
-	 *
-	 * @param string $url The URL that will be mapped
-	 * @param array $defaults Default values for the Route
-	 * 		$defaults = [
-	 * 			'controller'	=> string Name of the controller
-	 * 			'action'		=> string Name of the action
-	 * 			'method'		=> string Name of the method (GET|POST)
-	 * 		]
-	 * @param array $parameters An array which contains all parameters and their options
-	 * 		'{param}' = [	=> string Name of the parameter
-	 * 			'format'	=> string RegEx for valid format
-	 *			'optional'  => bool If true the parameter is optional
-	 * 			'default'	=> string Default value for the parameter if it is optional
-	 * 		]
-	 *
-	 */
-    public function __construct($url, $defaults = null, $parameters = null)
+    /**
+     * __construct
+     *
+     * Creates a new Route object with the given parameters.
+     *
+     * @param string $url The URL that will be mapped
+     * @param array $defaults Default values for the Route
+     *        $defaults = [
+     *            'controller'    => string Name of the controller
+     *            'action'        => string Name of the action
+     *            'method'        => string Name of the method (GET|POST)
+     *        ]
+     * @param array $parameters An array which contains all parameters and their options
+     *        '{param}' = [    => string Name of the parameter
+     *            'format'    => string RegEx for valid format
+     *            'optional'  => bool If true the parameter is optional
+     *            'default'    => string Default value for the parameter if it is optional
+     *        ]
+     */
+    public function __construct(string $url, array $defaults = [], array $parameters = [])
     {
 		$this->url = $url;
 		if (isset($defaults['controller'])) {

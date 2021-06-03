@@ -30,5 +30,5 @@ interface ValidatorInterface
      *
      * @return bool Data is valid (true) or not (false).
      */
-	public function isValid($value);
+	public function isValid(mixed $value): bool;
 }

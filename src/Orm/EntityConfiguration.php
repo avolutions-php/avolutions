@@ -11,8 +11,6 @@
 
 namespace Avolutions\Orm;
 
-use Avolutions\Orm\EntityMapping;
-
 /**
  * EntityConfiguration class
  *
@@ -27,32 +25,32 @@ class EntityConfiguration
 	/**
 	 * @var string $entity The name of the entity.
 	 */
-	private $entity;
+	private string $entity;
 
 	/**
 	 * @var string $table The name of the related database table.
 	 */
-	private $table;
+	private string $table;
 
 	/**
 	 * @var string $idColumn The name of the ID column in the database table.
 	 */
-	private $idColumn;
+	private string $idColumn;
 
 	/**
-	 * @var object $mapping The mapping between the entity and the database table.
+	 * @var EntityMapping $mapping The mapping between the entity and the database table.
 	 */
-	private $Mapping;
+	private EntityMapping $Mapping;
 
-	/**
-	 * __construct
-	 *
-	 * Creates a new EntityConfiguration for the given Entity type and loads the corresponding
-	 * EntityMapping, table and id column.
-	 *
-	 * @param string $entity The name of the Entity type.
-	 */
-    public function __construct($entity)
+    /**
+     * __construct
+     *
+     * Creates a new EntityConfiguration for the given Entity type and loads the corresponding
+     * EntityMapping, table and id column.
+     *
+     * @param string $entity The name of the Entity type.
+     */
+    public function __construct(string $entity)
     {
 		$this->entity = $entity;
 		$this->loadMapping();
@@ -77,7 +75,7 @@ class EntityConfiguration
 	 *
 	 * @return string $this->table
 	 */
-    public function getTable()
+    public function getTable(): string
     {
 		return $this->table;
 	}
@@ -99,7 +97,7 @@ class EntityConfiguration
 	 *
 	 * @return string $this->idColumn
 	 */
-    public function getIdColumn()
+    public function getIdColumn(): string
     {
 		return $this->idColumn;
 	}
@@ -121,7 +119,7 @@ class EntityConfiguration
 	 *
 	 * @return EntityMapping $this->idColumn
 	 */
-    public function getMapping()
+    public function getMapping(): EntityMapping
     {
 		return $this->Mapping;
     }
@@ -134,7 +132,7 @@ class EntityConfiguration
      *
      * @return string The field phrase for the database query.
 	 */
-    public function getFieldQuery()
+    public function getFieldQuery(): string
     {
 		$fieldQuery = '';
 

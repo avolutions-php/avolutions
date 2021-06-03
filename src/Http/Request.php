@@ -27,17 +27,17 @@ class Request
 	/**
 	 * @var string $uri The uri of the request.
 	 */
-	public $uri;
+	public string $uri;
 
 	/**
 	 * @var string $method The method of the request.
 	 */
-    public $method;
+    public string $method;
 
 	/**
 	 * @var array $parameters The variables from $_REQUEST.
 	 */
-	public $parameters = [];
+	public array $parameters = [];
 
 	/**
 	 * __construct
