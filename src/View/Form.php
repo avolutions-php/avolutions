@@ -80,18 +80,17 @@ class Form
      * the Mapping of this field.
      *
      * @param string $fieldName The field of the Entity.
+     * @param array $attributes The attributes for the input element.
      * @param bool $showLabel Indicates if a label should be generated or not.
      *
      * @return string A HTML input element for the field.
 	 */
-    public function inputFor($fieldName, $showLabel = true)
+    public function inputFor($fieldName, $attributes = [], $showLabel = true)
     {
         $input = '';
 
-        $attributes = [
-            'name' => lcfirst($this->entityName).'['.$fieldName.']',
-            'value' => $this->Entity->$fieldName
-        ];
+        $attributes['name'] = lcfirst($this->entityName).'['.$fieldName.']';
+        $attributes['value'] = $this->Entity->$fieldName;
 
         $inputType = $this->EntityMapping->$fieldName['form']['type'];
 
