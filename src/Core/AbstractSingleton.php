@@ -32,7 +32,7 @@ abstract class AbstractSingleton
 	 *
 	 * To prevent creating a new instance with the new operator
 	 */
-    final private function __construct()
+    final public function __construct()
     {
 
     }
@@ -42,7 +42,7 @@ abstract class AbstractSingleton
 	 *
 	 * To prevent creating a instance with the clone operator
 	 */
-    final private function __clone()
+    final public function __clone()
     {
 
     }
@@ -52,7 +52,7 @@ abstract class AbstractSingleton
 	 *
 	 * To prevent unserializing a instance with unserialize function
 	 */
-    final private function __wakeup()
+    final public function __wakeup()
     {
 
     }

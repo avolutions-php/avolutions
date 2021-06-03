@@ -22,7 +22,7 @@ class TableTest extends TestCase
     {
         $Database = new Database();
 
-        $query = 'DROP TABLE `user`';
+        $query = 'DROP TABLE IF EXISTS `user`';
         $stmt = $Database->prepare($query);
 		$stmt->execute();
     }

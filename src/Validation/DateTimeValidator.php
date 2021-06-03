@@ -51,7 +51,7 @@ class DateTimeValidator extends AbstractValidator
         if (isset($options['type'])) {
             $validTypes = ['date', 'time', 'datetime'];
             if (!in_array($options['type'], $validTypes)) {
-                throw new InvalidArgumentException('Invalid operator, must be either ' . implode($validTypes, ' '));
+                throw new InvalidArgumentException('Invalid operator, must be either ' . implode(' ', $validTypes));
             } else {
                 $this->type = $options['type'];
             }

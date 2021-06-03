@@ -11,6 +11,7 @@
 
 namespace Avolutions\Validation;
 
+use Avolutions\Logging\Logger;
 use InvalidArgumentException;
 use function implode;
 
@@ -48,7 +49,7 @@ class CompareValidator extends AbstractValidator
 
         $validOperators = ['==', '===', '!=', '!==', '>', '>=', '<', '<='];
         if (isset($options['operator']) && !in_array($options['operator'], $validOperators)) {
-            throw new InvalidArgumentException('Invalid operator, must be either '.implode($validOperators, ' '));
+            throw new InvalidArgumentException('Invalid operator, must be either '.implode(' ', $validOperators));
         } else {
             $this->operator = $options['operator'];
         }
