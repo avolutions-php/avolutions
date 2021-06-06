@@ -16,6 +16,11 @@
     "require-dev": {
         "phpunit/phpunit": "^9.0"
     },
+    "autoload": {
+        "psr-4": {
+            "Avolutions\\": "src/"
+        }
+    },
     "license": "MIT",
     "homepage": "https://avolutions.org",
     "authors": [
