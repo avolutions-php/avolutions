@@ -12,34 +12,20 @@
 use PHPUnit\Framework\TestCase;
 
 use Avolutions\Config\Config;
-use Avolutions\Logging\LogLevel;
 
 class ConfigTest extends TestCase
 {
-    public function testDefaultApplicationConfigValuesCanBeRead()
+    public function testConfigCanBeSetAndRead()
     {
-        $this->assertEquals(Config::get("application/defaultDateFormat"), 'Y-m-d');
-        $this->assertEquals(Config::get("application/defaultDateTimeFormat"), 'Y-m-d H:i:s');
-        $this->assertEquals(Config::get("application/defaultTimeFormat"), 'H:i:s');
-        $this->assertEquals(Config::get("application/defaultLanguage"), "en");
-        $this->assertEquals(Config::get("application/namespace"), "Application");
+        Config::set('my/config/key', 4711);
+        $this->assertEquals(4711, Config::get('my/config/key'));
     }
 
-    public function testDefaultDatabaseConfigValuesCanBeRead()
+    public function testConfigCanBeOverridden()
     {
-        $this->assertEquals(Config::get("database/host"), "127.0.0.1");
-        $this->assertEquals(Config::get("database/database"), "avolutions");
-        $this->assertEquals(Config::get("database/user"), "avolutions");
-        $this->assertEquals(Config::get("database/password"), "avolutions");
-        $this->assertEquals(Config::get("database/charset"), "utf8");
-        $this->assertEquals(Config::get("database/migrateOnAppStart"), false);
-    }
-
-    public function testDefaultLoggerConfigValuesCanBeRead()
-    {
-        $this->assertEquals(Config::get("logger/loglevel"), LogLevel::DEBUG);
-        $this->assertEquals(Config::get("logger/logfile"), "logfile.log");
-        $this->assertEquals(Config::get("logger/logpath"), LOG_PATH);
-        $this->assertEquals(Config::get("logger/datetimeFormat"), "Y-m-d H:i:s.v");
+        Config::set('my/config/key', 4711);
+        $this->assertEquals(4711, Config::get('my/config/key'));
+        Config::set('my/config/key', 'foo');
+        $this->assertEquals('foo', Config::get('my/config/key'));
     }
 }

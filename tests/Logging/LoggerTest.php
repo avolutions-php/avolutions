@@ -22,6 +22,11 @@ class LoggerTest extends TestCase
 
     protected function setUp(): void
     {
+        Config::set('logger/loglevel', LogLevel::DEBUG);
+        Config::set('logger/logfile', 'logfile.log');
+        Config::set('logger/logpath', __DIR__.DIRECTORY_SEPARATOR);
+        Config::set('logger/datetimeFormat', 'Y-m-d H:i:s.v');
+
         $this->logFile = Config::get("logger/logpath").Config::get("logger/logfile");
     }
 
