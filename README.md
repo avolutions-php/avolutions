@@ -29,7 +29,7 @@ AVOLUTIONS is just another open source PHP framework.
 * [Translations](https://avolutions.org/guide/translation)
 
 ## Installation
-AVOLUTIONS can be installed into your project by using composer:
+AVOLUTIONS can be installed into your project by using composer:  
 ```composer require avolutions/avolutions:0.*@alpha```
 
 If starting a new project, we highly recommend to us our [app template](https://github.com/avolutions/app).
