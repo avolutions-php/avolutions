@@ -1,18 +1,16 @@
 # Configuration
 
 * [Introduction](#introduction)
-* [Examples](#examples)
-  * [Add a new Configuration value](#add-a-new-configuration-value)
-  * [Override an existing Configuration value](#override-an-existing-configuration-value)
-  * [Use the Configuration value in application](#use-the-configuration-value-in-application)
+* [Add a new Configuration value](#add-a-new-configuration-value)
+* [Override an existing Configuration value](#override-an-existing-configuration-value)
+* [Use the Configuration value in application](#use-the-configuration-value-in-application)
+* [Set configuration value at runtime](#set-configuration-value-at-runtime)
 * [Default values](#default-values)
 
 ## Introduction
 There are config files where you can store Configuration values that are available everywhere in the application.
-The config values are not settable/editable at runtime.
 
-## Examples
-### Add a new Configuration value
+## Add a new Configuration value
 
 To store a new Configuration value add a new config file at *application/Config*, e.g. *user.php*.
 Just return an array with all your config values as keys:
@@ -22,7 +20,7 @@ return [
 ];
 ```
 
-### Override an existing Configuration value
+## Override an existing Configuration value
 
 There are some core Configuration values. These values are stored in the config folder of the AVOLUTIONS core.
 
@@ -31,7 +29,7 @@ You should never change a file inside the core folder, otherwise there can be co
 Therefore it is possible to overwrite the core values with your application values. Just create a config file inside the *application/Config* with the same name as the file in *core/config*.
 Use the same array key to overwrite the core Configuration value.
 
-### Use the Configuration value in application
+## Use the Configuration value in application
 
 To use the Configuration value you need to know the key. The key is composed of the file name and the array keys.
 
@@ -59,6 +57,15 @@ If the Configuration value is set to false it will result in the following outpu
 ```php
 Hello Alex
 ```
+
+## Set configuration value at runtime
+Configuration values can be set at runtime. The value is only available for the current request and will not be stored/changed permanently.
+Use the `set` method of `Config` class to add a new config value or override an already existing one:  
+```php
+Config::set('my/new/config', 4711);
+print Config::get('my/new/config'); // 4711
+```
+
 
 ## Default values
 
