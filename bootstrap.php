@@ -11,10 +11,11 @@
 
 namespace Avolutions;
 
+print 'test';
 /**
  * Define paths
  */
-define(__NAMESPACE__.'\BASE_PATH', realpath('./').DIRECTORY_SEPARATOR);
+define(__NAMESPACE__.'\\BASE_PATH', realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR);
 define('CONFIG_PATH', BASE_PATH.'config'.DIRECTORY_SEPARATOR);
 
 define('APPLICATION_PATH', BASE_PATH.'application'.DIRECTORY_SEPARATOR);
@@ -33,3 +34,6 @@ define('APP_DATABASE_NAMESPACE', 'Application\\Database\\');
 define('APP_LISTENER_NAMESPACE', 'Application\\Listener\\');
 define('APP_MODEL_NAMESPACE', 'Application\\Model\\');
 define('APP_VALIDATOR_NAMESPACE', 'Application\\Validation\\');
+
+
+get_defined_constants();
