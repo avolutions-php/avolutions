@@ -14,6 +14,6 @@ use Avolutions\Logging\LogLevel;
 return [
 	'loglevel' => LogLevel::DEBUG,
 	'logfile' => 'logfile.log',
-	'logpath' => 'log/',
+	'logpath' => './log/',
 	'datetimeFormat' => 'Y-m-d H:i:s.v'
 ];
