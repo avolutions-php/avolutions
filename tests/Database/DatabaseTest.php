@@ -18,12 +18,14 @@ class DatabaseTest extends TestCase
 {
     protected function setUp(): void
     {
-        Config::set('database/host', getenv('DB_HOST') ?: '127.0.0.1');
-        Config::set('database/database', getenv('DB_DATABASE') ?: 'avolutions');
-        Config::set('database/port', getenv('DB_PORT') ?: '3306');
-        Config::set('database/user', getenv('DB_USER') ?: 'avolutions');
-        Config::set('database/password', getenv('DB_PASSWORD') ?: 'avolutions');
-        Config::set('database/charset', 'utf8');
+        $Config = Config::getInstance();
+        $Config->initialize();
+
+        $Database = new Database();
+
+        $query = 'DROP TABLE IF EXISTS `migration`';
+        $stmt = $Database->prepare($query);
+        $stmt->execute();
     }
 
     public function testDatabaseConnection()
