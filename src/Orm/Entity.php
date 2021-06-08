@@ -16,6 +16,9 @@ use Avolutions\Event\EntityEvent;
 use Avolutions\Event\EventDispatcher;
 use Avolutions\Logging\Logger;
 use Avolutions\Validation\Validator;
+use const Avolutions\APP_MODEL_NAMESPACE;
+use const Avolutions\APP_VALIDATOR_NAMESPACE;
+use const Avolutions\VALIDATOR_NAMESPACE;
 
 /**
  * Entity class

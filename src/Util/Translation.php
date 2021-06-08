@@ -17,6 +17,7 @@ use Avolutions\Http\Session;
 use Exception;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use const Avolutions\APP_TRANSLATION_PATH;
 
 /**
  * Translation class
@@ -71,11 +72,11 @@ class Translation extends ConfigFileLoader
      */
     public function initialize()
     {
-        if (!is_dir(TRANSLATION_PATH)) {
+        if (!is_dir(APP_TRANSLATION_PATH)) {
             return;
         }
 
-        $DirectoryIterator = new RecursiveDirectoryIterator(TRANSLATION_PATH, RecursiveDirectoryIterator::SKIP_DOTS);
+        $DirectoryIterator = new RecursiveDirectoryIterator(APP_TRANSLATION_PATH, RecursiveDirectoryIterator::SKIP_DOTS);
         $Iterator = new RecursiveIteratorIterator($DirectoryIterator);
 
         foreach ($Iterator as $translationFile) {

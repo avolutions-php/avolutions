@@ -11,6 +11,10 @@
 
 namespace Avolutions\Orm;
 
+use const Avolutions\APP_MAPPING_PATH;
+use const Avolutions\APP_MODEL_NAMESPACE;
+use const Avolutions\MAPPING;
+
 /**
  * EntityMapping class
  *
@@ -32,7 +36,7 @@ class EntityMapping
 	 */
     public function __construct($entity)
     {
-		$mapping = $this->loadMappingFile(APP_MAPPING_PATH.$entity.'Mapping.php');
+		$mapping = $this->loadMappingFile(APP_MAPPING_PATH.$entity.MAPPING.'.php');
 
 		foreach ($mapping as $key => $value) {
             // Set default values

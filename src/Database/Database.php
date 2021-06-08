@@ -13,6 +13,8 @@ namespace Avolutions\Database;
 
 use Avolutions\Config\Config;
 use PDOException;
+use const Avolutions\APP_DATABASE_NAMESPACE;
+use const Avolutions\APP_DATABASE_PATH;
 
 /**
  * Database class

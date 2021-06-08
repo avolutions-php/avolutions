@@ -11,6 +11,9 @@
 
 namespace Avolutions\Config;
 
+use const Avolutions\APP_CONFIG_PATH;
+use const Avolutions\CONFIG_PATH;
+
 /**
  * Config class
  *

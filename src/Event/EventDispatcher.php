@@ -12,6 +12,7 @@
 namespace Avolutions\Event;
 
 use Avolutions\Event\EntityEvent;
+use const Avolutions\APP_LISTENER_NAMESPACE;
 
 /**
  * EventDispatcher class
