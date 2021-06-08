@@ -17,7 +17,10 @@
         "phpunit/phpunit": "^9.0"
     },
     "autoload": {
-        "files": ["src/Util/helper.php"],
+        "files": [
+            "src/Util/helper.php",
+            "bootstrap.php"
+        ],
         "psr-4": {
             "Avolutions\\": "src/"
         }
