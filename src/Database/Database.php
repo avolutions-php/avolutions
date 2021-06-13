@@ -13,6 +13,8 @@ namespace Avolutions\Database;
 
 use Avolutions\Config\Config;
 use PDOException;
+use const Avolutions\APP_DATABASE_NAMESPACE;
+use const Avolutions\APP_DATABASE_PATH;
 
 /**
  * Database class
@@ -117,13 +119,29 @@ class Database extends \PDO
                 $executedMigrations[] = $row['Version'];
             }
         } catch (PDOException $ex) {
-            // In case PDO::ATTR_ERRMODE is set to "PDO::ERRMODE_EXCEPTION"
             // 1146 = Table 'migration' doesn't exist
-		    if ($ex->errorInfo[1] != 1146) {
+		    if ($ex->errorInfo[1] == 1146) {
+                self::createMigrationTable();
+           } else {
                 throw $ex;
-           }
+            }
         }
 
 		return $executedMigrations;
 	}
+
+    /**
+     * createMigrationTable
+     *
+     * Creates the table to store executed migrations.
+     */
+	private static function createMigrationTable()
+    {
+        $columns = [];
+        $columns[] = new Column('MigrationID', ColumnType::INT, 255, null, null, true, true);
+        $columns[] = new Column('Version', ColumnType::BIGINT, 255);
+        $columns[] = new Column('Name', ColumnType::VARCHAR, 255);
+        $columns[] = new Column('CreateDate', ColumnType::DATETIME, null, Column::CURRENT_TIMESTAMP);
+        Table::create('migration', $columns);
+    }
 }

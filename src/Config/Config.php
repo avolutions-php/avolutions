@@ -11,6 +11,9 @@
 
 namespace Avolutions\Config;
 
+use const Avolutions\APP_CONFIG_PATH;
+use const Avolutions\CONFIG_PATH;
+
 /**
  * Config class
  *
@@ -44,4 +47,27 @@ class Config extends ConfigFileLoader
 			self::$values[pathinfo($configFile, PATHINFO_FILENAME)] = $configValues;
 		}
 	}
+
+    /**
+     * set
+     *
+     * Set the value for the given config key. The key is separated by slashes (/).
+     *
+     * @param $key The config key (slash separated).
+     * @param $value The value to set.
+     */
+	public static function set($key, $value) {
+        $identifiers = explode('/', $key);
+        $values = &self::$values;
+
+        foreach ($identifiers as $identifier) {
+            if (!array_key_exists($identifier, $values)) {
+                $values[$identifier] = [];
+            }
+            $values = &$values[$identifier];
+        }
+
+        $values = $value;
+        unset($values);
+    }
 }

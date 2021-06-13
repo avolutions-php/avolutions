@@ -15,6 +15,7 @@ use Avolutions\Collection\CollectionInterface;
 use Avolutions\Collection\CollectionTrait;
 use Avolutions\Database\Database;
 use Avolutions\Logging\Logger;
+use const Avolutions\APP_MODEL_NAMESPACE;
 
 /**
  * EntityCollection class

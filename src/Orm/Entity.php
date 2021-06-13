@@ -15,7 +15,10 @@ use Avolutions\Database\Database;
 use Avolutions\Event\EntityEvent;
 use Avolutions\Event\EventDispatcher;
 use Avolutions\Logging\Logger;
-use ReflectionClass;
+use Avolutions\Validation\Validator;
+use const Avolutions\APP_MODEL_NAMESPACE;
+use const Avolutions\APP_VALIDATOR_NAMESPACE;
+use const Avolutions\VALIDATOR_NAMESPACE;
 
 /**
  * Entity class
@@ -29,29 +32,29 @@ use ReflectionClass;
 class Entity
 {
 	/**
-	 * @var int $id The unique identifier of the entity.
+	 * @var mixed $id The unique identifier of the entity.
 	 */
-	public int $id;
+	public $id;
 
 	/**
-	 * @var EntityConfiguration $EntityConfiguration The configuration of the entity.
+	 * @var string $EntityConfiguration The configuration of the entity.
 	 */
-	private EntityConfiguration $EntityConfiguration;
+	private $EntityConfiguration;
 
 	/**
-	 * @var EntityMapping $EntityMapping The mapping of the entity.
+	 * @var string $EntityMapping The mapping of the entity.
 	 */
-    private EntityMapping $EntityMapping;
+    private $EntityMapping;
 
 	/**
 	 * @var Entity $EntityBeforeChange The Entity after initializing.
 	 */
-	private Entity $EntityBeforeChange;
+	private $EntityBeforeChange;
 
     /**
      * @var array $errors Validation error messages.
      */
-    private array $errors = [];
+    private $errors = [];
 
     /**
 	 * __construct
@@ -137,9 +140,9 @@ class Entity
      *
      * @return string The name of the entity.
 	 */
-    public function getEntityName(): string
+    public function getEntityName()
     {
-		return (new ReflectionClass($this))->getShortName();
+		return (new \ReflectionClass($this))->getShortName();
 	}
 
     /**
@@ -149,7 +152,7 @@ class Entity
      *
      * @return array Validation error messages.
      */
-    public function getErrors(): array
+    public function getErrors()
     {
         return $this->errors;
     }
@@ -219,20 +222,20 @@ class Entity
 	 *
 	 * @return bool Returns true if the entity exists in the database, false if not.
 	 */
-    public function exists(): bool
+    public function exists()
     {
 		return $this->id != null;
 	}
 
-    /**
-     * execute
-     *
-     * Executes the previously created database query with the provided values.
-     *
-     * @param string $query The query string that will be executed.
-     * @param array $values The values for the query.
-     */
-    private function execute(string $query, array $values)
+	/**
+	 * execute
+	 *
+	 * Executes the previously created database query with the provided values.
+	 *
+	 * @param string $query The query string that will be executed.
+	 * @param array $values The values for the query.
+	 */
+    private function execute($query, $values)
     {
 		Logger::debug($query);
 		Logger::debug('Values: '.print_r($values, true));
@@ -249,9 +252,9 @@ class Entity
      *
      * @return bool Returns true if Entity has no errors or false if it has errors.
      */
-    public function isValid(): bool
+    public function isValid()
     {
-        return count($this->errors) === 0;
+        return count($this->errors) == 0;
     }
 
 
@@ -263,7 +266,7 @@ class Entity
      *
      * @return bool Returns true if all validations passed or false if not.
      */
-    public function validate(): bool
+    public function validate()
     {
         foreach ($this->EntityMapping as $property => $value) {
             if (isset($value['validation'])) {

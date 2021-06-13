@@ -11,6 +11,8 @@
 
 namespace Avolutions\View;
 
+use const Avolutions\APP_VIEW_PATH;
+
 /**
  * View class
  *

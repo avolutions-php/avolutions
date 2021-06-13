@@ -12,7 +12,7 @@ Whenever it comes to a multi language application, the AVOLUTIONS translation fe
 
 ## Define translation files
 
-All translatable strings are stored in translation files located in the *translation* folder.
+All translatable strings are stored in translation files located in the *application/translation* folder.
 Translation files are simple PHP files returning an associative array like [config](config.md) or [mapping](mapping.md) files.
 
 For every supported language a subdirectory in the *translation* directory is needed. 
@@ -20,7 +20,7 @@ Every language can have multiple translation files, the name of the file is part
 
 See the following example of translation folder:
 ```bash
-/
+application/
   translation/
     de/
       example.php

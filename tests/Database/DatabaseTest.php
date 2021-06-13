@@ -11,10 +11,23 @@
 
 use PHPUnit\Framework\TestCase;
 
+use Avolutions\Config\Config;
 use Avolutions\Database\Database;
 
 class DatabaseTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        $Config = Config::getInstance();
+        $Config->initialize();
+
+        $Database = new Database();
+
+        $query = 'DROP TABLE IF EXISTS `migration`';
+        $stmt = $Database->prepare($query);
+        $stmt->execute();
+    }
+
     public function testDatabaseConnection()
     {
         $Database = new Database();
