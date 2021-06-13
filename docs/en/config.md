@@ -84,5 +84,5 @@ database/password |  | The password for the database connection
 database/migrateOnAppStart | false | Controls if migrations are running automatically or not
 logger/loglevel | "DEBUG" | Only messages with a higher or equal loglevel then this will be logged
 logger/logfile | "logfile.log" | The name of the logfile
-logger/logpath | CORE_LOG_PATH | The path where the logfile is stored
+logger/logpath | "./log/" | The path where the logfile is stored
 logger/datetimeFormat | "Y-m-d H:i:s.v" | The format for the datetime of the log message
