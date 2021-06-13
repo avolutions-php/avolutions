@@ -12,7 +12,13 @@
 namespace Avolutions\Database;
 
 use Avolutions\Config\Config;
+use InvalidArgumentException;
+use PDO;
 use PDOException;
+use ReflectionClass;
+use ReflectionException;
+use RuntimeException;
+
 use const Avolutions\APP_DATABASE_NAMESPACE;
 use const Avolutions\APP_DATABASE_PATH;
 
@@ -25,7 +31,7 @@ use const Avolutions\APP_DATABASE_PATH;
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.1.0
  */
-class Database extends \PDO
+class Database extends PDO
 {
 	/**
 	 * __construct
@@ -41,8 +47,8 @@ class Database extends \PDO
 		$password = Config::get('database/password');
 		$charset  = Config::get('database/charset');
 		$options  = [
-            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES '.$charset,
-			\PDO::ATTR_PERSISTENT => true
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES '.$charset,
+			PDO::ATTR_PERSISTENT => true
         ];
 
 		$dsn = 'mysql:dbname='.$database.';host='.$host.';port='.$port.'';
@@ -50,14 +56,15 @@ class Database extends \PDO
 		parent::__construct($dsn, $user, $password, $options);
     }
 
-	/**
-	 * migrate
-	 *
-	 * Executes all migrations from the applications database directory.
+    /**
+     * migrate
      *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-	 */
+     * Executes all migrations from the applications database directory.
+     *
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
+     * @throws ReflectionException
+     */
     public static function migrate()
     {
 		$migrationsToExecute = [];
@@ -72,15 +79,15 @@ class Database extends \PDO
 
             // only use Migration extending the AbstractMigration
             if (!$Migration instanceof AbstractMigration) {
-                throw new \RuntimeException('Migration "'.$migrationClassName.'" has to extend AbstractMigration');
+                throw new RuntimeException('Migration "'.$migrationClassName.'" has to extend AbstractMigration');
             }
 
             // version has to be an integer use
             if (!is_int($Migration->version)) {
-                throw new \InvalidArgumentException('The version of the migration "'.$migrationClassName.'" has to be an integer.');
+                throw new InvalidArgumentException('The version of the migration "'.$migrationClassName.'" has to be an integer.');
             }
 
-            // only exectue Migration if not already executed
+            // only execute Migration if not already executed
 			if (!in_array($Migration->version, $executedMigrations)) {
 				$migrationsToExecute[$Migration->version] = $Migration;
 			}
@@ -93,7 +100,7 @@ class Database extends \PDO
 			$Migration->migrate();
 
 			$stmt = $Database->prepare('INSERT INTO migration (Version, Name) VALUES (?, ?)');
-			$stmt->execute([$version, (new \ReflectionClass($Migration))->getShortName()]);
+			$stmt->execute([$version, (new ReflectionClass($Migration))->getShortName()]);
 		}
 	}
 
@@ -106,7 +113,7 @@ class Database extends \PDO
      *
      * @throws PDOException
 	 */
-    private static function getExecutedMigrations()
+    private static function getExecutedMigrations(): array
     {
 		$executedMigrations = [];
 

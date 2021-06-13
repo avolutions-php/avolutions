@@ -85,9 +85,9 @@ class Table
      *
      * @param string $tableName The name of the table.
      * @param Column $Column A Column object to add to the table.
-     * @param null $after The name of an existing column to add the new Column after it.
+     * @param string|null $after The name of an existing column to add the new Column after it.
      */
-    public static function addColumn(string $tableName, Column $Column, $after = null)
+    public static function addColumn(string $tableName, Column $Column, ?string $after = null)
     {
 		$query = 'ALTER TABLE `'.$tableName.'` ADD '.$Column->getPattern();
 
