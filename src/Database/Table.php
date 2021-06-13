@@ -47,24 +47,24 @@ class Table
 	const CASCADE = 'CASCADE';
 
 	/**
-	 * @var string SETNULL A constant for the string "SET NULL"
+	 * @var string SET_NULL A constant for the string "SET NULL"
 	 */
 	const SET_NULL = 'SET NULL';
 
 	/**
-	 * @var string NOACTION A constant for the string "NO ACTION"
+	 * @var string NO_ACTION A constant for the string "NO ACTION"
 	 */
 	const NO_ACTION = 'NO ACTION';
 
-	/**
-	 * create
-	 *
-	 * Creates a new database table if not exists.
-	 *
-	 * @param string $tableName The name of the table.
-	 * @param array $Columns An array with Column objects to create the table.
-	 */
-    public static function create($tableName, $Columns)
+    /**
+     * create
+     *
+     * Creates a new database table if not exists.
+     *
+     * @param string $tableName The name of the table.
+     * @param array $Columns An array with Column objects to create the table.
+     */
+    public static function create(string $tableName, array $Columns)
     {
 		$query = 'CREATE TABLE IF NOT EXISTS `'.$tableName.'` (';
 
@@ -78,16 +78,16 @@ class Table
 		$Database->query($query);
 	}
 
-	/**
-	 * addColumn
-	 *
-	 * Adds a new column to an existing table.
-	 *
-	 * @param string $tableName The name of the table.
-	 * @param Column $Column A Column object to add to the table.
-	 * @param string $after The name of an existing column to add the new Column after it.
-	 */
-    public static function addColumn($tableName, $Column, $after = null)
+    /**
+     * addColumn
+     *
+     * Adds a new column to an existing table.
+     *
+     * @param string $tableName The name of the table.
+     * @param Column $Column A Column object to add to the table.
+     * @param string|null $after The name of an existing column to add the new Column after it.
+     */
+    public static function addColumn(string $tableName, Column $Column, ?string $after = null)
     {
 		$query = 'ALTER TABLE `'.$tableName.'` ADD '.$Column->getPattern();
 
@@ -99,15 +99,15 @@ class Table
 		$Database->query($query);
 	}
 
-	/**
-	 * removeColumn
-	 *
-	 * Removes a column from an existing table.
-	 *
-	 * @param string $tableName The name of the table.
-	 * @param string $columnName The name of the column that should be removed.
-	 */
-    public static function removeColumn($tableName, $columnName)
+    /**
+     * removeColumn
+     *
+     * Removes a column from an existing table.
+     *
+     * @param string $tableName The name of the table.
+     * @param string $columnName The name of the column that should be removed.
+     */
+    public static function removeColumn(string $tableName, string $columnName)
     {
 		$query = 'ALTER TABLE `'.$tableName.'` DROP COLUMN '.$columnName;
 
@@ -115,17 +115,17 @@ class Table
 		$Database->query($query);
 	}
 
-	/**
-	 * addIndex
-	 *
-	 * Adds a new index to an existing table.
-	 *
-	 * @param string $tableName The name of the table.
-	 * @param string $indexType The type of the index, one of the following constants should be used: INDEX, PRIMARY, UNIQUE.
-	 * @param array $columnNames An array with one or more column names which are included in the index.
-	 * @param string $indexName The name of the index.
-	 */
-    public static function addIndex($tableName, $indexType, $columnNames, $indexName = null)
+    /**
+     * addIndex
+     *
+     * Adds a new index to an existing table.
+     *
+     * @param string $tableName The name of the table.
+     * @param string $indexType The type of the index, one of the following constants should be used: INDEX, PRIMARY, UNIQUE.
+     * @param array $columnNames An array with one or more column names which are included in the index.
+     * @param string|null $indexName The name of the index.
+     */
+    public static function addIndex(string $tableName, string $indexType, array $columnNames, ?string $indexName = null)
     {
 		$query = 'ALTER TABLE `'.$tableName.'` ADD '.$indexType.' ';
 
@@ -144,27 +144,27 @@ class Table
 		$Database->query($query);
 	}
 
-	/**
-	 * addForeignKeyConstraint
-	 *
-	 * Adds a new foreign key constraint to the table.
-	 *
-	 * @param string $tableName The name of the table.
-	 * @param string $columnName The name of the column.
-	 * @param string $referenceTableName The name of the referenced table.
-	 * @param string $referenceColumnName The name of the referenced column.
-	 * @param string $onDelete The operation that will be performed on delete, one of the following constants should be used: RESTRICT, CASCADE, SETNULL, NOACTION.
-	 * @param string $onUpdate The operation that will be performed on update, one of the following constants should be used: RESTRICT, CASCADE, SETNULL, NOACTION.
-	 * @param string $constraintName The name of the constraint.
-	 */
+    /**
+     * addForeignKeyConstraint
+     *
+     * Adds a new foreign key constraint to the table.
+     *
+     * @param string $tableName The name of the table.
+     * @param string $columnName The name of the column.
+     * @param string $referenceTableName The name of the referenced table.
+     * @param string $referenceColumnName The name of the referenced column.
+     * @param string $onDelete The operation that will be performed on delete, one of the following constants should be used: RESTRICT, CASCADE, SET_NULL, NO_ACTION.
+     * @param string $onUpdate The operation that will be performed on update, one of the following constants should be used: RESTRICT, CASCADE, SET_NULL, NO_ACTION.
+     * @param string|null $constraintName The name of the constraint.
+     */
     public static function addForeignKeyConstraint(
-        $tableName,
-        $columnName,
-        $referenceTableName,
-        $referenceColumnName,
-        $onDelete = Table::RESTRICT,
-        $onUpdate = Table::RESTRICT,
-        $constraintName = null
+        string $tableName,
+        string $columnName,
+        string $referenceTableName,
+        string $referenceColumnName,
+        string $onDelete = Table::RESTRICT,
+        string $onUpdate = Table::RESTRICT,
+        ?string $constraintName = null
     ) {
         $query = 'ALTER TABLE `'.$tableName.'` ADD CONSTRAINT ';
         if ($constraintName != null) {

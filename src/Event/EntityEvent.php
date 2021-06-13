@@ -11,6 +11,8 @@
 
 namespace Avolutions\Event;
 
+use Avolutions\Orm\Entity;
+
 /**
  * EntityEvent class
  *
@@ -24,17 +26,17 @@ class EntityEvent extends Event
     /**
      * @var string $name The name of the Event.
      */
-    protected $name = null;
+    protected string $name;
 
     /**
      * @var Entity $Entity The Entity which dispatched the Event.
      */
-    public $Entity = null;
+    public Entity $Entity;
 
     /**
-     * @var Entity $EntityBeforeChange The Entity before the changes are made.
+     * @var Entity|null $EntityBeforeChange The Entity before the changes are made.
      */
-    public $EntityBeforeChange = null;
+    public ?Entity $EntityBeforeChange = null;
 
 
     /**
@@ -44,9 +46,9 @@ class EntityEvent extends Event
      *
      * @param string $name The name of the EntityEvent.
      * @param Entity $Entity The Entity which dispatched the Event.
-     * @param Entity $EntityBeforeChange The Entity before the changes are made.
+     * @param Entity|null $EntityBeforeChange The Entity before the changes are made.
      */
-    function __construct($name, $Entity, $EntityBeforeChange = null)
+    function __construct(string $name, Entity $Entity, ?Entity $EntityBeforeChange = null)
     {
         $this->name = $name;
         $this->Entity = $Entity;

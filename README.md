@@ -7,15 +7,15 @@
   <a href="https://packagist.org/packages/avolutions/avolutions"><img src="https://poser.pugx.org/avolutions/avolutions/license.svg" alt="License"></a>
 </p>
 
-# About
+## About
 AVOLUTIONS is just another open source PHP framework. 
 
-* Current version: 0.6.0-alpha
+* Current version: 0.7.0-alpha
 * [Website](https://avolutions.org)
 * [Getting started](https://avolutions.org/guide)
 * [API Documentation](https://avolutions.org/api)
 
-# Features
+## Features
 * [Routing](https://avolutions.org/guide/routing)
 * [MVC](https://avolutions.org/guide/view)
 * [ORM](https://avolutions.org/guide/model)
@@ -28,16 +28,13 @@ AVOLUTIONS is just another open source PHP framework.
 * [Forms](https://avolutions.org/guide/form)
 * [Translations](https://avolutions.org/guide/translation)
 
-# Installation
-The system requirements, configuration and a detailed installation guide can be found at the official [AVOLUTIONS Guide](http://avolutions.org/guide/installation).
-There are two supported ways to install the AVOLUTIONS framework:
+## Installation
+AVOLUTIONS can be installed into your project by using composer:  
+```composer require avolutions/avolutions:0.*@alpha```
 
-### Composer (recommended)
-A new project can be created by using the composer create-project command:  
-```composer create-project --prefer-dist avolutions/avolutions:0.*@alpha myproject```
+If starting a new project, we highly recommend to us our [app template](https://github.com/avolutions/app).
 
-### Manually
-The latest version can be downloaded at [Github](https://github.com/avolutions/avolutions/archive/v0.6.0-alpha.zip) or [avolutions.org](http://avolutions.org/download/avolutions-0.6.0-alpha.zip).
+The system requirements, configuration and a detailed installation guide can be found in the official [guide](http://avolutions.org/guide/installation).
 
-# License
+## License
 The AVOLUTIONS framework is an open source software licensed under the [MIT license](https://github.com/avolutions/avolutions/blob/master/LICENSE).

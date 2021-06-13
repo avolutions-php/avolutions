@@ -11,6 +11,7 @@
 
 namespace Avolutions\Validation;
 
+use Avolutions\Orm\Entity;
 use InvalidArgumentException;
 use function implode;
 
@@ -27,12 +28,12 @@ class CompareValidator extends AbstractValidator
     /**
      * @var string $operator A comparison operator.
      */
-    private $operator = '==';
+    private string $operator = '==';
 
     /**
      * @var mixed $compareValue A static value to compare to.
      */
-    private $compareValue;
+    private mixed $compareValue;
 
     /**
      * setOptions
@@ -40,15 +41,15 @@ class CompareValidator extends AbstractValidator
      * Set the passed options, property and Entity to internal properties.
      *
      * @param array $options An associative array with options.
-     * @param string $property The property of the Entity to validate.
-     * @param Entity $Entity The Entity to validate.
+     * @param string|null $property The property of the Entity to validate.
+     * @param Entity|null $Entity The Entity to validate.
      */
-    public function setOptions($options = [], $property = null, $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
         parent::setOptions($options, $property, $Entity);
 
         $validOperators = ['==', '===', '!=', '!==', '>', '>=', '<', '<='];
         if (isset($options['operator']) && !in_array($options['operator'], $validOperators)) {
-            throw new InvalidArgumentException('Invalid operator, must be either '.implode($validOperators, ' '));
+            throw new InvalidArgumentException('Invalid operator, must be either '.implode(' ', $validOperators));
         } else {
             $this->operator = $options['operator'];
         }
@@ -76,7 +77,7 @@ class CompareValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid($value) {
+    public function isValid(mixed $value): bool {
         switch ($this->operator) {
             case '==':
                 return $value == $this->compareValue;

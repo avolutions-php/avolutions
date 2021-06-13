@@ -21,7 +21,8 @@ use Avolutions\Util\Translation;
  * @param array $params An array with values to replace the placeholders with.
  */
 if (!function_exists('interpolate')) {
-    function interpolate($string, $params = []) {
+    function interpolate(string $string, array $params = []): string
+    {
         return StringHelper::interpolate($string, $params);
     }
 }
@@ -33,10 +34,13 @@ if (!function_exists('interpolate')) {
  *
  * @param string $key The key of the translation string.
  * @param array $params An array with values to replace the placeholders in translation.
- * @param string $language The language in which the translation should be loaded.
+ * @param string|null $language The language in which the translation should be loaded.
+ *
+ * @throws Exception
  */
 if (!function_exists('translate')) {
-    function translate($key, $params = [], $language = null) {
+    function translate(string $key, array $params = [], ?string $language = null): string
+    {
         return Translation::getTranslation($key, $params, $language);
     }
 }

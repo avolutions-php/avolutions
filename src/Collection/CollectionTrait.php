@@ -1,4 +1,5 @@
 <?php
+
 /**
  * AVOLUTIONS
  *
@@ -24,7 +25,7 @@ trait CollectionTrait
     /**
 	 * @var array $items The items of the Collection.
 	 */
-	public $items = [];
+	public array $items = [];
 
 	/**
 	 * getAll
@@ -33,7 +34,7 @@ trait CollectionTrait
 	 *
 	 * @return array An array of all items of the Collection
 	 */
-    public function getAll()
+    public function getAll(): array
     {
         return $this->items;
     }
@@ -45,7 +46,7 @@ trait CollectionTrait
 	 *
 	 * @return int The number of items in the Collection.
 	 */
-    public function count()
+    public function count(): int
     {
         return count($this->items);
     }

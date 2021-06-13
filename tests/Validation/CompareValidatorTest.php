@@ -105,7 +105,7 @@ class CompareValidatorTest extends TestCase
 
         foreach ($Validators as $Validator) {
             $this->assertEquals($Validator->isValid('123'), false);
-            $this->assertEquals($Validator->isValid('test'), false);
+            $this->assertEquals($Validator->isValid('test'), true);
             $this->assertEquals($Validator->isValid(122), false);
             $this->assertEquals($Validator->isValid(123), false);
             $this->assertEquals($Validator->isValid(124), true);
@@ -120,7 +120,7 @@ class CompareValidatorTest extends TestCase
 
         foreach ($Validators as $Validator) {
             $this->assertEquals($Validator->isValid('123'), true);
-            $this->assertEquals($Validator->isValid('test'), false);
+            $this->assertEquals($Validator->isValid('test'), true);
             $this->assertEquals($Validator->isValid(122), false);
             $this->assertEquals($Validator->isValid(123), true);
             $this->assertEquals($Validator->isValid(124), true);
@@ -135,7 +135,7 @@ class CompareValidatorTest extends TestCase
 
         foreach ($Validators as $Validator) {
             $this->assertEquals($Validator->isValid('123'), false);
-            $this->assertEquals($Validator->isValid('test'), true);
+            $this->assertEquals($Validator->isValid('test'), false);
             $this->assertEquals($Validator->isValid(122), true);
             $this->assertEquals($Validator->isValid(123), false);
             $this->assertEquals($Validator->isValid(124), false);
@@ -150,7 +150,7 @@ class CompareValidatorTest extends TestCase
 
         foreach ($Validators as $Validator) {
             $this->assertEquals($Validator->isValid('123'), true);
-            $this->assertEquals($Validator->isValid('test'), true);
+            $this->assertEquals($Validator->isValid('test'), false);
             $this->assertEquals($Validator->isValid(122), true);
             $this->assertEquals($Validator->isValid(123), true);
             $this->assertEquals($Validator->isValid(124), false);

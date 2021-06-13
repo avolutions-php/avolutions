@@ -25,14 +25,14 @@ abstract class AbstractSingleton
 	/**
 	 * @var array $instances An array of all instance of singleton classes
 	 */
-	private static $instances = [];
+	private static array $instances = [];
 
 	/**
 	 * __construct
 	 *
-	 * To prevent creating a new instance with the new operator
+	 * To prevent creating an new instance with the new operator
 	 */
-    final private function __construct()
+    final public function __construct()
     {
 
     }
@@ -40,9 +40,9 @@ abstract class AbstractSingleton
 	/**
 	 * __clone
 	 *
-	 * To prevent creating a instance with the clone operator
+	 * To prevent creating an instance with the clone operator
 	 */
-    final private function __clone()
+    final public function __clone()
     {
 
     }
@@ -50,9 +50,9 @@ abstract class AbstractSingleton
 	/**
 	 * __wakeup
 	 *
-	 * To prevent unserializing a instance with unserialize function
+	 * To prevent unserializing an instance with unserialize function
 	 */
-    final private function __wakeup()
+    final public function __wakeup()
     {
 
     }
@@ -65,8 +65,8 @@ abstract class AbstractSingleton
 	 *
 	 * @return object An object of the instantiated class
 	 */
-	final public static function getInstance()
-	{
+	final public static function getInstance(): object
+    {
 		$class = get_called_class();
 
         if (!isset(self::$instances[$class])) {

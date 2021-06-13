@@ -28,7 +28,7 @@ class CookieCollectionTest extends TestCase
 
     public function testAddMethodThrowsExceptionOnWrongParameter()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(TypeError::class);
 
         CookieCollection::add(123);
     }

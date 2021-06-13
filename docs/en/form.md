@@ -210,12 +210,12 @@ use Avolutions\View\Form;
 $Form = new Form(null, ['firstname' => 'Firstname is required.']);
 
 print $Form->open(['method' => 'POST']);
-print $Form->inputFor('firstname', false);
+print $Form->inputFor('firstname', ['class' => 'my-input'], false);
 print $Form->close();
 ```
 ```html
 <form method="POST">
-  <input name="user[firstname]" type="text" />
+  <input name="user[firstname]" type="text" class="my-input" />
   <div class="error">Firstname is required.</div>
 </form>
 ```

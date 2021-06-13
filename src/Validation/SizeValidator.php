@@ -11,6 +11,7 @@
 
 namespace Avolutions\Validation;
 
+use Avolutions\Orm\Entity;
 use InvalidArgumentException;
 
 /**
@@ -24,19 +25,19 @@ use InvalidArgumentException;
 class SizeValidator extends AbstractValidator
 {
     /**
-     * @var int $size The exact size of the value.
+     * @var int|null $size The exact size of the value.
      */
-    private $size;
+    private ?int $size = null;
 
     /**
-     * @var int $min The minimum size (inclusive) for the value.
+     * @var int|null $min The minimum size (inclusive) for the value.
      */
-    private $min;
+    private ?int $min = null;
 
     /**
-     * @var int $max The maximum size (inclusive) for the value.
+     * @var int|null $max The maximum size (inclusive) for the value.
      */
-    private $max;
+    private ?int $max = null;
 
     /**
      * getSize
@@ -49,7 +50,7 @@ class SizeValidator extends AbstractValidator
      *
      * @return int The size of the value.
      */
-    private function getSize($value) {
+    private function getSize(mixed $value): int {
         if (is_numeric($value)) {
             return $value;
         } elseif (is_array($value)) {
@@ -65,10 +66,10 @@ class SizeValidator extends AbstractValidator
      * Set the passed options, property and Entity to internal properties.
      *
      * @param array $options An associative array with options.
-     * @param string $property The property of the Entity to validate.
-     * @param Entity $Entity The Entity to validate.
+     * @param string|null $property The property of the Entity to validate.
+     * @param Entity|null $Entity The Entity to validate.
      */
-    public function setOptions($options = [], $property = null, $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
         parent::setOptions($options, $property, $Entity);
 
         if (
@@ -113,7 +114,7 @@ class SizeValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid($value) {
+    public function isValid(mixed $value): bool {
         $size = $this->getSize($value);
 
         if (!is_null($this->size)) {

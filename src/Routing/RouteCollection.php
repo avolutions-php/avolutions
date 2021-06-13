@@ -29,28 +29,28 @@ class RouteCollection extends AbstractSingleton implements CollectionInterface
 {
 	use CollectionTrait;
 
-	/**
-	 * addRoute
-	 *
-	 * Adds an given Route object to the RouteCollection.
-	 *
-	 * @param Route $Route An Route object to add to the collection
-	 */
-    public function addRoute($Route)
+    /**
+     * addRoute
+     *
+     * Adds an given Route object to the RouteCollection.
+     *
+     * @param Route $Route An Route object to add to the collection
+     */
+    public function addRoute(Route $Route)
     {
 		$this->items[] = $Route;
 	}
 
-	/**
-	 * getAllByMethod
-	 *
-	 * Returns an array with all Routes of the RouteCollection filtered by the method.
-	 *
-	 * @param string $method Name of the method (GET|POST)
-	 *
-	 * @return array An array with all Routes of the RouteCollection filtered by the method
-	 */
-    public function getAllByMethod($method)
+    /**
+     * getAllByMethod
+     *
+     * Returns an array with all Routes of the RouteCollection filtered by the method.
+     *
+     * @param string $method Name of the method (GET|POST)
+     *
+     * @return array An array with all Routes of the RouteCollection filtered by the method
+     */
+    public function getAllByMethod(string $method): array
     {
 		return array_values(array_filter(
 			$this->items,

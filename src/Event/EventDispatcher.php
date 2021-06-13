@@ -11,7 +11,8 @@
 
 namespace Avolutions\Event;
 
-use Avolutions\Event\EntityEvent;
+use function is_callable;
+use const Avolutions\APP_LISTENER_NAMESPACE;
 
 /**
  * EventDispatcher class
@@ -30,7 +31,7 @@ class EventDispatcher
      *
      * @param Event $Event The Event to dispatch
      */
-    public static function dispatch($Event)
+    public static function dispatch(Event $Event)
     {
         if ($Event instanceof EntityEvent) {
             $entityName = $Event->Entity->getEntityName();
@@ -39,7 +40,7 @@ class EventDispatcher
 
             $callable = [$listener, $method];
 
-            if (\is_callable($callable)) {
+            if (is_callable($callable)) {
                 call_user_func($callable, $Event);
             }
 
@@ -53,7 +54,7 @@ class EventDispatcher
 
             $callable = [$Listener, $method];
 
-            if (\is_callable($callable)) {
+            if (is_callable($callable)) {
                 call_user_func($callable, $Event);
             }
         }

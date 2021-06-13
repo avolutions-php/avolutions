@@ -32,7 +32,7 @@ class UniqueValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid($value) {
+    public function isValid(mixed $value): bool {
         $EntityCollection = new EntityCollection($this->Entity->getEntityName());
         $exists = $EntityCollection->where($this->property.' = \''.$value.'\'')->getFirst();
 

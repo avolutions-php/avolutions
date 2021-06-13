@@ -11,6 +11,7 @@
 
 use PHPUnit\Framework\TestCase;
 
+use Avolutions\Config\Config;
 use Avolutions\Database\Column;
 use Avolutions\Database\ColumnType;
 use Avolutions\Database\Database;
@@ -20,9 +21,12 @@ class TableTest extends TestCase
 {
     public function setUp() : void
     {
+        $Config = Config::getInstance();
+        $Config->initialize();
+
         $Database = new Database();
 
-        $query = 'DROP TABLE `user`';
+        $query = 'DROP TABLE IF EXISTS `user`';
         $stmt = $Database->prepare($query);
 		$stmt->execute();
     }
@@ -30,7 +34,7 @@ class TableTest extends TestCase
     private function createUserTable()
     {
         $columns = array();
-        $columns[] = new Column('UserID', ColumnType::INT, 255, null, null, true, true);
+        $columns[] = new Column('UserID', ColumnType::INT, 255, null, Column::NOT_NULL, true, true);
         $columns[] = new Column('Firstname', ColumnType::VARCHAR, 255);
         $columns[] = new Column('Lastname', ColumnType::VARCHAR, 255);
         Table::create('user', $columns);

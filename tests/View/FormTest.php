@@ -313,7 +313,7 @@ class FormTest extends TestCase
         $inputWithoutAttributes = $Form->select($options);
         $inputWithAttributes = $Form->select($options, $attributes);
 
-        $this->assertEquals($inputWithoutAttributes, '<select><option value="0" selected>Zero</option><option value="1">One</option></select>');
+        $this->assertEquals($inputWithoutAttributes, '<select><option value="0">Zero</option><option value="1">One</option></select>');
         $this->assertEquals($inputWithAttributes, '<select name="myInput" class="a-css-class"><option value="0">Zero</option><option value="1" selected>One</option></select>');
     }
 }

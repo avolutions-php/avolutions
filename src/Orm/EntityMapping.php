@@ -11,6 +11,10 @@
 
 namespace Avolutions\Orm;
 
+use const Avolutions\APP_MAPPING_PATH;
+use const Avolutions\APP_MODEL_NAMESPACE;
+use const Avolutions\MAPPING;
+
 /**
  * EntityMapping class
  *
@@ -22,17 +26,17 @@ namespace Avolutions\Orm;
  */
 class EntityMapping
 {
-	/**
-	 * __construct
-	 *
-	 * Creates a new EntityMapping object for the given entity type and loads
-	 * the values from the entity mapping file.
-	 *
-	 * @param string $entity The name of the entity type.
-	 */
-    public function __construct($entity)
+    /**
+     * __construct
+     *
+     * Creates a new EntityMapping object for the given entity type and loads
+     * the values from the entity mapping file.
+     *
+     * @param string $entity The name of the entity type.
+     */
+    public function __construct(string $entity)
     {
-		$mapping = $this->loadMappingFile(APP_MAPPING_PATH.$entity.'Mapping.php');
+		$mapping = $this->loadMappingFile(APP_MAPPING_PATH.$entity.MAPPING.'.php');
 
 		foreach ($mapping as $key => $value) {
             // Set default values
@@ -69,18 +73,18 @@ class EntityMapping
         }
 	}
 
-	/**
-	 * loadMappingFile
-	 *
-	 * Loads the given mapping file and return the content (array) or an empty array
-	 * if the file can not be found.
-	 *
-	 * @param string $mappingFile Complete name including the path of the mapping file.
-	 *
-	 * @return array An array with the loaded mapping values or an empty array if
-     *				 file can not be found.
-	 */
-    private function loadMappingFile($mappingFile)
+    /**
+     * loadMappingFile
+     *
+     * Loads the given mapping file and return the content (array) or an empty array
+     * if the file can not be found.
+     *
+     * @param string $mappingFile Complete name including the path of the mapping file.
+     *
+     * @return array An array with the loaded mapping values or an empty array if
+     *                 file can not be found.
+     */
+    private function loadMappingFile(string $mappingFile): array
     {
 		if (file_exists($mappingFile)) {
 			return require $mappingFile;
@@ -96,7 +100,7 @@ class EntityMapping
      *
      * @return array An array with all Entity fields not hidden in forms.
 	 */
-    public function getFormFields()
+    public function getFormFields(): array
     {
         return array_filter(get_object_vars($this), function($field) {
             return isset($field['form']['hidden']) ? !$field['form']['hidden'] : true;

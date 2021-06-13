@@ -13,6 +13,9 @@ namespace Avolutions\Http;
 
 use Avolutions\Routing\Router;
 
+use const Avolutions\APP_CONTROLLER_NAMESPACE;
+use const Avolutions\CONTROLLER;
+
 /**
  * Request class
  *
@@ -27,17 +30,17 @@ class Request
 	/**
 	 * @var string $uri The uri of the request.
 	 */
-	public $uri;
+	public string $uri;
 
 	/**
 	 * @var string $method The method of the request.
 	 */
-    public $method;
+    public string $method;
 
 	/**
 	 * @var array $parameters The variables from $_REQUEST.
 	 */
-	public $parameters = [];
+	public array $parameters = [];
 
 	/**
 	 * __construct
@@ -67,7 +70,7 @@ class Request
     {
 		$MatchedRoute = Router::findRoute($this->uri, $this->method);
 
-		$fullControllerName = APP_CONTROLLER_NAMESPACE.ucfirst($MatchedRoute->controllerName).'Controller';
+		$fullControllerName = APP_CONTROLLER_NAMESPACE.ucfirst($MatchedRoute->controllerName).CONTROLLER;
 		$Controller = new $fullControllerName();
 
         $fullActionName = $MatchedRoute->actionName.'Action';

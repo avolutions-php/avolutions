@@ -18,6 +18,8 @@ use Exception;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
+use const Avolutions\APP_TRANSLATION_PATH;
+
 /**
  * Translation class
  *
@@ -37,13 +39,12 @@ class Translation extends ConfigFileLoader
      *
      * @param string $key The key of the translation string.
      * @param array $params An array with values to replace the placeholders in translation.
-     * @param string $language The language in which the translation should be loaded.
+     * @param string|null $language The language in which the translation should be loaded.
      *
+     * @return string The config value
      * @throws Exception
-     *
-     * @return mixed The config value
      */
-    public static function getTranslation($key, $params = [], $language = null)
+    public static function getTranslation(string $key, array $params = [], ?string $language = null): string
     {
         if (is_null($language)) {
             if (!is_null(Session::get('language'))) {
@@ -71,11 +72,11 @@ class Translation extends ConfigFileLoader
      */
     public function initialize()
     {
-        if (!is_dir(TRANSLATION_PATH)) {
+        if (!is_dir(APP_TRANSLATION_PATH)) {
             return;
         }
 
-        $DirectoryIterator = new RecursiveDirectoryIterator(TRANSLATION_PATH, RecursiveDirectoryIterator::SKIP_DOTS);
+        $DirectoryIterator = new RecursiveDirectoryIterator(APP_TRANSLATION_PATH, RecursiveDirectoryIterator::SKIP_DOTS);
         $Iterator = new RecursiveIteratorIterator($DirectoryIterator);
 
         foreach ($Iterator as $translationFile) {

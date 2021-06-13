@@ -9,101 +9,50 @@
  * @link        http://avolutions.org
  */
 
-use Avolutions\Core\Autoloader;
-use Avolutions\Config\Config;
-use Avolutions\Database\Database;
-use Avolutions\Util\Translation;
-
-/**
- * Get start time
- */
-define('START_TIME', microtime(true));
+namespace Avolutions;
 
 /**
  * Define folders
  */
-define('APPLICATION', 'application');
-define('CONFIG', 'config');
-define('LOG', 'log');
-define('SRC', 'src');
-define('TRANSLATION', 'translation');
+define(__NAMESPACE__.'\\APPLICATION', 'application');
+define(__NAMESPACE__.'\\CONFIG', 'config');
+define(__NAMESPACE__.'\\LOG', 'log');
+define(__NAMESPACE__.'\\SRC', 'src');
+define(__NAMESPACE__.'\\TRANSLATION', 'translation');
 
-define('CONTROLLER', 'Controller');
-define('DATABASE', 'Database');
-define('LISTENER', 'Listener');
-define('MAPPING', 'Mapping');
-define('MODEL', 'Model');
-define('VALIDATION', 'Validation');
-define('VALIDATOR', 'Validator');
-define('VIEW', 'View');
-define('VIEWMODEL', 'Viewmodel');
+define(__NAMESPACE__.'\\CONTROLLER', 'Controller');
+define(__NAMESPACE__.'\\DATABASE', 'Database');
+define(__NAMESPACE__.'\\LISTENER', 'Listener');
+define(__NAMESPACE__.'\\MAPPING', 'Mapping');
+define(__NAMESPACE__.'\\MODEL', 'Model');
+define(__NAMESPACE__.'\\VALIDATION', 'Validation');
+define(__NAMESPACE__.'\\VALIDATOR', 'Validator');
+define(__NAMESPACE__.'\\VIEW', 'View');
+define(__NAMESPACE__.'\\VIEWMODEL', 'Viewmodel');
 
 /**
  * Define paths
  */
-define('BASE_PATH', realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR);
+define(__NAMESPACE__.'\\BASE_PATH', realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR);
 
-define('APPLICATION_PATH', BASE_PATH.APPLICATION.DIRECTORY_SEPARATOR);
-define('CONFIG_PATH', BASE_PATH.CONFIG.DIRECTORY_SEPARATOR);
-define('SRC_PATH', BASE_PATH.SRC.DIRECTORY_SEPARATOR);
-define('LOG_PATH', BASE_PATH.LOG.DIRECTORY_SEPARATOR);
-define('TRANSLATION_PATH', BASE_PATH.TRANSLATION.DIRECTORY_SEPARATOR);
-define('VALIDATION_PATH', BASE_PATH.SRC.DIRECTORY_SEPARATOR.VALIDATION.DIRECTORY_SEPARATOR);
+define(__NAMESPACE__.'\\CONFIG_PATH', BASE_PATH.CONFIG.DIRECTORY_SEPARATOR);
 
-define('APP_CONFIG_PATH', APPLICATION_PATH.ucfirst(CONFIG).DIRECTORY_SEPARATOR);
-define('APP_DATABASE_PATH', APPLICATION_PATH.DATABASE.DIRECTORY_SEPARATOR);
-define('APP_MAPPING_PATH', APPLICATION_PATH.MAPPING.DIRECTORY_SEPARATOR);
-define('APP_VIEW_PATH', APPLICATION_PATH.VIEW.DIRECTORY_SEPARATOR);
+define(__NAMESPACE__.'\\APPLICATION_PATH', BASE_PATH.APPLICATION.DIRECTORY_SEPARATOR);
+define(__NAMESPACE__.'\\APP_CONFIG_PATH', APPLICATION_PATH.ucfirst(CONFIG).DIRECTORY_SEPARATOR);
+define(__NAMESPACE__.'\\APP_DATABASE_PATH', APPLICATION_PATH.DATABASE.DIRECTORY_SEPARATOR);
+define(__NAMESPACE__.'\\APP_MAPPING_PATH', APPLICATION_PATH.MAPPING.DIRECTORY_SEPARATOR);
+define(__NAMESPACE__.'\\APP_TRANSLATION_PATH', APPLICATION_PATH.TRANSLATION.DIRECTORY_SEPARATOR);
+define(__NAMESPACE__.'\\APP_VIEW_PATH', APPLICATION_PATH.VIEW.DIRECTORY_SEPARATOR);
 
 /**
  * Define namespace
  */
-define('AVOLUTIONS_NAMESPACE', 'Avolutions'.'\\');
-define('VALIDATOR_NAMESPACE', AVOLUTIONS_NAMESPACE.VALIDATION.'\\');
+define(__NAMESPACE__.'\\AVOLUTIONS_NAMESPACE', 'Avolutions'.'\\');
+define(__NAMESPACE__.'\\VALIDATOR_NAMESPACE', AVOLUTIONS_NAMESPACE.VALIDATION.'\\');
 
-/**
- * Register the Autoloader
- */
-require_once SRC_PATH.'Core'.DIRECTORY_SEPARATOR.'Autoloader.php';
-Autoloader::register();
-
-/**
- * Set error handler
- */
-$ErrorHandler = new Avolutions\Core\ErrorHandler();
-set_error_handler([$ErrorHandler, 'handleError']);
-set_exception_handler([$ErrorHandler, 'handleException']);
-
-/**
- * Initialize configuration
- */
-$Config = Config::getInstance();
-$Config->initialize();
-
-/**
- * Initialize translation
- */
-$Translation = Translation::getInstance();
-$Translation->initialize();
-
-/**
- * Define application namespaces
- */
-define('APPLICATION_NAMESPACE', Config::get('application/namespace'));
-define('APP_CONTROLLER_NAMESPACE', APPLICATION_NAMESPACE.'\\'.CONTROLLER.'\\');
-define('APP_DATABASE_NAMESPACE', APPLICATION_NAMESPACE.'\\'.DATABASE.'\\');
-define('APP_LISTENER_NAMESPACE', APPLICATION_NAMESPACE.'\\'.LISTENER.'\\');
-define('APP_MODEL_NAMESPACE', APPLICATION_NAMESPACE.'\\'.MODEL.'\\');
-define('APP_VALIDATOR_NAMESPACE', APPLICATION_NAMESPACE.'\\'.VALIDATION.'\\');
-
-/**
- * Migrate the Database
- */
-if (Config::get('database/migrateOnAppStart')) {
-	Database::migrate();
-}
-
-/**
- * Include helper
- */
-require_once SRC_PATH.'Util'.DIRECTORY_SEPARATOR.'helper.php';
+define(__NAMESPACE__.'\\APPLICATION_NAMESPACE', 'Application'.'\\');
+define(__NAMESPACE__.'\\APP_CONTROLLER_NAMESPACE', APPLICATION_NAMESPACE.CONTROLLER.'\\');
+define(__NAMESPACE__.'\\APP_DATABASE_NAMESPACE', APPLICATION_NAMESPACE.DATABASE.'\\');
+define(__NAMESPACE__.'\\APP_LISTENER_NAMESPACE', APPLICATION_NAMESPACE.LISTENER.'\\');
+define(__NAMESPACE__.'\\APP_MODEL_NAMESPACE', APPLICATION_NAMESPACE.MODEL.'\\');
+define(__NAMESPACE__.'\\APP_VALIDATOR_NAMESPACE', APPLICATION_NAMESPACE.VALIDATION.'\\');

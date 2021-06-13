@@ -13,6 +13,7 @@ namespace Avolutions\View;
 
 use Avolutions\Orm\Entity;
 use Avolutions\Orm\EntityConfiguration;
+use Avolutions\Orm\EntityMapping;
 
 /**
  * Form class
@@ -25,40 +26,40 @@ use Avolutions\Orm\EntityConfiguration;
 class Form
 {
     /**
-     * @var Entity $Entity The Entity context of the form.
+     * @var Entity|null $Entity The Entity context of the form.
      */
-    private $Entity = null;
+    private ?Entity $Entity = null;
 
     /**
-     * @var EntityConfiguration $EntityConfiguration The configuration of the Entity.
+     * @var EntityConfiguration|null $EntityConfiguration The configuration of the Entity.
      */
-    private $EntityConfiguration = null;
+    private ?EntityConfiguration $EntityConfiguration = null;
 
     /**
-     * @var EntityMapping $EntityMapping The mapping of the Entity.
+     * @var EntityMapping|null $EntityMapping The mapping of the Entity.
      */
-    private $EntityMapping = null;
+    private ?EntityMapping $EntityMapping = null;
 
     /**
-     * @var string $entityName The name of the Entity.
+     * @var string|null $entityName The name of the Entity.
      */
-    private $entityName = null;
+    private ?string $entityName = null;
 
     /**
      * @var array $errors Validation error messages.
      */
-    private $errors = [];
+    private array $errors = [];
 
     /**
-	 * __construct
-	 *
-	 * Creates a new Form instance. If a Entity is given the method loads
+     * __construct
+     *
+     * Creates a new Form instance. If a Entity is given the method loads
      * the EntityConfiguration and EntityMapping automatically.
      *
-     * @param Entity $Entity The Entity context of the form.
+     * @param Entity|null $Entity $Entity The Entity context of the form.
      * @param array $errors Validation error messages.
-	 */
-    public function __construct($Entity = null, $errors = [])
+     */
+    public function __construct(?Entity $Entity = null, array $errors = [])
     {
         if ($Entity instanceof Entity) {
             $this->Entity = $Entity;
@@ -74,24 +75,23 @@ class Form
     }
 
     /**
-	 * inputFor
-	 *
-	 * Creates a HTML input element for the given Entity field depending on
+     * inputFor
+     *
+     * Creates a HTML input element for the given Entity field depending on
      * the Mapping of this field.
      *
      * @param string $fieldName The field of the Entity.
+     * @param array $attributes The attributes for the input element.
      * @param bool $showLabel Indicates if a label should be generated or not.
      *
      * @return string A HTML input element for the field.
-	 */
-    public function inputFor($fieldName, $showLabel = true)
+     */
+    public function inputFor(string $fieldName, array $attributes = [], bool $showLabel = true): string
     {
         $input = '';
 
-        $attributes = [
-            'name' => lcfirst($this->entityName).'['.$fieldName.']',
-            'value' => $this->Entity->$fieldName
-        ];
+        $attributes['name'] = lcfirst($this->entityName).'['.$fieldName.']';
+        $attributes['value'] = $this->Entity->$fieldName;
 
         $inputType = $this->EntityMapping->$fieldName['form']['type'];
 
@@ -124,15 +124,15 @@ class Form
     }
 
     /**
-	 * error
-	 *
-	 * Creates a div with validation error message for an input field.
+     * error
+     *
+     * Creates a div with validation error message for an input field.
      *
      * @param array $messages The error messages to display.
      *
      * @return string A div with error message.
      */
-    public function error($messages)
+    public function error(array $messages): string
     {
         $error = '';
 
@@ -144,16 +144,16 @@ class Form
     }
 
     /**
-	 * labelFor
-	 *
-	 * Creates a HTML label element for the given Entity field depending on
+     * labelFor
+     *
+     * Creates a HTML label element for the given Entity field depending on
      * the Mapping for this field.
      *
      * @param string $fieldName The field of the Entity.
      *
      * @return string A HTML label element depending for the field.
      */
-    public function labelFor($fieldName)
+    public function labelFor(string $fieldName): string
     {
         $label = $this->EntityMapping->$fieldName['form']['label'] ?? $fieldName;
 
@@ -171,7 +171,7 @@ class Form
      *
      * @return string A HTML form for the Entity.
 	 */
-    public function generate($formAttributes, $submitButton = true)
+    public function generate(array $formAttributes = [], bool $submitButton = true): string
     {
         $formFields = $this->EntityMapping->getFormFields();
 
@@ -196,7 +196,7 @@ class Form
      *
      * @return string An opening HTML form tag.
 	 */
-    public function open($attributes = [])
+    public function open(array $attributes = []): string
     {
         $attributesAsString = self::getAttributesAsString($attributes);
 
@@ -210,7 +210,7 @@ class Form
      *
      * @return string A closing HTML form tag.
 	 */
-    public function close()
+    public function close(): string
     {
         return '</form>';
     }
@@ -224,7 +224,7 @@ class Form
      *
      * @return string A HTML input element of type checkbox.
 	 */
-    public function checkbox($attributes = [])
+    public function checkbox(array $attributes = []): string
     {
         return $this->input('checkbox', $attributes);
     }
@@ -238,7 +238,7 @@ class Form
      *
      * @return string A HTML input element of type color.
 	 */
-    public function color($attributes = [])
+    public function color(array $attributes = []): string
     {
         return $this->input('color', $attributes);
     }
@@ -252,7 +252,7 @@ class Form
      *
      * @return string A HTML input element of type date.
 	 */
-    public function date($attributes = [])
+    public function date(array $attributes = []): string
     {
         return $this->input('date', $attributes);
     }
@@ -266,7 +266,7 @@ class Form
      *
      * @return string A HTML input element of type datetime-local.
 	 */
-    public function datetime($attributes = [])
+    public function datetime(array $attributes = []): string
     {
         return $this->input('datetime-local', $attributes);
     }
@@ -280,7 +280,7 @@ class Form
      *
      * @return string A HTML input element of type email.
 	 */
-    public function email($attributes = [])
+    public function email(array $attributes = []): string
     {
         return $this->input('email', $attributes);
     }
@@ -294,7 +294,7 @@ class Form
      *
      * @return string A HTML input element of type file.
 	 */
-    public function file($attributes = [])
+    public function file(array $attributes = []): string
     {
         return $this->input('file', $attributes);
     }
@@ -308,7 +308,7 @@ class Form
      *
      * @return string A HTML input element of type hidden.
 	 */
-    public function hidden($attributes = [])
+    public function hidden(array $attributes = []): string
     {
         return $this->input('hidden', $attributes);
     }
@@ -322,22 +322,22 @@ class Form
      *
      * @return string A HTML input element of type image.
 	 */
-    public function image($attributes = [])
+    public function image(array $attributes = []): string
     {
         return $this->input('image', $attributes);
     }
 
     /**
-	 * label
-	 *
-	 * Creates a HTML label element.
+     * label
+     *
+     * Creates a HTML label element.
      *
      * @param string $text The text of the label element.
      * @param array $attributes The attributes for the label tag.
      *
      * @return string A HTML input element of type image.
-	 */
-    public function label($text, $attributes = [])
+     */
+    public function label(string $text, array $attributes = []): string
     {
         $attributesAsString = self::getAttributesAsString($attributes);
 
@@ -353,7 +353,7 @@ class Form
      *
      * @return string A HTML input element of type month.
 	 */
-    public function month($attributes = [])
+    public function month(array $attributes = []): string
     {
         return $this->input('month', $attributes);
     }
@@ -367,7 +367,7 @@ class Form
      *
      * @return string A HTML input element of type number.
 	 */
-    public function number($attributes = [])
+    public function number(array $attributes = []): string
     {
         return $this->input('number', $attributes);
     }
@@ -381,7 +381,7 @@ class Form
      *
      * @return string A HTML input element of type password.
 	 */
-    public function password($attributes = [])
+    public function password(array $attributes = []): string
     {
         return $this->input('password', $attributes);
     }
@@ -395,7 +395,7 @@ class Form
      *
      * @return string A HTML input element of type radio.
 	 */
-    public function radio($attributes = [])
+    public function radio(array $attributes = []): string
     {
         return $this->input('radio', $attributes);
     }
@@ -409,7 +409,7 @@ class Form
      *
      * @return string A HTML input element of type range.
 	 */
-    public function range($attributes = [])
+    public function range(array $attributes = []): string
     {
         return $this->input('range', $attributes);
     }
@@ -423,7 +423,7 @@ class Form
      *
      * @return string A HTML input element of type reset.
 	 */
-    public function reset($attributes = [])
+    public function reset(array $attributes = []): string
     {
         return $this->input('reset', $attributes);
     }
@@ -437,7 +437,7 @@ class Form
      *
      * @return string A HTML input element of type search.
 	 */
-    public function search($attributes = [])
+    public function search(array $attributes = []): string
     {
         return $this->input('search', $attributes);
     }
@@ -451,7 +451,7 @@ class Form
      *
      * @return string A HTML input element of type submit.
 	 */
-    public function submit($attributes = [])
+    public function submit(array $attributes = []): string
     {
         return $this->input('submit', $attributes);
     }
@@ -465,7 +465,7 @@ class Form
      *
      * @return string A HTML input element of type tel.
 	 */
-    public function tel($attributes = [])
+    public function tel(array $attributes = []): string
     {
         return $this->input('tel', $attributes);
     }
@@ -479,7 +479,7 @@ class Form
      *
      * @return string A HTML input element of type text.
 	 */
-    public function text($attributes = [])
+    public function text(array $attributes = []): string
     {
         return $this->input('text', $attributes);
     }
@@ -493,7 +493,7 @@ class Form
      *
      * @return string A HTML input element of type time.
 	 */
-    public function time($attributes = [])
+    public function time(array $attributes = []): string
     {
         return $this->input('time', $attributes);
     }
@@ -507,7 +507,7 @@ class Form
      *
      * @return string A HTML input element of type url.
 	 */
-    public function url($attributes = [])
+    public function url(array $attributes = []): string
     {
         return $this->input('url', $attributes);
     }
@@ -521,22 +521,22 @@ class Form
      *
      * @return string A HTML input element of type week.
 	 */
-    public function week($attributes = [])
+    public function week(array $attributes = []): string
     {
         return $this->input('week', $attributes);
     }
 
     /**
-	 * input
-	 *
-	 * Creates a HTML input element.
+     * input
+     *
+     * Creates a HTML input element.
      *
      * @param string $type The type for the input tag.
      * @param array $attributes The attributes for the input tag.
      *
      * @return string A HTML input element of given type.
-	 */
-    public function input($type, $attributes = [])
+     */
+    public function input(string $type, array $attributes = []): string
     {
         $attributes['type'] = $type;
         $attributesAsString = self::getAttributesAsString($attributes);
@@ -553,7 +553,7 @@ class Form
      *
      * @return string A HTML element of type button.
 	 */
-    public function button($attributes = [])
+    public function button(array $attributes = []): string
     {
         $value = $attributes['value'] ?? null;
         unset($attributes['value']); // To not render it to the select tag
@@ -572,7 +572,7 @@ class Form
      *
      * @return string A HTML element of type textarea.
 	 */
-    public function textarea($attributes = [])
+    public function textarea(array $attributes = []): string
     {
         $value = $attributes['value'] ?? null;
         unset($attributes['value']); // To not render it to the select tag
@@ -592,7 +592,7 @@ class Form
      *
      * @return string A HTML element of type select.
 	 */
-    public function select($options = [], $attributes = [])
+    public function select(array $options = [], array $attributes = []): string
     {
         $selectedValue = $attributes['value'] ?? null;
         unset($attributes['value']); // To not render it to the select tag
@@ -608,17 +608,17 @@ class Form
     }
 
     /**
-	 * option
-	 *
-	 * Creates a HTML option element.
+     * option
+     *
+     * Creates a HTML option element.
      *
      * @param string $value The value of the option tag.
      * @param string $text The text of the option element.
-     * @param string $selectedValue The selected value of the option element.
+     * @param string|null $selectedValue The selected value of the option element.
      *
      * @return string A HTML element of type option.
-	 */
-    private function option($value, $text, $selectedValue = null)
+     */
+    private function option(string $value, string $text, ?string $selectedValue = null): string
     {
         $selected = $value == $selectedValue ? ' selected' : '';
 
@@ -626,15 +626,15 @@ class Form
     }
 
     /**
-	 * getAttributesAsString
-	 *
-	 * Returns the attributes as a string in the format attribute="value"
+     * getAttributesAsString
+     *
+     * Returns the attributes as a string in the format attribute="value"
      *
      * @param array $attributes The attributes for the select tag.
      *
      * @return string The attributes as a string.
-	 */
-    private static function getAttributesAsString($attributes)
+     */
+    private static function getAttributesAsString(array $attributes): string
     {
         $attributesAsString = '';
 

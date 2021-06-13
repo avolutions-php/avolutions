@@ -11,6 +11,7 @@
 
 namespace Avolutions\Validation;
 
+use Avolutions\Orm\Entity;
 use InvalidArgumentException;
 
 /**
@@ -26,12 +27,12 @@ class RegexValidator extends AbstractValidator
     /**
      * @var string $pattern The regular expression to validate.
      */
-    private $pattern;
+    private string $pattern;
 
     /**
      * @var bool $not Inverts the result of the validation.
      */
-    private $not = false;
+    private bool $not = false;
 
     /**
      * setOptions
@@ -39,10 +40,10 @@ class RegexValidator extends AbstractValidator
      * Set the passed options, property and Entity to internal properties.
      *
      * @param array $options An associative array with options.
-     * @param string $property The property of the Entity to validate.
-     * @param Entity $Entity The Entity to validate.
+     * @param string|null $property The property of the Entity to validate.
+     * @param Entity|null $Entity The Entity to validate.
      */
-    public function setOptions($options = [], $property = null, $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
         parent::setOptions($options, $property, $Entity);
 
         if (!isset($options['pattern']) || !is_string($options['pattern'])) {
@@ -69,7 +70,7 @@ class RegexValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid($value) {
+    public function isValid(mixed $value): bool {
         if ($this->not) {
             return !preg_match($this->pattern, $value);
         } else {

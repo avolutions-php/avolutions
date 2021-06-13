@@ -21,17 +21,17 @@ namespace Avolutions\Routing;
  */
 class Router
 {
-	/**
-	 * findRoute
-	 *
-	 * Finds the matching Route from the RouteCollection by the passed uri/path and method.
-	 *
-	 * @param string $path The requested uri/path
-	 * @param string $method The method of the request
-	 *
-	 * @return object The matched Route object with final controller-/action names and parameter values.
-	 */
-    public static function findRoute($path, $method)
+    /**
+     * findRoute
+     *
+     * Finds the matching Route from the RouteCollection by the passed uri/path and method.
+     *
+     * @param string $path The requested uri/path
+     * @param string $method The method of the request
+     *
+     * @return Route|null The matched Route object with final controller-/action names and parameter values.
+     */
+    public static function findRoute(string $path, string $method): ?Route
     {
 		$RouteCollection = RouteCollection::getInstance();
 		$MatchedRoute = null;
@@ -65,16 +65,16 @@ class Router
 	}
 
 
-	/**
-	 * getRegularExpression
-	 *
-	 * Returns the regular expression to match the given Route.
-	 *
-	 * @param object $Route The Route object to build the expression for.
-	 *
-	 * @return string The regular expression to match the url of the Route.
-	 */
-    private static function getRegularExpression($Route)
+    /**
+     * getRegularExpression
+     *
+     * Returns the regular expression to match the given Route.
+     *
+     * @param Route $Route The Route object to build the expression for.
+     *
+     * @return string The regular expression to match the url of the Route.
+     */
+    private static function getRegularExpression(Route $Route): string
     {
 		$startDelimiter = '/^';
 		$endDelimiter = '$/';
@@ -106,18 +106,18 @@ class Router
 	}
 
 
-	/**
-	 * getKeywordValue
-	 *
-	 * Returns the value of a given keyword from the url of the matched Route.
-	 *
-	 * @param array $matches Array with the exploded url of the request.
-	 * @param array $explodedUrl Array with the exploded url of the route.
-	 * @param string $keyword Name of the keyword.
-	 *
-	 * @return mixed The value of the keyword from the url or false if nothing found.
-	 */
-    private static function getKeywordValue($matches, $explodedUrl, $keyword)
+    /**
+     * getKeywordValue
+     *
+     * Returns the value of a given keyword from the url of the matched Route.
+     *
+     * @param array $matches Array with the exploded url of the request.
+     * @param array $explodedUrl Array with the exploded url of the route.
+     * @param string $keyword Name of the keyword.
+     *
+     * @return mixed The value of the keyword from the url or false if nothing found.
+     */
+    private static function getKeywordValue(array $matches, array $explodedUrl, string $keyword): mixed
     {
 		$keywordIndex = array_search('<'.$keyword.'>', $explodedUrl);
 
@@ -125,18 +125,18 @@ class Router
 	}
 
 
-	/**
-	 * getParameterValues
-	 *
-	 * Returns an array with all parameters values from the url of the matched Route.
-	 *
-	 * @param array $matches Array with the exploded url of the request.
-	 * @param array $explodedUrl Array with the exploded url of the route.
-	 * @param array $parameters Array with the parameters of the route.
-	 *
-	 * @return array An array with all parameter values.
-	 */
-    private static function getParameterValues($matches, $explodedUrl, $parameters)
+    /**
+     * getParameterValues
+     *
+     * Returns an array with all parameters values from the url of the matched Route.
+     *
+     * @param array $matches Array with the exploded url of the request.
+     * @param array $explodedUrl Array with the exploded url of the route.
+     * @param array $parameters Array with the parameters of the route.
+     *
+     * @return array An array with all parameter values.
+     */
+    private static function getParameterValues(array $matches, array $explodedUrl, array $parameters): array
     {
 		$parameterValues = [];
 
