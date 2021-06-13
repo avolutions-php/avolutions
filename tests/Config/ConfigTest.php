@@ -45,7 +45,7 @@ class ConfigTest extends TestCase
     {
         $this->assertEquals(LogLevel::DEBUG, Config::get('logger/loglevel'));
         $this->assertEquals('logfile.log', Config::get('logger/logfile'));
-        $this->assertEquals('log/', Config::get('logger/logpath'));
+        $this->assertEquals('./log/', Config::get('logger/logpath'));
         $this->assertEquals('Y-m-d H:i:s.v', Config::get('logger/datetimeFormat'));
     }
 
