@@ -11,6 +11,8 @@
 
 namespace Avolutions\Http;
 
+use const PHP_SESSION_ACTIVE;
+
 /**
  * Session class
  *
@@ -22,13 +24,13 @@ namespace Avolutions\Http;
 class Session
 {
     /**
-	 * delete
-	 *
-	 * Deletes a session value by its key.
+     * delete
+     *
+     * Deletes a session value by its key.
      *
      * @param string $key The key of the session value.
-	 */
-    public static function delete($key)
+     */
+    public static function delete(string $key)
     {
         Session::start();
 
@@ -49,15 +51,15 @@ class Session
     }
 
     /**
-	 * get
-	 *
-	 * Returns a session value by its key.
+     * get
+     *
+     * Returns a session value by its key.
      *
      * @param string $key The key of the session value.
      *
      * @return mixed The value of the session entry.
-	 */
-    public static function get($key)
+     */
+    public static function get(string $key): mixed
     {
         Session::start();
 
@@ -65,14 +67,14 @@ class Session
     }
 
     /**
-	 * set
-	 *
-	 * Set a new session value.
+     * set
+     *
+     * Set a new session value.
      *
      * @param string $key The key of the session value.
      * @param mixed $value The value to store.
-	 */
-    public static function set($key, $value)
+     */
+    public static function set(string $key, mixed $value)
     {
         Session::start();
 
@@ -99,8 +101,8 @@ class Session
      *
      * @return bool If the session is already started.
 	 */
-    public static function isStarted()
+    public static function isStarted(): bool
     {
-        return session_status() === \PHP_SESSION_ACTIVE;
+        return session_status() === PHP_SESSION_ACTIVE;
     }
 }

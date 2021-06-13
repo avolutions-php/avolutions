@@ -72,17 +72,17 @@ class ColumnType
 	const BOOLEAN = 'BOOLEAN';
 
 	/**
-	 * @var string DATE A date value in CCYY-MM-DD format
+	 * @var string DATE A date value in YYYY-MM-DD format
 	 */
     const DATE = 'DATE';
 
 	/**
-	 * @var string DATETIME	A date and time value in CCYY-MM-DD hh:mm:ss format
+	 * @var string DATETIME	A date and time value in YYYY-MM-DD hh:mm:ss format
 	 */
     const DATETIME = 'DATETIME';
 
 	/**
-	 * @var string TIMESTAMP A timestamp value in CCYY-MM-DD hh:mm:ss format
+	 * @var string TIMESTAMP A timestamp value in YYYY-MM-DD hh:mm:ss format
 	 */
     const TIMESTAMP = 'TIMESTAMP';
 
@@ -92,12 +92,12 @@ class ColumnType
     const TIME = 'TIME';
 
 	/**
-	 * @var string YEAR A year value in CCYY or YY format
+	 * @var string YEAR A year value in YYYY or YY format
 	 */
 	const YEAR = 'YEAR';
 
 	/**
-	 * @var string CHAR A fixed-length nonbinary (character) string
+	 * @var string CHAR A fixed-length non binary (character) string
 	 */
     const CHAR = 'CHAR';
 

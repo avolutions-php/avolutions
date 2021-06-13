@@ -26,16 +26,16 @@ class Response
 	/**
 	 * @var string $body The content of the response.
 	 */
-	public $body;
+	public string $body;
 
-	/**
-	 * setBody
-	 *
-	 * Fills the body of the Response with the passed value.
-	 *
-	 * @param string $value The value for the body
-	 */
-    public function setBody($value)
+    /**
+     * setBody
+     *
+     * Fills the body of the Response with the passed value.
+     *
+     * @param string $value The value for the body
+     */
+    public function setBody(string $value)
     {
 		$this->body = $value;
 	}

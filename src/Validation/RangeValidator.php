@@ -11,6 +11,7 @@
 
 namespace Avolutions\Validation;
 
+use Avolutions\Orm\Entity;
 use InvalidArgumentException;
 
 /**
@@ -26,17 +27,17 @@ class RangeValidator extends AbstractValidator
     /**
      * @var array $range A static array to check the value against.
      */
-    private $range = [];
+    private array $range = [];
 
     /**
      * @var bool $not Inverts the result of the validation.
      */
-    private $not = false;
+    private bool $not = false;
 
     /**
      * @var bool $strict Indicates if data type should be considered.
      */
-    private $strict = false;
+    private bool $strict = false;
 
     /**
      * setOptions
@@ -44,10 +45,10 @@ class RangeValidator extends AbstractValidator
      * Set the passed options, property and Entity to internal properties.
      *
      * @param array $options An associative array with options.
-     * @param string $property The property of the Entity to validate.
-     * @param Entity $Entity The Entity to validate.
+     * @param string|null $property The property of the Entity to validate.
+     * @param Entity|null $Entity The Entity to validate.
      */
-    public function setOptions($options = [], $property = null, $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
         parent::setOptions($options, $property, $Entity);
 
         if (isset($options['range'])) {
@@ -93,7 +94,7 @@ class RangeValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid($value) {
+    public function isValid(mixed $value): bool {
         if ($this->not) {
             return !in_array($value, $this->range, $this->strict);
         } else {

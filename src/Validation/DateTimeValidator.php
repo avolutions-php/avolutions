@@ -12,6 +12,7 @@
 namespace Avolutions\Validation;
 
 use Avolutions\Config\Config;
+use Avolutions\Orm\Entity;
 use DateTime;
 use InvalidArgumentException;
 use function implode;
@@ -29,12 +30,12 @@ class DateTimeValidator extends AbstractValidator
     /**
      * @var string $format The date/time format to check against.
      */
-    private $format;
+    private string $format;
 
     /**
      * @var string $type Predefined type to check against.
      */
-    private $type = 'datetime';
+    private string $type = 'datetime';
 
     /**
      * setOptions
@@ -42,10 +43,10 @@ class DateTimeValidator extends AbstractValidator
      * Set the passed options, property and Entity to internal properties.
      *
      * @param array $options An associative array with options.
-     * @param string $property The property of the Entity to validate.
-     * @param Entity $Entity The Entity to validate.
+     * @param string|null $property The property of the Entity to validate.
+     * @param Entity|null $Entity The Entity to validate.
      */
-    public function setOptions($options = [], $property = null, $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
         parent::setOptions($options, $property, $Entity);
 
         if (isset($options['type'])) {
@@ -89,7 +90,7 @@ class DateTimeValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid($value) {
+    public function isValid(mixed $value): bool {
         $DateTime = DateTime::createFromFormat($this->format, $value);
 
         return $DateTime && $DateTime->format($this->format) === $value;

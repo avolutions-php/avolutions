@@ -53,10 +53,10 @@ class Config extends ConfigFileLoader
      *
      * Set the value for the given config key. The key is separated by slashes (/).
      *
-     * @param $key The config key (slash separated).
-     * @param $value The value to set.
+     * @param string $key The config key (slash separated).
+     * @param mixed $value The value to set.
      */
-	public static function set($key, $value) {
+	public static function set(string $key, mixed $value) {
         $identifiers = explode('/', $key);
         $values = &self::$values;
 

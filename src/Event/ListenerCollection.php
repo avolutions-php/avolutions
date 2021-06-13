@@ -27,29 +27,29 @@ class ListenerCollection extends AbstractSingleton implements CollectionInterfac
 {
 	use CollectionTrait;
 
-	/**
-	 * addListener
-	 *
-	 * Adds a listener for an event the ListenerCollection.
-	 *
-	 * @param string $eventName The name of the event.
+    /**
+     * addListener
+     *
+     * Adds a listener for an event the ListenerCollection.
+     *
+     * @param string $eventName The name of the event.
      * @param callable $listener A callable containing the Listener class and method.
-	 */
-    public function addListener($eventName, $listener)
+     */
+    public function addListener(string $eventName, callable $listener)
     {
 		$this->items[$eventName][] = $listener;
     }
 
     /**
-	 * getListener
-	 *
+     * getListener
+     *
      * Returns a callable listener for the given event from the ListenerCollection.
      *
-	 * @param string $eventName The name of the event.
+     * @param string $eventName The name of the event.
      *
-     * @return callable The listener callable.
-	 */
-    public function getListener($eventName)
+     * @return callable|array The listener callable.
+     */
+    public function getListener(string $eventName): callable|array
     {
         return $this->items[$eventName] ?? [];
     }

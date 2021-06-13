@@ -58,7 +58,7 @@ class RouteTest extends TestCase
                 'optional' => false
             ],
         ];
-        $Route = new Route('', null, $parameters);
+        $Route = new Route('', [], $parameters);
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
         $this->assertIsArray($Route->parameters);

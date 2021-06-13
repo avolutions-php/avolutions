@@ -11,6 +11,7 @@
 
 namespace Avolutions\Validation;
 
+use Avolutions\Orm\Entity;
 use DateTime;
 use InvalidArgumentException;
 use function implode;
@@ -28,7 +29,7 @@ class TypeValidator extends AbstractValidator
     /**
      * @var string $type The data type to compare.
      */
-    private $type;
+    private string $type;
 
     /**
      * setOptions
@@ -36,10 +37,10 @@ class TypeValidator extends AbstractValidator
      * Set the passed options, property and Entity to internal properties.
      *
      * @param array $options An associative array with options.
-     * @param string $property The property of the Entity to validate.
-     * @param Entity $Entity The Entity to validate.
+     * @param string|null $property The property of the Entity to validate.
+     * @param Entity|null $Entity The Entity to validate.
      */
-    public function setOptions($options = [], $property = null, $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
         parent::setOptions($options, $property, $Entity);
 
         $validTypes = ['int', 'integer', 'string', 'bool', 'boolean', 'array', 'datetime'];
@@ -62,7 +63,7 @@ class TypeValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid($value) {
+    public function isValid(mixed $value): bool {
         switch ($this->type) {
             case 'int':
             case 'integer':
