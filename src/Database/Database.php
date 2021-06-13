@@ -133,7 +133,7 @@ class Database extends \PDO
     /**
      * createMigrationTable
      *
-     * TODO
+     * Creates the table to store executed migrations.
      */
 	private static function createMigrationTable()
     {
