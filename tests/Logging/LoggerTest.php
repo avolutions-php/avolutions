@@ -22,6 +22,9 @@ class LoggerTest extends TestCase
 
     protected function setUp(): void
     {
+        $Config = Config::getInstance();
+        $Config->initialize();
+
         $this->logFile = Config::get("logger/logpath").Config::get("logger/logfile");
     }
 
