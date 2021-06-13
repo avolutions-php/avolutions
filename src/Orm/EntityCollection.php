@@ -308,7 +308,7 @@ class EntityCollection implements CollectionInterface
      *
      * @return EntityCollection $this
      */
-    public function orderBy(string $field, $descending = false): EntityCollection
+    public function orderBy(string $field, bool $descending = false): EntityCollection
     {
 		$this->orderByClause .= $this->EntityMapping->$field['column'];
 		if ($descending) {
