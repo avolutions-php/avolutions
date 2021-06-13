@@ -145,7 +145,7 @@ class Database extends PDO
 	private static function createMigrationTable()
     {
         $columns = [];
-        $columns[] = new Column('MigrationID', ColumnType::INT, 255, null, null, true, true);
+        $columns[] = new Column('MigrationID', ColumnType::INT, 255, null, Column::NOT_NULL, true, true);
         $columns[] = new Column('Version', ColumnType::BIGINT, 255);
         $columns[] = new Column('Name', ColumnType::VARCHAR, 255);
         $columns[] = new Column('CreateDate', ColumnType::DATETIME, null, Column::CURRENT_TIMESTAMP);
