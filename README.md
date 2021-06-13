@@ -10,7 +10,7 @@
 ## About
 AVOLUTIONS is just another open source PHP framework. 
 
-* Current version: 0.6.0-alpha
+* Current version: 0.7.0-alpha
 * [Website](https://avolutions.org)
 * [Getting started](https://avolutions.org/guide)
 * [API Documentation](https://avolutions.org/api)
