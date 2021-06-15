@@ -23,7 +23,9 @@ namespace Avolutions\Database;
 abstract class AbstractMigration implements MigrationInterface
 {
     /**
-	 * @var int $version The version of the migration
+     * The version of the migration
+     *
+	 * @var int $version
 	 */
     public int $version;
 }

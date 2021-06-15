@@ -28,12 +28,16 @@ use function implode;
 class DateTimeValidator extends AbstractValidator
 {
     /**
-     * @var string $format The date/time format to check against.
+     * The date/time format to check against.
+     *
+     * @var string $format
      */
     private string $format;
 
     /**
-     * @var string $type Predefined type to check against.
+     * Predefined type to check against.
+     *
+     * @var string $type
      */
     private string $type = 'datetime';
 

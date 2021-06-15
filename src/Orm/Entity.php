@@ -35,27 +35,37 @@ use const Avolutions\VALIDATOR_NAMESPACE;
 class Entity
 {
 	/**
-	 * @var int $id The unique identifier of the entity.
+     * The unique identifier of the entity.
+     *
+	 * @var int $id
 	 */
 	public int $id;
 
 	/**
-	 * @var EntityConfiguration $EntityConfiguration The configuration of the entity.
+     * The configuration of the entity.
+     *
+	 * @var EntityConfiguration $EntityConfiguration
 	 */
 	private EntityConfiguration $EntityConfiguration;
 
 	/**
-	 * @var EntityMapping $EntityMapping The mapping of the entity.
+     * The mapping of the entity.
+     *
+	 * @var EntityMapping $EntityMapping
 	 */
     private EntityMapping $EntityMapping;
 
 	/**
-	 * @var Entity $EntityBeforeChange The Entity after initializing.
+     * The Entity after initializing.
+     *
+	 * @var Entity $EntityBeforeChange
 	 */
 	private Entity $EntityBeforeChange;
 
     /**
-     * @var array $errors Validation error messages.
+     * Validation error messages.
+     *
+     * @var array $errors
      */
     private array $errors = [];
 

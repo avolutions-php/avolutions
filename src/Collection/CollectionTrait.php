@@ -23,7 +23,10 @@ namespace Avolutions\Collection;
 trait CollectionTrait
 {
     /**
-	 * @var array $items The items of the Collection.
+     *
+     * The items of the Collection.
+     *
+	 * @var array $items
 	 */
 	public array $items = [];
 

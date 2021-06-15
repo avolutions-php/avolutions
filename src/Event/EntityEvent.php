@@ -24,17 +24,23 @@ use Avolutions\Orm\Entity;
 class EntityEvent extends Event
 {
     /**
-     * @var string $name The name of the Event.
+     * The name of the Event.
+     *
+     * @var string $name
      */
     protected string $name;
 
     /**
-     * @var Entity $Entity The Entity which dispatched the Event.
+     * The Entity which dispatched the Event.
+     *
+     * @var Entity $Entity
      */
     public Entity $Entity;
 
     /**
-     * @var Entity|null $EntityBeforeChange The Entity before the changes are made.
+     * The Entity before the changes are made.
+     *
+     * @var Entity|null $EntityBeforeChange
      */
     public ?Entity $EntityBeforeChange = null;
 

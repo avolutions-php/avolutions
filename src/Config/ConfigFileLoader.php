@@ -26,7 +26,9 @@ use OutOfBoundsException;
 class ConfigFileLoader extends AbstractSingleton
 {
 	/**
-	 * @var array $values An array containing all loaded configuration values
+     * An array containing all loaded configuration values
+     *
+	 * @var array $values
 	 */
 	protected static array $values = [];
 

@@ -23,22 +23,30 @@ namespace Avolutions\Orm;
 class EntityConfiguration
 {
 	/**
-	 * @var string $entity The name of the entity.
+     * The name of the entity.
+     *
+	 * @var string $entity
 	 */
 	private string $entity;
 
 	/**
-	 * @var string $table The name of the related database table.
+     * The name of the related database table.
+     *
+	 * @var string $table
 	 */
 	private string $table;
 
 	/**
-	 * @var string $idColumn The name of the ID column in the database table.
+     * The name of the ID column in the database table.
+     *
+	 * @var string $idColumn
 	 */
 	private string $idColumn;
 
 	/**
-	 * @var EntityMapping $mapping The mapping between the entity and the database table.
+     * The mapping between the entity and the database table.
+     *
+	 * @var EntityMapping $mapping
 	 */
 	private EntityMapping $Mapping;
 

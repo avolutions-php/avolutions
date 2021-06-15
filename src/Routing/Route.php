@@ -24,27 +24,37 @@ namespace Avolutions\Routing;
 class Route
 {
 	/**
-	 * @var string $url The url of the Route
+     * The url of the Route
+     *
+	 * @var string $url
 	 */
 	public string $url;
 
 	/**
-	 * @var string $method The method of the Route
+     * The method of the Route
+     *
+	 * @var string $method
 	 */
 	public string $method = 'GET';
 
 	/**
-	 * @var string $controllerName The name of the Controller
+     * The name of the Controller
+     *
+	 * @var string $controllerName
 	 */
 	public string $controllerName;
 
 	/**
-	 * @var string $actionName The name of the Controller action
+     * The name of the Controller action
+     *
+	 * @var string $actionName
 	 */
 	public string $actionName;
 
 	/**
-	 * @var array $parameters An array with all parameters and their options
+     * An array with all parameters and their options
+     *
+	 * @var array $parameters
 	 */
 	public array $parameters = [];
 

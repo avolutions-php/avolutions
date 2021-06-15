@@ -25,7 +25,9 @@ use Datetime;
 class Logger
 {
     /**
-	 * @var array $loglevels The loglevels in ascending order of priority.
+     * The loglevels in ascending order of priority.
+     *
+	 * @var array $loglevels
 	 */
     private static array $loglevels = [
         LogLevel::DEBUG,

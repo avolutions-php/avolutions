@@ -26,27 +26,37 @@ use Avolutions\Orm\EntityMapping;
 class Form
 {
     /**
-     * @var Entity|null $Entity The Entity context of the form.
+     * The Entity context of the form.
+     *
+     * @var Entity|null $Entity
      */
     private ?Entity $Entity = null;
 
     /**
-     * @var EntityConfiguration|null $EntityConfiguration The configuration of the Entity.
+     * The configuration of the Entity.
+     *
+     * @var EntityConfiguration|null $EntityConfiguration
      */
     private ?EntityConfiguration $EntityConfiguration = null;
 
     /**
-     * @var EntityMapping|null $EntityMapping The mapping of the Entity.
+     * The mapping of the Entity.
+     *
+     * @var EntityMapping|null $EntityMapping
      */
     private ?EntityMapping $EntityMapping = null;
 
     /**
-     * @var string|null $entityName The name of the Entity.
+     * The name of the Entity.
+     *
+     * @var string|null $entityName
      */
     private ?string $entityName = null;
 
     /**
-     * @var array $errors Validation error messages.
+     * Validation error messages.
+     *
+     * @var array $errors
      */
     private array $errors = [];
 

@@ -22,147 +22,205 @@ namespace Avolutions\Database;
 class ColumnType
 {
 	/**
-	 * @var string TINYINT A very small integer
+     * A very small integer
+     *
+	 * @var string TINYINT
 	 */
     const TINYINT = 'TINYINT';
 
 	/**
-	 * @var string SMALLINT A small integer
+     * A small integer
+     *
+	 * @var string SMALLINT
 	 */
     const SMALLINT = 'SMALLINT';
 
 	/**
-	 * @var string MEDIUMINT A medium-sized integer
+     * A medium-sized integer
+     *
+	 * @var string MEDIUMINT
 	 */
     const MEDIUMINT = 'MEDIUMINT';
 
 	/**
-	 * @var string INT A standard integer
+     * A standard integer
+     *
+	 * @var string INT
 	 */
     const INT = 'INT';
 
 	/**
-	 * @var string BIGINT A large integer
+     * A large integer
+     *
+	 * @var string BIGINT
 	 */
     const BIGINT = 'BIGINT';
 
 	/**
-	 * @var string DECIMAL A fixed-point number
+     * A fixed-point number
+     *
+	 * @var string DECIMAL
 	 */
     const DECIMAL = 'DECIMAL';
 
 	/**
-	 * @var string FLOAT A single-precision floating point number
+     * A single-precision floating point number
+     *
+	 * @var string FLOAT
 	 */
     const FLOAT = 'FLOAT';
 
 	/**
-	 * @var string DOUBLE A double-precision floating point number
+     * A double-precision floating point number
+     *
+	 * @var string DOUBLE
 	 */
     const DOUBLE = 'DOUBLE';
 
 	/**
-	 * @var string BIT A bit field
+     * A bit field
+     *
+	 * @var string BIT
 	 */
     const BIT = 'BIT';
 
 	/**
-	 * @var string $name A boolean field
+     * A boolean field
+     *
+	 * @var string $name
 	 */
 	const BOOLEAN = 'BOOLEAN';
 
 	/**
-	 * @var string DATE A date value in YYYY-MM-DD format
+     * A date value in YYYY-MM-DD format
+     *
+	 * @var string DATE
 	 */
     const DATE = 'DATE';
 
 	/**
-	 * @var string DATETIME	A date and time value in YYYY-MM-DD hh:mm:ss format
+     * A date and time value in YYYY-MM-DD hh:mm:ss format
+     *
+	 * @var string DATETIME
 	 */
     const DATETIME = 'DATETIME';
 
 	/**
-	 * @var string TIMESTAMP A timestamp value in YYYY-MM-DD hh:mm:ss format
+     * A timestamp value in YYYY-MM-DD hh:mm:ss format
+     *
+	 * @var string TIMESTAMP
 	 */
     const TIMESTAMP = 'TIMESTAMP';
 
 	/**
-	 * @var string TIME	A time value in hh:mm:ss format
+     * A time value in hh:mm:ss format
+     *
+	 * @var string TIME
 	 */
     const TIME = 'TIME';
 
 	/**
-	 * @var string YEAR A year value in YYYY or YY format
+     * A year value in YYYY or YY format
+     *
+	 * @var string YEAR
 	 */
 	const YEAR = 'YEAR';
 
 	/**
-	 * @var string CHAR A fixed-length non binary (character) string
+     * A fixed-length non binary (character) string
+     *
+	 * @var string CHAR
 	 */
     const CHAR = 'CHAR';
 
 	/**
-	 * @var string VARCHAR A variable-length non-binary string
+     * A variable-length non-binary string
+     *
+	 * @var string VARCHAR
 	 */
 	const VARCHAR = 'VARCHAR';
 
     /**
-	 * @var string BINARY A fixed-length binary string
+     * A fixed-length binary string
+     *
+	 * @var string BINARY
 	 */
     const BINARY = 'BINARY';
 
     /**
-	 * @var string VARBINARY A variable-length binary string
+     * A variable-length binary string
+     *
+	 * @var string VARBINARY
 	 */
     const VARBINARY = 'VARBINARY';
 
     /**
-	 * @var string TINYBLOB A very small BLOB (binary large object)
+     * A very small BLOB (binary large object)
+     *
+	 * @var string TINYBLOB
 	 */
     const TINYBLOB = 'TINYBLOB';
 
     /**
-	 * @var string BLOB A small BLOB
+     * A small BLOB
+     *
+	 * @var string BLOB
 	 */
     const BLOB = 'BLOB';
 
     /**
-	 * @var string MEDIUMBLOB A medium-sized BLOB
+     * A medium-sized BLOB
+     *
+	 * @var string MEDIUMBLOB
 	 */
     const MEDIUMBLOB = 'MEDIUMBLOB';
 
     /**
-	 * @var string A large BLOB
+     * A large BLOB
+     *
+	 * @var string LONGBLOB
 	 */
 	const LONGBLOB = 'LONGBLOB';
 
 	/**
-	 * @var string TINYTEXT A very small non-binary string
+     * A very small non-binary string
+     *
+	 * @var string TINYTEXT
 	 */
     const TINYTEXT = 'TINYTEXT';
 
 	/**
-	 * @var string TEXT A small non-binary string
+     * A small non-binary string
+     *
+	 * @var string TEXT
 	 */
     const TEXT = 'TEXT';
 
 	/**
-	 * @var string MEDIUMTEXT A medium-sized non-binary string
+     * A medium-sized non-binary string
+     *
+	 * @var string MEDIUMTEXT
 	 */
     const MEDIUMTEXT = 'MEDIUMTEXT';
 
 	/**
-	 * @var string LONGTEXT A large non-binary string
+     * A large non-binary string
+     *
+	 * @var string LONGTEXT
 	 */
     const LONGTEXT = 'LONGTEXT';
 
     /**
-	 * @var string ENUM An enumeration, each column value may be assigned one enumeration member
+     * An enumeration, each column value may be assigned one enumeration member
+     *
+	 * @var string ENUM
 	 */
     const ENUM = 'ENUM';
 
     /**
-	 * @var string SET A set, each column value may be assigned zero or more SET members
+     * A set, each column value may be assigned zero or more SET members
+     *
+	 * @var string SET
 	 */
 	const SET = 'SET';
 }
