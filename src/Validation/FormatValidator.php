@@ -26,7 +26,9 @@ use function implode;
 class FormatValidator extends AbstractValidator
 {
     /**
-     * @var string $format The format to check against.
+     * The format to check against.
+     *
+     * @var string $format
      */
     private string $format;
 

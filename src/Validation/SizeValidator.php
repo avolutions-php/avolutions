@@ -25,17 +25,23 @@ use InvalidArgumentException;
 class SizeValidator extends AbstractValidator
 {
     /**
-     * @var int|null $size The exact size of the value.
+     * The exact size of the value.
+     *
+     * @var int|null $size
      */
     private ?int $size = null;
 
     /**
-     * @var int|null $min The minimum size (inclusive) for the value.
+     * The minimum size (inclusive) for the value.
+     *
+     * @var int|null $min
      */
     private ?int $min = null;
 
     /**
-     * @var int|null $max The maximum size (inclusive) for the value.
+     * The maximum size (inclusive) for the value.
+     *
+     * @var int|null $max
      */
     private ?int $max = null;
 

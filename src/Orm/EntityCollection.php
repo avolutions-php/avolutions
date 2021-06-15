@@ -32,32 +32,44 @@ class EntityCollection implements CollectionInterface
     use CollectionTrait;
 
 	/**
-	 * @var string $entity The name of the entity.
+     * The name of the entity.
+     *
+	 * @var string $entity
 	 */
 	private string $entity;
 
 	/**
-	 * @var EntityConfiguration $EntityConfiguration The configuration of the entity.
+     * The configuration of the entity.
+     *
+	 * @var EntityConfiguration $EntityConfiguration
 	 */
 	private EntityConfiguration $EntityConfiguration;
 
 	/**
-	 * @var EntityMapping $EntityMapping The mapping of the entity.
+     * The mapping of the entity.
+     *
+	 * @var EntityMapping $EntityMapping
 	 */
 	private EntityMapping $EntityMapping;
 
 	/**
-	 * @var string $limitClause The limit clause for the query.
+     * The limit clause for the query.
+     *
+	 * @var string $limitClause
 	 */
 	private string $limitClause;
 
 	/**
-	 * @var string $orderByClause The orderBy clause for the query.
+     * The orderBy clause for the query.
+     *
+	 * @var string $orderByClause
 	 */
 	private string $orderByClause;
 
 	/**
-	 * @var string $whereClause The where clause for the query.
+     * The where clause for the query.
+     *
+	 * @var string $whereClause
 	 */
 	private string $whereClause;
 

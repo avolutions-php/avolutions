@@ -26,22 +26,30 @@ use ReflectionClass;
 abstract class AbstractValidator implements ValidatorInterface
 {
     /**
-	 * @var array $options An associative array with options.
+     * An associative array with options.
+     *
+	 * @var array $options
 	 */
     protected array $options = [];
 
     /**
-	 * @var string|null $property The property of the Entity to validate.
+     * The property of the Entity to validate.
+     *
+	 * @var string|null $property
 	 */
     protected ?string $property = null;
 
     /**
-	 * @var Entity|null $Entity The Entity to validate.
+     * The Entity to validate.
+     *
+	 * @var Entity|null $Entity
 	 */
     protected ?Entity $Entity = null;
 
     /**
-     * @var string|null $message A custom error message.
+     * A custom error message.
+     *
+     * @var string|null $message
      */
     protected ?string $message = null;
 

@@ -26,12 +26,16 @@ use function implode;
 class CompareValidator extends AbstractValidator
 {
     /**
-     * @var string $operator A comparison operator.
+     * A comparison operator.
+     *
+     * @var string $operator
      */
     private string $operator = '==';
 
     /**
-     * @var mixed $compareValue A static value to compare to.
+     * A static value to compare to.
+     *
+     * @var mixed $compareValue
      */
     private mixed $compareValue;
 

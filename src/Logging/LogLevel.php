@@ -22,42 +22,58 @@ namespace Avolutions\Logging;
 class LogLevel
 {
 	/**
-	 * @var string EMERGENCY Text for log level emergency
+     * Text for log level emergency
+     *
+	 * @var string EMERGENCY
 	 */
 	const EMERGENCY = 'EMERGENCY';
 
 	/**
-	 * @var string ALERT Text for log level alert
+     * Text for log level alert
+     *
+	 * @var string ALERT
 	 */
 	const ALERT = 'ALERT';
 
 	/**
-	 * @var string CRITICAL Text for log level critical
+     * Text for log level critical
+     *
+	 * @var string CRITICAL
 	 */
 	const CRITICAL = 'CRITICAL';
 
 	/**
-	 * @var string ERROR Text for log level error
+     * Text for log level error
+     *
+	 * @var string ERROR
 	 */
 	const ERROR = 'ERROR';
 
 	/**
-	 * @var string WARNING Text for log level warning
+     * Text for log level warning
+     *
+	 * @var string WARNING
 	 */
 	const WARNING = 'WARNING';
 
 	/**
-	 * @var string NOTICE Text for log level notice
+     * Text for log level notice
+     *
+	 * @var string NOTICE
 	 */
 	const NOTICE = 'NOTICE';
 
 	/**
-	 * @var string INFO Text for log level info
+     * Text for log level info
+     *
+	 * @var string INFO
 	 */
 	const INFO = 'INFO';
 
 	/**
-	 * @var string DEBUG Text for log level debug
+     * Text for log level debug
+     *
+	 * @var string DEBUG
 	 */
 	const DEBUG = 'DEBUG';
 }

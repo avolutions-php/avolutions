@@ -25,12 +25,16 @@ use InvalidArgumentException;
 class RegexValidator extends AbstractValidator
 {
     /**
-     * @var string $pattern The regular expression to validate.
+     * The regular expression to validate.
+     *
+     * @var string $pattern
      */
     private string $pattern;
 
     /**
-     * @var bool $not Inverts the result of the validation.
+     * Inverts the result of the validation.
+     *
+     * @var bool $not
      */
     private bool $not = false;
 

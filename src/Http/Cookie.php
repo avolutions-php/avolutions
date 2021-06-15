@@ -23,37 +23,51 @@ namespace Avolutions\Http;
 class Cookie
 {
     /**
-     * @var string $domain The (sub)domain that the cookie is available to.
+     * The (sub)domain that the cookie is available to.
+     *
+     * @var string $domain
      */
     public string $domain;
 
     /**
-     * @var int $expires The time the cookie expires as UNIX timestamp.
+     * The time the cookie expires as UNIX timestamp.
+     *
+     * @var int $expires
      */
     public int $expires = 0;
 
     /**
-     * @var bool $httpOnly Indicates if the cookie is only accessible through the HTTP protocol.
+     * Indicates if the cookie is only accessible through the HTTP protocol.
+     *
+     * @var bool $httpOnly
      */
     public bool $httpOnly = false;
 
     /**
-     * @var string $name The name of the cookie.
+     * The name of the cookie.
+     *
+     * @var string $name
      */
     public string $name;
 
     /**
-     * @var string $path The path on the server in which the cookie will be available on.
+     * The path on the server in which the cookie will be available on.
+     *
+     * @var string $path
      */
     public string $path;
 
     /**
-     * @var bool $secure Indicates if the cookie should only be transmitted over a secure HTTPS connection.
+     * Indicates if the cookie should only be transmitted over a secure HTTPS connection.
+     *
+     * @var bool $secure
      */
     public bool $secure = false;
 
     /**
-     * @var string $value The value of the cookie.
+     * The value of the cookie.
+     *
+     * @var string $value
      */
     public string $value;
 

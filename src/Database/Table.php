@@ -22,37 +22,51 @@ namespace Avolutions\Database;
 class Table
 {
 	/**
-	 * @var string INDEX A constant for the string "INDEX"
+     * A constant for the string "INDEX"
+     *
+	 * @var string INDEX
 	 */
 	const INDEX = 'INDEX';
 
 	/**
-	 * @var string PRIMARY A constant for the string "PRIMARY KEY"
+     * A constant for the string "PRIMARY KEY"
+     *
+	 * @var string PRIMARY
 	 */
 	const PRIMARY = 'PRIMARY KEY';
 
 	/**
-	 * @var string UNIQUE A constant for the string "UNIQUE"
+     * A constant for the string "UNIQUE"
+     *
+	 * @var string UNIQUE
 	 */
 	const UNIQUE = 'UNIQUE';
 
 	/**
-	 * @var string RESTRICT A constant for the string "RESTRICT"
+     * A constant for the string "RESTRICT"
+     *
+	 * @var string RESTRICT
 	 */
 	const RESTRICT = 'RESTRICT';
 
 	/**
-	 * @var string CASCADE A constant for the string "CASCADE"
+     * A constant for the string "CASCADE"
+     *
+	 * @var string CASCADE
 	 */
 	const CASCADE = 'CASCADE';
 
 	/**
-	 * @var string SET_NULL A constant for the string "SET NULL"
+     * A constant for the string "SET NULL"
+     *
+	 * @var string SET_NULL
 	 */
 	const SET_NULL = 'SET NULL';
 
 	/**
-	 * @var string NO_ACTION A constant for the string "NO ACTION"
+     * A constant for the string "NO ACTION"
+     *
+	 * @var string NO_ACTION
 	 */
 	const NO_ACTION = 'NO ACTION';
 
