@@ -47,8 +47,6 @@ class Response
 	 */
     public function send()
     {
-		if ($this->body instanceof View) {
-			print $this->body;
-		}
+        print $this->body;
 	}
 }
