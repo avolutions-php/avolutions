@@ -3,6 +3,7 @@
 * [System requirements](#system-requirements)
 * [Installing AVOLUTIONS](#installing-avolutions)
   * [Installing with Composer](#installing-with-composer)
+  * [Using Github template](#using-github-template)
 * [Configuration](#configuration)
   * [Document root](#document-root)
   * [URL rewriting](#url-rewriting)
@@ -23,13 +24,21 @@ The AVOLUTIONS framework can be installed by using the Composer package manager.
 Make sure you installed Composer like described in the official [Composer documentation](https://getcomposer.org/).
 
 If starting a new project, we highly recommend to us our [app template](https://github.com/avolutions/app).
-To install a new AVOLUTIONS project use the composer ```create-project``` command:
+To install a new AVOLUTIONS application use the composer `create-project` command:
 ```bash
-composer create-project --prefer-dist avolutions/avolutions:0.*@alpha myproject
+composer create-project --prefer-dist avolutions/app myproject
 ```
 
-Or AVOLUTIONS can be installed into your existing project by using the composer ```require``` command:  
-```composer require avolutions/avolutions:0.*@alpha```
+Or AVOLUTIONS can be installed into your existing project by using the composer `require` command:
+```bash
+composer require avolutions/avolutions:0.*
+```
+
+### Using Github template
+
+You can easily start a new AVOLUTIONS application by using our Github app template.
+Open the [AVOLUTIONS app repository](https://github.com/avolutions/app) and click the button "Use this template".
+You can now create a new repository based on our application template.
 
 ## Configuration
 ### Document root

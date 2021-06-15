@@ -35,11 +35,11 @@ use const Avolutions\VALIDATOR_NAMESPACE;
 class Entity
 {
 	/**
-     * The unique identifier of the entity.
-     *
-	 * @var int $id
+   * The unique identifier of the entity.
+   *
+	 * @var int|null $id
 	 */
-	public int $id;
+	public ?int $id = null;
 
 	/**
      * The configuration of the entity.

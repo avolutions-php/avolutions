@@ -13,7 +13,7 @@ namespace Avolutions\Core;
 
 use ErrorException;
 use Avolutions\Logging\Logger;
-use Exception;
+use Throwable;
 
 /**
  * ErrorHandler class
@@ -47,11 +47,11 @@ class ErrorHandler
      *
      * Handles uncaught exceptions and log them with LogLevel 'ERROR'.
      *
-     * @param Exception $exception The exception to handle.
+     * @param Throwable $exception The exception to handle.
      *
-     * @throws Exception
+     * @throws Throwable
      */
-    public function handleException(Exception $exception)
+    public function handleException(Throwable $exception)
     {
         Logger::error($exception);
 
