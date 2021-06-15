@@ -27,7 +27,9 @@ use function implode;
 class TypeValidator extends AbstractValidator
 {
     /**
-     * @var string $type The data type to compare.
+     * The data type to compare.
+     *
+     * @var string $type
      */
     private string $type;
 

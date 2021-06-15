@@ -23,7 +23,9 @@ namespace Avolutions\Core;
 abstract class AbstractSingleton
 {
 	/**
-	 * @var array $instances An array of all instance of singleton classes
+     * An array of all instance of singleton classes
+     *
+	 * @var array $instances
 	 */
 	private static array $instances = [];
 

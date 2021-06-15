@@ -25,17 +25,23 @@ use InvalidArgumentException;
 class RangeValidator extends AbstractValidator
 {
     /**
-     * @var array $range A static array to check the value against.
+     * A static array to check the value against.
+     *
+     * @var array $range
      */
     private array $range = [];
 
     /**
-     * @var bool $not Inverts the result of the validation.
+     * Inverts the result of the validation.
+     *
+     * @var bool $not
      */
     private bool $not = false;
 
     /**
-     * @var bool $strict Indicates if data type should be considered.
+     * Indicates if data type should be considered.
+     *
+     * @var bool $strict
      */
     private bool $strict = false;
 

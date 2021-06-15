@@ -26,7 +26,9 @@ use const Avolutions\APP_VIEW_PATH;
 class View
 {
 	/**
-	 * @var string $view The content of the view file
+     * The content of the view file
+     *
+	 * @var string $view
 	 */
 	private string $view;
 

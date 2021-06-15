@@ -28,17 +28,23 @@ use const Avolutions\CONTROLLER;
 class Request
 {
 	/**
-	 * @var string $uri The uri of the request.
+     * The uri of the request.
+     *
+	 * @var string $uri
 	 */
 	public string $uri;
 
 	/**
-	 * @var string $method The method of the request.
+     * The method of the request.
+     *
+	 * @var string $method
 	 */
     public string $method;
 
 	/**
-	 * @var array $parameters The variables from $_REQUEST.
+     * The variables from $_REQUEST.
+     *
+	 * @var array $parameters
 	 */
 	public array $parameters = [];
 

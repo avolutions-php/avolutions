@@ -22,52 +22,72 @@ namespace Avolutions\Database;
 class Column
 {
 	/**
-	 * @var string $name The name of the column.
+     * The name of the column.
+     *
+	 * @var string $name
 	 */
 	private string $name;
 
 	/**
-	 * @var string $type The data type of the column.
+     * The data type of the column.
+     *
+	 * @var string $type
 	 */
 	private string $type;
 
 	/**
-	 * @var string|null $length The length of the column.
+     * The length of the column.
+     *
+	 * @var string|null $length
 	 */
 	private ?string $length;
 
 	/**
-	 * @var string|null $default The default value of the column.
+     * The default value of the column.
+     *
+	 * @var string|null $default
 	 */
 	private ?string $default;
 
 	/**
-	 * @var string $null A flag if the column can be null or not.
+     * A flag if the column can be null or not.
+     *
+	 * @var string $null
 	 */
 	private string $null;
 
 	/**
-	 * @var bool $primaryKey A flag if the column is a primary key or not.
+     * A flag if the column is a primary key or not.
+     *
+	 * @var bool $primaryKey
 	 */
 	private bool $primaryKey;
 
 	/**
-	 * @var bool $autoIncrement A flag if the column is a auto increment column or not.
+     * A flag if the column is a auto increment column or not.
+     *
+	 * @var bool $autoIncrement
 	 */
 	private bool $autoIncrement;
 
 	/**
-	 * @var string NULL A constant for the string "NULL"
+     * A constant for the string "NULL"
+     *
+	 * @var string NULL
 	 */
 	const NULL = 'NULL';
 
 	/**
-	 * @var string NOT_NULL A constant for the string "NOT NULL"
+     * A constant for the string "NOT NULL"
+     *
+	 * @var string NOT_NULL
 	 */
 	const NOT_NULL = 'NOT NULL';
 
 	/**
-	 * @var string CURRENT_TIMESTAMP A constant for the string "CURRENT_TIMESTAMP"
+     * A constant for the string "CURRENT_TIMESTAMP"
+     *
+	 * @var string CURRENT_TIMESTAMP
 	 */
 	const CURRENT_TIMESTAMP = 'CURRENT_TIMESTAMP';
 

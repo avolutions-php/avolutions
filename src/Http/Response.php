@@ -24,7 +24,9 @@ use Avolutions\View\View;
 class Response
 {
 	/**
-	 * @var string $body The content of the response.
+     * The content of the response.
+     *
+	 * @var string $body
 	 */
 	public string $body;
 
@@ -47,8 +49,6 @@ class Response
 	 */
     public function send()
     {
-		if ($this->body instanceof View) {
-			print $this->body;
-		}
+        print $this->body;
 	}
 }

@@ -10,10 +10,10 @@
 ## About
 AVOLUTIONS is just another open source PHP framework. 
 
-* Current version: 0.7.0-alpha
+* Current version: 0.7.1-alpha
 * [Website](https://avolutions.org)
 * [Getting started](https://avolutions.org/guide)
-* [API Documentation](https://avolutions.org/api)
+* [API Documentation](https://api.avolutions.org)
 
 ## Features
 * [Routing](https://avolutions.org/guide/routing)
@@ -30,7 +30,7 @@ AVOLUTIONS is just another open source PHP framework.
 
 ## Installation
 AVOLUTIONS can be installed into your project by using composer:  
-```composer require avolutions/avolutions:0.*@alpha```
+```composer require avolutions/avolutions:0.*``
 
 If starting a new project, we highly recommend to us our [app template](https://github.com/avolutions/app).
 

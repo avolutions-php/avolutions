@@ -226,29 +226,29 @@ The following input control can be generated with the *Form* class:
 
 Method | Output | Description</th>
 --- | --- | ---
-checkbox() | <input type="checkbox" /> | Creates a HTML input element of type checkbox.
-color() | <input type="color" /> | Creates a HTML input element of type color.
-date() | <input type="date" /> | Creates a HTML input element of type date.
-datetime() | <input type="datetime-local" /> | Creates a HTML input element of type datetime-local.
-email() | <input type="email" /> | Creates a HTML input element of type email.
-file() | <input type="file" /> | Creates a HTML input element of type file.
-hidden() | <input type="hidden" /> | Creates a HTML input element of type hidden.
-image() | <input type="image" /> | Creates a HTML input element of type image.
-label() | <label></label> | Creates a HTML label element.
-month() | <input type="month" /> | Creates a HTML input element of type month.
-number() | <input type="number" /> | Creates a HTML input element of type number.
-password() | <input type="password" /> | Creates a HTML input element of type password.
-radio()	 | <input type="radio" /> | Creates a HTML input element of type radio.
-range() | <input type="range" /> | Creates a HTML input element of type range.
-reset()	 | <input type="reset" /> | Creates a HTML input element of type reset.
-search() | <input type="search" /> | Creates a HTML input element of type search.
-submit() | <input type="submit" /> | Creates a HTML input element of type submit.
-tel() | <input type="tel" /> | Creates a HTML input element of type tel.
-text() | <input type="text" /> | Creates a HTML input element of type text.
-time() | <input type="time" /> | Creates a HTML input element of type time.
-url() | <input type="url" /> | Creates a HTML input element of type url.
-week() | <input type="week" /> | Creates a HTML input element of type week.
-input() | <input /> | Creates a HTML input element.
-button() | <button></button> | Creates a HTML button element.
-textarea() | <textarea></textarea> | Creates a HTML textarea element.
-select() | <select></select> | Creates a HTML select element with the given options.
+checkbox() | ```<input type="checkbox" />``` | Creates a HTML input element of type checkbox.
+color() | ```<input type="color" />``` | Creates a HTML input element of type color.
+date() | ```<input type="date" />``` | Creates a HTML input element of type date.
+datetime() | ```<input type="datetime-local" />``` | Creates a HTML input element of type datetime-local.
+email() | ```<input type="email" />``` | Creates a HTML input element of type email.
+file() | ```<input type="file" />``` | Creates a HTML input element of type file.
+hidden() | ```<input type="hidden" />``` | Creates a HTML input element of type hidden.
+image() | ```<input type="image" />``` | Creates a HTML input element of type image.
+label() | ```<label></label>``` | Creates a HTML label element.
+month() | ```<input type="month" />``` | Creates a HTML input element of type month.
+number() | ```<input type="number" />``` | Creates a HTML input element of type number.
+password() | ```<input type="password" />``` | Creates a HTML input element of type password.
+radio()	 | ```<input type="radio" />``` | Creates a HTML input element of type radio.
+range() | ```<input type="range" />``` | Creates a HTML input element of type range.
+reset()	 | ```<input type="reset" />``` | Creates a HTML input element of type reset.
+search() | ```<input type="search" />``` | Creates a HTML input element of type search.
+submit() | ```<input type="submit" />``` | Creates a HTML input element of type submit.
+tel() | ```<input type="tel" />``` | Creates a HTML input element of type tel.
+text() | ```<input type="text" />``` | Creates a HTML input element of type text.
+time() | ```<input type="time" />``` | Creates a HTML input element of type time.
+url() | ```<input type="url" />``` | Creates a HTML input element of type url.
+week() | ```<input type="week" />``` | Creates a HTML input element of type week.
+input() | ```<input />``` | Creates a HTML input element.
+button() | ```<button></button>``` | Creates a HTML button element.
+textarea() | ```<textarea></textarea>``` | Creates a HTML textarea element.
+select() | ```<select></select>``` | Creates a HTML select element with the given options.
