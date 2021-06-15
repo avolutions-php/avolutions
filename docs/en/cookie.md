@@ -21,7 +21,7 @@ $Cookie = new Cookie('name', 'value', time() + 3600);
 ```
 
 This example will create a Cookie called "name" with the value "value" which will be expired after 3600 seconds (=1 hour).
-For more parameters see the [API docs](https://avolutions.org/api/cookie).
+For more parameters see the [API docs](https://api.avolutions.org/classes/Avolutions-Http-Cookie.html).
 
 
 Please note that we only created a PHP object but not save the HTTP cookie so far. To do so, we have to use the CookieCollection.
