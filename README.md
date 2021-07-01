@@ -1,4 +1,4 @@
-<p align="center"><img src="http://avolutions.org/image/logo.png" width="200"></p>
+<p align="center"><img src="https://avolutions.org/image/logo.png" width="200"></p>
 
 <p align="center">
   <a href="https://github.com/avolutions/avolutions/actions"><img src="https://github.com/avolutions/avolutions/workflows/Tests/badge.svg" alt="Tests"></a>  
@@ -33,7 +33,7 @@ AVOLUTIONS can be installed into your project by using composer:
 
 If starting a new project, we highly recommend to us our [app template](https://github.com/avolutions/app).
 
-The system requirements, configuration and a detailed installation guide can be found in the official [guide](http://avolutions.org/guide/installation).
+The system requirements, configuration and a detailed installation guide can be found in the official [guide](https://avolutions.org/guide/installation).
 
 ## License
 The AVOLUTIONS framework is an open source software licensed under the [MIT license](https://github.com/avolutions/avolutions/blob/master/LICENSE).
