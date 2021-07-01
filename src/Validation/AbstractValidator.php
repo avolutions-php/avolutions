@@ -15,6 +15,8 @@ use Avolutions\Orm\Entity;
 use Exception;
 use ReflectionClass;
 
+use const Avolutions\VALIDATOR;
+
 /**
  * AbstractValidator
  *
