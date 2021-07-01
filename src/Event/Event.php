@@ -24,6 +24,13 @@ use ReflectionClass;
 class Event
 {
     /**
+     * The name of the Event.
+     *
+     * @var string $name
+     */
+    protected string $name;
+
+    /**
 	 * getName
      *
      * Returns the name of the Event.

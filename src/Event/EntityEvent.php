@@ -24,13 +24,6 @@ use Avolutions\Orm\Entity;
 class EntityEvent extends Event
 {
     /**
-     * The name of the Event.
-     *
-     * @var string $name
-     */
-    protected string $name;
-
-    /**
      * The Entity which dispatched the Event.
      *
      * @var Entity $Entity
