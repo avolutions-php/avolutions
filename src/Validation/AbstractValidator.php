@@ -5,8 +5,8 @@
  * Just another open source PHP framework.
  *
  * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
- * @license     MIT License (http://avolutions.org/license)
- * @link        http://avolutions.org
+ * @license     MIT License (https://avolutions.org/license)
+ * @link        https://avolutions.org
  */
 
 namespace Avolutions\Validation;
@@ -14,6 +14,8 @@ namespace Avolutions\Validation;
 use Avolutions\Orm\Entity;
 use Exception;
 use ReflectionClass;
+
+use const Avolutions\VALIDATOR;
 
 /**
  * AbstractValidator

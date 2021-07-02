@@ -40,7 +40,7 @@ To use the Configuration value in the application we will edit the getName() met
 ```php
 use Avolutions\Config\Config;
 ...
-public function getName() {
+public function getName(): string {
   if (Config::get('user/showLastname')) {
       return $this->firstname.' '.$this->lastname;
   }

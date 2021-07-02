@@ -5,8 +5,8 @@
  * Just another open source PHP framework.
  *
  * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
- * @license     MIT License (http://avolutions.org/license)
- * @link        http://avolutions.org
+ * @license     MIT License (https://avolutions.org/license)
+ * @link        https://avolutions.org
  */
 
 namespace Avolutions\Event;
@@ -35,7 +35,7 @@ class EventDispatcher
     {
         if ($Event instanceof EntityEvent) {
             $entityName = $Event->Entity->getEntityName();
-            $listener = APP_LISTENER_NAMESPACE.$entityName.'Listener';
+            $listener = new (APP_LISTENER_NAMESPACE.$entityName.'Listener');
             $method = 'handle'.$Event->getName();
 
             $callable = [$listener, $method];

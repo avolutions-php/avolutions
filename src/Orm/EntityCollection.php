@@ -5,8 +5,8 @@
  * Just another open source PHP framework.
  *
  * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
- * @license     MIT License (http://avolutions.org/license)
- * @link        http://avolutions.org
+ * @license     MIT License (https://avolutions.org/license)
+ * @link        https://avolutions.org
  */
 
 namespace Avolutions\Orm;
@@ -57,21 +57,21 @@ class EntityCollection implements CollectionInterface
      *
 	 * @var string $limitClause
 	 */
-	private string $limitClause;
+	private string $limitClause = '';
 
 	/**
      * The orderBy clause for the query.
      *
 	 * @var string $orderByClause
 	 */
-	private string $orderByClause;
+	private string $orderByClause = '';
 
 	/**
      * The where clause for the query.
      *
 	 * @var string $whereClause
 	 */
-	private string $whereClause;
+	private string $whereClause = '';
 
     /**
      * __construct

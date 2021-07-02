@@ -5,8 +5,8 @@
  * Just another open source PHP framework.
  *
  * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
- * @license     MIT License (http://avolutions.org/license)
- * @link        http://avolutions.org
+ * @license     MIT License (https://avolutions.org/license)
+ * @link        https://avolutions.org
  */
 
 namespace Avolutions\Orm;
@@ -63,7 +63,7 @@ class EntityMapping
                     // If no options are passed to a Validator
                     if (is_int($validation)) {
                         unset($value['validation'][$validation]);
-                        $value['validation'][$options] = null;
+                        $value['validation'][$options] = [];
                     }
                 }
             }

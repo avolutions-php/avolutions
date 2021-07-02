@@ -20,7 +20,7 @@ use Avolutions\Controller\Controller;
 
 class UserController extends Controller {
 
-  public function showAction($id)
+  public function showAction(int $id): View
   {
     $ViewModel = new ViewModel();
     $ViewModel->username = 'Alex';
@@ -45,6 +45,7 @@ Edit the View form the second View example like this:
 ```
 
 Create a new ViewModel in application/ViewModel, e.g. UserViewModel:
+
 ```php
 namespace Application\ViewModel;
 
@@ -52,17 +53,17 @@ use Avolutions\View\ViewModel;
 
 class UserViewModel extends ViewModel {
 
-  public $firstname;
+  public string $firstname = '';
+  public string $lastname = '';
 
-  public $lastname;
-
-  public function getName()
+  public function getName(): string
   {
     return $this->firstname.' '.$this->lastname;
   }
 }
 ```
 Edit the Controller of the dynamic ViewModel example like this:
+
 ```php
 namespace Application\Controller;
 
@@ -70,7 +71,7 @@ use Avolutions\Controller\Controller;
 
 class UserController extends Controller {
 
-  public function showAction($id)
+  public function showAction(int $id): View
   {
     $ViewModel = new UserViewModel();
     $ViewModel->firstname = 'Alex';
