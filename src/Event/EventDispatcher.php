@@ -35,7 +35,7 @@ class EventDispatcher
     {
         if ($Event instanceof EntityEvent) {
             $entityName = $Event->Entity->getEntityName();
-            $listener = APP_LISTENER_NAMESPACE.$entityName.'Listener';
+            $listener = new (APP_LISTENER_NAMESPACE.$entityName.'Listener');
             $method = 'handle'.$Event->getName();
 
             $callable = [$listener, $method];
