@@ -18,6 +18,7 @@ Every Action must have Action as a postfix for its method name.
 
 Below is an example how to define a Controller with an Action that will return an <a href="/guide/view">View</a> by name conventions,
 i.e. the Action will search for a View called *show.php* (= action name) in a directory called *application/View/user/* (= controller name).
+
 ```php
 namespace Application\Controller;
 
@@ -25,7 +26,7 @@ use Avolutions\Controller\Controller;
 
 class UserController extends Controller {
 
-  public function showAction($id)
+  public function showAction(int $id): View
   {
     return new View();
   }
@@ -35,6 +36,7 @@ class UserController extends Controller {
 ### Define an action that returns view by static name
 
 The following example will return a View by its full name (path and file name): *application/View/user/display.php*
+
 ```php
 namespace Application\Controller;
 
@@ -42,7 +44,7 @@ use Avolutions\Controller\Controller;
 
 class UserController extends Controller {
 
-  public function showAction($id)
+  public function showAction(int $id): View
   {
     return new View('user/display');
   }
@@ -52,6 +54,7 @@ class UserController extends Controller {
 ### Define an action that passing data to a view
 
 In the example below data (<a href="/guide/viewmodel">ViewModel</a>) is passed to the View.
+
 ```php
 namespace Application\Controller;
 
@@ -59,7 +62,7 @@ use Avolutions\Controller\Controller;
 
 class UserController extends Controller {
 
-  public function showAction($id)
+  public function showAction(int $id): View
   {
     $ViewModel = new ViewModel();
     $ViewModel->username = 'Alex';

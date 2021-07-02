@@ -65,6 +65,7 @@ This will result in the following output:
 It is of course possible to initialize a *Form* in the ViewModel/Controller and pass it to the *View*.
 
 *Controller:*
+
 ```php
 namespace Application\Controller;
 
@@ -73,7 +74,7 @@ use Avolutions\Controller\Controller;
 
 class UserController extends Controller {
 
-  public function formAction($id)
+  public function formAction(int $id): View
   {
     $ViewModel = new ViewModel();
     $ViewModel->Form = new Form();
@@ -102,10 +103,10 @@ use Avolutions\Orm\Entity;
 
 class User extends Entity
 {
-    public $firstname;
-    public $lastname;
-    public $hobbies;
-    public $gender;
+    public string $firstname;
+    public string $lastname;
+    public string $hobbies;
+    public int $gender;
 }
 ```
 And *Mapping*:
