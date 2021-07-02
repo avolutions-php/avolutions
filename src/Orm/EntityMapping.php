@@ -63,7 +63,7 @@ class EntityMapping
                     // If no options are passed to a Validator
                     if (is_int($validation)) {
                         unset($value['validation'][$validation]);
-                        $value['validation'][$options] = null;
+                        $value['validation'][$options] = [];
                     }
                 }
             }
