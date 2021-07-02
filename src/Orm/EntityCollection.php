@@ -57,21 +57,21 @@ class EntityCollection implements CollectionInterface
      *
 	 * @var string $limitClause
 	 */
-	private string $limitClause;
+	private string $limitClause = '';
 
 	/**
      * The orderBy clause for the query.
      *
 	 * @var string $orderByClause
 	 */
-	private string $orderByClause;
+	private string $orderByClause = '';
 
 	/**
      * The where clause for the query.
      *
 	 * @var string $whereClause
 	 */
-	private string $whereClause;
+	private string $whereClause = '';
 
     /**
      * __construct
