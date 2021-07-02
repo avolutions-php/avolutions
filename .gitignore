@@ -9,6 +9,7 @@
 # GENERAL
 vendor/*
 composer.lock
+.phpunit.result.cache
 
 # AVOLUTIONS
 log/*
