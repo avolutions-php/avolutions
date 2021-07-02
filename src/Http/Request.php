@@ -59,8 +59,13 @@ class Request
 		$this->uri = $_SERVER['REQUEST_URI'];
         $this->method = $_SERVER['REQUEST_METHOD'];
 
-        // Get all values of the request, remove $_REQUEST['path] and set as $this->parameters
-        $parameters = $_REQUEST;
+        // Get all parameters from the request depending on request method
+        $parameters = match ($this->method) {
+            'GET' => $_GET,
+            'POST' => $_POST,
+        };
+        // Remove 'path' from Request parameters because we use it in rewrite rule in htaccess for pretty url and it is
+        // handled by the Route later.
         unset($parameters['path']);
         $this->parameters = $parameters;
 	}
