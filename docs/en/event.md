@@ -34,9 +34,9 @@ use Avolutions\Event\Event;
 
 class TestEvent extends Event
 {
-    protected $name = 'TestEvent';
+    protected string $name = 'TestEvent';
 
-    public $test = 'Lorem ipsum';
+    public string $test = 'Lorem ipsum';
 }
 ```
 ## Create a Listener
@@ -46,9 +46,11 @@ The Listener is a class which can contains several methods to handle Events. Eve
 ```php
 namespace Application\Listener;
 
+use Avolutions\Event\Event;
+
 class TestEventListener
 {
-    public function handleEvent($Event)
+    public function handleEvent(Event $Event)
     {
         print $Event->getName().' : '.$Event->test;
     }

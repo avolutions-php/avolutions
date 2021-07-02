@@ -37,7 +37,7 @@ namespace Application\Database;
 use Avolutions\Database\AbstractMigration;
 
 class CreateUserTable extends AbstractMigration {
-  public $version;
+  public int $version;
 
   public function migrate()
   {
@@ -61,7 +61,7 @@ use Avolutions\Database\ColumnType;
 use Avolutions\Database\Table;
 
 class CreateUserTable extends AbstractMigration {
-  public $version = 20190915143000;
+  public int $version = 20190915143000;
 
   public function migrate()
   {
@@ -87,7 +87,7 @@ use Avolutions\Database\ColumnType;
 use Avolutions\Database\Table;
 
 class AddMailToUserTable extends AbstractMigration {
-  public $version = 20190915143100;
+  public int $version = 20190915143100;
 
   public function migrate()
   {
@@ -103,12 +103,10 @@ To remove a column from a table use the method *removeColumn*:
 namespace Application\Database;
 
 use Avolutions\Database\AbstractMigration;
-use Avolutions\Database\Column;
-use Avolutions\Database\ColumnType;
 use Avolutions\Database\Table;
 
 class RemoveMailFromUserTable extends AbstractMigration {
-  public $version = 20190915143200;
+  public int $version = 20190915143200;
 
   public function migrate()
   {
@@ -124,12 +122,10 @@ To add an index (index, unique, primary key) to a table use the method *addIndex
 namespace Application\Database;
 
 use Avolutions\Database\AbstractMigration;
-use Avolutions\Database\Column;
-use Avolutions\Database\ColumnType;
 use Avolutions\Database\Table;
 
 class AddUniqueIndexToUserTable extends AbstractMigration {
-  public $version = 20190915143300;
+  public int $version = 20190915143300;
 
   public function migrate()
   {
@@ -145,12 +141,10 @@ To add an foreign key constraint to a table use the method *addForeignKeyConstra
 namespace Application\Database;
 
 use Avolutions\Database\AbstractMigration;
-use Avolutions\Database\Column;
-use Avolutions\Database\ColumnType;
 use Avolutions\Database\Table;
 
 class AddForeignKeyToUserTable extends AbstractMigration {
-  public $version = 20190915143400;
+  public int $version = 20190915143400;
 
   public function migrate()
   {

@@ -25,8 +25,8 @@ use Avolutions\Orm\Entity;
 
 class User extends Entity
 {
-  public $firstname;
-  public $lastname;
+  public string $firstname;
+  public string $lastname;
 }
 ```
 

@@ -55,7 +55,7 @@ The `isValid()` will return same result as `validate()` but **without** executin
 In case you *Entity* was not validated successfully you can get the occurred error message by calling `getErrors()` method:
 ```php
 $User = new User();
-if(!$User->validate()) {
+if (!$User->validate()) {
   print_r($User->getErrors());
 }
 ```
@@ -183,18 +183,19 @@ You can also pass custom options to your validator, see the following example. D
 ```php
 namespace Application\Validation;
 
+use Avolutions\Orm\Entity;
 use Avolutions\Validation\AbstractValidator;
 
 class CustomValidator extends AbstractValidator
 {
-    private $foo;
+    private string $foo;
 
-    public function setOptions($options = [], $property = null, $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
         parent::setOptions($options, $property, $Entity);
         $this->foo = $options['foo'];
     }
 
-    public function isValid($value)
+    public function isValid(mixed $value): bool {
     {
         return $value == $this->foo;
     }
