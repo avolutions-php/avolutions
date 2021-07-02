@@ -90,7 +90,6 @@ class Session
     {
         if (!Session::isStarted()) {
             session_start();
-            $_SESSION = [];
         }
     }
 
