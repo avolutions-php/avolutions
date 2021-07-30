@@ -7,40 +7,42 @@ use ReflectionClass;
 abstract class Command
 {
     public string $name;
+    public CommandDefinition $CommandDefinition;
 
     private array $arguments = [];
     private array $options = [];
 
-    public array $Arguments = [];
-    public array $Options = [];
-
     public function __construct()
     {
-
+        $this->CommandDefinition = new CommandDefinition();
+        $this->initialize();
     }
 
-    public function getName(): string
+    public static function getName(): string
     {
-        return str_replace('Command', '', (new ReflectionClass($this))->getShortName());
+        return str_replace('Command', '', (new ReflectionClass(self))->getShortName());
     }
 
     /**
      * @param Argument $Argument
      */
-    public function addArgument(Argument $Argument): void
+    public function addArgumentDefinition(Argument $Argument): void
     {
-        // TODO check if correct type?
-        $this->Argument[] = $Argument;
+        // TODO allow Argument or array and create Argument if array passed?
+        $this->CommandDefinition->addArgument($Argument);
     }
 
     /**
      * @param Option $Option
      */
-    public function addOption(Option $Option): void
+    public function addOptionDefinition(Option $Option): void
     {
-        // TODO check if correct type?
-        $this->Option[] = $Option;
+        // TODO allow Argument or array and create Argument if array passed?
+        $this->CommandDefinition->addOption($Option);
     }
 
+    // TODO addDefinition method to pass a ArgumentDefinition type?
+
     abstract public function execute();
+    abstract public function initialize();
 }
