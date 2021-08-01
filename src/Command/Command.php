@@ -20,7 +20,7 @@ abstract class Command
 
     public static function getName(): string
     {
-        return str_replace('Command', '', (new ReflectionClass(self))->getShortName());
+        return str_replace('Command', '', (new ReflectionClass(get_called_class()))->getShortName());
     }
 
     /**
