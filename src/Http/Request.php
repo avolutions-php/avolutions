@@ -77,7 +77,7 @@ class Request
      * Invokes the controller action with passed parameters.
      *
      */
-    public function execute(): Response
+    public function send(): void
     {
         $MatchedRoute = Router::findRoute($this->uri, $this->method);
 
@@ -90,7 +90,6 @@ class Request
 
         $Response = new Response();
         $Response->setBody(call_user_func_array([$Controller, $fullActionName], $parameters));
-
-        return $Response;
+        $Response->send();
     }
 }
