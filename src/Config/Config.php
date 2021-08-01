@@ -12,7 +12,6 @@
 namespace Avolutions\Config;
 
 use Avolutions\Core\Application;
-use const Avolutions\CONFIG_PATH;
 
 /**
  * Config class
@@ -33,13 +32,13 @@ class Config extends ConfigFileLoader
 	 */
     public function initialize()
     {
-		$coreConfigFiles = array_map('basename', glob(CONFIG_PATH.'*.php'));
+        $coreConfigFiles = array_map('basename', glob($this->getConfigPath().'*.php'));
 		$appConfigFiles = array_map('basename', glob(Application::getConfigPath().'*.php'));
 
 		$configFiles = array_unique(array_merge($coreConfigFiles, $appConfigFiles));
 
 		foreach ($configFiles as $configFile) {
-			$coreConfigValues = self::loadConfigFile(CONFIG_PATH.$configFile);
+			$coreConfigValues = self::loadConfigFile($this->getConfigPath().$configFile);
 			$appConfigValues = self::loadConfigFile(Application::getConfigPath().$configFile);
 
 			$configValues = array_merge($coreConfigValues, $appConfigValues);
@@ -69,5 +68,15 @@ class Config extends ConfigFileLoader
 
         $values = $value;
         unset($values);
+    }
+
+    /**
+     * TODO
+     *
+     * @return string
+     */
+    public function getConfigPath(): string
+    {
+        return dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
     }
 }
