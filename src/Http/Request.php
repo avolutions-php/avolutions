@@ -11,9 +11,9 @@
 
 namespace Avolutions\Http;
 
+use Avolutions\Core\Application;
 use Avolutions\Routing\Router;
 
-use const Avolutions\APP_CONTROLLER_NAMESPACE;
 use const Avolutions\CONTROLLER;
 
 /**
@@ -81,8 +81,8 @@ class Request
     {
         $MatchedRoute = Router::findRoute($this->uri, $this->method);
 
-        $fullControllerName = APP_CONTROLLER_NAMESPACE.ucfirst($MatchedRoute->controllerName).CONTROLLER;
-        $Controller = new $fullControllerName();
+		$fullControllerName = Application::getControllerNamespace().ucfirst($MatchedRoute->controllerName).CONTROLLER;
+		$Controller = new $fullControllerName();
 
         $fullActionName = $MatchedRoute->actionName.'Action';
         // Merge the parameters of the route with the values of $_REQUEST

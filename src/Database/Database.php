@@ -12,15 +12,13 @@
 namespace Avolutions\Database;
 
 use Avolutions\Config\Config;
+use Avolutions\Core\Application;
 use InvalidArgumentException;
 use PDO;
 use PDOException;
 use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
-
-use const Avolutions\APP_DATABASE_NAMESPACE;
-use const Avolutions\APP_DATABASE_PATH;
 
 /**
  * Database class
@@ -68,12 +66,12 @@ class Database extends PDO
     public static function migrate()
     {
 		$migrationsToExecute = [];
-		$migrationFiles = array_map('basename', glob(APP_DATABASE_PATH.'*.php'));
+		$migrationFiles = array_map('basename', glob(Application::getDatabasePath().'*.php'));
 
 		$executedMigrations = self::getExecutedMigrations();
 
 		foreach ($migrationFiles as $migrationFile) {
-			$migrationClassName = APP_DATABASE_NAMESPACE.pathinfo($migrationFile, PATHINFO_FILENAME);
+			$migrationClassName = Application::getDatabaseNamespace().pathinfo($migrationFile, PATHINFO_FILENAME);
 
             $Migration = new $migrationClassName;
 

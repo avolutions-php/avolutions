@@ -11,6 +11,7 @@
 
 namespace Avolutions\Orm;
 
+use Avolutions\Core\Application;
 use Avolutions\Database\Database;
 use Avolutions\Event\EntityEvent;
 use Avolutions\Event\EventDispatcher;
@@ -18,8 +19,6 @@ use Avolutions\Logging\Logger;
 use Avolutions\Validation\Validator;
 use ReflectionClass;
 
-use const Avolutions\APP_MODEL_NAMESPACE;
-use const Avolutions\APP_VALIDATOR_NAMESPACE;
 use const Avolutions\VALIDATOR;
 use const Avolutions\VALIDATOR_NAMESPACE;
 
@@ -89,7 +88,7 @@ class Entity
                      // If the property is of type Entity
                     if ($value['isEntity']) {
                         // Create a the linked Entity and pass the values
-                        $entityName = APP_MODEL_NAMESPACE.$value['type'];
+                        $entityName = Application::getModelNamespace().$value['type'];
                         $this->$key = new $entityName($values[$key]);
                     } else {
                         $this->$key = $values[$key];
@@ -287,7 +286,7 @@ class Entity
                     $fullValidatorName = VALIDATOR_NAMESPACE.ucfirst($validator).VALIDATOR;
                     if (!class_exists($fullValidatorName)) {
                         // if validator can not be found in core namespace try in application namespace
-                        $fullValidatorName = APP_VALIDATOR_NAMESPACE.ucfirst($validator).VALIDATOR;
+                        $fullValidatorName = Application::getValidatorNamespace().ucfirst($validator).VALIDATOR;
                     }
                     $Validator = new $fullValidatorName($options, $property, $this);
                     if (!$Validator->isValid($this->$property)) {
