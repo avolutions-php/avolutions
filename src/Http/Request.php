@@ -69,7 +69,7 @@ class Request
     }
 
     /**
-     * execute
+     * send
      *
      * Executes the Request by calling the Router to find the matching Route.
      * Invokes the controller action with passed parameters.
