@@ -13,10 +13,9 @@ namespace Avolutions\Orm;
 
 use Avolutions\Collection\CollectionInterface;
 use Avolutions\Collection\CollectionTrait;
+use Avolutions\Core\Application;
 use Avolutions\Database\Database;
 use Avolutions\Logging\Logger;
-
-use const Avolutions\APP_MODEL_NAMESPACE;
 
 /**
  * EntityCollection class
@@ -143,7 +142,7 @@ class EntityCollection implements CollectionInterface
                 }
             }
 
-            $fullEntityName = APP_MODEL_NAMESPACE.$this->entity;
+            $fullEntityName = Application::getModelNamespace().$this->entity;
             $Entity = new $fullEntityName($entityValues);
 
             $this->items[] = $Entity;

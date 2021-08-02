@@ -11,7 +11,7 @@
 
 namespace Avolutions\View;
 
-use const Avolutions\APP_VIEW_PATH;
+use Avolutions\Core\Application;
 
 /**
  * View class
@@ -91,7 +91,7 @@ class View
 			$filename = $controller.DIRECTORY_SEPARATOR.$action;
 		}
 
-		$filename = APP_VIEW_PATH.$filename.'.php';
+		$filename = Application::getViewPath().$filename.'.php';
 
 		return $filename;
 	}

@@ -11,8 +11,8 @@
 
 namespace Avolutions\Event;
 
+use Avolutions\Core\Application;
 use function is_callable;
-use const Avolutions\APP_LISTENER_NAMESPACE;
 
 /**
  * EventDispatcher class
@@ -35,7 +35,7 @@ class EventDispatcher
     {
         if ($Event instanceof EntityEvent) {
             $entityName = $Event->Entity->getEntityName();
-            $listener = new (APP_LISTENER_NAMESPACE.$entityName.'Listener');
+            $listener = new (Application::getListenerNamespace().$entityName.'Listener');
             $method = 'handle'.$Event->getName();
 
             $callable = [$listener, $method];
