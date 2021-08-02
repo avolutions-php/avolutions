@@ -49,3 +49,15 @@ Therefore, the *public* folder has to be defined as the web servers document roo
 ### URL rewriting
 
 The *public/.htaccess* file provides default rewrite rules (pretty URLs). Be sure to enable the mod_rewrite module for your Apache.
+
+### Application namespace
+
+The default namespace for your app is "Application\". If you want to use your own namespace you need to change the `autoload/psr-4` section in `composer.json`:
+```json
+"autoload": {
+  "psr-4": {
+    "Application\\": "application/"
+  }
+},
+```
+Just replace "Application\\" with your wanted namespace.
