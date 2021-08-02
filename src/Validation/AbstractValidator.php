@@ -15,8 +15,6 @@ use Avolutions\Orm\Entity;
 use Exception;
 use ReflectionClass;
 
-use const Avolutions\VALIDATOR;
-
 /**
  * AbstractValidator
  *
@@ -96,9 +94,7 @@ abstract class AbstractValidator implements ValidatorInterface
     protected function getValidatorName(): string
     {
         $validatorName = (new ReflectionClass($this))->getShortName();
-        $validatorName = strtolower(str_replace(VALIDATOR, '', $validatorName));
-
-        return $validatorName;
+        return strtolower(str_replace('Validator', '', $validatorName));
     }
 
     /**

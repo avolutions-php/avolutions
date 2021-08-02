@@ -13,12 +13,11 @@ namespace Avolutions\Util;
 
 use Avolutions\Config\Config;
 use Avolutions\Config\ConfigFileLoader;
+use Avolutions\Core\Application;
 use Avolutions\Http\Session;
 use Exception;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-
-use const Avolutions\APP_TRANSLATION_PATH;
 
 /**
  * Translation class
@@ -72,11 +71,11 @@ class Translation extends ConfigFileLoader
      */
     public function initialize()
     {
-        if (!is_dir(APP_TRANSLATION_PATH)) {
+        if (!is_dir(Application::getTranslationPath())) {
             return;
         }
 
-        $DirectoryIterator = new RecursiveDirectoryIterator(APP_TRANSLATION_PATH, RecursiveDirectoryIterator::SKIP_DOTS);
+        $DirectoryIterator = new RecursiveDirectoryIterator(Application::getTranslationPath(), RecursiveDirectoryIterator::SKIP_DOTS);
         $Iterator = new RecursiveIteratorIterator($DirectoryIterator);
 
         foreach ($Iterator as $translationFile) {

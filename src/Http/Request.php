@@ -11,10 +11,8 @@
 
 namespace Avolutions\Http;
 
+use Avolutions\Core\Application;
 use Avolutions\Routing\Router;
-
-use const Avolutions\APP_CONTROLLER_NAMESPACE;
-use const Avolutions\CONTROLLER;
 
 /**
  * Request class
@@ -27,36 +25,36 @@ use const Avolutions\CONTROLLER;
  */
 class Request
 {
-	/**
+    /**
      * The uri of the request.
      *
-	 * @var string $uri
-	 */
-	public string $uri;
+     * @var string $uri
+     */
+    public string $uri;
 
-	/**
+    /**
      * The method of the request.
      *
-	 * @var string $method
-	 */
+     * @var string $method
+     */
     public string $method;
 
-	/**
+    /**
      * The variables from $_REQUEST.
      *
-	 * @var array $parameters
-	 */
-	public array $parameters = [];
+     * @var array $parameters
+     */
+    public array $parameters = [];
 
-	/**
-	 * __construct
-	 *
-	 * Creates a new Request object.
-	 *
-	 */
+    /**
+     * __construct
+     *
+     * Creates a new Request object.
+     *
+     */
     public function __construct()
     {
-		$this->uri = $_SERVER['REQUEST_URI'];
+        $this->uri = $_SERVER['REQUEST_URI'];
         $this->method = $_SERVER['REQUEST_METHOD'];
 
         // Get all parameters from the request depending on request method
@@ -68,28 +66,28 @@ class Request
         // handled by the Route later.
         unset($parameters['path']);
         $this->parameters = $parameters;
-	}
+    }
 
-	/**
-	 * send
-	 *
-	 * Executes the Request by calling the Router to find the matching Route.
+    /**
+     * send
+     *
+     * Executes the Request by calling the Router to find the matching Route.
      * Invokes the controller action with passed parameters.
-	 *
-	 */
-    public function send()
+     *
+     */
+    public function send(): void
     {
-		$MatchedRoute = Router::findRoute($this->uri, $this->method);
+        $MatchedRoute = Router::findRoute($this->uri, $this->method);
 
-		$fullControllerName = APP_CONTROLLER_NAMESPACE.ucfirst($MatchedRoute->controllerName).CONTROLLER;
+		$fullControllerName = Application::getControllerNamespace().ucfirst($MatchedRoute->controllerName).'Controller';
 		$Controller = new $fullControllerName();
 
         $fullActionName = $MatchedRoute->actionName.'Action';
         // Merge the parameters of the route with the values of $_REQUEST
         $parameters = array_merge($MatchedRoute->parameters, $this->parameters);
 
-		$Response = new Response();
-		$Response->setBody(call_user_func_array([$Controller, $fullActionName], $parameters));
-		$Response->send();
-	}
+        $Response = new Response();
+        $Response->setBody(call_user_func_array([$Controller, $fullActionName], $parameters));
+        $Response->send();
+    }
 }
