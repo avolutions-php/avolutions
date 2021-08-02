@@ -16,10 +16,7 @@ use Avolutions\Database\Database;
 use Avolutions\Event\EntityEvent;
 use Avolutions\Event\EventDispatcher;
 use Avolutions\Logging\Logger;
-use Avolutions\Validation\Validator;
 use ReflectionClass;
-
-use const Avolutions\VALIDATOR;
 
 /**
  * Entity class
@@ -75,7 +72,7 @@ class Entity
      *
      * @param array $values The Entity attributes as an array
 	 */
-    public function __construct($values = [])
+    public function __construct(array $values = [])
     {
 		$this->EntityConfiguration = new EntityConfiguration($this->getEntityName());
 		$this->EntityMapping = $this->EntityConfiguration->getMapping();
@@ -282,10 +279,10 @@ class Entity
         foreach ($this->EntityMapping as $property => $value) {
             if (isset($value['validation'])) {
                 foreach ($value['validation'] as $validator => $options) {
-                    $fullValidatorName = 'Avolutions\\Validation\\'.ucfirst($validator).VALIDATOR;
+                    $fullValidatorName = 'Avolutions\\Validation\\'.ucfirst($validator).'Validator';
                     if (!class_exists($fullValidatorName)) {
                         // if validator can not be found in core namespace try in application namespace
-                        $fullValidatorName = Application::getValidatorNamespace().ucfirst($validator).VALIDATOR;
+                        $fullValidatorName = Application::getValidatorNamespace().ucfirst($validator).'Validator';
                     }
                     $Validator = new $fullValidatorName($options, $property, $this);
                     if (!$Validator->isValid($this->$property)) {
