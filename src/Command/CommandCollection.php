@@ -7,15 +7,14 @@ namespace Avolutions\Command;
 
 use Avolutions\Collection\CollectionInterface;
 use Avolutions\Collection\CollectionTrait;
+use Avolutions\Core\Application;
 
 use FilesystemIterator;
 use RegexIterator;
-use const Avolutions\APP_COMMAND_NAMESPACE;
-use const Avolutions\APP_COMMAND_PATH;
-use const Avolutions\APP_DATABASE_PATH;
-use const Avolutions\COMMAND;
-use const Avolutions\COMMAND_NAMESPACE;
 
+/*
+ * TODO
+ */
 class CommandCollection implements CollectionInterface
 {
     use CollectionTrait;
@@ -25,10 +24,8 @@ class CommandCollection implements CollectionInterface
      */
     public function __construct()
     {
-        $coreCommands =  $this->searchCommands(__DIR__, COMMAND_NAMESPACE);
-        // TODO fix Application Path ($_SERVER not working in cli) or best all constants defined in bootstrap
-        //$appCommands =  $this->searchCommands(APP_COMMAND_PATH, APP_COMMAND_NAMESPACE);
-        $appCommands = [];
+        $coreCommands =  $this->searchCommands(__DIR__, 'Avolutions\\Command\\');
+        $appCommands =  $this->searchCommands(Application::getCommandPath(), Application::getCommandNamespace());
 
         $this->items = array_unique(array_merge($coreCommands, $appCommands));
     }
@@ -45,7 +42,7 @@ class CommandCollection implements CollectionInterface
     {
         $commands = [];
 
-        $files = new RegexIterator(new FilesystemIterator($directory), '/'.COMMAND.'.php/');
+        $files = new RegexIterator(new FilesystemIterator($directory), '/Command.php/');
 
         foreach ($files as $file) {
             $class = $namespace.pathinfo($file, PATHINFO_FILENAME);
