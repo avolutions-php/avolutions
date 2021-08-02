@@ -12,7 +12,6 @@
 namespace Avolutions\Orm;
 
 use Avolutions\Core\Application;
-use const Avolutions\MAPPING;
 
 /**
  * EntityMapping class
@@ -35,7 +34,7 @@ class EntityMapping
      */
     public function __construct(string $entity)
     {
-		$mapping = $this->loadMappingFile(Application::getMappingPath().$entity.MAPPING.'.php');
+		$mapping = $this->loadMappingFile(Application::getMappingPath().$entity.'Mapping.php');
 
 		foreach ($mapping as $key => $value) {
             // Set default values
