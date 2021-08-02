@@ -28,14 +28,14 @@ class Application extends AbstractSingleton
      *
      * @var string
      */
-    private static string $basePath;
+    private static string $basePath = '';
 
     /**
      * The application namespace.
      *
      * @var string
      */
-    private static string $appNamespace;
+    private static string $appNamespace = 'Application\\';
 
     /**
      * initialize
