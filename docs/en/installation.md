@@ -60,4 +60,4 @@ The default namespace for your app is "Application\". If you want to use your ow
   }
 },
 ```
-Just replace "Application\\" with your wanted namespace.
+Just replace "Application\\" with your namespace.
