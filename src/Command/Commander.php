@@ -26,16 +26,36 @@ class Commander
     /**
      * TODO
      */
-    public function start()
+    public function start(): int
     {
+        /*$output = fopen('php://stdout', 'wb');
+        fwrite($output, 'Das ist ein Test');*/
+
+        $error = fopen('php://stderr', 'wb');
+        fwrite($error, 'Das ist ein Fehler');
+
+        return 1;
+
         $options = [];
         $arguments = [];
+
+        $CommandCollection = new CommandCollection();
 
         // remove "avolute"
         array_shift($this->argv);
 
-        // first remaining argument must be command name (no space allowed)
         // TODO if no command passed then show global help
+        if(!isset($this->argv[0])) {
+            $mask = "%-20s %-30s\n";
+
+            foreach ($CommandCollection->getAll() as $Command) {
+                printf($mask, $Command::getName(), $Command::getDescription());
+            }
+
+            return 0;
+        }
+
+        // first remaining argument must be command name (no space allowed)
         $commandName = $this->argv[0];
         unset($this->argv[0]);
 
@@ -49,7 +69,6 @@ class Commander
             }
         });
 
-        $CommandCollection = new CommandCollection();
         $command = $CommandCollection->getByName($commandName);
         // TODO check if no command found or -h was passed then show global help
 
@@ -59,8 +78,8 @@ class Commander
         $Command->execute();
         // if no, show error and maybe the help text?
 
-        print_r($arguments);
+        /*print_r($arguments);
         print_r($options);
-        printf($command);
+        printf($command);*/
     }
 }

@@ -1,5 +1,7 @@
 <?php
-
+/*
+ * TODO
+ */
 
 namespace Avolutions\Command;
 
@@ -34,10 +36,10 @@ class CommandCollection implements CollectionInterface
     /**
      * TODO
      *
-     * @param string $directory
-     * @param string $namespace
+     * @param string $directory TODO
+     * @param string $namespace TODO
      *
-     * @return array
+     * @return array TODO
      */
     public function searchCommands(string $directory, string $namespace): array
     {
@@ -48,15 +50,22 @@ class CommandCollection implements CollectionInterface
         foreach ($files as $file) {
             $class = $namespace.pathinfo($file, PATHINFO_FILENAME);
             if (is_subclass_of($class, Command::class)) {
-                $commands[$class::getName()] = $class;
+                $commands[strtolower($class::getName())] = $class;
             }
         }
 
         return $commands;
     }
 
+    /**
+     * TODO
+     *
+     * @param string $commandName TODO
+     *
+     * @return string TODO
+     */
     public function getByName(string $commandName): string
     {
-        return $this->items[$commandName];
+        return $this->items[strtolower($commandName)];
     }
 }
