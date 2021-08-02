@@ -6,7 +6,7 @@ use ReflectionClass;
 
 abstract class Command
 {
-    public string $name;
+    protected static string $description = '';
     public CommandDefinition $CommandDefinition;
 
     private array $arguments = [];
@@ -21,6 +21,11 @@ abstract class Command
     public static function getName(): string
     {
         return str_replace('Command', '', (new ReflectionClass(get_called_class()))->getShortName());
+    }
+
+    public static function getDescription(): string
+    {
+        return static::$description;
     }
 
     /**
