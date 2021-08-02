@@ -71,11 +71,13 @@ class Config extends ConfigFileLoader
     }
 
     /**
-     * TODO
+     * getConfigPath
      *
-     * @return string
+     * Returns the path to the core config files.
+     *
+     * @return string The core config path.
      */
-    public function getConfigPath(): string
+    private function getConfigPath(): string
     {
         return dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
     }
