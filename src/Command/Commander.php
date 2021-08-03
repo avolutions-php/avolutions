@@ -82,10 +82,10 @@ class Commander
             return 0;
         }
 
-        $Command = new $command();
+        $Command = new $command($this->Console);
         // TODO check if arguments and options match with definition
         // if yes set passed arguments and options and execute command
-        $Command->execute();
+        return $Command->execute();
         // if no, show error and maybe the help text?
 
         /*print_r($arguments);
