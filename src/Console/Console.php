@@ -85,7 +85,8 @@ class Console
      * @var array
      */
     private array $styles = [
-        'error' => ['color' => 'lightRed']
+        'error' => ['color' => 'lightRed'],
+        'success' => ['color' => 'green']
     ];
 
     /**
