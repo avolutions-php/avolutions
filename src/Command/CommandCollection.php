@@ -59,10 +59,10 @@ class CommandCollection implements CollectionInterface
      *
      * @param string $commandName TODO
      *
-     * @return string TODO
+     * @return string|null TODO
      */
-    public function getByName(string $commandName): string
+    public function getByName(string $commandName): ?string
     {
-        return $this->items[strtolower($commandName)];
+        return $this->items[strtolower($commandName)] ?? null;
     }
 }
