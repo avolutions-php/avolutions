@@ -4,8 +4,19 @@
 namespace Avolutions\Command;
 
 
+use Avolutions\Console\Console;
+
 class Commander
 {
+    /**
+     *
+     */
+
+    /**
+     * TODO
+     */
+    private Console $Console;
+
     /**
      * TODO
      *
@@ -21,6 +32,7 @@ class Commander
     public function __construct(array $argv)
     {
         $this->argv = $argv;
+        $this->Console = new Console();
     }
 
     /**
@@ -28,14 +40,6 @@ class Commander
      */
     public function start(): int
     {
-        /*$output = fopen('php://stdout', 'wb');
-        fwrite($output, 'Das ist ein Test');*/
-
-        $error = fopen('php://stderr', 'wb');
-        fwrite($error, 'Das ist ein Fehler');
-
-        return 1;
-
         $options = [];
         $arguments = [];
 
@@ -46,11 +50,11 @@ class Commander
 
         // TODO if no command passed then show global help
         if(!isset($this->argv[0])) {
-            $mask = "%-20s %-30s\n";
-
-            foreach ($CommandCollection->getAll() as $Command) {
-                printf($mask, $Command::getName(), $Command::getDescription());
-            }
+            $this->Console->header();
+            $this->Console->writeLine('Usage:', ['color' => 'green']);
+            $this->Console->writeLine('  command [arguments] [options]');
+            $this->Console->writeLine('');
+            $this->showAvailableCommands($CommandCollection);
 
             return 0;
         }
@@ -71,6 +75,12 @@ class Commander
 
         $command = $CommandCollection->getByName($commandName);
         // TODO check if no command found or -h was passed then show global help
+        if($command == null) {
+            $this->Console->writeLine('No valid command provided, choose one of the available commands.', 'error');
+            $this->Console->writeLine('');
+            $this->showAvailableCommands($CommandCollection);
+            return 0;
+        }
 
         $Command = new $command();
         // TODO check if arguments and options match with definition
@@ -81,5 +91,18 @@ class Commander
         /*print_r($arguments);
         print_r($options);
         printf($command);*/
+    }
+
+    /**
+     * @param CommandCollection $CommandCollection
+     */
+    public function showAvailableCommands(CommandCollection $CommandCollection): void
+    {
+        $this->Console->writeLine('Available commands:', ['color' => 'green']);
+
+        foreach ($CommandCollection->getAll() as $Command) {
+            $this->Console->write('  ' . $Command::getName() . "\t", ['color' => 'yellow']);
+            $this->Console->writeLine($Command::getDescription());
+        }
     }
 }
