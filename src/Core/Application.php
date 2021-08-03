@@ -99,6 +99,18 @@ class Application extends AbstractSingleton
     }
 
     /**
+     * getControllerPath
+     *
+     * Returns the path where Controllers are stored.
+     *
+     * @return string The controller path.
+     */
+    public static function getControllerPath(): string
+    {
+        return self::getAppPath().'Controller'.DIRECTORY_SEPARATOR;
+    }
+
+    /**
      * getDatabasePath
      *
      * Returns the path where database migrations are stored.
@@ -123,6 +135,18 @@ class Application extends AbstractSingleton
     }
 
     /**
+     * getModelPath
+     *
+     * Returns the path where Models are stored.
+     *
+     * @return string The model path.
+     */
+    public static function getModelPath(): string
+    {
+        return self::getAppPath().'Model'.DIRECTORY_SEPARATOR;
+    }
+
+    /**
      * getTranslationPath
      *
      * Returns the path where translation files are stored.
@@ -132,6 +156,18 @@ class Application extends AbstractSingleton
     public static function getTranslationPath(): string
     {
         return self::getAppPath().'Translation'.DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * getValidatorPath
+     *
+     * Returns the path where Validators are stored.
+     *
+     * @return string The validator path.
+     */
+    public static function getValidatorPath(): string
+    {
+        return self::getAppPath().'Validator'.DIRECTORY_SEPARATOR;
     }
 
     /**
