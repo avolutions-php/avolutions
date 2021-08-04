@@ -11,18 +11,18 @@ class CreateModelCommand extends Command
 
     public function initialize(): void
     {
+        $this->addOptionDefinition(new Option('force', 'f', 'TODO'));
     }
 
     public function execute(): int
     {
         $inputArg = 'user';
-        $forceMode = true;
 
         $modelName = ucfirst($inputArg);
         $modelFile = Application::getModelPath() . $modelName . '.php';
 
         // TODO force option
-        if (file_exists($modelFile) && !$forceMode) {
+        if (file_exists($modelFile) && !$this->getOption('force')) {
             $this->Console->writeLine('Model "' . $modelName . '" already exists. If you want to override, please use force mode (-f).', 'error');
             return 0;
         }

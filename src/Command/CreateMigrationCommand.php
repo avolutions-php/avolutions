@@ -11,19 +11,19 @@ class CreateMigrationCommand extends Command
 
     public function initialize(): void
     {
+        $this->addOptionDefinition(new Option('force', 'f', 'TODO'));
     }
 
     public function execute(): int
     {
         $inputArg = 'CreateUserTable';
         $inputArg2 = 20210803220500;
-        $forceMode = true;
 
         $migrationName = ucfirst($inputArg);
         $migrationFile = Application::getDatabasePath() . $migrationName . '.php';
 
         // TODO force option
-        if (file_exists($migrationFile) && !$forceMode) {
+        if (file_exists($migrationFile) && !$this->getOption('force')) {
             $this->Console->writeLine('Migration "' . $migrationName . '" already exists. If you want to override, please use force mode (-f).', 'error');
             return 0;
         }

@@ -13,26 +13,21 @@ class CreateControllerCommand extends Command
 
     public function initialize(): void
     {
-        $this->addArgumentDefinition(new Argument('name', 'Der Name des Controllers.'));
-        $this->addOptionDefinition(new Option('log', 'l', 'Gibt an ob das Command geloggt werden soll.', true));
+        $this->addArgumentDefinition(new Argument('name', 'TODO'));
+        $this->addOptionDefinition(new Option('force', 'f', 'TODO'));
     }
 
     public function execute(): int
     {
-        $inputArg = 'user';
-        $forceMode = true;
-
-        $controllerName = ucfirst($inputArg);
+        $controllerName = ucfirst($this->getArgument('name'));
         $controllerFullname = $controllerName . 'Controller';
         $controllerFile = Application::getControllerPath() . $controllerFullname . '.php';
 
-        // TODO force option
-        if (file_exists($controllerFile) && !$forceMode) {
-            $this->Console->writeLine($controllerFullname . '" already exists. If you want to override, please use force mode (-f).', 'error');
+        if (file_exists($controllerFile) && !$this->getOption('force')) {
+            $this->Console->writeLine($controllerFullname . ' already exists. If you want to override, please use force mode (-f).', 'error');
             return 0;
         }
 
-        // TODO own class or own methods?
         $Template = new Template('controller');
         $Template->assign('namespace', rtrim(Application::getControllerNamespace(), '\\'));
         $Template->assign('controller', $controllerName);
