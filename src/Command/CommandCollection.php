@@ -10,6 +10,7 @@ use Avolutions\Collection\CollectionTrait;
 use Avolutions\Core\Application;
 
 use FilesystemIterator;
+use ReflectionException;
 use RegexIterator;
 
 /*
@@ -37,6 +38,7 @@ class CommandCollection implements CollectionInterface
      * @param string $namespace TODO
      *
      * @return array TODO
+     * @throws ReflectionException
      */
     public function searchCommands(string $directory, string $namespace): array
     {
