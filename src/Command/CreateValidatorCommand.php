@@ -13,24 +13,21 @@ class CreateValidatorCommand extends Command
 
     public function initialize(): void
     {
+        $this->addArgumentDefinition(new Argument('name', 'TODO'));
         $this->addOptionDefinition(new Option('force', 'f', 'TODO'));
     }
 
     public function execute(): int
     {
-        $inputArg = 'user';
-
-        $validatorName = ucfirst($inputArg);
+        $validatorName = ucfirst($this->getArgument('name'));
         $validatorFullname = $validatorName . 'Validator';
         $validatorFile = Application::getValidatorPath() . $validatorFullname . '.php';
 
-        // TODO force option
         if (file_exists($validatorFile) && !$this->getOption('force')) {
             $this->Console->writeLine($validatorFullname . ' already exists. If you want to override, please use force mode (-f).', 'error');
             return 0;
         }
 
-        // TODO own class or own methods?
         $Template = new Template('validator');
         $Template->assign('namespace', rtrim(Application::getValidatorNamespace(), '\\'));
         $Template->assign('validator', $validatorName);
