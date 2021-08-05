@@ -17,7 +17,7 @@ abstract class Command
     /**
      * TODO
      *
-     * @var string
+     * @var string TODO
      */
     protected static string $name = '';
 
@@ -59,16 +59,31 @@ abstract class Command
     /**
      * TODO
      *
-     * @param array $argv TODO
-     * @param Console $Console TODO
+     * @param Console|null $Console $Console TODO
      */
-    public function __construct(array $argv, Console $Console)
+    public function __construct(?Console $Console = null)
     {
-        $this->Console = $Console;
+        $this->Console = $Console ?? new Console();
         $this->CommandDefinition = new CommandDefinition();
         $this->initialize();
         $this->addOptionDefinition(new Option('help', 'h', 'TODO'));
-        $this->parseArgv($argv);
+
+    }
+
+
+    /**
+     * TODO
+     *
+     * @param array $argv TODO
+     * @return int TODO
+     */
+    public function start(array $argv): int
+    {
+        if ($this->parseArgv($argv)) {
+            return $this->execute();
+        }
+
+        return 0;
     }
 
     /**
@@ -97,7 +112,7 @@ abstract class Command
      *
      * @param array $argv TODO
      */
-    public function parseArgv(array $argv = [])
+    public function parseArgv(array $argv = []): bool
     {
         $arguments = [];
         $options = [];
@@ -115,9 +130,12 @@ abstract class Command
         $this->parseOptions($options);
         if($this->getOption('help')) {
             $this->showHelp();
+            return false;
         }
 
         $this->parseArguments($arguments);
+
+        return true;
     }
 
     /**
@@ -244,13 +262,38 @@ abstract class Command
      * @param string $name TODO
      * @param mixed $value TODO
      */
-    private function setArgument(string $name, mixed $value)
+    private function setArgument(string $name, mixed $value): void
     {
         $this->arguments[$name] = $value;
     }
 
-    private function showHelp()
+    /**
+     * TODO
+     */
+    private function showHelp(): void
     {
-        $this->Console->writeLine('Help');
+        $this->Console->writeLine(self::getDescription());
+        $this->Console->writeLine('');
+        $this->Console->writeLine('Usage:', ['color' => 'green']);
+        $this->Console->write('  ' . self::getName());
+        foreach ($this->CommandDefinition->getArguments() as $ArgumentDefinition) {
+            $this->Console->write(' <' . $ArgumentDefinition->name . '>');
+        }
+        $this->Console->writeLine(' [options]');
+        $this->Console->writeLine('');
+        $this->Console->writeLine('Arguments:', ['color' => 'green']);
+        foreach ($this->CommandDefinition->getArguments() as $ArgumentDefinition) {
+            $this->Console->writeLine('  ' . $ArgumentDefinition->name. "\t" . $ArgumentDefinition->help);
+        }
+        $this->Console->writeLine('');
+        $this->Console->writeLine('Options:', ['color' => 'green']);
+        foreach ($this->CommandDefinition->getOptions() as $OptionDefinition) {
+            if ($OptionDefinition->short != '') {
+                $this->Console->write('  -' . $OptionDefinition->short . ', ');
+            } else {
+                $this->Console->write('      ');
+            }
+            $this->Console->writeLine('--' . $OptionDefinition->name . "\t" . $OptionDefinition->help);
+        }
     }
 }
