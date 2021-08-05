@@ -11,7 +11,7 @@ use Exception;
 /**
  * TODO
  */
-class Commander
+class CommandDispatcher
 {
     /**
      * TODO
@@ -48,7 +48,6 @@ class Commander
         // remove "avolute"
         array_shift($this->argv);
 
-        // TODO if no command passed then show global help
         if (!isset($this->argv[0])) {
             $this->Console->header();
             $this->Console->writeLine('Usage:', ['color' => 'green']);
@@ -73,8 +72,8 @@ class Commander
         }
 
         try {
-            $Command = new $command($this->argv, $this->Console);
-            return $Command->execute();
+            $Command = new $command($this->Console);
+            return $Command->start($this->argv);
         } catch (Exception $exception) {
             $this->Console->writeLine($exception->getMessage(), 'error');
             return 0;
