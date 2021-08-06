@@ -4,6 +4,8 @@
  */
 namespace Avolutions\Command;
 
+use Exception;
+
 /**
  * TODO
  */
@@ -20,10 +22,20 @@ class Template
      * TODO
      *
      * @param string $templateFile TODO
+     *
+     * @throws Exception
      */
     public function __construct(string $templateFile)
     {
-        $this->template = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $templateFile . '.tpl');
+        // TODO search in application path
+        $fileNameWithExtension = $templateFile . '.tpl';
+        $fileNameWithPath = __DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $fileNameWithExtension;
+
+        if(file_exists($fileNameWithPath)) {
+            $this->template = file_get_contents($fileNameWithPath);
+        } else {
+            throw new Exception('Template file "' . $fileNameWithExtension . '" can not be found.');
+        }
     }
 
     /**

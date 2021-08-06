@@ -123,6 +123,30 @@ class Application extends AbstractSingleton
     }
 
     /**
+     * getEventPath
+     *
+     * Returns the path where Events are stored.
+     *
+     * @return string The event path.
+     */
+    public static function getEventPath(): string
+    {
+        return self::getAppPath().'Event'.DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * getListenerPath
+     *
+     * Returns the path where Listeners are stored.
+     *
+     * @return string The listener path.
+     */
+    public static function getListenerPath(): string
+    {
+        return self::getAppPath().'Listener'.DIRECTORY_SEPARATOR;
+    }
+
+    /**
      * getMappingPath
      *
      * Returns the path where mapping files are stored.
@@ -234,6 +258,19 @@ class Application extends AbstractSingleton
     public static function getDatabaseNamespace(): string
     {
         return self::$appNamespace.'Database\\';
+    }
+
+
+    /**
+     * getEventNamespace
+     *
+     * Returns the namespace for Event classes.
+     *
+     * @return string The event namespace.
+     */
+    public static function getEventNamespace(): string
+    {
+        return self::$appNamespace.'Event\\';
     }
 
     /**

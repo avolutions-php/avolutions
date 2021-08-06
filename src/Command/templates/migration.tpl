@@ -4,7 +4,7 @@ namespace {{ namespace }};
 
 use Avolutions\Database\AbstractMigration;
 
-class {{ migration }} extends AbstractMigration
+class {{ name }} extends AbstractMigration
 {
     public int $version = {{ version }};
 

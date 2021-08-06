@@ -5,7 +5,7 @@ namespace {{ namespace }};
 use Avolutions\Orm\Entity;
 use Avolutions\Validation\AbstractValidator;
 
-class {{ validator }}Validator extends AbstractValidator
+class {{ name }}Validator extends AbstractValidator
 {
     public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null)
     {

@@ -1,22 +1,39 @@
 <?php
-
+/**
+ * TODO
+ */
 
 namespace Avolutions\Command;
 
-
 use Avolutions\Core\Application;
 
+/**
+ * TODO
+ */
 class CreateControllerCommand extends Command
 {
+    /**
+     * @inheritdoc
+     */
     protected static string $name = 'create-controller';
+
+    /**
+     * @inheritdoc
+     */
     protected static string $description = 'Creates a new Controller.';
 
+    /**
+     * @inheritdoc
+     */
     public function initialize(): void
     {
         $this->addArgumentDefinition(new Argument('name', 'TODO'));
         $this->addOptionDefinition(new Option('force', 'f', 'TODO'));
     }
 
+    /**
+     * @inheritdoc
+     */
     public function execute(): int
     {
         $controllerName = ucfirst($this->getArgument('name'));
@@ -30,7 +47,7 @@ class CreateControllerCommand extends Command
 
         $Template = new Template('controller');
         $Template->assign('namespace', rtrim(Application::getControllerNamespace(), '\\'));
-        $Template->assign('controller', $controllerName);
+        $Template->assign('name', $controllerName);
 
         if($Template->save($controllerFile)) {
             $this->Console->writeLine('Controller created successfully.', 'success');

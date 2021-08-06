@@ -1,22 +1,39 @@
 <?php
-
+/**
+ * TODO
+ */
 
 namespace Avolutions\Command;
 
-
 use Avolutions\Core\Application;
 
+/**
+ * TODO
+ */
 class CreateValidatorCommand extends Command
 {
+    /**
+     * @inheritdoc
+     */
     protected static string $name = 'create-validator';
+
+    /**
+     * @inheritdoc
+     */
     protected static string $description = 'Creates a new Validator.';
 
+    /**
+     * @inheritdoc
+     */
     public function initialize(): void
     {
         $this->addArgumentDefinition(new Argument('name', 'TODO'));
         $this->addOptionDefinition(new Option('force', 'f', 'TODO'));
     }
 
+    /**
+     * @inheritdoc
+     */
     public function execute(): int
     {
         $validatorName = ucfirst($this->getArgument('name'));
