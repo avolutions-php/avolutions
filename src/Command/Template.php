@@ -11,6 +11,7 @@
 
 namespace Avolutions\Command;
 
+use Avolutions\Core\Application;
 use Exception;
 
 /**
@@ -41,14 +42,18 @@ class Template
      */
     public function __construct(string $templateFile)
     {
-        // TODO search in application path
         $fileNameWithExtension = $templateFile . '.tpl';
+        $fileNameWithAppPath = Application::getCommandTemplatePath() . $fileNameWithExtension;
         $fileNameWithPath = __DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $fileNameWithExtension;
 
-        if (file_exists($fileNameWithPath)) {
-            $this->template = file_get_contents($fileNameWithPath);
+        if (file_exists($fileNameWithAppPath)) {
+            $this->template = file_get_contents($fileNameWithAppPath);
         } else {
-            throw new Exception('Template file "' . $fileNameWithExtension . '" can not be found.');
+            if (file_exists($fileNameWithPath)) {
+                $this->template = file_get_contents($fileNameWithPath);
+            } else {
+                throw new Exception('Template file "' . $fileNameWithExtension . '" can not be found.');
+            }
         }
     }
 
