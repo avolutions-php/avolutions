@@ -272,28 +272,53 @@ abstract class Command
      */
     private function showHelp(): void
     {
+        $ArgumentDefinitions = $this->CommandDefinition->getArguments();
+        $OptionDefinitions = $this->CommandDefinition->getOptions();
+
         $this->Console->writeLine(self::getDescription());
         $this->Console->writeLine('');
         $this->Console->writeLine('Usage:', ['color' => 'green']);
         $this->Console->write('  ' . self::getName());
-        foreach ($this->CommandDefinition->getArguments() as $ArgumentDefinition) {
-            $this->Console->write(' <' . $ArgumentDefinition->name . '>');
+        foreach ($ArgumentDefinitions as $ArgumentDefinition) {
+            if ($ArgumentDefinition->optional) {
+                $this->Console->write(' [<' . $ArgumentDefinition->name . '>]');
+            } else {
+                $this->Console->write(' <' . $ArgumentDefinition->name . '>');
+            }
         }
         $this->Console->writeLine(' [options]');
         $this->Console->writeLine('');
-        $this->Console->writeLine('Arguments:', ['color' => 'green']);
-        foreach ($this->CommandDefinition->getArguments() as $ArgumentDefinition) {
-            $this->Console->writeLine('  ' . $ArgumentDefinition->name. "\t" . $ArgumentDefinition->help);
-        }
-        $this->Console->writeLine('');
-        $this->Console->writeLine('Options:', ['color' => 'green']);
-        foreach ($this->CommandDefinition->getOptions() as $OptionDefinition) {
-            if ($OptionDefinition->short != '') {
-                $this->Console->write('  -' . $OptionDefinition->short . ', ');
-            } else {
-                $this->Console->write('      ');
+
+        if (count($ArgumentDefinitions) > 0) {
+            $longestArgumentName = max(array_map('strlen', array_map(function($ArgumentDefinition) {
+                return $ArgumentDefinition->name;
+            }, $ArgumentDefinitions)));
+
+            $this->Console->writeLine('Arguments:', ['color' => 'green']);
+            foreach ($ArgumentDefinitions as $ArgumentDefinition) {
+                $this->Console->write('  ' . str_pad($ArgumentDefinition->name, $longestArgumentName) . "\t");
+                if ($ArgumentDefinition->optional) {
+                    $this->Console->write('(Optional) ');
+                }
+                $this->Console->writeLine($ArgumentDefinition->help);
             }
-            $this->Console->writeLine('--' . $OptionDefinition->name . "\t" . $OptionDefinition->help);
+            $this->Console->writeLine('');
+        }
+        $this->Console->writeLine('Options:', ['color' => 'green']);
+        if (count($OptionDefinitions) > 0) {
+            $longestOptionName = max(array_map('strlen', array_map(function ($OptionDefinition) {
+                return $OptionDefinition->short . $OptionDefinition->name;
+            }, $OptionDefinitions)));
+            foreach ($OptionDefinitions as $OptionDefinition) {
+                if ($OptionDefinition->short != '') {
+                    $optionShortAndName = '  -' . $OptionDefinition->short . ', ';
+                } else {
+                    $optionShortAndName = str_pad('', 6);
+                }
+                $optionShortAndName .= '--' . $OptionDefinition->name;
+
+                $this->Console->writeLine(str_pad($optionShortAndName, $longestOptionName + 7) . "\t" . $OptionDefinition->help);
+            }
         }
     }
 }
