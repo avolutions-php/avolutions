@@ -1,55 +1,71 @@
 <?php
 /**
- * TODO
+ * AVOLUTIONS
+ *
+ * Just another open source PHP framework.
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (https://avolutions.org/license)
+ * @link        https://avolutions.org
  */
 
 namespace Avolutions\Console;
 
+use InvalidArgumentException;
+
 /**
- * Class ConsoleTable
+ * ConsoleTable class
  *
- * TODO
+ * Helper to create tables for Console output.
+ *
+ * @author	Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since	0.8.0
  */
 class ConsoleTable
 {
     /**
-     * TODO
+     * Console instance for output.
      *
      * @var Console
      */
     private Console $Console;
 
     /**
-     * TODO
+     * Array with header columns.
      *
      * @var array
      */
     private array $header = [];
 
     /**
-     * TODO
+     * Multidimensional array with row values.
      *
      * @var array
      */
     private array $rows = [];
 
     /**
-     * TODO
+     * __construct
      *
-     * @param Console $Console TODO
-     * @param array $header TODO
-     * @param array $rows TODO
+     * Creates and initializes a new ConsoleTable instance.
+     *
+     * @param Console $Console Console instance for output.
+     * @param array $header Array with header columns.
+     * @param array $rows Multidimensional array with row values.
      */
     public function __construct(Console $Console, array $header = [], array $rows = [])
     {
         $this->setHeader($header);
+        $this->addRows($rows);
         $this->Console = $Console;
     }
 
     /**
-     * TODO
+     * setHeader
      *
-     * @param array $header TODO
+     * Set the header columns for the table.
+     *
+     * @param array $header Array with header columns.
      */
     public function setHeader(array $header): void
     {
@@ -57,20 +73,26 @@ class ConsoleTable
     }
 
     /**
-     * TODO
+     * addRow
      *
-     * @param array $row TODO
+     * Adds an array with row values.
+     *
+     * @param array $row Array with row values.
      */
     public function addRow(array $row): void
     {
-        // TODO check if header count and row count same
+        if (count($this->header) != count($row)) {
+            throw new InvalidArgumentException('Row must contain same amount of columns as header.');
+        }
         $this->rows[] = $row;
     }
 
     /**
-     * TODO
+     * addRows
      *
-     * @param array $rows TODO
+     * Adds multiple rows to the table.
+     *
+     * @param array $rows Multidimensional array with row values.
      */
     public function addRows(array $rows)
     {
@@ -78,16 +100,18 @@ class ConsoleTable
             if (is_array($row)) {
                 $this->addRow($row);
             } else {
-                // TODO show error
+                throw new InvalidArgumentException('Rows must contain arrays with column values.');
             }
         }
     }
 
     /**
-     * TODO
+     * render
      *
-     * @param array $header TODO
-     * @param array $rows TODO
+     * Displays the table to the Console output.
+     *
+     * @param array $header Array with header columns.
+     * @param array $rows Multidimensional array with row values.
      */
     public function render(array $header = [], array $rows = [])
     {
@@ -95,7 +119,7 @@ class ConsoleTable
             $this->setHeader($header);
         }
         if (!empty($rows)) {
-            $this->setRows($rows);
+            $this->addRows($rows);
         }
 
         $width = $this->calculateColumnWidth();
@@ -126,9 +150,11 @@ class ConsoleTable
     }
 
     /**
-     * TODO
+     * calculateColumnWidth
      *
-     * @return array TODO
+     * Finds the longest value/header of each column to adjust the layout.
+     *
+     * @return array Longest value per column.
      */
     private function calculateColumnWidth(): array
     {

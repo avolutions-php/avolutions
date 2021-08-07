@@ -1,23 +1,32 @@
 <?php
 /**
- * TODO
+ * AVOLUTIONS
+ *
+ * Just another open source PHP framework.
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (https://avolutions.org/license)
+ * @link        https://avolutions.org
  */
 
 namespace Avolutions\Command;
 
 use Avolutions\Console\ConsoleTable;
-use Avolutions\Core\Application;
 use Avolutions\Database\Database;
 use Exception;
-use ReflectionException;
 
 /**
- * TODO
+ * DatabaseStatusCommand class
+ *
+ * Shows all executed migrations.
+ *
+ * @author	Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since	0.8.0
  */
-class DatabaseStatusCommand extends Command
+class DatabaseStatusCommand extends AbstractCommand
 {
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected static string $name = 'database-status';
 
@@ -28,6 +37,7 @@ class DatabaseStatusCommand extends Command
 
     /**
      * @inheritdoc
+     * @throws Exception
      */
     public function execute(): int
     {

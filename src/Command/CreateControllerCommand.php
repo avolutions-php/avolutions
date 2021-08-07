@@ -1,6 +1,12 @@
 <?php
 /**
- * TODO
+ * AVOLUTIONS
+ *
+ * Just another open source PHP framework.
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (https://avolutions.org/license)
+ * @link        https://avolutions.org
  */
 
 namespace Avolutions\Command;
@@ -8,9 +14,14 @@ namespace Avolutions\Command;
 use Avolutions\Core\Application;
 
 /**
- * TODO
+ * CreateControllerCommand class
+ *
+ * Creates a new Controller.
+ *
+ * @author	Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since	0.8.0
  */
-class CreateControllerCommand extends Command
+class CreateControllerCommand extends AbstractCommand
 {
     /**
      * @inheritdoc

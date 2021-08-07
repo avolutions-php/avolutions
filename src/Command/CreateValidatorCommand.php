@@ -1,6 +1,12 @@
 <?php
 /**
- * TODO
+ * AVOLUTIONS
+ *
+ * Just another open source PHP framework.
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (https://avolutions.org/license)
+ * @link        https://avolutions.org
  */
 
 namespace Avolutions\Command;
@@ -8,9 +14,14 @@ namespace Avolutions\Command;
 use Avolutions\Core\Application;
 
 /**
- * TODO
+ * CreateValidatorCommand class
+ *
+ * Creates a new Validator.
+ *
+ * @author	Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since	0.8.0
  */
-class CreateValidatorCommand extends Command
+class CreateValidatorCommand extends AbstractCommand
 {
     /**
      * @inheritdoc

@@ -1,15 +1,27 @@
 <?php
 /**
- * TODO
+ * AVOLUTIONS
+ *
+ * Just another open source PHP framework.
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (https://avolutions.org/license)
+ * @link        https://avolutions.org
  */
+
 namespace Avolutions\Command;
 
 use Avolutions\Core\Application;
 
 /**
- * TODO
+ * CreateListenerCommand class
+ *
+ * Creates a new Listener.
+ *
+ * @author	Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since	0.8.0
  */
-class CreateListenerCommand extends Command
+class CreateListenerCommand extends AbstractCommand
 {
     /**
      * @inheritdoc

@@ -1,91 +1,115 @@
 <?php
 /**
- * TODO
+ * AVOLUTIONS
+ *
+ * Just another open source PHP framework.
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (https://avolutions.org/license)
+ * @link        https://avolutions.org
  */
 
 namespace Avolutions\Command;
 
 use Avolutions\Console\Console;
 use Exception;
+use InvalidArgumentException;
 
 /**
- * TODO
+ * CommandDispatcher class
+ *
+ * Find and run commands based on passed arguments.
+ *
+ * @author	Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since	0.8.0
  */
 class CommandDispatcher
 {
     /**
-     * TODO
+     * Console instance for output.
+     *
+     * @var Console
      */
     private Console $Console;
 
     /**
-     * TODO
+     * __construct
      *
-     * @var array
+     * Creates a new CommandDispatcher instance.
      */
-    private array $argv = [];
-
-    /**
-     * TODO
-     *
-     * @param array $argv TODO
-     */
-    public function __construct(array $argv)
+    public function __construct()
     {
-        $this->argv = $argv;
         $this->Console = new Console();
     }
 
+
     /**
-     * TODO
+     * dispatch
      *
-     * @return int TODO
+     * Find and run command based on passed arguments.
+     *
+     * @param mixed $argv Arguments from command line.
+     *
+     * @return int Exit status.
+     *
+     * @throws InvalidArgumentException
      */
-    public function start(): int
+    public function dispatch(mixed $argv): int
     {
+        if (!is_array($argv) && !is_string($argv)) {
+            throw new InvalidArgumentException('$argv must be either of type array or type string.');
+        }
+
+        if (is_string($argv)) {
+            $argv = explode(' ', $argv);
+        }
+
+        if (isset($argv[0]) && $argv[0] == 'avolute') {
+            array_shift($argv);
+        }
+
         $CommandCollection = new CommandCollection();
 
-        // remove "avolute"
-        array_shift($this->argv);
-
-        if (!isset($this->argv[0])) {
-            $this->Console->header();
+        if (!isset($argv[0])) {
+            $this->Console->writeLine(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'avolutions.txt'));
             $this->Console->writeLine('Usage:', ['color' => 'green']);
             $this->Console->writeLine('  command [arguments] [options]');
             $this->Console->writeLine('');
             $this->showAvailableCommands($CommandCollection);
 
-            // TODO replace by const
-            return 0;
+            return ExitStatus::ERROR;
         }
 
         // first remaining argument must be command name (no space allowed)
-        $commandName = $this->argv[0];
-        unset($this->argv[0]);
+        $commandName = $argv[0];
+        unset($argv[0]);
 
         $command = $CommandCollection->getByName($commandName);
         if ($command == null) {
             $this->Console->writeLine('No valid command provided, choose one of the available commands.', 'error');
             $this->Console->writeLine('');
             $this->showAvailableCommands($CommandCollection);
-            return 0;
+
+            return ExitStatus::ERROR;
         }
 
         try {
             $Command = new $command($this->Console);
-            return $Command->start($this->argv);
+            return $Command->start($argv);
         } catch (Exception $exception) {
             $this->Console->writeLine($exception->getMessage(), 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
     }
 
     /**
-     * TODO
+     * showAvailableCommands
      *
-     * @param CommandCollection $CommandCollection TODO
+     * Displays all available commands from CommandCollection.
+     *
+     * @param CommandCollection $CommandCollection CommandCollection with all available commands.
      */
-    public function showAvailableCommands(CommandCollection $CommandCollection): void
+    private function showAvailableCommands(CommandCollection $CommandCollection): void
     {
         $Commands = $CommandCollection->getAll();
 

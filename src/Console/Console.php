@@ -1,26 +1,35 @@
 <?php
 /**
- * TODO
+ * AVOLUTIONS
+ *
+ * Just another open source PHP framework.
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (https://avolutions.org/license)
+ * @link        https://avolutions.org
  */
 
 namespace Avolutions\Console;
 
 /**
- * Class Console
+ * Console class
  *
- * TODO
+ * Handles the console output.
+ *
+ * @author	Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since	0.8.0
  */
 class Console
 {
     /**
-     * TODO
+     * Output stream.
      *
-     * @var false|resource
+     * @var resource|false
      */
     private $output;
 
     /**
-     * TODO
+     * Formats for output.
      *
      * @var array
      */
@@ -32,7 +41,7 @@ class Console
     ];
 
     /**
-     * TODO
+     * Colors for output.
      *
      * @var array
      */
@@ -56,7 +65,7 @@ class Console
     ];
 
     /**
-     * TODO
+     * Background colors for output.
      *
      * @var array
      */
@@ -80,7 +89,7 @@ class Console
     ];
 
     /**
-     * TODO
+     * Predefined styles for output.
      *
      * @var array
      */
@@ -90,25 +99,22 @@ class Console
     ];
 
     /**
-     * TODO
+     * __construct
+     *
+     * Creates a new Console instance and initializes the output stream.
      */
     public function __construct()
     {
         $this->output = STDOUT;
     }
 
-
-    public function header()
-    {
-        // TODO make it overridable from application
-        $this->writeLine(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'header.txt'));
-    }
-
     /**
-     * TODO
+     * writeLine
      *
-     * @param string $message TODO
-     * @param array $style TODO
+     * Adds text with line break at the end to the Console output.
+     *
+     * @param string $message The message to output.
+     * @param mixed|null $style
      */
     public function writeLine(string $message, mixed $style = null)
     {
@@ -116,11 +122,13 @@ class Console
     }
 
     /**
-     * TODO
+     * write
      *
-     * @param string $message TODO
-     * @param array $style TODO
-     * @param bool $newLine TODO
+     * Adds text to the Console output.
+     *
+     * @param string $message The message to output.
+     * @param mixed|null $style Either the name of a predefined style or an array with style information.
+     * @param bool $newLine Either a line break is added to the end (true) or not (false).
      */
     public function write(string $message, mixed $style = null, bool $newLine = false)
     {

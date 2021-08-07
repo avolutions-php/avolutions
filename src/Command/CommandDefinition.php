@@ -1,70 +1,85 @@
 <?php
 /**
- * TODO
+ * AVOLUTIONS
+ *
+ * Just another open source PHP framework.
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (https://avolutions.org/license)
+ * @link        https://avolutions.org
  */
 
 namespace Avolutions\Command;
 
 /**
- * TODO
+ * CommandDefinition class
+ *
+ * Contains Argument and Option definitions.
+ *
+ * @author	Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since	0.8.0
  */
 class CommandDefinition
 {
     /**
-     * TODO
+     * Array of Argument definitions.
      *
      * @var array
      */
     private array $Arguments = [];
 
     /**
-     * TODO
+     * Array of Option definitions.
      *
      * @var array
      */
     private array $Options = [];
 
     /**
-     * TODO
+     * addArgument
      *
-     * @param Argument $Argument TODO
+     * Adds an Argument definition to the CommandDefinition.
+     *
+     * @param Argument $Argument An Argument definition.
      */
     public function addArgument(Argument $Argument): void
     {
-        // TODO allow Argument or array and create Argument if array passed?
-        // TODO use name as key?
         $this->Arguments[] = $Argument;
     }
 
     /**
-     * TODO
+     * addOption
      *
-     * @param Option $Option TODO
+     * Adds an Option definition to the CommandDefinition.
+     *
+     * @param Option $Option  An Option definition.
      */
     public function addOption(Option $Option): void
     {
-        // TODO allow Option or array and create Option if array passed?
-        // TODO use name as key?
         $this->Options[] = $Option;
     }
 
     /**
-     * TODO
+     * getArguments
      *
-     * @return array TODO
-     */
-    public function getOptions(): array
-    {
-        return $this->Options;
-    }
-
-    /**
-     * TODO
+     * Returns all Argument definitions.
      *
-     * @return array TODO
+     * @return array Argument definitions.
      */
     public function getArguments(): array
     {
         return $this->Arguments;
+    }
+
+    /**
+     * getOptions
+     *
+     * Returns all Option definitions.
+     *
+     * @return array Option definitions.
+     */
+    public function getOptions(): array
+    {
+        return $this->Options;
     }
 }
