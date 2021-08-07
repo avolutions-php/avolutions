@@ -49,7 +49,7 @@ class CreateValidatorCommand extends Command
         $Template->assign('namespace', rtrim(Application::getValidatorNamespace(), '\\'));
         $Template->assign('validator', $validatorName);
 
-        if($Template->save($validatorFile)) {
+        if ($Template->save($validatorFile)) {
             $this->Console->writeLine('Validator created successfully.', 'success');
             return 1;
         } else {

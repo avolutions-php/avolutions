@@ -142,9 +142,7 @@ class Console
             if (isset($style['background'])) {
                 $styleCodes[] = $this->backgroundColors[$style['background']];
             }
-            //print_r($styleCodes);
 
-            // Needs to be in ", does not work with '
             $message = "\033[" . implode(';', $styleCodes) . "m" . $message . "\033[0m";
         }
 

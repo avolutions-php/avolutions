@@ -48,7 +48,7 @@ class CreateModelCommand extends Command
             return 0;
         }
 
-        if($this->getOption('mapping')) {
+        if ($this->getOption('mapping')) {
             $MappingCommand = new CreateMappingCommand();
             $parameters = [
                 'name' => $modelName
@@ -59,7 +59,7 @@ class CreateModelCommand extends Command
             $MappingCommand->start($parameters);
         }
 
-        if($this->getOption('migration')) {
+        if ($this->getOption('migration')) {
             $MigrationCommand = new CreateMigrationCommand();
             $parameters = [
                 'name' => 'Create' . $modelName . 'Table',
@@ -71,7 +71,7 @@ class CreateModelCommand extends Command
             $MigrationCommand->start($parameters);
         }
 
-        if($this->getOption('listener')) {
+        if ($this->getOption('listener')) {
             $ListenerCommand = new CreateListenerCommand();
             $parameters = [
                 'name' => $modelName,

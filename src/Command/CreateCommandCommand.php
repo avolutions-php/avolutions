@@ -52,7 +52,7 @@ class CreateCommandCommand extends Command
         $Template->assign('name', $commandName);
         $Template->assign('shortname', $shortname);
 
-        if($Template->save($commandFile)) {
+        if ($Template->save($commandFile)) {
             $this->Console->writeLine('Command created successfully.', 'success');
             return 1;
         } else {

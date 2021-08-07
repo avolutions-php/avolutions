@@ -49,7 +49,7 @@ class CreateControllerCommand extends Command
         $Template->assign('namespace', rtrim(Application::getControllerNamespace(), '\\'));
         $Template->assign('name', $controllerName);
 
-        if($Template->save($controllerFile)) {
+        if ($Template->save($controllerFile)) {
             $this->Console->writeLine('Controller created successfully.', 'success');
             return 1;
         } else {

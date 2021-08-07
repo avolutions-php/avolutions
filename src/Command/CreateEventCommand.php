@@ -19,7 +19,7 @@ class CreateEventCommand extends Command
     /**
      * @inheritdoc
      */
-    protected static string $description = 'Creates an new Event.';
+    protected static string $description = 'Creates a new Event.';
 
     /**
      * @inheritDoc
@@ -46,7 +46,7 @@ class CreateEventCommand extends Command
             return 0;
         }
 
-        if($this->getOption('listener')) {
+        if ($this->getOption('listener')) {
             $ListenerCommand = new CreateListenerCommand();
             $parameters = [
                 'name' => $eventName
@@ -61,7 +61,7 @@ class CreateEventCommand extends Command
         $Template->assign('namespace', rtrim(Application::getEventNamespace(), '\\'));
         $Template->assign('name', $eventName);
 
-        if($Template->save($eventFile)) {
+        if ($Template->save($eventFile)) {
             $this->Console->writeLine('Event created successfully.', 'success');
             return 1;
         } else {

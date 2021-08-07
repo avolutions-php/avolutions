@@ -46,7 +46,7 @@ class CreateMappingCommand extends Command
         $Template = new Template('mapping');
         $Template->assign('name', $mappingName);
 
-        if($Template->save($mappingFile)) {
+        if ($Template->save($mappingFile)) {
             $this->Console->writeLine('Mapping file created successfully.', 'success');
             return 1;
         } else {

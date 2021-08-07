@@ -67,7 +67,7 @@ class CreateListenerCommand extends Command
         $Template->assign('namespace', rtrim(Application::getEventNamespace(), '\\'));
         $Template->assign('name', $listenerName);
 
-        if($Template->save($listenerFile)) {
+        if ($Template->save($listenerFile)) {
             $this->Console->writeLine('Listener created successfully.', 'success');
             return 1;
         } else {

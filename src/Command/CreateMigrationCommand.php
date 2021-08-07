@@ -50,7 +50,7 @@ class CreateMigrationCommand extends Command
         $Template->assign('name', $migrationName);
         $Template->assign('version', $version);
 
-        if($Template->save($migrationFile)) {
+        if ($Template->save($migrationFile)) {
             $this->Console->writeLine('Migration created successfully.', 'success');
             return 1;
         } else {
