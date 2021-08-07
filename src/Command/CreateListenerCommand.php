@@ -61,7 +61,7 @@ class CreateListenerCommand extends AbstractCommand
         $force = $this->getOption('force');
         if (file_exists($listenerFile) && !$force) {
             $this->Console->writeLine($listenerFullname . ' already exists. If you want to override, please use force mode (-f).', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
 
         if($this->getOption('event')) {
@@ -81,10 +81,10 @@ class CreateListenerCommand extends AbstractCommand
 
         if ($Template->save($listenerFile)) {
             $this->Console->writeLine('Listener created successfully.', 'success');
-            return 1;
+            return ExitStatus::SUCCESS;
         } else {
             $this->Console->writeLine('Error when creating Listener.', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
     }
 }

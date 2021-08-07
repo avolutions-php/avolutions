@@ -57,7 +57,7 @@ class CreateModelCommand extends AbstractCommand
         $force = $this->getOption('force');
         if (file_exists($modelFile) && !$force) {
             $this->Console->writeLine('Model "' . $modelName . '" already exists. If you want to override, please use force mode (-f).', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
 
         if ($this->getOption('mapping')) {
@@ -101,10 +101,10 @@ class CreateModelCommand extends AbstractCommand
 
         if($Template->save($modelFile)) {
             $this->Console->writeLine('Model created successfully.', 'success');
-            return 1;
+            return ExitStatus::SUCCESS;
         } else {
             $this->Console->writeLine('Error when creating Model.', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
     }
 }

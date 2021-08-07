@@ -48,7 +48,7 @@ class DatabaseStatusCommand extends AbstractCommand
                 $ConsoleTable->addRow([$version, $migration['name'], $migration['date']]);
             }
             $ConsoleTable->render();
-            return 1;
+            return ExitStatus::SUCCESS;
         } catch (Exception $e) {
             throw $e;
         }

@@ -52,7 +52,7 @@ class CreateMappingCommand extends AbstractCommand
 
         if (file_exists($mappingFile) && !$this->getOption('force')) {
             $this->Console->writeLine('Mapping file "' . $mappingName . '" already exists. If you want to override, please use force mode (-f).', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
 
         $Template = new Template('mapping');
@@ -60,10 +60,10 @@ class CreateMappingCommand extends AbstractCommand
 
         if ($Template->save($mappingFile)) {
             $this->Console->writeLine('Mapping file created successfully.', 'success');
-            return 1;
+            return ExitStatus::SUCCESS;
         } else {
             $this->Console->writeLine('Error when creating mapping file.', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
     }
 }

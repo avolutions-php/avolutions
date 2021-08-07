@@ -53,7 +53,7 @@ class CreateValidatorCommand extends AbstractCommand
 
         if (file_exists($validatorFile) && !$this->getOption('force')) {
             $this->Console->writeLine($validatorFullname . ' already exists. If you want to override, please use force mode (-f).', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
 
         $Template = new Template('validator');
@@ -62,10 +62,10 @@ class CreateValidatorCommand extends AbstractCommand
 
         if ($Template->save($validatorFile)) {
             $this->Console->writeLine('Validator created successfully.', 'success');
-            return 1;
+            return ExitStatus::SUCCESS;
         } else {
             $this->Console->writeLine('Error when creating Validator.', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
     }
 }

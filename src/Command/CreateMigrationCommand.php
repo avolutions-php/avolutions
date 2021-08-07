@@ -54,7 +54,7 @@ class CreateMigrationCommand extends AbstractCommand
 
         if (file_exists($migrationFile) && !$this->getOption('force')) {
             $this->Console->writeLine($migrationName . ' migration already exists. If you want to override, please use force mode (-f).', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
 
         $Template = new Template('migration');
@@ -64,10 +64,10 @@ class CreateMigrationCommand extends AbstractCommand
 
         if ($Template->save($migrationFile)) {
             $this->Console->writeLine('Migration created successfully.', 'success');
-            return 1;
+            return ExitStatus::SUCCESS;
         } else {
             $this->Console->writeLine('Error when creating Migration.', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
     }
 }

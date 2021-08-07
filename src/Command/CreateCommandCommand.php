@@ -55,7 +55,7 @@ class CreateCommandCommand extends AbstractCommand
 
         if (file_exists($commandFile) && !$this->getOption('force')) {
             $this->Console->writeLine($commandFullname . ' already exists. If you want to override, please use force mode (-f).', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
 
         $Template = new Template('command');
@@ -65,10 +65,10 @@ class CreateCommandCommand extends AbstractCommand
 
         if ($Template->save($commandFile)) {
             $this->Console->writeLine('Command created successfully.', 'success');
-            return 1;
+            return ExitStatus::SUCCESS;
         } else {
             $this->Console->writeLine('Error when creating Command.', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
     }
 }

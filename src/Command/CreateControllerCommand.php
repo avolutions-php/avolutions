@@ -53,7 +53,7 @@ class CreateControllerCommand extends AbstractCommand
 
         if (file_exists($controllerFile) && !$this->getOption('force')) {
             $this->Console->writeLine($controllerFullname . ' already exists. If you want to override, please use force mode (-f).', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
 
         $Template = new Template('controller');
@@ -62,10 +62,10 @@ class CreateControllerCommand extends AbstractCommand
 
         if ($Template->save($controllerFile)) {
             $this->Console->writeLine('Controller created successfully.', 'success');
-            return 1;
+            return ExitStatus::SUCCESS;
         } else {
             $this->Console->writeLine('Error when creating Controller.', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
     }
 }

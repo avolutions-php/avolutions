@@ -55,7 +55,7 @@ class CreateEventCommand extends AbstractCommand
         $force = $this->getOption('force');
         if (file_exists($eventFile) && !$force) {
             $this->Console->writeLine($eventFullname . ' already exists. If you want to override, please use force mode (-f).', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
 
         if ($this->getOption('listener')) {
@@ -75,10 +75,10 @@ class CreateEventCommand extends AbstractCommand
 
         if ($Template->save($eventFile)) {
             $this->Console->writeLine('Event created successfully.', 'success');
-            return 1;
+            return ExitStatus::SUCCESS;
         } else {
             $this->Console->writeLine('Error when creating Event.', 'error');
-            return 0;
+            return ExitStatus::ERROR;
         }
     }
 }

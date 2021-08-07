@@ -43,7 +43,7 @@ class DatabaseMigrateCommand extends AbstractCommand
         try {
             Database::migrate();
             $this->Console->writeLine('Migrations executed successfully', 'success');
-            return 1;
+            return ExitStatus::SUCCESS;
         } catch (Exception $e) {
             throw $e;
         }
