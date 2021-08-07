@@ -22,6 +22,13 @@ namespace Avolutions\Command;
 class Argument
 {
     /**
+     * Default value of the Argument.
+     *
+     * @var mixed|null
+     */
+    public mixed $default = null;
+
+    /**
      * Help text for the Argument.
      *
      * @var string|mixed
@@ -51,10 +58,13 @@ class Argument
      * @param string $help Help text for the Argument.
      * @param bool $optional Indicates if Argument is optional (true) or not (false).
      */
-    public function __construct(string $name, string $help = '', bool $optional = false)
+    public function __construct(string $name, string $help = '', bool $optional = false, mixed $default = null)
     {
         $this->name = $name;
         $this->help = $help;
         $this->optional = $optional;
+        if ($this->optional) {
+            $this->default = $default;
+        }
     }
 }

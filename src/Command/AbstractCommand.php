@@ -94,6 +94,9 @@ abstract class AbstractCommand
     public function addArgumentDefinition(Argument $Argument): void
     {
         $this->CommandDefinition->addArgument($Argument);
+        if ($Argument->default !== null) {
+            $this->setArgument($Argument->name, $Argument->default);
+        }
     }
 
     /**

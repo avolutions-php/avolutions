@@ -12,7 +12,6 @@
 namespace Avolutions\Command;
 
 use Avolutions\Core\Application;
-use DateTime;
 
 /**
  * CreateModelCommand class
@@ -70,7 +69,7 @@ class CreateModelCommand extends AbstractCommand
         }
 
         if ($this->getOption('migration')) {
-            $argv = 'create-migration ' . 'Create' . $modelName . 'Table ' . (new DateTime())->format('YmdHis');
+            $argv = 'create-migration ' . 'Create' . $modelName . 'Table ';
             if ($force) {
                 $argv .= ' -f' ;
             }
