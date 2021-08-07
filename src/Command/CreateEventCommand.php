@@ -38,9 +38,9 @@ class CreateEventCommand extends AbstractCommand
      */
     public function initialize(): void
     {
-        $this->addArgumentDefinition(new Argument('name', 'TODO'));
-        $this->addOptionDefinition(new Option('force', 'f', 'TODO'));
-        $this->addOptionDefinition(new Option('listener', 'l', 'TODO'));
+        $this->addArgumentDefinition(new Argument('name', 'The name of the Event class without "Event" suffix.'));
+        $this->addOptionDefinition(new Option('force', 'f', 'Event will be overwritten if it already exists.'));
+        $this->addOptionDefinition(new Option('listener', 'l', 'Automatically creates a Listener for the Event.'));
     }
 
     /**

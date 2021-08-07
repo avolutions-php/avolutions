@@ -38,10 +38,10 @@ class CreateListenerCommand extends AbstractCommand
      */
     public function initialize(): void
     {
-        $this->addArgumentDefinition(new Argument('name', 'TODO'));
-        $this->addOptionDefinition(new Option('force', 'f', 'TODO'));
-        $this->addOptionDefinition(new Option('event', 'e', 'TODO'));
-        $this->addOptionDefinition(new Option('model', 'm', 'TODO'));
+        $this->addArgumentDefinition(new Argument('name', 'The name of the Listener class without "Listener" suffix.'));
+        $this->addOptionDefinition(new Option('force', 'f', 'Listener will be overwritten if it already exists.'));
+        $this->addOptionDefinition(new Option('event', 'e', 'Automatically creates an Event for the Listener.'));
+        $this->addOptionDefinition(new Option('model', 'm', 'Indicates if Listener is for EntityEvent to use correct naming conventions.'));
     }
 
     /**

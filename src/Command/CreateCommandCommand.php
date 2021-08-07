@@ -38,9 +38,9 @@ class CreateCommandCommand extends AbstractCommand
      */
     public function initialize(): void
     {
-        $this->addArgumentDefinition(new Argument('name', 'TODO'));
-        $this->addArgumentDefinition(new Argument('shortname', 'TODO', true));
-        $this->addOptionDefinition(new Option('force', 'f', 'TODO'));
+        $this->addArgumentDefinition(new Argument('name', 'The name of the Command class without "Command" suffix.'));
+        $this->addArgumentDefinition(new Argument('shortname', 'The name with which the command can be executed.', true));
+        $this->addOptionDefinition(new Option('force', 'f', 'Command will be overwritten if it already exists.'));
     }
 
     /**

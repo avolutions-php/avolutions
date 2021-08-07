@@ -38,9 +38,9 @@ class CreateMigrationCommand extends AbstractCommand
      */
     public function initialize(): void
     {
-        $this->addArgumentDefinition(new Argument('name', 'TODO'));
-        $this->addArgumentDefinition(new Argument('version', 'TODO'));
-        $this->addOptionDefinition(new Option('force', 'f', 'TODO'));
+        $this->addArgumentDefinition(new Argument('name', 'The name of the Migration class.'));
+        $this->addArgumentDefinition(new Argument('version', 'The unique version of the Migration. If none is passed the current DateTime (YmdHis) is used.', true));
+        $this->addOptionDefinition(new Option('force', 'f', 'Migration will be overwritten if it already exists.'));
     }
 
     /**

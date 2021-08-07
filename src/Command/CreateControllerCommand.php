@@ -38,8 +38,8 @@ class CreateControllerCommand extends AbstractCommand
      */
     public function initialize(): void
     {
-        $this->addArgumentDefinition(new Argument('name', 'TODO'));
-        $this->addOptionDefinition(new Option('force', 'f', 'TODO'));
+        $this->addArgumentDefinition(new Argument('name', 'The name of the Controller without "Controller" suffix.'));
+        $this->addOptionDefinition(new Option('force', 'f', 'Controller will be overwritten if it already exists.'));
     }
 
     /**

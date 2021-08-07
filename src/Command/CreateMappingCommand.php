@@ -38,8 +38,9 @@ class CreateMappingCommand extends AbstractCommand
      */
     public function initialize(): void
     {
-        $this->addArgumentDefinition(new Argument('name', 'TODO'));
-        $this->addOptionDefinition(new Option('force', 'f', 'TODO'));
+        $this->addArgumentDefinition(new Argument('name', 'The name of the mapping file without "Mapping" suffix.'));
+        $this->addOptionDefinition(new Option('force', 'f', 'Mapping file will be overwritten if it already exists.'));
+        $this->addOptionDefinition(new Option('model', 'm', 'Automatically creates a model for the mapping.'));
     }
 
     /**
@@ -50,9 +51,19 @@ class CreateMappingCommand extends AbstractCommand
         $mappingName = ucfirst($this->getArgument('name'));
         $mappingFile = Application::getMappingPath() . $mappingName . 'Mapping.php';
 
-        if (file_exists($mappingFile) && !$this->getOption('force')) {
+        $force = $this->getOption('force');
+        if (file_exists($mappingFile) && !$force) {
             $this->Console->writeLine('Mapping file "' . $mappingName . '" already exists. If you want to override, please use force mode (-f).', 'error');
             return ExitStatus::ERROR;
+        }
+
+        if ($this->getOption('model')) {
+            $Commander = new CommandDispatcher();
+            $argv = 'create-model ' . $mappingName;
+            if ($force) {
+                $argv .= ' -f' ;
+            }
+            $Commander->dispatch($argv);
         }
 
         $Template = new Template('mapping');

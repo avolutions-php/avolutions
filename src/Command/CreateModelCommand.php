@@ -39,11 +39,11 @@ class CreateModelCommand extends AbstractCommand
      */
     public function initialize(): void
     {
-        $this->addArgumentDefinition(new Argument('name', 'TODO'));
-        $this->addOptionDefinition(new Option('force', 'f', 'TODO'));
-        $this->addOptionDefinition(new Option('mapping', '', 'TODO', false));
-        $this->addOptionDefinition(new Option('migration', '', 'TODO', false));
-        $this->addOptionDefinition(new Option('listener', '', 'TODO', false));
+        $this->addArgumentDefinition(new Argument('name', 'The name of the Model class.'));
+        $this->addOptionDefinition(new Option('force', 'f', 'Model will be overwritten if it already exists.'));
+        $this->addOptionDefinition(new Option('mapping', 'm', 'Automatically creates a mapping file for the Model.', false));
+        $this->addOptionDefinition(new Option('migration', 'd', 'Automatically creates a Migration for the Model.', false));
+        $this->addOptionDefinition(new Option('listener', 'l', 'Automatically creates a Listener for the Model.', false));
     }
 
     /**
