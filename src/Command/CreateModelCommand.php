@@ -60,39 +60,29 @@ class CreateModelCommand extends AbstractCommand
             return ExitStatus::ERROR;
         }
 
+        $Commander = new CommandDispatcher();
         if ($this->getOption('mapping')) {
-            $MappingCommand = new CreateMappingCommand();
-            $parameters = [
-                'name' => $modelName
-            ];
+            $argv = 'create-mapping ' . $modelName;
             if ($force) {
-                $parameters[] = '-f';
+                $argv .= ' -f' ;
             }
-            $MappingCommand->start($parameters);
+            $Commander->dispatch($argv);
         }
 
         if ($this->getOption('migration')) {
-            $MigrationCommand = new CreateMigrationCommand();
-            $parameters = [
-                'name' => 'Create' . $modelName . 'Table',
-                'version' => (new DateTime())->format('YmdHis')
-            ];
+            $argv = 'create-migration ' . 'Create' . $modelName . 'Table ' . (new DateTime())->format('YmdHis');
             if ($force) {
-                $parameters[] = '-f';
+                $argv .= ' -f' ;
             }
-            $MigrationCommand->start($parameters);
+            $Commander->dispatch($argv);
         }
 
         if ($this->getOption('listener')) {
-            $ListenerCommand = new CreateListenerCommand();
-            $parameters = [
-                'name' => $modelName,
-                '-m'
-            ];
+            $argv = 'create-listener ' . $modelName . ' -m';
             if ($force) {
-                $parameters[] = '-f';
+                $argv .= ' -f' ;
             }
-            $ListenerCommand->start($parameters);
+            $Commander->dispatch($argv);
         }
 
         $Template = new Template('model');
