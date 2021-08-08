@@ -57,7 +57,7 @@ class Application extends AbstractSingleton
      *
      * @return string The base path.
      */
-    public function getBasePath(): string
+    public static function getBasePath(): string
     {
         return self::$basePath;
     }
@@ -71,7 +71,7 @@ class Application extends AbstractSingleton
      */
     public static function getAppPath(): string
     {
-        return self::$basePath . 'application' . DIRECTORY_SEPARATOR;
+        return self::getBasePath() . 'application' . DIRECTORY_SEPARATOR;
     }
 
     /**
