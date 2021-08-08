@@ -76,16 +76,21 @@ class Template
      * Saves the template including assigned values to a given file/directory.
      *
      * @param string $file Filename including path. Path and file will be created if not exists.
+     * @param bool $append TODO
      *
      * @return bool|int Number of bytes that were written to the file, or false on failure.
      */
-    public function save(string $file): bool|int
+    public function save(string $file, bool $append = false): bool|int
     {
         $directory = dirname($file);
         if (!file_exists($directory)) {
             mkdir($directory);
         }
 
-        return file_put_contents($file, $this->template);
+        if ($append) {
+            return file_put_contents($file, $this->template, FILE_APPEND);
+        } else {
+            return file_put_contents($file, $this->template);
+        }
     }
 }
