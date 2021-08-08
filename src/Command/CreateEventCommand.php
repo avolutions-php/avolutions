@@ -42,6 +42,7 @@ class CreateEventCommand extends AbstractCommand
         $this->addArgumentDefinition(new Argument('shortname', 'The name to dispatch the Event with.', true));
         $this->addOptionDefinition(new Option('force', 'f', 'Event will be overwritten if it already exists.'));
         $this->addOptionDefinition(new Option('listener', 'l', 'Automatically creates a Listener for the Event.'));
+        $this->addOptionDefinition(new Option('register', 'r', 'Automatically register a Listener for the Event. Only works if Option "listener" is set.'));
     }
 
     /**
@@ -67,6 +68,12 @@ class CreateEventCommand extends AbstractCommand
                 $argv .= ' -f' ;
             }
             $Commander->dispatch($argv);
+
+            if ($this->getOption('register')) {
+                $argv = 'register-listener ' . $eventName . ' ' . $eventFullname;
+                $argv .= $shortname ? '' : '-n';
+                $Commander->dispatch($argv);
+            }
         }
 
         $shortnameCode = $shortname != null ? 'protected string $name = \'' . $shortname . '\';': '';
