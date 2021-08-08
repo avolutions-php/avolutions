@@ -12,7 +12,7 @@ AVOLUTIONS provides helper classes to handle HTTP-cookies. There are two main co
 
 ## Create a Cookie object
 
-To create a new cookie the Cookie class can be used. It is an object represeting a HTTP Cookie. The objects knows the same parameters as the PHP native *setcookie* method.
+To create a new cookie the Cookie class can be used. It is an object representing a HTTP Cookie. The objects know the same parameters as the PHP native *setcookie* method.
 
 ```php
 use Avolutions\Http\Cookie;
@@ -55,7 +55,7 @@ print $CookieCollection->get('name'); // value
 
 ## Delete cookie
 
-To delete a cookie we have to use the delete() method of the CookieCollection and pass the name of the Cookie.
+To delete a cookie we have to use `delete()` method of the CookieCollection and pass the name of the Cookie.
 
 ```php
 use Avolutions\Http\CookieCollection;

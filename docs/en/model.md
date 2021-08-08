@@ -36,7 +36,7 @@ The mapping is the connection between the model and the database. Every Entity n
 The file has to be named like the Model and the postfix *Mapping*, e.g. *application/Mapping/UserMapping.php*.
 
 Only properties defined in the mapping file will be connected to database fields.
-Therefore it is possible to have properties in the model which are not columns of the database table.
+Therefore, it is possible to have properties in the model which are not columns of the database table.
 The mapping also provides the functionality to use different names in model (property) and table (column).
 
 See the [Mapping chapter](mapping.md) to get a list of all available options for the Mapping file.
