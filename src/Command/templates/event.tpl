@@ -6,5 +6,5 @@ use Avolutions\Event\Event;
 
 class {{ name }}Event extends Event
 {
-
+    {{ shortname }}
 }

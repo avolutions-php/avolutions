@@ -39,7 +39,7 @@ class CreateCommandCommand extends AbstractCommand
     public function initialize(): void
     {
         $this->addArgumentDefinition(new Argument('name', 'The name of the Command class without "Command" suffix.'));
-        $this->addArgumentDefinition(new Argument('shortname', 'The name with which the command can be executed.', true));
+        $this->addArgumentDefinition(new Argument('shortname', 'The name to execute the command with.', true, ''));
         $this->addOptionDefinition(new Option('force', 'f', 'Command will be overwritten if it already exists.'));
     }
 
@@ -49,7 +49,6 @@ class CreateCommandCommand extends AbstractCommand
     public function execute(): int
     {
         $commandName = ucfirst($this->getArgument('name'));
-        $shortname = $this->getArgument('shortname') ?? '';
         $commandFullname = $commandName . 'Command';
         $commandFile = Application::getCommandPath() . $commandFullname . '.php';
 
@@ -61,7 +60,7 @@ class CreateCommandCommand extends AbstractCommand
         $Template = new Template('command');
         $Template->assign('namespace', rtrim(Application::getCommandNamespace(), '\\'));
         $Template->assign('name', $commandName);
-        $Template->assign('shortname', $shortname);
+        $Template->assign('shortname', $this->getArgument('shortname'));
 
         if ($Template->save($commandFile)) {
             $this->Console->writeLine('Command created successfully.', 'success');
