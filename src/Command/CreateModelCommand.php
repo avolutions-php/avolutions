@@ -59,13 +59,12 @@ class CreateModelCommand extends AbstractCommand
             return ExitStatus::ERROR;
         }
 
-        $Commander = new CommandDispatcher();
         if ($this->getOption('mapping')) {
             $argv = 'create-mapping ' . $modelName;
             if ($force) {
                 $argv .= ' -f' ;
             }
-            $Commander->dispatch($argv);
+            command($argv);
         }
 
         if ($this->getOption('migration')) {
@@ -73,7 +72,7 @@ class CreateModelCommand extends AbstractCommand
             if ($force) {
                 $argv .= ' -f' ;
             }
-            $Commander->dispatch($argv);
+            command($argv);
         }
 
         if ($this->getOption('listener')) {
@@ -81,7 +80,7 @@ class CreateModelCommand extends AbstractCommand
             if ($force) {
                 $argv .= ' -f' ;
             }
-            $Commander->dispatch($argv);
+            command($argv);
         }
 
         $Template = new Template('model');

@@ -58,12 +58,11 @@ class CreateMappingCommand extends AbstractCommand
         }
 
         if ($this->getOption('model')) {
-            $Commander = new CommandDispatcher();
             $argv = 'create-model ' . $mappingName;
             if ($force) {
                 $argv .= ' -f' ;
             }
-            $Commander->dispatch($argv);
+            command($argv);
         }
 
         $Template = new Template('mapping');

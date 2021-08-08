@@ -48,7 +48,7 @@ class CommandDispatcher
      *
      * Find and run command based on passed arguments.
      *
-     * @param mixed $argv Arguments from command line.
+     * @param mixed $argv Command string or array with arguments and Options.
      *
      * @return int Exit status.
      *

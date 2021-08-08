@@ -67,16 +67,15 @@ class CreateListenerCommand extends AbstractCommand
         }
 
         if($this->getOption('event')) {
-            $Commander = new CommandDispatcher();
             $argv = 'create-event ' . $nameArgument;
             if ($force) {
                 $argv .= ' -f' ;
             }
-            $Commander->dispatch($argv);
+            command($argv);
 
             if ($this->getOption('register') && !$this->getOption('model')) {
                 $argv = 'register-listener ' . $nameArgument . ' ' . $nameArgument . ' -n';
-                $Commander->dispatch($argv);
+                command($argv);
             }
         }
 
