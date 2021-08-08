@@ -12,6 +12,8 @@ A Controller is a class that handles related request logic. Every controller can
 Controllers have to be stored into the *application/Controller* directory and defined in the *application\controller* namespace.
 Every Controller must have Controller as a postfix for its file and class name. The Controller must also extend the base Controller class. 
 
+The Easiest way to create a new `Controller` is to use the [`create-controller` command](command.md#create-controller).
+
 Every Action must have Action as a postfix for its method name.
 
 ## Examples

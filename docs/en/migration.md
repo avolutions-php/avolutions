@@ -33,12 +33,20 @@ class CreateUserTable extends AbstractMigration {
   }
 }
 ```
+
+The Easiest way to create a new `Migration` is to use the [`create-migration` command](command.md#create-migration).
+
 All migrations in the *application/Database* folder will be executed in the order of the version, from low to high.
 The version should be unique, best practice is to use the current datetime of the creation as integer, e.g. 20190915143000.
 
 ## Run migrations
 By default, the migrations will not be executed automatically. If you want to execute the migrations automatically, you have to change the value of config `database/migrateOnAppStart` to true.
 This is not recommended for production systems.
+
+To execute migrations manually use the [`database-migrate` command](command.md#database-migrate).
+
+To get a list of all already executed migrations you can have a look into the table *migrations* in your database or use the [`database-status` command](command.md#database-status). 
+
 ## Operations
 ### Create new table
 

@@ -30,10 +30,14 @@ class User extends Entity
 }
 ```
 
+The Easiest way to create a new `Model` is to use the [`create-model` command](command.md#create-model).
+
 ## Mapping
 
 The mapping is the connection between the model and the database. Every Entity needs a mapping file stored in *application/Mapping*.
 The file has to be named like the Model and the postfix *Mapping*, e.g. *application/Mapping/UserMapping.php*.
+
+The Easiest way to create a new Mapping file is to use the [`create-mapping` command](command.md#create-mapping), or use the Option `-m` on `create-model` command.
 
 Only properties defined in the mapping file will be connected to database fields.
 Therefore, it is possible to have properties in the model which are not columns of the database table.

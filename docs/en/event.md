@@ -30,6 +30,9 @@ class TestEvent extends Event
     public string $test = 'Lorem ipsum';
 }
 ```
+
+The Easiest way to create a new `Event` is to use the [`create-event` command](command.md#create-event), or use the Option `-e` on `create-listener` command.
+
 ## Create a Listener
 
 The Listener is a class which can contains several methods to handle Events. Listeners have to be stored in the *application/Listener* folder. 
@@ -52,6 +55,7 @@ This will result in the following output:
 ```
 TestEvent : Lorem Ipsum
 ```
+The Easiest way to create a new `Listener` is to use the [`create-listener` command](command.md#create-listener), or use the Option `-l` on `create-event` command.
 
 ## Register Listener for Events 
 To connect a `Listener` to an `Event` the `ListenerCollection` is used. All Listener should be registered in the *events.php* file by using the `addListener()` method.
@@ -61,6 +65,9 @@ $ListenerCollection->addListener('TestEvent', ['Application\Listener\TestEventLi
 ```
 
 In this example the `handleEvent` method of the class `Application\Listener\TestEventListener` will be called every time the `TestEvent` is raised/dispatched.
+
+The Easiest way to register a `Listener` for an `Events` is to use the [`register-listener` command](command.md#register-listener), or use the Option `-r` on `create-listener` or `create-event` command.
+
 ## Dispatch an Event
 To dispatch/raise an Event the EventDispatcher is used. You only need to create the Event and pass it to the *dispatch()* method:
 ```php
