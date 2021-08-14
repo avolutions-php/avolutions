@@ -43,11 +43,20 @@ class DatabaseStatusCommand extends AbstractCommand
     {
         try {
             $this->Console->writeLine('Executed migrations:', 'success');
-            $ConsoleTable = new ConsoleTable($this->Console, ['Version', 'Name', 'Date']);
+            $columns = [
+                ['Version', 'Name', 'Date']
+            ];
+
             foreach (Database::getExecutedMigrations() as $version => $migration) {
-                $ConsoleTable->addRow([$version, $migration['name'], $migration['date']]);
+                $columns[] = [
+                    $version,
+                    $migration['name'],
+                    $migration['date']
+                ];
             }
+            $ConsoleTable = new ConsoleTable($this->Console, $columns);
             $ConsoleTable->render();
+
             return ExitStatus::SUCCESS;
         } catch (Exception $e) {
             throw $e;

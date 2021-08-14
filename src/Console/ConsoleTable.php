@@ -50,12 +50,15 @@ class ConsoleTable
      * Creates and initializes a new ConsoleTable instance.
      *
      * @param Console $Console Console instance for output.
-     * @param array $header Array with header columns.
      * @param array $rows Multidimensional array with row values.
+     * @param bool $useFirstRowAsHeader First row is used as header (true) or not (false).
      */
-    public function __construct(Console $Console, array $header = [], array $rows = [])
+    public function __construct(Console $Console, array $rows = [], bool $useFirstRowAsHeader = true)
     {
-        $this->setHeader($header);
+        if ($useFirstRowAsHeader) {
+            $this->setHeader($rows[0]);
+            array_shift($rows);
+        }
         $this->addRows($rows);
         $this->Console = $Console;
     }
@@ -81,7 +84,7 @@ class ConsoleTable
      */
     public function addRow(array $row): void
     {
-        if (count($this->header) != count($row)) {
+        if (!empty($this->header) && count($this->header) != count($row)) {
             throw new InvalidArgumentException('Row must contain same amount of columns as header.');
         }
         $this->rows[] = $row;
@@ -110,34 +113,37 @@ class ConsoleTable
      *
      * Displays the table to the Console output.
      *
-     * @param array $header Array with header columns.
      * @param array $rows Multidimensional array with row values.
+     * @param bool $useFirstRowAsHeader First row is used as header (true) or not (false).
      */
-    public function render(array $header = [], array $rows = [])
+    public function render(array $rows = [], bool $useFirstRowAsHeader = true)
     {
-        if (!empty($header)) {
-            $this->setHeader($header);
-        }
         if (!empty($rows)) {
+            if ($useFirstRowAsHeader) {
+                $this->setHeader($rows[0]);
+                array_shift($rows);
+            }
             $this->addRows($rows);
         }
 
         $width = $this->calculateColumnWidth();
 
-        foreach ($this->header as $index => $header) {
-            if ($index == 0) {
-                $this->Console->write('|');
+        if (!empty($this->header)) {
+            foreach ($this->header as $index => $header) {
+                if ($index == 0) {
+                    $this->Console->write('|');
+                }
+                $this->Console->write(' ' . str_pad($header, $width[$index], ' ', STR_PAD_BOTH) . ' |');
             }
-            $this->Console->write(' ' . str_pad($header, $width[$index], ' ', STR_PAD_BOTH) . ' |');
-        }
-        $this->Console->writeLine('');
-        foreach ($this->header as $index => $header) {
-            if ($index == 0) {
-                $this->Console->write('|');
+            $this->Console->writeLine('');
+            foreach ($this->header as $index => $header) {
+                if ($index == 0) {
+                    $this->Console->write('|');
+                }
+                $this->Console->write('' . str_pad('', $width[$index] + 2, '-', STR_PAD_BOTH) . '|');
             }
-            $this->Console->write('' . str_pad('', $width[$index] + 2, '-', STR_PAD_BOTH) . '|');
+            $this->Console->writeLine('');
         }
-        $this->Console->writeLine('');
         foreach ($this->rows as $row) {
             foreach ($row as $index => $field) {
                 if ($index == 0) {
@@ -160,8 +166,13 @@ class ConsoleTable
     {
         $width = [];
 
-        $rows = array_merge([$this->header], $this->rows);
-        for ($i = 0; $i < count($this->header); $i++) {
+        if (!empty($this->header)) {
+            $rows = array_merge([$this->header], $this->rows);
+        } else {
+            $rows = $this->rows;
+        }
+
+        for ($i = 0; $i < count($rows[0]); $i++) {
             $width[$i] = max(array_map('strlen', array_map(function($row) use ($i) { return $row[$i]; }, $rows)));
         }
 
