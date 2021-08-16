@@ -64,10 +64,6 @@ class CommandDispatcher
             $argv = explode(' ', $argv);
         }
 
-        if (isset($argv[0]) && $argv[0] == 'avolute') {
-            array_shift($argv);
-        }
-
         $CommandCollection = new CommandCollection();
 
         if (!isset($argv[0])) {
