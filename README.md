@@ -26,6 +26,7 @@ AVOLUTIONS is just another open source PHP framework.
 * [Validation](https://avolutions.org/guide/validation)
 * [Forms](https://avolutions.org/guide/form)
 * [Translations](https://avolutions.org/guide/translation)
+* [Commands](https://avolutions.org/guide/command)
 
 ## Installation
 AVOLUTIONS can be installed into your project by using composer:  
