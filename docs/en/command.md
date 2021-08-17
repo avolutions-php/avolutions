@@ -1,6 +1,30 @@
 # Commands
 
 * [Introduction](#introduction)
+* [Run commands](#run-commands)
+  * [Console](#console)
+  * [Programmatically](#programmatically)
+* [Arguments and Options](#arguments-and-options)
+  * [Arguments](#arguments)
+  * [Options](#options)
+* [Available commands](#available-commands)
+  * [Create-command](#create-command)
+  * [Create-controller](#create-controller)
+  * [Create-event](#create-event)
+  * [Create-listener](#create-listener)
+  * [Create-mapping](#create-mapping)
+  * [Create-migration](#create-migration)
+  * [Create-model](#create-model)
+  * [Create-validator](#create-validator)
+  * [Database-migrate](#database-migrate)
+  * [Database-status](#database-status)
+  * [Register-listener](#register-listener)
+* [Custom commands](#custom-commands)
+  * [Name](#name)
+  * [Description](#description)
+  * [Add Arguments and Options](#add-arguments-and-options)
+  * [Execute](#execute)
+  * [Custom templates](#custom-templates)
 
 ## Introduction
 
