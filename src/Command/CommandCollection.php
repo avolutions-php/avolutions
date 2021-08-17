@@ -74,12 +74,14 @@ class CommandCollection implements CollectionInterface
     {
         $commands = [];
 
-        $files = new RegexIterator(new FilesystemIterator($directory), '/Command.php/');
+        if (is_dir($directory)) {
+            $files = new RegexIterator(new FilesystemIterator($directory), '/Command.php/');
 
-        foreach ($files as $file) {
-            $class = $namespace.pathinfo($file, PATHINFO_FILENAME);
-            if (is_subclass_of($class, AbstractCommand::class)) {
-                $commands[strtolower($class::getName())] = $class;
+            foreach ($files as $file) {
+                $class = $namespace.pathinfo($file, PATHINFO_FILENAME);
+                if (is_subclass_of($class, AbstractCommand::class)) {
+                    $commands[strtolower($class::getName())] = $class;
+                }
             }
         }
 
