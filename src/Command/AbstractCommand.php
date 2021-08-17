@@ -94,9 +94,6 @@ abstract class AbstractCommand
     public function addArgumentDefinition(Argument $Argument): void
     {
         $this->CommandDefinition->addArgument($Argument);
-        if ($Argument->default !== null) {
-            $this->setArgument($Argument->name, $Argument->default);
-        }
     }
 
     /**
@@ -109,9 +106,6 @@ abstract class AbstractCommand
     public function addOptionDefinition(Option $Option): void
     {
         $this->CommandDefinition->addOption($Option);
-        if ($Option->default !== null) {
-            $this->setOption($Option->name, $Option->default);
-        }
     }
 
     /**
@@ -205,9 +199,12 @@ abstract class AbstractCommand
         $ArgumentDefinitions = $this->CommandDefinition->getArguments();
 
         foreach ($ArgumentDefinitions as $key => $ArgumentDefinition) {
-            if(!isset($arguments[$key])) {
+            if (!isset($arguments[$key])) {
                 if (!$ArgumentDefinition->optional) {
                     throw new InvalidArgumentException('Argument ' . $ArgumentDefinition->name . ' is required.');
+                }
+                if ($ArgumentDefinition->default !== null) {
+                    $this->setArgument($ArgumentDefinition->name, $ArgumentDefinition->default);
                 }
             } else {
                 $this->setArgument($ArgumentDefinition->name, $arguments[$key]);
@@ -238,7 +235,7 @@ abstract class AbstractCommand
         });
 
         $this->parseOptions($options);
-        if($this->getOption('help')) {
+        if ($this->getOption('help')) {
             $this->showHelp();
             return false;
         }
@@ -266,6 +263,10 @@ abstract class AbstractCommand
                 || in_array('-' . $OptionDefinition->short, $options)
             ) {
                 $this->setOption($OptionDefinition->name, true);
+            } else {
+                if ($OptionDefinition->default !== null) {
+                    $this->setOption($OptionDefinition->name, $OptionDefinition->default);
+                }
             }
         }
     }
