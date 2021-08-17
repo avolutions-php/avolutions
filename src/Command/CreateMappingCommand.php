@@ -23,19 +23,10 @@ use Avolutions\Core\Application;
  */
 class CreateMappingCommand extends AbstractCommand
 {
-    /**
-     * @inheritdoc
-     */
     protected static string $name = 'create-mapping';
 
-    /**
-     * @inheritdoc
-     */
     protected static string $description = 'Creates a new Entity mapping file.';
 
-    /**
-     * @inheritdoc
-     */
     public function initialize(): void
     {
         $this->addArgumentDefinition(new Argument('name', 'The name of the mapping file without "Mapping" suffix.'));
@@ -43,9 +34,6 @@ class CreateMappingCommand extends AbstractCommand
         $this->addOptionDefinition(new Option('model', 'm', 'Automatically creates a model for the mapping.'));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute(): int
     {
         $mappingName = ucfirst($this->getArgument('name'));

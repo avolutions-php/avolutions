@@ -23,19 +23,10 @@ use Avolutions\Core\Application;
  */
 class CreateCommandCommand extends AbstractCommand
 {
-    /**
-     * @inheritdoc
-     */
     protected static string $name = 'create-command';
 
-    /**
-     * @inheritdoc
-     */
     protected static string $description = 'Creates a new Command.';
 
-    /**
-     * @inheritdoc
-     */
     public function initialize(): void
     {
         $this->addArgumentDefinition(new Argument('name', 'The name of the Command class without "Command" suffix.'));
@@ -43,9 +34,6 @@ class CreateCommandCommand extends AbstractCommand
         $this->addOptionDefinition(new Option('force', 'f', 'Command will be overwritten if it already exists.'));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute(): int
     {
         $commandName = ucfirst($this->getArgument('name'));

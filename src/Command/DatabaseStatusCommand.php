@@ -26,20 +26,10 @@ use Exception;
  */
 class DatabaseStatusCommand extends AbstractCommand
 {
-    /**
-     * @inheritDoc
-     */
     protected static string $name = 'database-status';
 
-    /**
-     * @inheritdoc
-     */
     protected static string $description = 'Shows all executed migrations.';
 
-    /**
-     * @inheritdoc
-     * @throws Exception
-     */
     public function execute(): int
     {
         try {
@@ -64,9 +54,6 @@ class DatabaseStatusCommand extends AbstractCommand
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function initialize(): void
     {
 

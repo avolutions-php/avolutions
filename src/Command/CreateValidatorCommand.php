@@ -23,28 +23,16 @@ use Avolutions\Core\Application;
  */
 class CreateValidatorCommand extends AbstractCommand
 {
-    /**
-     * @inheritdoc
-     */
     protected static string $name = 'create-validator';
 
-    /**
-     * @inheritdoc
-     */
     protected static string $description = 'Creates a new Validator.';
 
-    /**
-     * @inheritdoc
-     */
     public function initialize(): void
     {
         $this->addArgumentDefinition(new Argument('name', 'The name of the Model class without "Validator" suffix.'));
         $this->addOptionDefinition(new Option('force', 'f', 'Validator will be overwritten if it already exists.'));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute(): int
     {
         $validatorName = ucfirst($this->getArgument('name'));

@@ -24,19 +24,10 @@ use DateTime;
  */
 class CreateMigrationCommand extends AbstractCommand
 {
-    /**
-     * @inheritdoc
-     */
     protected static string $name = 'create-migration';
 
-    /**
-     * @inheritdoc
-     */
     protected static string $description = 'Creates a new Migration.';
 
-    /**
-     * @inheritdoc
-     */
     public function initialize(): void
     {
         $this->addArgumentDefinition(new Argument('name', 'The name of the Migration class.'));
@@ -44,9 +35,6 @@ class CreateMigrationCommand extends AbstractCommand
         $this->addOptionDefinition(new Option('force', 'f', 'Migration will be overwritten if it already exists.'));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute(): int
     {
         $migrationName = ucfirst($this->getArgument('name'));

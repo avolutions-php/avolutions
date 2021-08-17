@@ -25,20 +25,10 @@ use Exception;
  */
 class DatabaseMigrateCommand extends AbstractCommand
 {
-    /**
-     * @inheritdoc
-     */
     protected static string $name = 'database-migrate';
 
-    /**
-     * @inheritdoc
-     */
     protected static string $description = 'Executes all new migrations.';
 
-    /**
-     * @inheritdoc
-     * @throws Exception
-     */
     public function execute(): int
     {
         try {
@@ -50,9 +40,6 @@ class DatabaseMigrateCommand extends AbstractCommand
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function initialize(): void
     {
 

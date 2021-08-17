@@ -23,19 +23,10 @@ use Avolutions\Core\Application;
  */
 class RegisterListenerCommand extends AbstractCommand
 {
-    /**
-     * @inheritdoc
-     */
     protected static string $name = 'register-listener';
 
-    /**
-     * @inheritdoc
-     */
     protected static string $description = 'Registers a new Listener for an Event.';
 
-    /**
-     * @inheritDoc
-     */
     public function initialize(): void
     {
         $this->addArgumentDefinition(new Argument('event', 'The name of the Event class without "Event" suffix.'));
@@ -44,9 +35,6 @@ class RegisterListenerCommand extends AbstractCommand
         $this->addOptionDefinition(new Option('namespace', 'n', 'Register the Event with namespace.'));
     }
 
-    /**
-     * @inheritDoc
-     */
     public function execute(): int
     {
         $eventName = ucfirst($this->getArgument('event')) . 'Event';

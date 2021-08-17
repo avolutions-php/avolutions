@@ -23,19 +23,10 @@ use Avolutions\Core\Application;
  */
 class CreateEventCommand extends AbstractCommand
 {
-    /**
-     * @inheritdoc
-     */
     protected static string $name = 'create-event';
 
-    /**
-     * @inheritdoc
-     */
     protected static string $description = 'Creates a new Event.';
 
-    /**
-     * @inheritDoc
-     */
     public function initialize(): void
     {
         $this->addArgumentDefinition(new Argument('name', 'The name of the Event class without "Event" suffix.'));
@@ -45,9 +36,6 @@ class CreateEventCommand extends AbstractCommand
         $this->addOptionDefinition(new Option('register', 'r', 'Automatically register a Listener for the Event. Only works if Option "listener" is set.'));
     }
 
-    /**
-     * @inheritDoc
-     */
     public function execute(): int
     {
         $eventName = ucfirst($this->getArgument('name'));

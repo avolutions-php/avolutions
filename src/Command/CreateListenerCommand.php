@@ -23,19 +23,10 @@ use Avolutions\Core\Application;
  */
 class CreateListenerCommand extends AbstractCommand
 {
-    /**
-     * @inheritdoc
-     */
     protected static string $name = 'create-listener';
 
-    /**
-     * @inheritdoc
-     */
     protected static string $description = 'Creates a new Listener.';
 
-    /**
-     * @inheritDoc
-     */
     public function initialize(): void
     {
         $this->addArgumentDefinition(new Argument('name', 'The name of the Listener class without "Listener" suffix.'));
@@ -45,9 +36,6 @@ class CreateListenerCommand extends AbstractCommand
         $this->addOptionDefinition(new Option('register', 'r', 'Automatically register an Event for the Listener. Only works if Option "event" is set. Not needed if option "model" is set.'));
     }
 
-    /**
-     * @inheritDoc
-     */
     public function execute(): int
     {
         $nameArgument = ucfirst($this->getArgument('name'));

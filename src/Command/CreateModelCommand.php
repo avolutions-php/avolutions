@@ -23,19 +23,10 @@ use Avolutions\Core\Application;
  */
 class CreateModelCommand extends AbstractCommand
 {
-    /**
-     * @inheritdoc
-     */
     protected static string $name = 'create-model';
 
-    /**
-     * @inheritdoc
-     */
     protected static string $description = 'Creates a new Entity model.';
 
-    /**
-     * @inheritdoc
-     */
     public function initialize(): void
     {
         $this->addArgumentDefinition(new Argument('name', 'The name of the Model class.'));
@@ -45,9 +36,6 @@ class CreateModelCommand extends AbstractCommand
         $this->addOptionDefinition(new Option('listener', 'l', 'Automatically creates a Listener for the Model.', false));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute(): int
     {
         $modelName = ucfirst($this->getArgument('name'));

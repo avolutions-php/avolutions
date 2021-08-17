@@ -23,28 +23,16 @@ use Avolutions\Core\Application;
  */
 class CreateControllerCommand extends AbstractCommand
 {
-    /**
-     * @inheritdoc
-     */
     protected static string $name = 'create-controller';
 
-    /**
-     * @inheritdoc
-     */
     protected static string $description = 'Creates a new Controller.';
 
-    /**
-     * @inheritdoc
-     */
     public function initialize(): void
     {
         $this->addArgumentDefinition(new Argument('name', 'The name of the Controller without "Controller" suffix.'));
         $this->addOptionDefinition(new Option('force', 'f', 'Controller will be overwritten if it already exists.'));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute(): int
     {
         $controllerName = ucfirst($this->getArgument('name'));
