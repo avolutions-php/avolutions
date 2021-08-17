@@ -275,17 +275,134 @@ The `src/Command/templates/registerListener.tpl` template is used.
 
 ## Custom commands
 
-class or use command
+Beside the existing *Commands*, you can create custom *Commands* for your application.
+Just add a new *Command* to *application/Command* and extend the base class `AbstractCommand`.
 
+The Easiest way to create a new `Command` is to use the [`create-command` command](command.md#create-command).
+
+After extending the `AbstractCommand` class, you need to implement two methods:
+* `initialize()`: This method is called before the execution of your *Command*. You need to add your [*Arguments* and *Options* definition](#add-arguments-and-options) here.
+* `execute()`: This method is called if you run the *Command*. Add the [task/logic](#execute) for your *Command* here.
 ### Name
 
-no spaces
+Every *Command* needs a unique name to run the *Command* with.
+By default, the name of the *Command* is the class name without the suffix "Command".
+E.g., if your *Command* class is named `FooBarCommand`, the name of your *Command* is `FooBar` and it is executed like this:
+```bash
+> php avolute FooBar
+```
+
+To change the name of your *Command* just set the property `$name`:
+```php
+namespace Application\Command;
+
+use Avolutions\Command\AbstractCommand;
+
+class FooBarCommand extends AbstractCommand
+{
+    protected static string $name = 'foo-bar';
+}
+```
+Now your *Command* can be ran like this:
+```bash
+> php avolute foo-bar
+```
+The name must not contain spaces.
 
 ### Description
 
-### Arguments and Options
+By default, every *Command* provides the `help` *Option*. This *Option* displays a description of the *Command*, how to 
+use it and a list of all available *Arguments* and *Options*.
 
-initialize method
+To add a description to your *Command* just set the property `$description`:
+```php
+namespace Application\Command;
+
+use Avolutions\Command\AbstractCommand;
+
+class FooBarCommand extends AbstractCommand
+{
+    protected static string $name = 'foo-bar';
+    protected static string $description = 'This is the foo-bar Command!';
+}
+```
+This will lead to the following output if you run the *Command* with `help` *Option*.
+```bash
+> php avolute foo-bar -h
+```
+```
+This is the foo-bar Command!.
+
+Usage:
+  foo-bar [options]
+
+Options:
+  -h, --help    Display help text for command.
+```
+
+### Add Arguments and Options
+
+*Arguments* and/or *Options* should be added in the `initialize()` method.
+They are added by using the methods `addArgumentDefinition()` and `addOptionDefinition()`.
+Both are accepting an `Argument` or `Option` object.
+
+An `Argument` has the following properties:
+* `name`: Name of the Argument
+* `description`: (Optional) Help text for the Argument.
+* `optional`: (Optional) Indicates if Argument is optional (true) or not (false).
+* `default`: (Optional) Default value if no value is passed for optional Argument.
+
+An `Option` has the following properties:
+* `name`: Name of the Option.
+* `short`: (Optional) Short name of the Option.
+* `help`: (Optional) Help text for the Argument.
+* `default`: (Optional) Default value of the Option.
+
+Let's add an *Argument* and an *Option* to our `FooBarCommand`:
+```php
+namespace Application\Command;
+
+use Avolutions\Command\AbstractCommand;
+
+class FooBarCommand extends AbstractCommand
+{
+    protected static string $name = 'foo-bar';
+    protected static string $description = 'This is the foo-bar Command!';
+    
+    public function initialize(): void
+    {
+        $this->addArgumentDefinition(new Argument('foo', 'The foo argument.'));
+        $this->addOptionDefinition(new Option('bar', 'b', 'The bar option.'));
+    }
+}
+```
+This will lead to the following output if you run the *Command* with `help` *Option*.
+```bash
+> php avolute foo-bar -h
+```
+```
+This is the foo-bar Command!.
+
+Usage:
+  foo-bar <foo> [options]
+  
+Arguments:
+  foo   The foo argument.
+
+Options:
+  -b, --bar     The bar option.
+  -h, --help    Display help text for command.
+```
+
+Our *Command* now accepts a value for the *Argument* `foo` and you can pass a boolean flag called `bar`.
+To retrieve the values passed to *Arguments* and *Options* in your `Command` class use `getArgument()` and `getOption()`:
+```bash
+> php avolute foo-bar test -b
+```
+```php
+$this->getArgument('foo'); // test
+$this->getOption('bar'); // true
+```
 
 ### Execute
 
