@@ -201,6 +201,7 @@ abstract class AbstractCommand
      */
     private function parseArguments(array $arguments)
     {
+        $this->arguments = [];
         $ArgumentDefinitions = $this->CommandDefinition->getArguments();
 
         foreach ($ArgumentDefinitions as $key => $ArgumentDefinition) {
@@ -256,6 +257,7 @@ abstract class AbstractCommand
      */
     private function parseOptions(array $options)
     {
+        $this->options = [];
         $OptionDefinitions = $this->CommandDefinition->getOptions();
 
         foreach ($OptionDefinitions as $OptionDefinition) {
