@@ -24,14 +24,14 @@ class ExitStatus
     /**
      * Default success exit status.
      *
-     * @var string SUCCESS
+     * @var int SUCCESS
      */
     public const SUCCESS = 0;
 
     /**
      * Default error exit status.
      *
-     * @var string SUCCESS
+     * @var int ERROR
      */
     public const ERROR = 1;
 }

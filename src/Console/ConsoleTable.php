@@ -26,21 +26,21 @@ class ConsoleTable
     /**
      * Console instance for output.
      *
-     * @var Console
+     * @var Console $Console
      */
     private Console $Console;
 
     /**
      * Array with header columns.
      *
-     * @var array
+     * @var array $header
      */
     private array $header = [];
 
     /**
      * Multidimensional array with row values.
      *
-     * @var array
+     * @var array $rows
      */
     private array $rows = [];
 
@@ -97,7 +97,7 @@ class ConsoleTable
      *
      * @param array $rows Multidimensional array with row values.
      */
-    public function addRows(array $rows)
+    public function addRows(array $rows): void
     {
         foreach ($rows as $row) {
             if (is_array($row)) {
@@ -116,7 +116,7 @@ class ConsoleTable
      * @param array $rows Multidimensional array with row values.
      * @param bool $useFirstRowAsHeader First row is used as header (true) or not (false).
      */
-    public function render(array $rows = [], bool $useFirstRowAsHeader = true)
+    public function render(array $rows = [], bool $useFirstRowAsHeader = true): void
     {
         if (!empty($rows)) {
             if ($useFirstRowAsHeader) {

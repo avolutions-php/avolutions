@@ -87,7 +87,7 @@ class CreateModelCommand extends AbstractCommand
         $Template->assign('namespace', rtrim(Application::getModelNamespace(), '\\'));
         $Template->assign('name', $modelName);
 
-        if($Template->save($modelFile)) {
+        if ($Template->save($modelFile)) {
             $this->Console->writeLine('Model created successfully.', 'success');
             return ExitStatus::SUCCESS;
         } else {

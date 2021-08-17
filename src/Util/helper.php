@@ -51,7 +51,7 @@ if (!function_exists('translate')) {
  *
  * Helper to dispatch a command.
  *
- * @param mixed $argv Command string or array with arguments and Options.
+ * @param mixed $argv Command string or array with Arguments and Options.
  *
  * @return int Exit status.
  */

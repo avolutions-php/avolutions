@@ -13,6 +13,7 @@ namespace Avolutions\Command;
 
 use Avolutions\Console\ConsoleTable;
 use Avolutions\Database\Database;
+
 use Exception;
 
 /**

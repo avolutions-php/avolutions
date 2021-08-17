@@ -24,28 +24,28 @@ class Option
     /**
      * Default value of the Option.
      *
-     * @var mixed|null
+     * @var mixed|null $default
      */
     public mixed $default;
 
     /**
      * Help text for the Option.
      *
-     * @var string|mixed
+     * @var string|mixed $help
      */
     public string $help;
 
     /**
      * Name of the Option.
      *
-     * @var string
+     * @var string $name
      */
     public string $name;
 
     /**
      * Short name of the Option.
      *
-     * @var string|mixed
+     * @var string|mixed $short
      */
     public string $short;
 

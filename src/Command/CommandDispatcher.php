@@ -28,7 +28,7 @@ class CommandDispatcher
     /**
      * Console instance for output.
      *
-     * @var Console
+     * @var Console $Console
      */
     private Console $Console;
 

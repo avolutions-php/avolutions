@@ -43,7 +43,6 @@ class CreateListenerCommand extends AbstractCommand
         $this->addOptionDefinition(new Option('event', 'e', 'Automatically creates an Event for the Listener.'));
         $this->addOptionDefinition(new Option('model', 'm', 'Indicates if Listener is for EntityEvent to use correct naming conventions.'));
         $this->addOptionDefinition(new Option('register', 'r', 'Automatically register an Event for the Listener. Only works if Option "event" is set. Not needed if option "model" is set.'));
-
     }
 
     /**
@@ -54,7 +53,7 @@ class CreateListenerCommand extends AbstractCommand
         $nameArgument = ucfirst($this->getArgument('name'));
         $listenerName = $nameArgument;
         // If generating a listener for entity event (=model) do not add 'Event' to match naming conventions
-        if(!$this->getOption('model')) {
+        if (!$this->getOption('model')) {
             $listenerName = $listenerName . 'Event';
         }
         $listenerFullname = $listenerName . 'Listener';
@@ -66,7 +65,7 @@ class CreateListenerCommand extends AbstractCommand
             return ExitStatus::ERROR;
         }
 
-        if($this->getOption('event')) {
+        if ($this->getOption('event')) {
             $argv = 'create-event ' . $nameArgument;
             if ($force) {
                 $argv .= ' -f' ;

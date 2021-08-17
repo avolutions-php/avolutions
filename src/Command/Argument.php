@@ -24,28 +24,28 @@ class Argument
     /**
      * Default value of the Argument.
      *
-     * @var mixed|null
+     * @var mixed|null $default
      */
     public mixed $default = null;
 
     /**
      * Help text for the Argument.
      *
-     * @var string|mixed
+     * @var string|mixed $help
      */
     public string $help;
 
     /**
      * Name of the Argument.
      *
-     * @var string
+     * @var string $name
      */
     public string $name;
 
     /**
      * Indicates if Argument is optional (true) or not (false).
      *
-     * @var bool|mixed
+     * @var bool|mixed $optional
      */
     public bool $optional;
 

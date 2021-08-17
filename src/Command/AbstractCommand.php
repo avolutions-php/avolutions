@@ -17,7 +17,7 @@ use ReflectionClass;
 use ReflectionException;
 
 /**
- * Command class
+ * AbstractCommand class
  *
  * An abstract class which has to be extended by every Command.
  *
@@ -29,42 +29,42 @@ abstract class AbstractCommand
     /**
      * Argument values passed from Command line.
      *
-     * @var array
+     * @var array $arguments
      */
     private array $arguments = [];
 
     /**
      * Contains Argument and Option definitions.
      *
-     * @var CommandDefinition
+     * @var CommandDefinition $CommandDefinition
      */
     public CommandDefinition $CommandDefinition;
 
     /**
      * Console instance for output.
      *
-     * @var Console
+     * @var Console $Console
      */
     protected Console $Console;
 
     /**
      * Description/help text for the Command.
      *
-     * @var string
+     * @var string $description
      */
     protected static string $description = '';
 
     /**
      * The name of the Command.
      *
-     * @var string
+     * @var string $name
      */
     protected static string $name = '';
 
     /**
      * Option values passed from Command line.
      *
-     * @var array
+     * @var array $options
      */
     private array $options = [];
 
@@ -218,6 +218,8 @@ abstract class AbstractCommand
      * Parses and sets the Argument and Option input values from command line.
      *
      * @param array $argv An array containing Argument and Option input.
+     *
+     * @return bool Returns false if help Option was passed or true if not.
      */
     private function parseArgv(array $argv = []): bool
     {

@@ -24,14 +24,14 @@ class CommandDefinition
     /**
      * Array of Argument definitions.
      *
-     * @var array
+     * @var array $Arguments
      */
     private array $Arguments = [];
 
     /**
      * Array of Option definitions.
      *
-     * @var array
+     * @var array $Options
      */
     private array $Options = [];
 

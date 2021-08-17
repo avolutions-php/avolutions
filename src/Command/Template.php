@@ -12,6 +12,7 @@
 namespace Avolutions\Command;
 
 use Avolutions\Core\Application;
+
 use Exception;
 
 /**
@@ -27,7 +28,7 @@ class Template
     /**
      * Content of the template file.
      *
-     * @var string
+     * @var string $template
      */
     private string $template;
 
@@ -65,7 +66,7 @@ class Template
      * @param string $key Name of the variable/placeholder to assign.
      * @param string $value Value to assign.
      */
-    public function assign(string $key, string $value)
+    public function assign(string $key, string $value): void
     {
         $this->template = str_replace('{{ ' . $key . ' }}', $value, $this->template);
     }

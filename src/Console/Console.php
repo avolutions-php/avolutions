@@ -24,14 +24,14 @@ class Console
     /**
      * Output stream.
      *
-     * @var resource|false
+     * @var resource|false $output
      */
     private $output;
 
     /**
      * Formats for output.
      *
-     * @var array
+     * @var array $formats
      */
     private array $formats = [
         'bold' => 1,
@@ -43,7 +43,7 @@ class Console
     /**
      * Colors for output.
      *
-     * @var array
+     * @var array $colors
      */
     private array $colors = [
         'black' => 30,
@@ -67,7 +67,7 @@ class Console
     /**
      * Background colors for output.
      *
-     * @var array
+     * @var array $backgroundColors
      */
     private array $backgroundColors = [
         'black' => 40,
@@ -91,7 +91,7 @@ class Console
     /**
      * Predefined styles for output.
      *
-     * @var array
+     * @var array $styles
      */
     private array $styles = [
         'error' => ['color' => 'lightRed'],
@@ -114,9 +114,9 @@ class Console
      * Adds text with line break at the end to the Console output.
      *
      * @param string $message The message to output.
-     * @param mixed|null $style
+     * @param mixed|null $style Either the name of a predefined style or an array with style information.
      */
-    public function writeLine(string $message, mixed $style = null)
+    public function writeLine(string $message, mixed $style = null): void
     {
         $this->write($message, $style, true);
     }
@@ -130,7 +130,7 @@ class Console
      * @param mixed|null $style Either the name of a predefined style or an array with style information.
      * @param bool $newLine Either a line break is added to the end (true) or not (false).
      */
-    public function write(string $message, mixed $style = null, bool $newLine = false)
+    public function write(string $message, mixed $style = null, bool $newLine = false): void
     {
         if (is_string($style) && !empty($style)) {
             $style = $this->styles[$style];
