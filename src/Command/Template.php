@@ -76,7 +76,7 @@ class Template
      * Saves the template including assigned values to a given file/directory.
      *
      * @param string $file Filename including path. Path and file will be created if not exists.
-     * @param bool $append TODO
+     * @param bool $append Indicates if the content should be appended to the file (true) or overwrite the file (false).
      *
      * @return bool|int Number of bytes that were written to the file, or false on failure.
      */

@@ -16,7 +16,7 @@ use Avolutions\Core\Application;
 /**
  * RegisterListenerCommand class
  *
- * TODO
+ * Register a new Listener for an Event in listener.php file.
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.8.0

@@ -57,6 +57,7 @@ class Argument
      * @param string $name Name of the Argument.
      * @param string $help Help text for the Argument.
      * @param bool $optional Indicates if Argument is optional (true) or not (false).
+     * @param mixed|null $default Default value if no value is passed for optional Argument.
      */
     public function __construct(string $name, string $help = '', bool $optional = false, mixed $default = null)
     {
