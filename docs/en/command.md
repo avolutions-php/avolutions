@@ -331,7 +331,7 @@ This will lead to the following output if you run the *Command* with `help` *Opt
 > php avolute foo-bar -h
 ```
 ```
-This is the foo-bar Command!.
+This is the foo-bar Command!
 
 Usage:
   foo-bar [options]
@@ -381,7 +381,7 @@ This will lead to the following output if you run the *Command* with `help` *Opt
 > php avolute foo-bar -h
 ```
 ```
-This is the foo-bar Command!.
+This is the foo-bar Command!
 
 Usage:
   foo-bar <foo> [options]
@@ -406,6 +406,47 @@ $this->getOption('bar'); // true
 
 ### Execute
 
-exit status
+The main logic or task of your *Command* goes to the `execute()` method. 
+This method is called whenever a command is dispatched (either by `avolute`, [command helper](helper.md#command) or `CommandDispatcher`).
 
-### Override templates
+The method needs to return an integer representing the exit status. The status 0 means the program is terminated successfully, 1 means there was an error.
+You can use the constants `ExitStatus::SUCCESS` and `ExitStatus::ERROR` as return values.
+
+To write output to *Console* your can use the *Console* object of the *Command* instance by using `$this->Console`.
+For details about *Console* output check the [Console guide](console.md).
+
+```php
+namespace Application\Command;
+
+use Avolutions\Command\AbstractCommand;
+use Avolutions\Command\ExitStatus;
+
+class FooBarCommand extends AbstractCommand
+{
+    protected static string $name = 'foo-bar';
+    protected static string $description = 'This is the foo-bar Command!';
+    
+    public function initialize(): void
+    {
+        $this->addArgumentDefinition(new Argument('foo', 'The foo argument.'));
+        $this->addOptionDefinition(new Option('bar', 'b', 'The bar option.'));
+    }
+    
+    public function execute() : int{
+        if ($this->getOption('bar')) {
+            $this->Console->write($this->getArgument('foo'));
+        }
+        
+        return ExitStatus::SUCCESS;
+    }
+}
+```
+
+This example will output the value of *Argument* "bar" whenever the *Command* is dispatched with *Option* "bar".
+
+### Custom templates
+
+Some built in *Commands* are used to create new classes or files in your *Application* based on template files.
+
+If you want to use your own template, you can store a file with the same name in `application/Command/templates` directory.
+The original template files can be found in `src/Command/templates/`.
