@@ -2,9 +2,9 @@
 
 namespace {{ namespace }};
 
-use Avolutions\Command\Command;
+use Avolutions\Command\AbstractCommand;
 
-class {{ name }}Command extends Command
+class {{ name }}Command extends AbstractCommand
 {
     protected static string $name = '{{ shortname }}';
     protected static string $description = '';
