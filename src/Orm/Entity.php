@@ -193,7 +193,7 @@ class Entity
 		$query .= implode(', ', $parameters);
 		$query .= ')';
 
-		$this->execute($query, $values);
+		$this->id = $this->execute($query, $values);
 	}
 
 	/**
@@ -242,8 +242,10 @@ class Entity
      *
      * @param string $query The query string that will be executed.
      * @param array $values The values for the query.
+     *
+     * @return string TODO
      */
-    private function execute(string $query, array $values)
+    private function execute(string $query, array $values): string
     {
 		Logger::debug($query);
 		Logger::debug('Values: '.print_r($values, true));
@@ -251,6 +253,8 @@ class Entity
 		$Database = new Database();
 		$stmt = $Database->prepare($query);
 		$stmt->execute($values);
+
+		return $Database->lastInsertId();
     }
 
     /**
