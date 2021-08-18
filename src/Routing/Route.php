@@ -90,10 +90,40 @@ class Route
 			$this->method = $defaults['method'];
 		}
 
-		if ($parameters != null) {
-			foreach ($parameters as $parameterName => $parameterValues) {
-				$this->parameters[$parameterName] = $parameterValues;
-			}
-		}
-	}
+		$this->setParameters($url, $parameters);
+
+    }
+
+    /**
+     * setParameters
+     *
+     * Set the parameter and options.
+     *
+     * @param string $url The URL that will be mapped
+     * @param array $parameters An array which contains all parameters and their options
+     */
+    private function setParameters(string $url, array $parameters): void
+    {
+        // find all parameters in url string
+        preg_match_all('/\<([^\>]*)\>/', $url, $urlParameters);
+
+        // to get parameters without angle brackets (index 1 = groups of preg_match_all)
+        $urlParameters = $urlParameters[1];
+
+        // remove reserved keywords
+        $urlParameters = array_filter($urlParameters, function ($item) {
+            return !in_array($item, ['controller', 'action']);
+        });
+
+        // iterate all parameters from url
+        foreach ($urlParameters as $urlParameter) {
+            if (isset($parameters[$urlParameter])) {
+                // if options passed for parameter use this
+                $this->parameters[$urlParameter] = $parameters[$urlParameter];
+            } else {
+                // if no options passed add parameter with empty options
+                $this->parameters[$urlParameter] = [];
+            }
+        }
+    }
 }
