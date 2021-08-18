@@ -24,7 +24,7 @@ class RouteTest extends TestCase
 
     public function testUrlCanBeSet()
     {
-        $url = '/route/to/succes';
+        $url = '/route/to/success';
         $Route = new Route($url);
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
@@ -57,20 +57,33 @@ class RouteTest extends TestCase
             'parameter2' => [
                 'optional' => false
             ],
+            'parameter3' => [
+
+            ]
         ];
-        $Route = new Route('', [], $parameters);
+        $Route = new Route('<parameter1>/<parameter2>/<parameter4>', [], $parameters);
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
         $this->assertIsArray($Route->parameters);
+
+        $this->assertArrayHasKey('parameter1', $Route->parameters);
         $this->assertIsArray($Route->parameters['parameter1']);
-        $this->assertIsArray($Route->parameters['parameter2']);
         $this->assertArrayHasKey('format', $Route->parameters['parameter1']);
         $this->assertArrayHasKey('optional', $Route->parameters['parameter1']);
         $this->assertArrayHasKey('default', $Route->parameters['parameter1']);
+        $this->assertEquals('format1', $Route->parameters['parameter1']['format']);
+        $this->assertEquals(true, $Route->parameters['parameter1']['optional']);
+        $this->assertEquals('default1', $Route->parameters['parameter1']['default']);
+
+        $this->assertArrayHasKey('parameter2', $Route->parameters);
+        $this->assertIsArray($Route->parameters['parameter2']);
         $this->assertArrayHasKey('optional', $Route->parameters['parameter2']);
-        $this->assertEquals($Route->parameters['parameter1']['format'], 'format1');
-        $this->assertEquals($Route->parameters['parameter1']['optional'], true);
-        $this->assertEquals($Route->parameters['parameter1']['default'], 'default1');
-        $this->assertEquals($Route->parameters['parameter2']['optional'], false);
+        $this->assertEquals(false, $Route->parameters['parameter2']['optional']);
+
+        $this->assertArrayNotHasKey('parameter3', $Route->parameters);
+
+        $this->assertArrayHasKey('parameter4', $Route->parameters);
+        $this->assertIsArray($Route->parameters['parameter4']);
+        $this->assertEmpty($Route->parameters['parameter4']);
     }
 }

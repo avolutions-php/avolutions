@@ -63,17 +63,7 @@ class RouterTest extends TestCase
 
         $RouteCollection->addRoute(new Route('/<controller>/<action>'));
 
-        $RouteCollection->addRoute(new Route('/<controller>/<action>/<param1>/<param2>',
-        [],
-        [
-            'param1' => [
-                'format'   => '[0-9]'
-            ],
-            'param2' => [
-                'format'   => '[0-9]'
-            ]
-        ]
-        ));
+        $RouteCollection->addRoute(new Route('/<controller>/<action>/<param1>/<param2>'));
     }
 
     public function testRouteWithDynamicControllerAndAction()
@@ -81,9 +71,9 @@ class RouterTest extends TestCase
         $Route = Router::findRoute('/user/new', 'GET');
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
-        $this->assertEquals($Route->controllerName, 'user');
-        $this->assertEquals($Route->actionName, 'new');
-        $this->assertEquals($Route->method, 'GET');
+        $this->assertEquals('user', $Route->controllerName);
+        $this->assertEquals('new', $Route->actionName);
+        $this->assertEquals('GET', $Route->method);
     }
 
     public function testRouteWithParameter()
@@ -91,10 +81,10 @@ class RouterTest extends TestCase
         $Route = Router::findRoute('/user/9', 'GET');
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
-        $this->assertEquals($Route->controllerName, 'user');
-        $this->assertEquals($Route->actionName, 'show');
-        $this->assertEquals($Route->method, 'GET');
-        $this->assertEquals($Route->parameters[0], 9);
+        $this->assertEquals('user', $Route->controllerName);
+        $this->assertEquals('show', $Route->actionName);
+        $this->assertEquals('GET', $Route->method);
+        $this->assertEquals(9, $Route->parameters[0]);
     }
 
     public function testRouteWithOptionalParameter()
@@ -102,9 +92,9 @@ class RouterTest extends TestCase
         $Route = Router::findRoute('/user/delete', 'GET');
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
-        $this->assertEquals($Route->controllerName, 'user');
-        $this->assertEquals($Route->actionName, 'delete');
-        $this->assertEquals($Route->method, 'GET');
+        $this->assertEquals('user', $Route->controllerName);
+        $this->assertEquals('delete', $Route->actionName);
+        $this->assertEquals('GET', $Route->method);
         $this->assertEmpty($Route->parameters);
     }
 
@@ -113,21 +103,21 @@ class RouterTest extends TestCase
         $Route = Router::findRoute('/user/edit', 'GET');
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
-        $this->assertEquals($Route->controllerName, 'user');
-        $this->assertEquals($Route->actionName, 'edit');
-        $this->assertEquals($Route->method, 'GET');
-        $this->assertEquals($Route->parameters[0], 1);
+        $this->assertEquals('user', $Route->controllerName);
+        $this->assertEquals('edit', $Route->actionName);
+        $this->assertEquals('GET', $Route->method);
+        $this->assertEquals(1, $Route->parameters[0]);
     }
 
     public function testRouteWithMultipleParameters()
     {
-        $Route = Router::findRoute('/user/copy/1/2', 'GET');
+        $Route = Router::findRoute('/user/copy/4711/Foo-Bar_0815', 'GET');
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
-        $this->assertEquals($Route->controllerName, 'user');
-        $this->assertEquals($Route->actionName, 'copy');
-        $this->assertEquals($Route->method, 'GET');
-        $this->assertEquals($Route->parameters[0], 1);
-        $this->assertEquals($Route->parameters[1], 2);
+        $this->assertEquals('user', $Route->controllerName);
+        $this->assertEquals('copy', $Route->actionName);
+        $this->assertEquals('GET', $Route->method);
+        $this->assertEquals('4711', $Route->parameters[0]);
+        $this->assertEquals('Foo-Bar_0815', $Route->parameters[1]);
     }
 }

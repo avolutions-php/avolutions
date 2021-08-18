@@ -90,19 +90,17 @@ class Router
 
 		foreach ($Route->parameters as $parameterName => $parameterValues) {
 			$parameterExpression = '(';
-			$parameterExpression .= $parameterValues['format'];
+			$parameterExpression .= $parameterValues['format'] ?? '[a-zA-Z0-9\-_]*';
 			if (isset($parameterValues['optional']) && $parameterValues['optional']) {
 				// last slash for optional parameter is also optional, therefore we add a ? behind it
-				$parameterExpression = '?'.$parameterExpression.'?';
+				$parameterExpression = '?' . $parameterExpression . '?';
 			}
 			$parameterExpression .= ')';
 
-			$expression = str_replace('<'.$parameterName.'>', $parameterExpression, $expression);
+			$expression = str_replace('<' . $parameterName . '>', $parameterExpression, $expression);
 		}
 
-		$expression = $startDelimiter.$expression.$endDelimiter;
-
-		return $expression;
+        return $startDelimiter . $expression . $endDelimiter;
 	}
 
 
