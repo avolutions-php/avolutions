@@ -26,7 +26,7 @@ There are some core Configuration values. These values are stored in the config 
 
 You should never change a file inside the core folder, otherwise there can be conflicts or data loss when updating the framework.
 
-Therefore it is possible to overwrite the core values with your application values. Just create a config file inside the *application/Config* with the same name as the file in *core/config*.
+Therefore, it is possible to overwrite the core values with your application values. Just create a config file inside the *application/Config* with the same name as the file in *core/config*.
 Use the same array key to overwrite the core Configuration value.
 
 ## Use the Configuration value in application

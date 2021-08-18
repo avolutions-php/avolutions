@@ -1,8 +1,8 @@
 # Migration
 
 * [Introduction](#introduction)
-* [Run migrations](#run-migrations)
 * [Create migration](#create-migration)
+* [Run migrations](#run-migrations)
 * [Operations](#operations)
   * [Create new table](#create-new-table)
   * [Add column to table](#add-column-to-table)
@@ -15,22 +15,10 @@ To made changes to your database schema (add or remove tables/columns etc.) the 
 
 These methods can be used to write migrations for your Database. The framework will check for the current version of your Database and execute changes if they are not added to the Database schema already.
 
-## Run migrations
-By default the migrations will not be executed automatically. If you want to execute the migrations automatically you have to change the value of *database/migrateOnAppStart* to true.
-
-To exectue the migrations by yourself use the following code:
-```php
-namespace Application\Database;
-
-use Avolutions\Database\Database;
-
-Database::migrate();
-```
-
 ## Create migration
 
-To create a new migration add a new file in *application/Database*, e.g. *CreateUserTable.php*. This file has to contain a class (with the same name as the file) which extends the *AbstractMigration*.
-Therefore it needs a property *version* and a method *migrate()*:
+All `Migrations` need to be stored in *application/Database*. A `Migration` is a class (with the same name as the file) extending `AbstractMigration`.
+It needs to implement a property called `version` and a method `migrate()`:
 ```php
 namespace Application\Database;
 
@@ -45,8 +33,19 @@ class CreateUserTable extends AbstractMigration {
   }
 }
 ```
+
+The Easiest way to create a new `Migration` is to use the [`create-migration` command](command.md#create-migration).
+
 All migrations in the *application/Database* folder will be executed in the order of the version, from low to high.
 The version should be unique, best practice is to use the current datetime of the creation as integer, e.g. 20190915143000.
+
+## Run migrations
+By default, the migrations will not be executed automatically. If you want to execute the migrations automatically, you have to change the value of config `database/migrateOnAppStart` to true.
+This is not recommended for production systems.
+
+To execute migrations manually use the [`database-migrate` command](command.md#database-migrate).
+
+To get a list of all already executed migrations you can have a look into the table *migrations* in your database or use the [`database-status` command](command.md#database-status). 
 
 ## Operations
 ### Create new table

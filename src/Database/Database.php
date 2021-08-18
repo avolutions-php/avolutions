@@ -86,7 +86,7 @@ class Database extends PDO
             }
 
             // only execute Migration if not already executed
-			if (!in_array($Migration->version, $executedMigrations)) {
+			if (!in_array($Migration->version, array_keys($executedMigrations))) {
 				$migrationsToExecute[$Migration->version] = $Migration;
 			}
 		}
@@ -111,7 +111,7 @@ class Database extends PDO
      *
      * @throws PDOException
 	 */
-    private static function getExecutedMigrations(): array
+    public static function getExecutedMigrations(): array
     {
 		$executedMigrations = [];
 
@@ -121,13 +121,16 @@ class Database extends PDO
             $stmt = $Database->prepare('SELECT * FROM migration');
             $stmt->execute();
             while ($row = $stmt->fetch(Database::FETCH_ASSOC)) {
-                $executedMigrations[] = $row['Version'];
+                $executedMigrations[$row['Version']] = [
+                    'name' => $row['Name'],
+                    'date' => $row['CreateDate']
+                ];
             }
         } catch (PDOException $ex) {
             // 1146 = Table 'migration' doesn't exist
 		    if ($ex->errorInfo[1] == 1146) {
                 self::createMigrationTable();
-           } else {
+            } else {
                 throw $ex;
             }
         }
