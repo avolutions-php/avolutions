@@ -30,3 +30,5 @@ The online version of the guide can be found at https://avolutions.org/guide
 * [Logging](logging.md)
 * [Translation](translation.md)
 * [Helper](helper.md)
+* [Console](console.md)
+* [Commands](command.md)

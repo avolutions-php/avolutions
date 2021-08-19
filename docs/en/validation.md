@@ -179,6 +179,9 @@ There are not options for this validator.
 
 Of course, you can also create custom validators for you application. 
 Just add a new *Validator* to *application/Validation*, extend the base *Validator* and implement the *IsValid* method as you want.
+
+The Easiest way to create a new `Validator` is to use the [`create-validator` command](command.md#create-validator).
+
 You can also pass custom options to your validator, see the following example. Don't forget to call the *setOptions* method of the base *Validator*: 
 ```php
 namespace Application\Validation;

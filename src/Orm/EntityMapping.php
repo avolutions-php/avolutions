@@ -11,9 +11,7 @@
 
 namespace Avolutions\Orm;
 
-use const Avolutions\APP_MAPPING_PATH;
-use const Avolutions\APP_MODEL_NAMESPACE;
-use const Avolutions\MAPPING;
+use Avolutions\Core\Application;
 
 /**
  * EntityMapping class
@@ -36,12 +34,12 @@ class EntityMapping
      */
     public function __construct(string $entity)
     {
-		$mapping = $this->loadMappingFile(APP_MAPPING_PATH.$entity.MAPPING.'.php');
+		$mapping = $this->loadMappingFile(Application::getMappingPath().$entity.'Mapping.php');
 
 		foreach ($mapping as $key => $value) {
             // Set default values
             // If type is an Entity
-            if (isset($value['type']) && is_a(APP_MODEL_NAMESPACE.$value['type'], 'Avolutions\Orm\Entity', true)) {
+            if (isset($value['type']) && is_a(Application::getModelNamespace().$value['type'], 'Avolutions\Orm\Entity', true)) {
                 $value['isEntity'] = true;
             } else {
                 $value['isEntity'] = false;

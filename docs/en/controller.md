@@ -7,17 +7,20 @@
   * [Define an action that passing data to a view](#define-an-action-that-passing-data-to-a-view)
 
 ## Introduction
-A Controller is a class that handles releated request logic. Every controller can have a set of public methods, which are called Actions.
+A Controller is a class that handles related request logic. Every controller can have a set of public methods, which are called Actions.
 
-Controllers has to be stored into the *application/Controller* directory and defined in the *application\controller* namespace.
-Every Controller must have Controller as a postfix for its file and class name. The Controller must also extends the base Controller class.
+Controllers have to be stored into the *application/Controller* directory and defined in the *application\controller* namespace.
+Every Controller must have Controller as a postfix for its file and class name. The Controller must also extend the base Controller class. 
+
+The Easiest way to create a new `Controller` is to use the [`create-controller` command](command.md#create-controller).
+
 Every Action must have Action as a postfix for its method name.
 
 ## Examples
 ### Define an action that returns view by name convention
 
-Below is an example how to define a Controller with an Action that will return an <a href="/guide/view">View</a> by name conventions,
-i.e. the Action will search for a View called *show.php* (= action name) in a directory called *application/View/user/* (= controller name).
+Below is an example how to define a Controller with an Action that will return an <a href="/guide/view">View</a> by name conventions.
+The Action will search for a View called *show.php* (= action name) in a directory called *application/View/user/* (= controller name).
 
 ```php
 namespace Application\Controller;

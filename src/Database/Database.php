@@ -12,15 +12,13 @@
 namespace Avolutions\Database;
 
 use Avolutions\Config\Config;
+use Avolutions\Core\Application;
 use InvalidArgumentException;
 use PDO;
 use PDOException;
 use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
-
-use const Avolutions\APP_DATABASE_NAMESPACE;
-use const Avolutions\APP_DATABASE_PATH;
 
 /**
  * Database class
@@ -68,12 +66,12 @@ class Database extends PDO
     public static function migrate()
     {
 		$migrationsToExecute = [];
-		$migrationFiles = array_map('basename', glob(APP_DATABASE_PATH.'*.php'));
+		$migrationFiles = array_map('basename', glob(Application::getDatabasePath().'*.php'));
 
 		$executedMigrations = self::getExecutedMigrations();
 
 		foreach ($migrationFiles as $migrationFile) {
-			$migrationClassName = APP_DATABASE_NAMESPACE.pathinfo($migrationFile, PATHINFO_FILENAME);
+			$migrationClassName = Application::getDatabaseNamespace().pathinfo($migrationFile, PATHINFO_FILENAME);
 
             $Migration = new $migrationClassName;
 
@@ -88,7 +86,7 @@ class Database extends PDO
             }
 
             // only execute Migration if not already executed
-			if (!in_array($Migration->version, $executedMigrations)) {
+			if (!in_array($Migration->version, array_keys($executedMigrations))) {
 				$migrationsToExecute[$Migration->version] = $Migration;
 			}
 		}
@@ -113,7 +111,7 @@ class Database extends PDO
      *
      * @throws PDOException
 	 */
-    private static function getExecutedMigrations(): array
+    public static function getExecutedMigrations(): array
     {
 		$executedMigrations = [];
 
@@ -123,13 +121,16 @@ class Database extends PDO
             $stmt = $Database->prepare('SELECT * FROM migration');
             $stmt->execute();
             while ($row = $stmt->fetch(Database::FETCH_ASSOC)) {
-                $executedMigrations[] = $row['Version'];
+                $executedMigrations[$row['Version']] = [
+                    'name' => $row['Name'],
+                    'date' => $row['CreateDate']
+                ];
             }
         } catch (PDOException $ex) {
             // 1146 = Table 'migration' doesn't exist
 		    if ($ex->errorInfo[1] == 1146) {
                 self::createMigrationTable();
-           } else {
+            } else {
                 throw $ex;
             }
         }

@@ -18,8 +18,7 @@
     },
     "autoload": {
         "files": [
-            "src/Util/helper.php",
-            "bootstrap.php"
+            "src/Util/helper.php"
         ],
         "psr-4": {
             "Avolutions\\": "src/"

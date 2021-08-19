@@ -28,7 +28,6 @@ class ConfigTest extends TestCase
         $this->assertEquals('Y-m-d H:i:s', Config::get('application/defaultDateTimeFormat'));
         $this->assertEquals('H:i:s', Config::get('application/defaultTimeFormat'));
         $this->assertEquals('en', Config::get('application/defaultLanguage'));
-        $this->assertEquals('Application', Config::get('application/namespace'));
     }
 
     public function testDefaultDatabaseConfigValuesCanBeRead()

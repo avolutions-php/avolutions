@@ -23,32 +23,32 @@ use Avolutions\View\View;
  */
 class Response
 {
-	/**
+    /**
      * The content of the response.
      *
-	 * @var string $body
-	 */
-	public string $body;
+     * @var string|null $body
+     */
+    public ?string $body;
 
     /**
      * setBody
      *
      * Fills the body of the Response with the passed value.
      *
-     * @param string $value The value for the body
+     * @param string|null $value The value for the body
      */
-    public function setBody(string $value)
+    public function setBody(?string $value)
     {
-		$this->body = $value;
-	}
+        $this->body = $value;
+    }
 
-	/**
-	 * send
-	 *
-	 * Displays the content of the Response.
-	 */
+    /**
+     * send
+     *
+     * Displays the content of the Response.
+     */
     public function send()
     {
         print $this->body;
-	}
+    }
 }

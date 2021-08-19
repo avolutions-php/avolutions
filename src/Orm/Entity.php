@@ -11,17 +11,12 @@
 
 namespace Avolutions\Orm;
 
+use Avolutions\Core\Application;
 use Avolutions\Database\Database;
 use Avolutions\Event\EntityEvent;
 use Avolutions\Event\EventDispatcher;
 use Avolutions\Logging\Logger;
-use Avolutions\Validation\Validator;
 use ReflectionClass;
-
-use const Avolutions\APP_MODEL_NAMESPACE;
-use const Avolutions\APP_VALIDATOR_NAMESPACE;
-use const Avolutions\VALIDATOR;
-use const Avolutions\VALIDATOR_NAMESPACE;
 
 /**
  * Entity class
@@ -77,7 +72,7 @@ class Entity
      *
      * @param array $values The Entity attributes as an array
 	 */
-    public function __construct($values = [])
+    public function __construct(array $values = [])
     {
 		$this->EntityConfiguration = new EntityConfiguration($this->getEntityName());
 		$this->EntityMapping = $this->EntityConfiguration->getMapping();
@@ -89,7 +84,7 @@ class Entity
                      // If the property is of type Entity
                     if ($value['isEntity']) {
                         // Create a the linked Entity and pass the values
-                        $entityName = APP_MODEL_NAMESPACE.$value['type'];
+                        $entityName = Application::getModelNamespace().$value['type'];
                         $this->$key = new $entityName($values[$key]);
                     } else {
                         $this->$key = $values[$key];
@@ -198,7 +193,7 @@ class Entity
 		$query .= implode(', ', $parameters);
 		$query .= ')';
 
-		$this->execute($query, $values);
+		$this->id = $this->execute($query, $values);
 	}
 
 	/**
@@ -247,8 +242,10 @@ class Entity
      *
      * @param string $query The query string that will be executed.
      * @param array $values The values for the query.
+     *
+     * @return string TODO
      */
-    private function execute(string $query, array $values)
+    private function execute(string $query, array $values): string
     {
 		Logger::debug($query);
 		Logger::debug('Values: '.print_r($values, true));
@@ -256,6 +253,8 @@ class Entity
 		$Database = new Database();
 		$stmt = $Database->prepare($query);
 		$stmt->execute($values);
+
+		return $Database->lastInsertId();
     }
 
     /**
@@ -284,10 +283,10 @@ class Entity
         foreach ($this->EntityMapping as $property => $value) {
             if (isset($value['validation'])) {
                 foreach ($value['validation'] as $validator => $options) {
-                    $fullValidatorName = VALIDATOR_NAMESPACE.ucfirst($validator).VALIDATOR;
+                    $fullValidatorName = 'Avolutions\\Validation\\'.ucfirst($validator).'Validator';
                     if (!class_exists($fullValidatorName)) {
                         // if validator can not be found in core namespace try in application namespace
-                        $fullValidatorName = APP_VALIDATOR_NAMESPACE.ucfirst($validator).VALIDATOR;
+                        $fullValidatorName = Application::getValidatorNamespace().ucfirst($validator).'Validator';
                     }
                     $Validator = new $fullValidatorName($options, $property, $this);
                     if (!$Validator->isValid($this->$property)) {

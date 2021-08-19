@@ -7,7 +7,7 @@
 ## Introduction
 
 The mapping file contains a multidimensional array, where every key represents one property of the Entity.
-Every property can have an multidimensional array of options as value.
+Every property can have a multidimensional array of options as value.
 
 ## Mapping attributes
 
