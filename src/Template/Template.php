@@ -11,6 +11,7 @@
 
 namespace Avolutions\Template;
 
+use Avolutions\Config\Config;
 use Avolutions\Core\Application;
 
 use Avolutions\View\View;
@@ -33,6 +34,8 @@ class Template
      */
     private string $template;
 
+    private string $file;
+
     private array $data = [];
 
     /**
@@ -53,17 +56,7 @@ class Template
         }
 
         $this->data = $data;
-
-        $TemplateParser = new TemplateParser();
-        $Tokens = $TemplateParser->tokenize($this->template);
-        $Tokens = $TemplateParser->parse($Tokens);
-
-        $test = '';
-        foreach ($Tokens as $Token) {
-            $test .= $Token->value;
-        }
-        print $test;
-        print eval($test);
+        $this->file = $templateFile;
     }
 
     /**
@@ -85,13 +78,52 @@ class Template
         $this->assign($name, $value);
     }
 
-    private function parse()
+    public function parse()
     {
         /*$this->template = preg_replace('/{{ \$([a-zA-Z]*) }}/', '<?php print \$${1}; ?>', $this->template);
         $this->template = str_replace('{{', '<?=', $this->template);
-        $this->template = str_replace('}}', '?>', $this->template);*/
+        $this->template = str_replace('}}', '?>', $this->template);
 
-        $this->parseMaster();
+        $this->parseMaster();*/
+
+        // TODO only if not using cache or file not parsed already
+        $TemplateParser = new TemplateParser();
+        $Tokens = $TemplateParser->tokenize($this->template);
+        $Tokens = $TemplateParser->parse($Tokens);
+
+        $test = '<?php'.PHP_EOL;
+        foreach ($Tokens as $Token) {
+            $test .= $Token->value;
+        }
+        //print $test;
+        //print eval($test);
+
+        if (Config::get('template/cache/use')) {
+            // TODO find solutions
+            $explodedFilename = explode(DIRECTORY_SEPARATOR, $this->file);
+            $filename = end($explodedFilename);
+
+            $cacheFile = Application::getViewPath() . Config::get('template/cache/directory') . DIRECTORY_SEPARATOR . $filename;
+            print $cacheFile;
+
+            if (!file_exists($cacheFile)) {
+                $directory = dirname($cacheFile);
+                if (!file_exists($directory)) {
+                    mkdir($directory);
+                }
+            }
+
+            // TODO move into if clause above
+            file_put_contents($cacheFile, $test);
+        }
+
+        $data = $this->data;
+        ob_start();
+        include $cacheFile;
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        return $content;
     }
 
     private function parseMaster()

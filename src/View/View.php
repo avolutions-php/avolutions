@@ -12,6 +12,7 @@
 namespace Avolutions\View;
 
 use Avolutions\Core\Application;
+use Avolutions\Template\Template;
 
 /**
  * View class
@@ -30,7 +31,7 @@ class View
      *
 	 * @var string $view
 	 */
-	private string $view;
+	private string $view = '';
 
     /**
      * __construct
@@ -46,7 +47,22 @@ class View
 		$filename = $this->getFilename($viewname);
 
 		if (is_file($filename)) {
-			$this->view = $this->loadViewFile($filename, $ViewModel);
+            //$this->view = $this->loadViewFile($filename, $ViewModel);
+
+            $toArray = function($x) use(&$toArray)
+            {
+                return is_scalar($x)
+                    ? $x
+                    : array_map($toArray, (array) $x);
+            };
+
+            $ViewModel = $toArray($ViewModel);
+
+		    $Template = new Template($filename, $ViewModel);
+		    //$Template->assign('name', $ViewModel->name);
+            //$Template->name = $ViewModel->name;
+			//$this->view = $Template->render();
+            $this->view = $Template->parse();
 		}
 	}
 
@@ -58,10 +74,10 @@ class View
      *
      * @return string The content of the loaded view file.
      */
-	private function loadViewFile(string $filename, ViewModel $ViewModel = null): string
+	private function loadViewFile(string $filename, array $data = []): string
     {
 		ob_start();
-		include $filename;
+        include $filename;
 		$content = ob_get_contents();
 		ob_end_clean();
 		return $content;
