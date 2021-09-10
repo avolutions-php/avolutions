@@ -11,6 +11,8 @@
 
 namespace Avolutions\View;
 
+use Avolutions\Core\ConvertableTrait;
+
 /**
  * ViewModel class
  *
@@ -21,5 +23,5 @@ namespace Avolutions\View;
  */
 class ViewModel
 {
-
+    use ConvertableTrait;
 }
