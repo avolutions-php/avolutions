@@ -1,8 +1,26 @@
 <?php
-
+/**
+ * AVOLUTIONS
+ *
+ * Just another open source PHP framework.
+ *
+ * @copyright   Copyright (c) 2019 - 2021 AVOLUTIONS
+ * @license     MIT License (https://avolutions.org/license)
+ * @link        https://avolutions.org
+ */
 
 namespace Avolutions\Template;
 
+use Avolutions\Core\Application;
+
+/**
+ * TemplateParser class
+ *
+ * TODO
+ *
+ * @author	Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since	0.9.0
+ */
 class TemplateParser
 {
     private string $startTag = '{{';
@@ -11,11 +29,37 @@ class TemplateParser
     private string $validVariableCharacters = '[a-zA-Z0-9_-]';
 
     private int $position = 0;
+
+    private Template $Template;
+
+    private string $templateContent;
+
     private array $tokens = [];
 
-    public function tokenize($template): array
+    public function __construct(Template $Template)
     {
+        $this->Template = $Template;
+        $this->templateContent = $this->Template->getContent();
+
+        if ($this->Template->hasMasterTemplate()) {
+            $this->parseSections();
+        }
+    }
+
+    private function tokenize()
+    {
+        $template = $this->templateContent;
+
         preg_match_all('@{{(.*?)}}@', $template, $matches, PREG_OFFSET_CAPTURE);
+
+        // if no parsable template element ({{ ... }}) found
+        if (empty($matches[0]) && empty($matches[1])) {
+            $this->tokens[] = new Token(
+            Token::PLAIN,
+                $template
+            );
+        }
+
         $matchesWithDelimiter = $matches[0];
         $matchesWithoutDelimiter = $matches[1];
 
@@ -42,14 +86,20 @@ class TemplateParser
             $this->position = $offset + $length;
         }
 
-        //print_r($this->tokens);
-
-        return $this->tokens;
+        // TODO remaining content, maybe working for "empty" case also (see line 56)
     }
 
     public function getTokenType(string $match)
     {
         $match = trim($match);
+
+        if (str_starts_with($match, 'master')) {
+            return Token::MASTER;
+        }
+
+        if (str_starts_with($match, 'section')) {
+            return Token::SECTION;
+        }
 
         if (str_starts_with($match, 'if')) {
             return Token::IF;
@@ -59,24 +109,54 @@ class TemplateParser
             return Token::FOR;
         }
 
+        if (str_starts_with($match, 'elseif')) {
+            return Token::ELSEIF;
+        }
+
         if ($match === 'else') {
             return Token::ELSE;
+        }
+
+        if (str_starts_with($match, 'default')) {
+            return Token::DEFAULT;
         }
 
         if (str_starts_with($match, '/') || str_starts_with($match, 'end')) {
             return Token::END;
         }
 
+        // TODO find variable and return UNKNOWN as default
         return Token::VARIABLE;
     }
 
-    public function parse(array $tokens)
+    // TODO remove parameter
+    public function parse()
     {
-        foreach ($tokens as $Token) {
+        // TODO move to Tokenizer class
+        $this->tokenize();
+        $Tokens = $this->parseTokens();
+
+        $test = '';
+        foreach ($Tokens as $Token) {
+            $test .= $Token->value;
+        }
+
+        return $test;
+    }
+
+    private function parseTokens()
+    {
+        $tokens = $this->tokens;
+        //print_r($tokens);
+
+        foreach ($this->tokens as $Token) {
             $Token->value = match ($Token->type) {
+                /*Token::MASTER => $this->parseMaster($Token),*/
+                Token::SECTION => $this->parseSection($Token),
                 Token::PLAIN => $this->parsePlain($Token),
                 Token::IF => $this->parseIf($Token),
                 Token::FOR => $this->parseFor($Token),
+                Token::ELSEIF => $this->parseElseIf($Token),
                 Token::ELSE => $this->parseElse($Token),
                 Token::END => $this->parseEnd($Token),
                 Token::VARIABLE => $this->parseVariable($Token)
@@ -86,16 +166,36 @@ class TemplateParser
         return $this->tokens;
     }
 
+    private function parseSection($Token)
+    {
+        return $Token->value;
+    }
+
+    private function parseSections()
+    {
+        $masterTemplateContent = $this->Template->getMasterTemplate()->getContent();
+        foreach ($this->Template->getSections() as $section) {
+            $masterTemplateContent = str_replace('{{ section ' . $section[1] . ' }}', $section[2], $masterTemplateContent);
+            $this->templateContent = $masterTemplateContent;
+        }
+    }
+
     private function parsePlain($Token): string
     {
         return 'print "' . $Token->value . '";'.PHP_EOL;
     }
 
-    private function parseIf($Token): string
+    private function parseIf($Token, $elseIf = false): string
     {
-        // TODO multiple regex for e.g. {{ if true }} or {{ if not true }}
-        if (preg_match('@if (.*) (==|!=) (.*)@', $Token->value, $matches)) {
-            $ifCondition = 'if (';
+        $ifTermRegex = $elseIf ? 'elseif' : 'if';
+
+        // TODO regex for e.g. {{ if true }} or {{ if not true }}
+        // TODO regex for and/or conditions
+        $ifTermRegex .= ' (.*) (==|!=) (.*)';
+
+        if (preg_match('@' . $ifTermRegex . '@', $Token->value, $matches)) {
+            $ifCondition = $elseIf ? '} elseif' : 'if';
+            $ifCondition .= ' (';
             $ifCondition .= $this->todoParseIfTerm($matches[1]);
             $ifCondition .= ' ' . $this->todoParseIfOperator($matches[2]) . ' ';
             $ifCondition .= $this->todoParseIfTerm($matches[3]);
@@ -124,6 +224,11 @@ class TemplateParser
         }
     }
 
+    private function parseElseIf($Token): string
+    {
+        return $this->parseIf($Token, true);
+    }
+
     private function parseElse($Token): string
     {
         if (preg_match('@else@', $Token->value, $matches)) {
@@ -135,14 +240,15 @@ class TemplateParser
 
     private function parseEnd($Token): string
     {
+        $end = '}'.PHP_EOL;
+
         if (preg_match('@(?:/|end)(if|for)@', $Token->value, $matches)) {
-            $end = '}'.PHP_EOL;
             if ($matches[1] == 'for') {
-                // close if (isset())) {
                 $end .= '}'.PHP_EOL;
             }
-
             return $end;
+        } elseif (preg_match('@(?:/|end)(section)@', $Token->value, $matches)) {
+            return '';
         } else {
             // throw Exception
         }
@@ -213,7 +319,7 @@ class TemplateParser
     {
         // Variables can either have a global or local scope, e.g.:
         //      Global: {{ $foo }} or {{ $foo.bar }}
-        //      Local: {{ foo.bar }
+        //      Local: {{ foo.bar }}
         // Global variable consists of two parts:
         //      1. Starts with exact one "$" followed by 1 to n allowed variable characters.
         //         This part is required exact once. E.g. "$foo"

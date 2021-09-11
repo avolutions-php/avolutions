@@ -20,10 +20,10 @@ use Exception;
 /**
  * Template class
  *
- * Used to create classes/files from template files.
+ * TODO
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @since	0.9.0
  */
 class Template
 {
@@ -32,11 +32,18 @@ class Template
      *
      * @var string $template
      */
-    private string $template;
+    // TODO rename to $content
+    private string $template = '';
+
+    private ?Template $MasterTemplate = null;
+
+    private TemplateCache $TemplateCache;
 
     private string $file;
 
     private array $data = [];
+
+    private array $sections = [];
 
     /**
      * __construct
@@ -49,111 +56,97 @@ class Template
      */
     public function __construct(string $templateFile, array $data = [])
     {
-        if (file_exists($templateFile)) {
-            $this->template = file_get_contents($templateFile);
-        } else {
-            throw new Exception('Template file "' . $templateFile . '" can not be found.');
-        }
-
         $this->data = $data;
         $this->file = $templateFile;
-    }
+        $this->TemplateCache = new TemplateCache();
 
-    /**
-     * assign
-     *
-     * Replaces a variable/placeholder with a value.
-     *
-     * @param string $key Name of the variable/placeholder to assign.
-     * @param string $value Value to assign.
-     */
-    public function assign(string $key, string $value): void
-    {
-        $this->template = str_replace('{{ $' . $key . ' }}', $value, $this->template);
-        $this->template = str_replace('$' . $key, $value, $this->template);
-    }
+        if (!Config::get('template/cache/use') || !$this->isCached()) {
+            // TODO find better solution
+            $templateFile = Application::getViewPath() . $templateFile;
+            if (file_exists($templateFile)) {
+                $this->template = file_get_contents($templateFile);
+            } else {
+                throw new Exception('Template file "' . $templateFile . '" can not be found.');
+            }
 
-    public function __set(string $name, $value): void
-    {
-        $this->assign($name, $value);
+            $this->setMasterTemplate();
+            $this->setSections();
+        }
     }
 
     public function parse()
     {
-        /*$this->template = preg_replace('/{{ \$([a-zA-Z]*) }}/', '<?php print \$${1}; ?>', $this->template);
-        $this->template = str_replace('{{', '<?=', $this->template);
-        $this->template = str_replace('}}', '?>', $this->template);
+        $TemplateParser = new TemplateParser($this);
 
-        $this->parseMaster();*/
+        return $TemplateParser->parse();
+    }
 
-        // TODO only if not using cache or file not parsed already
-        $TemplateParser = new TemplateParser();
-        $Tokens = $TemplateParser->tokenize($this->template);
-        $Tokens = $TemplateParser->parse($Tokens);
+    public function isCached()
+    {
+        return $this->TemplateCache->isCached($this->file);
+    }
 
-        $test = '<?php'.PHP_EOL;
-        foreach ($Tokens as $Token) {
-            $test .= $Token->value;
-        }
-        //print $test;
-        //print eval($test);
-
-        if (Config::get('template/cache/use')) {
-            // TODO find solutions
-            $explodedFilename = explode(DIRECTORY_SEPARATOR, $this->file);
-            $filename = end($explodedFilename);
-
-            $cacheFile = Application::getViewPath() . Config::get('template/cache/directory') . DIRECTORY_SEPARATOR . $filename;
-            print $cacheFile;
-
-            if (!file_exists($cacheFile)) {
-                $directory = dirname($cacheFile);
-                if (!file_exists($directory)) {
-                    mkdir($directory);
-                }
-            }
-
-            // TODO move into if clause above
-            file_put_contents($cacheFile, $test);
-        }
-
+    public function render()
+    {
         $data = $this->data;
         ob_start();
-        include $cacheFile;
+
+        if (Config::get('template/cache/use')) {
+            if (!$this->isCached()) {
+                $this->TemplateCache->cache($this->file, $this->parse());
+            }
+
+            include $this->TemplateCache->getCachedFilename($this->file);
+        } else {
+            eval($this->parse());
+        }
+
         $content = ob_get_contents();
         ob_end_clean();
 
         return $content;
     }
 
-    private function parseMaster()
-    {
+    private function setMasterTemplate() {
         preg_match('@{{ master \'([a-zA-z0-9/_-]*)\' }}@', $this->template, $matches);
         if (!empty($matches)) {
             // template uses master template
-            $MasterTemplate = new Template(Application::getViewPath() . $matches[1] . '.php');
-
-            preg_match_all('/{{ section ([a-zA-z0-9_-]*) }}(.*?){{ \/section }}/is', $this->template, $sections, PREG_SET_ORDER);
-
-            if (!empty($sections)) {
-                // template has sections
-                $this->template = $MasterTemplate->parseSections($sections);
-            }
+            $this->MasterTemplate = new Template($matches[1] . '.php');
         }
     }
 
-    public function parseSections(array $sections): string
+    public function hasMasterTemplate()
     {
-        foreach ($sections as $section) {
-            $this->template = str_replace('{{ section ' . $section[1] . ' }}', $section[2], $this->template);
-        }
+        return $this->MasterTemplate !== null;
+    }
 
+    /**
+     * @return string
+     */
+    public function getContent(): string
+    {
         return $this->template;
     }
 
-    public function render(): string
+    public function getMasterTemplate()
     {
-        //$this->parse();
-        return $this->template;
+        return $this->MasterTemplate;
+    }
+
+    public function setSections()
+    {
+        preg_match_all('/{{ section ([a-zA-z0-9_-]*) }}(.*?){{ \/section }}/is', $this->template, $sections, PREG_SET_ORDER);
+        if (!empty($sections)) {
+            // template has sections
+            $this->sections = $sections;
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getSections(): array
+    {
+        return $this->sections;
     }
 }
