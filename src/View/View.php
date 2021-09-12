@@ -46,10 +46,8 @@ class View
 	{
 		$filename = $this->getFilename($viewname);
 
-		if (is_file($filename)) {
-		    $Template = new Template($filename, $ViewModel->toArray());
-            $this->view = $Template->render();
-		}
+        $Template = new Template($filename, $ViewModel->toArray());
+        $this->view = $Template->render();
 	}
 
     /**
@@ -64,7 +62,7 @@ class View
      */
 	private function getFilename(?string $filename = null): string
     {
-		if ($filename == null) {
+		if ($filename === null) {
 			$debugBacktrace = debug_backtrace()[2];
 
 			$controller = explode('\\', $debugBacktrace['class']);
@@ -76,7 +74,8 @@ class View
 			$filename = $controller.DIRECTORY_SEPARATOR.$action;
 		}
 
-		$filename = Application::getViewPath().$filename.'.php';
+		// TODO handle different extensions
+		$filename = $filename . '.php';
 
 		return $filename;
 	}
