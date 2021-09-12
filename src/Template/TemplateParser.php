@@ -73,17 +73,10 @@ class TemplateParser
     {
         $position = 0;
         $template = $this->templateContent;
+        $contentLength = strlen($template);
         $this->tokens = [];
 
         preg_match_all('@{{(.*?)}}@', $template, $matches, PREG_OFFSET_CAPTURE);
-
-        // if no parsable template element ({{ ... }}) found
-        if (empty($matches[0]) && empty($matches[1])) {
-            $this->tokens[] = new Token(
-            Token::PLAIN,
-                $template
-            );
-        }
 
         $matchesWithDelimiter = $matches[0];
         $matchesWithoutDelimiter = $matches[1];
@@ -109,6 +102,13 @@ class TemplateParser
                 trim($matchWithoutDelimiter)
             );
             $position = $offset + $length;
+        }
+
+        if ($position < $contentLength) {
+            $this->tokens[] = new Token(
+                Token::PLAIN,
+                substr($template, $position, $contentLength)
+            );
         }
 
         // TODO remaining content, maybe working for "empty" case also (see line 56)
