@@ -14,7 +14,6 @@ namespace Avolutions\Template;
 use Avolutions\Config\Config;
 use Avolutions\Core\Application;
 
-use Avolutions\View\View;
 use Exception;
 
 /**
@@ -30,27 +29,52 @@ class Template
     /**
      * Content of the template file.
      *
-     * @var string $template
+     * @var string $content
      */
-    // TODO rename to $content
-    private string $template = '';
+    private string $content = '';
 
+    /**
+     * TODO
+     *
+     * @var Template|null $MasterTemplate
+     */
     private ?Template $MasterTemplate = null;
 
+    /**
+     * TODO
+     *
+     * @var TemplateCache $TemplateCache
+     */
     private TemplateCache $TemplateCache;
 
+    /**
+     * TODO
+     *
+     * @var string $file
+     */
     private string $file;
 
-    private array $data = [];
+    /**
+     * TODO
+     *
+     * @var array
+     */
+    private array $data;
 
+    /**
+     * TODO
+     *
+     * @var array
+     */
     private array $sections = [];
 
     /**
      * __construct
      *
-     * Creates an new template instance.
+     * Creates a new template instance.
      *
      * @param string $templateFile Name of the template file.
+     * @param array $data TODO
      *
      * @throws Exception
      */
@@ -64,7 +88,7 @@ class Template
             // TODO find better solution
             $templateFile = Application::getViewPath() . $templateFile;
             if (file_exists($templateFile)) {
-                $this->template = file_get_contents($templateFile);
+                $this->content = file_get_contents($templateFile);
             } else {
                 throw new Exception('Template file "' . $templateFile . '" can not be found.');
             }
@@ -74,31 +98,70 @@ class Template
         }
     }
 
+    /**
+     * parse
+     *
+     * TODO
+     */
     public function parse()
     {
-        $TemplateParser = new TemplateParser($this);
+        $useCache = Config::get('template/cache/use');
+        $isCached = $this->isCached();
 
-        return $TemplateParser->parse();
+        if (($useCache && !$isCached) || !$useCache) {
+            $TemplateParser = new TemplateParser($this);
+            $this->content = $TemplateParser->parse($this->content);
+
+            if ($useCache && !$isCached) {
+                $this->cache();
+            }
+        }
     }
 
-    public function isCached()
+    /**
+     * isCached
+     *
+     * TODO
+     *
+     * @return bool
+     */
+    public function isCached(): bool
     {
         return $this->TemplateCache->isCached($this->file);
     }
 
-    public function render()
+    /**
+     * cache
+     *
+     * TODO
+     *
+     */
+    public function cache()
+    {
+        $this->TemplateCache->cache($this->file, $this->content);
+    }
+
+    /**
+     * render
+     *
+     * TODO
+     *
+     * @return string TODO
+     */
+    public function render(): string
     {
         $data = $this->data;
+
+        $test = $this->TemplateCache->isCached($this->file);
+
+        $this->parse();
+
         ob_start();
 
         if (Config::get('template/cache/use')) {
-            if (!$this->isCached()) {
-                $this->TemplateCache->cache($this->file, $this->parse());
-            }
-
             include $this->TemplateCache->getCachedFilename($this->file);
         } else {
-            eval($this->parse());
+            eval($this->content);
         }
 
         $content = ob_get_contents();
@@ -107,43 +170,95 @@ class Template
         return $content;
     }
 
+    /**
+     * setMasterTemplate
+     *
+     * TODO
+     *
+     * @throws Exception
+     */
     private function setMasterTemplate() {
-        preg_match('@{{ master \'([a-zA-z0-9/_-]*)\' }}@', $this->template, $matches);
+        preg_match('@{{ master \'([a-zA-z0-9/_-]*)\' }}@', $this->content, $matches);
         if (!empty($matches)) {
             // template uses master template
             $this->MasterTemplate = new Template($matches[1] . '.php');
         }
     }
 
-    public function hasMasterTemplate()
+    /**
+     * hasMasterTemplate
+     *
+     * TODO
+     *
+     * @return bool TODO
+     */
+    public function hasMasterTemplate(): bool
     {
         return $this->MasterTemplate !== null;
     }
 
     /**
-     * @return string
+     * getContent
+     *
+     * TODO
+     *
+     * @return string TODO
      */
     public function getContent(): string
     {
-        return $this->template;
+        return $this->content;
     }
 
-    public function getMasterTemplate()
+    /**
+     * getParsedContent
+     *
+     * TODO
+     *
+     * @return string TODO
+     */
+    public function getParsedContent(): string
+    {
+        $this->parse();
+
+        return $this->content;
+    }
+
+    /**
+     * getMasterTemplate
+     *
+     * TODO
+     *
+     * @return Template|null TODO
+     */
+    public function getMasterTemplate(): ?Template
     {
         return $this->MasterTemplate;
     }
 
+    /**
+     * setSections
+     *
+     * TODO
+     */
     public function setSections()
     {
-        preg_match_all('/{{ section ([a-zA-z0-9_-]*) }}(.*?){{ \/section }}/is', $this->template, $sections, PREG_SET_ORDER);
+        // TODO handle end section
+        preg_match_all('/{{ section ([a-zA-z0-9_-]*) }}(.*?){{ \/section }}/is', $this->content, $sections, PREG_SET_ORDER);
         if (!empty($sections)) {
             // template has sections
-            $this->sections = $sections;
+            $TemplateParser = new TemplateParser();
+            foreach ($sections as $section) {
+                $this->sections[$section[1]] = $TemplateParser->parse($section[2]);
+            }
         }
     }
 
     /**
-     * @return array
+     * getSections
+     *
+     * TODO
+     *
+     * @return array TODO
      */
     public function getSections(): array
     {
