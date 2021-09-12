@@ -6,7 +6,7 @@ namespace Avolutions\Template;
 
 class Token
 {
-    public const MASTER = 0;
+    public const INCLUDE = 0;
     public const SECTION = 1;
     public const PLAIN = 2;
     public const IF = 3;

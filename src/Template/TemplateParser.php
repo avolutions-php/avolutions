@@ -127,8 +127,8 @@ class TemplateParser
     {
         $match = trim($match);
 
-        if (str_starts_with($match, 'master')) {
-            return Token::MASTER;
+        if (str_starts_with($match, 'include')) {
+            return Token::INCLUDE;
         }
 
         if (str_starts_with($match, 'section')) {
@@ -206,7 +206,7 @@ class TemplateParser
     {
         foreach ($this->tokens as $Token) {
             $Token->value = match ($Token->type) {
-                /*Token::MASTER => $this->parseMaster($Token),*/
+                Token::INCLUDE => $this->parseInclude($Token),
                 Token::SECTION => $this->parseSection($Token),
                 Token::PLAIN => $this->parsePlain($Token),
                 Token::IF => $this->parseIf($Token),
@@ -219,6 +219,19 @@ class TemplateParser
         }
 
         return $this->tokens;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function parseInclude(Token $Token): string
+    {
+        if (preg_match('@include \'([a-zA-Z0-9_\-\\\/\.]+)\'@', $Token->value, $matches)) {
+            $Template = new Template($matches[1] . '.php');
+            return $Template->getParsedContent();
+        } else {
+            // throw Exception
+        }
     }
 
     /**
