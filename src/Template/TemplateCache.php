@@ -15,6 +15,7 @@ use Avolutions\Config\Config;
 use Avolutions\Core\Application;
 
 use Exception;
+use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -28,23 +29,59 @@ use RecursiveIteratorIterator;
  */
 class TemplateCache
 {
+    /**
+     * TODO
+     *
+     * @var string
+     */
     private string $directory;
 
+    /**
+     * __construct
+     *
+     * TODO
+     */
     public function __construct()
     {
         $this->directory = Application::getViewPath() . Config::get('template/cache/directory') . DIRECTORY_SEPARATOR;
     }
 
-    public function isCached(string $templateFile)
+    /**
+     * isCached
+     *
+     * TODO
+     *
+     * @param string $templateFile TODO
+     *
+     * @return bool TODO
+     */
+    public function isCached(string $templateFile): bool
     {
         return file_exists($this->directory . $templateFile);
     }
 
-    public function getCachedFilename(string $templateFile)
+    /**
+     * getCachedFilename
+     *
+     * TODO
+     *
+     * @param string $templateFile TODO
+     *
+     * @return string TODO
+     */
+    public function getCachedFilename(string $templateFile): string
     {
         return $this->directory . $templateFile;
     }
 
+    /**
+     * cache
+     *
+     * TODO
+     *
+     * @param string $filename TODO
+     * @param string $content TODO
+     */
     public function cache(string $filename, string $content)
     {
         $filename = $this->directory . $filename;
@@ -59,6 +96,17 @@ class TemplateCache
         file_put_contents($filename, $content);
     }
 
+    /**
+     * clear
+     *
+     * TODO
+     *
+     * @param string|null $file TODO
+     *
+     * @return bool TODO
+     *
+     * @throws Exception
+     */
     public function clear(?string $file = null): bool
     {
         $fullFilename = $this->directory;
@@ -70,7 +118,7 @@ class TemplateCache
 
         // TODO handle errors on delete
         if (is_dir($fullFilename)) {
-            $DirectoryIterator = new RecursiveDirectoryIterator($fullFilename, RecursiveDirectoryIterator::SKIP_DOTS);
+            $DirectoryIterator = new RecursiveDirectoryIterator($fullFilename, FilesystemIterator::SKIP_DOTS);
             $Iterator = new RecursiveIteratorIterator($DirectoryIterator);
 
             foreach ($Iterator as $file) {
@@ -88,7 +136,16 @@ class TemplateCache
         throw new Exception($fullFilename . ' is not a valid cached template file');
     }
 
-    private function deleteFile($file)
+    /**
+     * deleteFile
+     *
+     * TODO
+     *
+     * @param string $file TODO
+     *
+     * @throws Exception
+     */
+    private function deleteFile(string $file)
     {
         if (!unlink($file)) {
             throw new Exception('Unable to delete ' . $file);
