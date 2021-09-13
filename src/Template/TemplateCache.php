@@ -87,8 +87,9 @@ class TemplateCache
         $filename = $this->directory . $filename;
 
         $directory = dirname($filename);
+        print $directory;
         if (!file_exists($directory)) {
-            mkdir($directory);
+            mkdir($directory, 0777, true);
         }
 
         $content = '<?php' . PHP_EOL . $content;
