@@ -11,8 +11,8 @@
 
 namespace Avolutions\View;
 
-use Avolutions\Core\Application;
 use Avolutions\Template\Template;
+use Exception;
 
 /**
  * View class
@@ -31,7 +31,7 @@ class View
      *
 	 * @var string $view
 	 */
-	private string $view = '';
+	private string $view;
 
     /**
      * __construct
@@ -40,13 +40,19 @@ class View
      * the data of the passed ViewModel.
      *
      * @param string|null $viewname The name of the View file.
-     * @param ViewModel|null $ViewModel $ViewModel The ViewModel object that will passed to the View.
+     * @param ViewModel|null $ViewModel $ViewModel The ViewModel object that will be passed to the View.
+     *
+     * @throws Exception
      */
 	public function __construct(?string $viewname = null, ?ViewModel $ViewModel = null)
 	{
 		$filename = $this->getFilename($viewname);
 
-        $Template = new Template($filename, $ViewModel->toArray());
+        $templateData = [];
+        if ($ViewModel !== null) {
+            $templateData = $ViewModel->toArray();
+        }
+        $Template = new Template($filename, $templateData);
         $this->view = $Template->render();
 	}
 
