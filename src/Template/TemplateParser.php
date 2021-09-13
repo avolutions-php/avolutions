@@ -382,16 +382,16 @@ class TemplateParser
      */
     private function todoParseIfTerm(string $ifTerm): mixed
     {
+        if (is_numeric($ifTerm) || in_array($ifTerm, ['false', 'true'])) {
+            return $ifTerm;
+        }
+
         // TODO wenn variable, dann durch $data ersetzen, wenn string dann anführungszeichen, wenn bool oder zahl dann nichts
         if (preg_match('@' . $this->getVariableRegex() . '@x', $ifTerm, $matches)) {
             return $this->todoVariable($ifTerm);
         }
 
-        if (!is_numeric($ifTerm) && !in_array($ifTerm, ['false', 'true'])) {
-            return str_replace($ifTerm, '"' . $ifTerm . '"', $ifTerm);
-        }
-
-        return $ifTerm;
+        return str_replace($ifTerm, '"' . $ifTerm . '"', $ifTerm);;
     }
 
     private function todoParseIfOperator(string $ifOperator): string
@@ -402,33 +402,22 @@ class TemplateParser
     private function getVariableRegex(bool $stringStartEnd = true): string
     {
         // Variables can either have a global or local scope, e.g.:
-        //      Global: {{ $foo }} or {{ $foo.bar }}
-        //      Local: {{ foo.bar }}
-        // Global variable consists of two parts:
-        //      1. Starts with exact one "$" followed by 1 to n allowed variable characters.
+        //      Global: {{ $foo }} or {{ $foo.bar }}...
+        //      Local: {{ local }} or {{ foo.bar }}...
+        // Variables consists of two parts:
+        //      1. Starts with zero or one "$" followed by 1 to n allowed variable characters.
         //         This part is required exact once. E.g. "$foo"
         //      2. Starts with exact one "." followed by 1 to n allowed variable characters.
         //         This part can occur 0 to n times. E.g. ".bar"
-        // Local variable consists of two parts:
-        //      1. Starts with 1 to n allowed variable characters followed by exact on ".".
-        //         This part can occur 1 to n times. E.g.: "foo."
-        //      2. Starts with 1 to n allowed variable characters.
-        //         This part is required exact once. E.g. "bar"
-        $globalVariableRegex = '
-            (?:\${1}' . $this->validVariableCharacters . '{1,}){1}
+        $variableRegex = '
+            (?:\$?' . $this->validVariableCharacters . '{1,}){1}
             (?:\.{1}' . $this->validVariableCharacters . '{1,})*
         ';
 
-        $localVariableRegex = '
-            (?:' . $this->validVariableCharacters . '{1,}\.{1}){1,}
-            (?:' . $this->validVariableCharacters . '{1,}){1}
-        ';
-
         if ($stringStartEnd) {
-            $globalVariableRegex = '^' . $globalVariableRegex . '$';
-            $localVariableRegex = '^' . $localVariableRegex . '$';
+            $variableRegex = '^' . $variableRegex . '$';
         }
 
-        return $globalVariableRegex. '|' . $localVariableRegex;
+        return $variableRegex;
     }
 }
