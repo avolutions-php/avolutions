@@ -382,16 +382,15 @@ class TemplateParser
      */
     private function todoParseIfTerm(string $ifTerm): mixed
     {
-        if (is_numeric($ifTerm) || in_array($ifTerm, ['false', 'true'])) {
+        if (
+            is_numeric($ifTerm)
+            || in_array($ifTerm, ['false', 'true'])
+            || !preg_match('@' . $this->getVariableRegex() . '@x', $ifTerm, $matches)
+        ) {
             return $ifTerm;
         }
 
-        // TODO wenn variable, dann durch $data ersetzen, wenn string dann anführungszeichen, wenn bool oder zahl dann nichts
-        if (preg_match('@' . $this->getVariableRegex() . '@x', $ifTerm, $matches)) {
-            return $this->todoVariable($ifTerm);
-        }
-
-        return str_replace($ifTerm, '"' . $ifTerm . '"', $ifTerm);;
+        return $this->todoVariable($ifTerm);
     }
 
     private function todoParseIfOperator(string $ifOperator): string
