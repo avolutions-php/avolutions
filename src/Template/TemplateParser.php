@@ -291,13 +291,13 @@ class TemplateParser
     private function parseFor(Token $Token): string
     {
         if (preg_match('@for\s(' . $this->validVariableCharacters . '*)\sin\s(' . $this->getVariableRegex(false) . ')@x', $Token->value, $matches)) {
-            $variable = $this->todoVariable($matches[2]);
+            $variable = $this->todoVariable($matches[2], false);
 
-            $forLoop = 'if (isset(' . $variable . ')) { ';
+            $forLoop = 'if (isset(' . $variable . ')) { ' . PHP_EOL;
             $forLoop .= 'foreach (';
             $forLoop .= $variable;
             $forLoop .= ' as ';
-            $forLoop .= $this->todoVariable($matches[1]);
+            $forLoop .= $this->todoVariable($matches[1], false);
             $forLoop .= ') {'.PHP_EOL;
 
             return $forLoop;
@@ -345,7 +345,7 @@ class TemplateParser
         }
     }
 
-    private function todoVariable(string $variable): string
+    private function todoVariable(string $variable, bool $nullCoalescing = true): string
     {
         $variable = trim($variable);
         $explodedVariable = explode('.', $variable);
@@ -361,6 +361,10 @@ class TemplateParser
 
         foreach ($explodedVariable as $name) {
             $parsedVariable .= '["' . trim(ltrim($name, '$')) . '"]';
+        }
+
+        if ($nullCoalescing) {
+            $parsedVariable .= ' ?? null';
         }
 
         return $parsedVariable;
