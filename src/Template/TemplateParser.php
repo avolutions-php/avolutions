@@ -348,6 +348,13 @@ class TemplateParser
     private function todoVariable(string $variable, bool $nullCoalescing = true): string
     {
         $variable = trim($variable);
+        $translate = false;
+
+        if (str_starts_with($variable, '_')) {
+            $translate = true;
+            $variable = ltrim($variable, '_');
+        }
+
         $explodedVariable = explode('.', $variable);
 
         if (str_starts_with($variable, '$')) {
@@ -365,6 +372,10 @@ class TemplateParser
 
         if ($nullCoalescing) {
             $parsedVariable .= ' ?? null';
+        }
+
+        if ($translate) {
+            $parsedVariable = 'translate(' . $parsedVariable .')';
         }
 
         return $parsedVariable;
@@ -403,13 +414,15 @@ class TemplateParser
         // Variables can either have a global or local scope, e.g.:
         //      Global: {{ $foo }} or {{ $foo.bar }}...
         //      Local: {{ local }} or {{ foo.bar }}...
-        // Variables consists of two parts:
-        //      1. Starts with zero or one "$" followed by 1 to n allowed variable characters.
-        //         This part is required exact once. E.g. "$foo"
-        //      2. Starts with exact one "." followed by 1 to n allowed variable characters.
+        // Variables consists of three parts:
+        //      1. Can start with zero or one "_" to translate the variable
+        //         This part must occur exact once. E.g. "_$foo"
+        //      2. Can start with zero or one "$" followed by 1 to n allowed variable characters.
+        //         This part must occur exact once. E.g. "$foo"
+        //      3. Starts with exact one "." followed by 1 to n allowed variable characters.
         //         This part can occur 0 to n times. E.g. ".bar"
         $variableRegex = '
-            (?:\$?' . $this->validVariableCharacters . '{1,}){1}
+            (?:_?\$?' . $this->validVariableCharacters . '{1,}){1}
             (?:\.{1}' . $this->validVariableCharacters . '{1,})*
         ';
 
