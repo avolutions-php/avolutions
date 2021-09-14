@@ -19,7 +19,7 @@ class CommandCollectionTest extends TestCase
     {
         $CommandCollection = new CommandCollection();
 
-        $this->assertEquals(11, $CommandCollection->count());
+        $this->assertEquals(12, $CommandCollection->count());
     }
 
     public function testGetAll()
@@ -37,7 +37,8 @@ class CommandCollectionTest extends TestCase
             'create-validator' => 'Avolutions\Command\CreateValidatorCommand',
             'database-migrate' => 'Avolutions\Command\DatabaseMigrateCommand',
             'database-status' => 'Avolutions\Command\DatabaseStatusCommand',
-            'register-listener' => 'Avolutions\Command\RegisterListenerCommand'
+            'register-listener' => 'Avolutions\Command\RegisterListenerCommand',
+            'template-cache' => 'Avolutions\Command\TemplateCacheCommand'
         ];
 
         $this->assertEquals($commands, $CommandCollection->getAll());
