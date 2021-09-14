@@ -384,7 +384,7 @@ class TemplateParser
     {
         if (
             is_numeric($ifTerm)
-            || in_array($ifTerm, ['false', 'true'])
+            || in_array($ifTerm, ['false', 'true', 'null'])
             || !preg_match('@' . $this->getVariableRegex() . '@x', $ifTerm, $matches)
         ) {
             return $ifTerm;
