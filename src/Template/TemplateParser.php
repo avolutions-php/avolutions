@@ -264,7 +264,7 @@ class TemplateParser
 
     private function parsePlain(Token $Token): string
     {
-        return 'print "' . addslashes($Token->value) . '";'.PHP_EOL;
+        return 'print "' . addcslashes($Token->value, '\"\$') . '";'.PHP_EOL;
     }
 
     private function parseIf(Token $Token, bool $elseIf = false): string
