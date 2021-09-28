@@ -294,11 +294,17 @@ class TemplateParser
             $variable = $this->todoVariable($matches[2], false);
 
             $forLoop = 'if (isset(' . $variable . ')) { ' . PHP_EOL;
+            $forLoop .= '$loop["count"] = count(' . $variable . ');' . PHP_EOL;
+            $forLoop .= '$loop["index"] = 1;' . PHP_EOL;
+            $forLoop .= '$loop["first"] = true;' . PHP_EOL;
+            $forLoop .= '$loop["last"] = false;' . PHP_EOL;
             $forLoop .= 'foreach (';
             $forLoop .= $variable;
             $forLoop .= ' as ';
+            $forLoop .= '$loop["key"] => ';
             $forLoop .= $this->todoVariable($matches[1], false);
             $forLoop .= ') {'.PHP_EOL;
+            $forLoop .= '$loop["last"] = $loop["index"] == $loop["count"];' . PHP_EOL;
 
             return $forLoop;
         } else {
@@ -322,12 +328,17 @@ class TemplateParser
 
     private function parseEnd(Token $Token): string
     {
-        $end = '}'.PHP_EOL;
-
+        // TODO own methods
         if (preg_match('@(?:/|end)(if|for)@', $Token->value, $matches)) {
             if ($matches[1] == 'for') {
+                $end = '$loop["index"]++;' . PHP_EOL;
+                $end .= '$loop["first"] = false;' . PHP_EOL;
                 $end .= '}'.PHP_EOL;
+                $end .= '}'.PHP_EOL;
+            } else {
+                $end = '}'.PHP_EOL;
             }
+
             return $end;
         } elseif (preg_match('@(?:/|end)(section)@', $Token->value, $matches)) {
             return '{{ /section }}';
