@@ -294,6 +294,9 @@ class TemplateParser
             $variable = $this->todoVariable($matches[2], false);
 
             $forLoop = 'if (isset(' . $variable . ')) { ' . PHP_EOL;
+            $forLoop .= 'if (isset($loop)) {' . PHP_EOL;
+            $forLoop .= '$loop["parent"] = $loop;' . PHP_EOL;
+            $forLoop .= '}' . PHP_EOL;
             $forLoop .= '$loop["count"] = count(' . $variable . ');' . PHP_EOL;
             $forLoop .= '$loop["index"] = 1;' . PHP_EOL;
             $forLoop .= '$loop["first"] = true;' . PHP_EOL;
@@ -334,7 +337,10 @@ class TemplateParser
                 $end = '$loop["index"]++;' . PHP_EOL;
                 $end .= '$loop["first"] = false;' . PHP_EOL;
                 $end .= '}'.PHP_EOL;
-                $end .= '}'.PHP_EOL;
+                $end .= 'if (isset($loop["parent"])) {' . PHP_EOL;
+                $end .= "\t" . '$loop = $loop["parent"];' . PHP_EOL;
+                $end .= '}' . PHP_EOL;
+                $end .= '}' . PHP_EOL;
             } else {
                 $end = '}'.PHP_EOL;
             }
