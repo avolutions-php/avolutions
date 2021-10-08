@@ -108,4 +108,17 @@ class View
     {
         return $this->view;
     }
+	
+	/**
+	 * Redirect helper
+	 *
+	 * @param string $url
+	 * @param integer $statusCode
+	 * @return void
+	 */
+	public function redirect($url, $statusCode = 303)
+	{
+		header('Location: ' . $url, true, $statusCode);
+		exit();
+	}
 }
