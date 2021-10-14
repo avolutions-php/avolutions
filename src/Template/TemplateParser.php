@@ -44,13 +44,6 @@ class TemplateParser
     private string $templateContent;
 
     /**
-     * TODO
-     *
-     * @var array
-     */
-    private array $tokens = [];
-
-    /**
      * __construct
      *
      * TODO
@@ -63,106 +56,6 @@ class TemplateParser
             $this->Template = $Template;
         }
     }
-
-    /**
-     * tokenize
-     *
-     * TODO
-     */
-    private function tokenize()
-    {
-        $position = 0;
-        $template = $this->templateContent;
-        $contentLength = strlen($template);
-        $this->tokens = [];
-
-        preg_match_all('@{{(.*?)}}@', $template, $matches, PREG_OFFSET_CAPTURE);
-
-        $matchesWithDelimiter = $matches[0];
-        $matchesWithoutDelimiter = $matches[1];
-
-        foreach ($matchesWithDelimiter as $index => $match) {
-            $offset = $match[1];
-            $length = strlen($match[0]);
-
-            if ($offset > $position) {
-                $diff = $offset - $position;
-
-                $this->tokens[] = new Token(
-                    Token::PLAIN,
-                    substr($template, $position, $diff)
-                );
-
-                $position = $position + $diff;
-            }
-
-            $matchWithoutDelimiter = $matchesWithoutDelimiter[$index][0];
-            $this->tokens[] = new Token(
-                $this->getTokenType($matchWithoutDelimiter),
-                trim($matchWithoutDelimiter)
-            );
-            $position = $offset + $length;
-        }
-
-        if ($position < $contentLength) {
-            $this->tokens[] = new Token(
-                Token::PLAIN,
-                substr($template, $position, $contentLength)
-            );
-        }
-
-        // TODO remaining content, maybe working for "empty" case also (see line 56)
-    }
-
-    /**
-     * getTokenType
-     *
-     * TODO
-     *
-     * @param string $match TODO
-     *
-     * @return int TODO
-     */
-    public function getTokenType(string $match): int
-    {
-        $match = trim($match);
-
-        if (str_starts_with($match, 'include')) {
-            return Token::INCLUDE;
-        }
-
-        if (str_starts_with($match, 'section')) {
-            return Token::SECTION;
-        }
-
-        if (str_starts_with($match, 'if')) {
-            return Token::IF;
-        }
-
-        if (str_starts_with($match, 'for')) {
-            return Token::FOR;
-        }
-
-        if (str_starts_with($match, 'elseif')) {
-            return Token::ELSEIF;
-        }
-
-        if ($match === 'else') {
-            return Token::ELSE;
-        }
-
-        if (str_starts_with($match, 'default')) {
-            return Token::DEFAULT;
-        }
-
-        if (str_starts_with($match, '/') || str_starts_with($match, 'end')) {
-            return Token::END;
-        }
-
-        // TODO find variable and return UNKNOWN as default
-        return Token::VARIABLE;
-    }
-
 
     /**
      * parse
@@ -183,8 +76,9 @@ class TemplateParser
             return $this->templateContent;
         } else {
             // TODO move to Tokenizer class
-            $this->tokenize();
-            $Tokens = $this->parseTokens();
+            $Tokenizer = new Tokenizer();
+            $Tokens = $Tokenizer->tokenize($this->templateContent);
+            $Tokens = $this->parseTokens($Tokens);
 
             $test = '';
             foreach ($Tokens as $Token) {
@@ -200,25 +94,30 @@ class TemplateParser
      *
      * TODO
      *
+     * @param array $Tokens
+     *
+     *
      * @return array TODO
+     * @throws \Exception
      */
-    private function parseTokens(): array
+    private function parseTokens(array $Tokens): array
     {
-        foreach ($this->tokens as $Token) {
+        foreach ($Tokens as $Token) {
             $Token->value = match ($Token->type) {
-                Token::INCLUDE => $this->parseInclude($Token),
-                Token::SECTION => $this->parseSection($Token),
-                Token::PLAIN => $this->parsePlain($Token),
-                Token::IF => $this->parseIf($Token),
-                Token::FOR => $this->parseFor($Token),
-                Token::ELSEIF => $this->parseElseIf($Token),
-                Token::ELSE => $this->parseElse($Token),
-                Token::END => $this->parseEnd($Token),
-                Token::VARIABLE => $this->parseVariable($Token)
+                TokenType::INCLUDE => $this->parseInclude($Token),
+                TokenType::SECTION => $this->parseSection($Token),
+                TokenType::PLAIN => $this->parsePlain($Token),
+                TokenType::IF => $this->parseIf($Token),
+                TokenType::FORM => $this->parseForm($Token),
+                TokenType::FOR => $this->parseFor($Token),
+                TokenType::ELSEIF => $this->parseElseIf($Token),
+                TokenType::ELSE => $this->parseElse($Token),
+                TokenType::END => $this->parseEnd($Token),
+                TokenType::VARIABLE => $this->parseVariable($Token)
             };
         }
 
-        return $this->tokens;
+        return $Tokens;
     }
 
     /**

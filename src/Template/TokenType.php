@@ -12,38 +12,29 @@
 namespace Avolutions\Template;
 
 /**
- * Token class
+ * TokenType class
  *
  * TODO
  *
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.9.0
  */
-class Token
+class TokenType
 {
     /**
      * TODO
      *
-     * @var int
+     * @var int INCLUDE
      */
-    public int $type;
-
-    /**
-     * TODO
-     *
-     * @var string
-     */
-    public string $value;
-
-    /**
-     * TODO
-     *
-     * @param int $type TODO
-     * @param string $value TODO
-     */
-    public function __construct(int $type, string $value)
-    {
-        $this->type = $type;
-        $this->value = $value;
-    }
+    public const INCLUDE = 0;
+    public const SECTION = 1;
+    public const PLAIN = 2;
+    public const IF = 3;
+    public const FORM = 4;
+    public const FOR = 5;
+    public const ELSEIF = 6;
+    public const ELSE = 7;
+    public const END = 8;
+    public const VARIABLE = 9;
+    public const UNKOWN = 99;
 }
