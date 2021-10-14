@@ -124,6 +124,6 @@ class Tokenizer
         }
 
         // TODO find variable and return UNKNOWN as default
-        return Token::VARIABLE;
+        return TokenType::VARIABLE;
     }
 }

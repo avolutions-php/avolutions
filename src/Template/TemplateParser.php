@@ -11,6 +11,8 @@
 
 namespace Avolutions\Template;
 
+use Avolutions\Template\TokenParser;
+
 /**
  * TemplateParser class
  *
@@ -104,26 +106,32 @@ class TemplateParser
      *
      *
      * @return array TODO
-     * @throws \Exception
      */
     private function parseTokens(array $Tokens): array
     {
         foreach ($Tokens as $Token) {
-            $Token->value = match ($Token->type) {
-                TokenType::INCLUDE => $this->parseInclude($Token),
-                TokenType::SECTION => $this->parseSection($Token),
-                TokenType::PLAIN => $this->parsePlain($Token),
-                TokenType::IF => $this->parseIf($Token),
-                TokenType::FORM => $this->parseForm($Token),
-                TokenType::FOR => $this->parseFor($Token),
-                TokenType::ELSEIF => $this->parseElseIf($Token),
-                TokenType::ELSE => $this->parseElse($Token),
-                TokenType::END => $this->parseEnd($Token),
-                TokenType::VARIABLE => $this->parseVariable($Token)
-            };
+            $TokenParser = $this->getTokenParser($Token->type);
+            $Token->value = $TokenParser->parse($Token);
         }
 
         return $Tokens;
+    }
+
+    private function getTokenParser(int $TokenType): ITokenParser
+    {
+        return new TokenParser\VariableTokenParser();
+        /*return match ($TokenType) {
+            TokenType::INCLUDE => $this->parseInclude($Token),
+            TokenType::SECTION => $this->parseSection($Token),
+            TokenType::PLAIN => $this->parsePlain($Token),
+            TokenType::IF => $this->parseIf($Token),
+            TokenType::FORM => $this->parseForm($Token),
+            TokenType::FOR => $this->parseFor($Token),
+            TokenType::ELSEIF => $this->parseElseIf($Token),
+            TokenType::ELSE => $this->parseElse($Token),
+            TokenType::END => $this->parseEnd($Token),
+            TokenType::VARIABLE => $this->parseVariable($Token)
+        };*/
     }
 
     /**
