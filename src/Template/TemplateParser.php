@@ -75,18 +75,24 @@ class TemplateParser
 
             return $this->templateContent;
         } else {
-            // TODO move to Tokenizer class
             $Tokenizer = new Tokenizer();
             $Tokens = $Tokenizer->tokenize($this->templateContent);
-            $Tokens = $this->parseTokens($Tokens);
+            $ParsedTokens = $this->parseTokens($Tokens);
 
-            $test = '';
-            foreach ($Tokens as $Token) {
-                $test .= $Token->value;
-            }
-
-            return $test;
+            return $this->compile($ParsedTokens);
         }
+    }
+
+    // TODO maybe own class?
+    private function compile(array $ParsedTokens): string
+    {
+        // TODO add tabs for if/for blocks
+        $output = '';
+        foreach ($ParsedTokens as $ParsedToken) {
+            $output .= $ParsedToken->value;
+        }
+
+        return $output;
     }
 
     /**
