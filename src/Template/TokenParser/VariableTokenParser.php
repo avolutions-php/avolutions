@@ -26,7 +26,7 @@ class VariableTokenParser implements ITokenParser
         }
     }
 
-    private function getVariableRegex(bool $stringStartEnd = true): string
+    public function getVariableRegex(bool $stringStartEnd = true): string
     {
         // Variables can either have a global or local scope, e.g.:
         //      Global: {{ $foo }} or {{ $foo.bar }}...
@@ -50,7 +50,7 @@ class VariableTokenParser implements ITokenParser
         return $variableRegex;
     }
 
-    private function todoVariable(string $variable, bool $nullCoalescing = true): string
+    public function todoVariable(string $variable, bool $nullCoalescing = true): string
     {
         $variable = trim($variable);
         $translate = false;
