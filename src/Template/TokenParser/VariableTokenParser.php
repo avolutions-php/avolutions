@@ -2,6 +2,7 @@
 
 namespace Avolutions\Template\TokenParser;
 
+use Avolutions\Template\Node;
 use Avolutions\Template\Token;
 
 class VariableTokenParser implements ITokenParser
@@ -19,7 +20,14 @@ class VariableTokenParser implements ITokenParser
     public function parse(Token $Token)
     {
         if (preg_match('@' . $this->getVariableRegex() . '@x', $Token->value, $matches)) {
-            return 'print ' . str_replace($matches[0], $this->todoVariable($matches[0]), $Token->value) . ';' . PHP_EOL;
+            $Node = new Node();
+
+            $Node
+                ->print()
+                ->write(str_replace($matches[0], $this->todoVariable($matches[0]), $Token->value))
+                ->writeLine(';');
+
+            return $Node;
         } else {
             // throw Exception
         }

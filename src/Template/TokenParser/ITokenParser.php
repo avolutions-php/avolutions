@@ -13,6 +13,6 @@ interface ITokenParser
      *
      * @param Token $Token TODO
      */
-    // TODO add string as return type
+    // TODO add Node as return type
     public function parse(Token $Token);
 }

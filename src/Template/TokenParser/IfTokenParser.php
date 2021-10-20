@@ -2,6 +2,7 @@
 
 namespace Avolutions\Template\TokenParser;
 
+use Avolutions\Template\Node;
 use Avolutions\Template\Token;
 use Avolutions\Template\TokenType;
 
@@ -15,7 +16,7 @@ class IfTokenParser implements ITokenParser, IEndTokenParser
         return $this->parseIf($Token, $Token->type === TokenType::ELSEIF);
     }
 
-    private function parseIf(Token $Token, bool $elseIf = false): string
+    private function parseIf(Token $Token, bool $elseIf = false): Node
     {
         $ifTermRegex = $elseIf ? 'elseif' : 'if';
 
@@ -24,14 +25,16 @@ class IfTokenParser implements ITokenParser, IEndTokenParser
         $ifTermRegex .= ' (.*) (==|!=|>) (.*)';
 
         if (preg_match('@' . $ifTermRegex . '@', $Token->value, $matches)) {
-            $ifCondition = $elseIf ? '} elseif' : 'if';
-            $ifCondition .= ' (';
-            $ifCondition .= $this->todoParseIfTerm($matches[1]);
-            $ifCondition .= ' ' . $this->todoParseIfOperator($matches[2]) . ' ';
-            $ifCondition .= $this->todoParseIfTerm($matches[3]);
-            $ifCondition .= ') {'.PHP_EOL;
+            $Node = new Node();
 
-            return $ifCondition;
+            $Node
+                ->write($elseIf ? '} elseif' : 'if')
+                ->write(' (')
+                ->write($this->todoParseIfTerm($matches[1]))
+                ->write(' ' . $this->todoParseIfOperator($matches[2]) . ' ')
+                ->writeLine(') { ');
+
+            return $Node;
         } else {
             // throw Exception
         }
@@ -63,6 +66,10 @@ class IfTokenParser implements ITokenParser, IEndTokenParser
 
     public function parseEnd(Token $Token)
     {
-        return '}'.PHP_EOL;
+        $Node = new Node();
+
+        $Node->writeLine('}');
+
+        return $Node;
     }
 }

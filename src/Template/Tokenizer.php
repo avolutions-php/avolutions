@@ -66,7 +66,7 @@ class Tokenizer
 
         if ($position < $contentLength) {
             $tokens[] = new Token(
-                Token::PLAIN,
+                TokenType::PLAIN,
                 substr($template, $position, $contentLength)
             );
         }

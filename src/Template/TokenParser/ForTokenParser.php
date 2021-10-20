@@ -2,6 +2,7 @@
 
 namespace Avolutions\Template\TokenParser;
 
+use Avolutions\Template\Node;
 use Avolutions\Template\Token;
 
 class ForTokenParser implements ITokenParser, IEndTokenParser
@@ -13,25 +14,34 @@ class ForTokenParser implements ITokenParser, IEndTokenParser
         if (preg_match('@for\s(' . $VariableTokenParser->validVariableCharacters . '*)\sin\s(' . $VariableTokenParser->getVariableRegex(false) . ')@x', $Token->value, $matches)) {
             $variable = $VariableTokenParser->todoVariable($matches[2], false);
 
-            $forLoop = 'if (isset(' . $variable . ')) { ' . PHP_EOL;
-            $forLoop .= 'if (isset($loop)) {' . PHP_EOL;
-            $forLoop .= '$loop["parent"] = $loop;' . PHP_EOL;
-            $forLoop .= '}' . PHP_EOL;
-            $forLoop .= '$loop["count"] = count(' . $variable . ');' . PHP_EOL;
-            $forLoop .= '$loop["index"] = 1;' . PHP_EOL;
-            $forLoop .= '$loop["first"] = true;' . PHP_EOL;
-            $forLoop .= '$loop["last"] = false;' . PHP_EOL;
-            $forLoop .= 'foreach (';
-            $forLoop .= $variable;
-            $forLoop .= ' as ';
-            $forLoop .= '$loop["key"] => ';
-            $forLoop .= $VariableTokenParser->todoVariable($matches[1], false);
-            $forLoop .= ') {'.PHP_EOL;
-            $forLoop .= '$loop["last"] = $loop["index"] == $loop["count"];' . PHP_EOL;
-            $forLoop .= '$loop["even"] = $loop["index"] % 2 == 0;' . PHP_EOL;
-            $forLoop .= '$loop["odd"] = !$loop["even"];' . PHP_EOL;
+            $Node = new Node();
 
-            return $forLoop;
+            $Node
+                ->writeLine('if (isset(' . $variable . ')) { ')
+                ->indent()
+                ->writeLine('if (isset($loop)) {')
+                ->indent()
+                ->writeLine('$loop["parent"] = $loop;')
+                ->outdent()
+                ->writeLine('}')
+                ->writeLine('$loop["count"] = count(' . $variable . ');')
+                ->writeLine('$loop["index"] = 1;')
+                ->writeLine('$loop["first"] = true;')
+                ->writeLine('$loop["last"] = false;')
+                ->nl()
+                ->write('foreach (')
+                ->append($variable . 'as $loop["key"] => ')
+                ->append($VariableTokenParser->todoVariable($matches[1], false))
+                ->append(') {')
+                ->nl()
+                ->indent()
+                ->writeLine('$loop["last"] = $loop["index"] == $loop["count"];')
+                ->writeLine('$loop["even"] = $loop["index"] % 2 == 0;')
+                ->writeLine('$loop["odd"] = !$loop["even"];')
+                ->nl()
+                ;
+
+            return $Node;
         } else {
             // throw Exception
         }
@@ -39,13 +49,24 @@ class ForTokenParser implements ITokenParser, IEndTokenParser
 
     public function parseEnd(Token $Token)
     {
-        $end = '$loop["index"]++;' . PHP_EOL;
-        $end .= '$loop["first"] = false;' . PHP_EOL;
-        $end .= '}'.PHP_EOL;
-        $end .= 'if (isset($loop["parent"])) {' . PHP_EOL;
-        $end .= "\t" . '$loop = $loop["parent"];' . PHP_EOL;
-        $end .= '}' . PHP_EOL;
-        $end .= '}' .PHP_EOL;
-        return $end;
+        $Node = new Node();
+
+        $Node
+            ->nl()
+            ->indent(2)
+            ->writeLine('$loop["index"]++;')
+            ->writeLine('$loop["first"] = false;')
+            ->outdent()
+            ->writeLine('}')
+            ->writeLine('if (isset($loop["parent"])) {')
+            ->indent()
+            ->writeLine('$loop = $loop["parent"];')
+            ->outdent()
+            ->writeLine('}')
+            ->outdent()
+            ->writeLine('}')
+        ;
+
+        return $Node;
     }
 }

@@ -8,11 +8,19 @@ class SectionTokenParser implements ITokenParser, IEndTokenParser
 {
     public function parse(Token $Token)
     {
-        return '{{ ' . $Token->value . ' }}' . PHP_EOL;
+        $Node = new Node();
+
+        $Node->writeLine('{{ ' . $Token->value . ' }}');
+
+        return $Node;
     }
 
     public function parseEnd(Token $Token)
     {
-        return '{{ /section }}';
+        $Node = new Node();
+
+        $Node->writeLine('{{ /section }}');
+
+        return $Node;
     }
 }

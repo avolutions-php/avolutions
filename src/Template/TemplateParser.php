@@ -73,19 +73,19 @@ class TemplateParser
         } else {
             $Tokenizer = new Tokenizer();
             $Tokens = $Tokenizer->tokenize($this->templateContent);
-            $ParsedTokens = $this->parseTokens($Tokens);
+            $Nodes = $this->parseTokens($Tokens);
 
-            return $this->compile($ParsedTokens);
+            return $this->compile($Nodes);
         }
     }
 
     // TODO maybe own class?
-    private function compile(array $ParsedTokens): string
+    private function compile(array $Nodes): string
     {
         // TODO add tabs for if/for blocks
         $output = '';
-        foreach ($ParsedTokens as $ParsedToken) {
-            $output .= $ParsedToken->value;
+        foreach ($Nodes as $Node) {
+            $output .= $Node->getValue();
         }
 
         return $output;
@@ -102,12 +102,14 @@ class TemplateParser
      */
     private function parseTokens(array $Tokens): array
     {
+        $Nodes = [];
+
         foreach ($Tokens as $Token) {
             $TokenParser = $this->getTokenParser($Token->type);
-            $Token->value = $TokenParser->parse($Token);
+            $Nodes[] = $TokenParser->parse($Token);
         }
 
-        return $Tokens;
+        return $Nodes;
     }
 
     private function getTokenParser(int $TokenType): ITokenParser
