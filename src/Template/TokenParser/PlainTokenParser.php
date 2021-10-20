@@ -2,7 +2,6 @@
 
 namespace Avolutions\Template\TokenParser;
 
-use Avolutions\Template\ITokenParser;
 use Avolutions\Template\Token;
 
 class PlainTokenParser implements ITokenParser

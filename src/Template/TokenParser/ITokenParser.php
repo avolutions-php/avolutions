@@ -1,6 +1,8 @@
 <?php
 
-namespace Avolutions\Template;
+namespace Avolutions\Template\TokenParser;
+
+use Avolutions\Template\Token;
 
 interface ITokenParser
 {
@@ -11,5 +13,6 @@ interface ITokenParser
      *
      * @param Token $Token TODO
      */
+    // TODO add string as return type
     public function parse(Token $Token);
 }

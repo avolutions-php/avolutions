@@ -2,7 +2,6 @@
 
 namespace Avolutions\Template\TokenParser;
 
-use Avolutions\Template\ITokenParser;
 use Avolutions\Template\Template;
 use Avolutions\Template\Token;
 
