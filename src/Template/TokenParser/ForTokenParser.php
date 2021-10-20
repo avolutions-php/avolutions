@@ -11,8 +11,8 @@ class ForTokenParser implements ITokenParser
     {
         $VariableTokenParser = new VariableTokenParser();
 
-        if (preg_match('@for\s(' . $this->validVariableCharacters . '*)\sin\s(' . $VariableTokenParser->getVariableRegex(false) . ')@x', $Token->value, $matches)) {
-            $variable = $this->todoVariable($matches[2], false);
+        if (preg_match('@for\s(' . $VariableTokenParser->validVariableCharacters . '*)\sin\s(' . $VariableTokenParser->getVariableRegex(false) . ')@x', $Token->value, $matches)) {
+            $variable = $VariableTokenParser->todoVariable($matches[2], false);
 
             $forLoop = 'if (isset(' . $variable . ')) { ' . PHP_EOL;
             $forLoop .= 'if (isset($loop)) {' . PHP_EOL;
@@ -29,6 +29,8 @@ class ForTokenParser implements ITokenParser
             $forLoop .= $VariableTokenParser->todoVariable($matches[1], false);
             $forLoop .= ') {'.PHP_EOL;
             $forLoop .= '$loop["last"] = $loop["index"] == $loop["count"];' . PHP_EOL;
+            $forLoop .= '$loop["even"] = $loop["index"] % 2 == 0;' . PHP_EOL;
+            $forLoop .= '$loop["odd"] = !$loop["even"];' . PHP_EOL;
 
             return $forLoop;
         } else {

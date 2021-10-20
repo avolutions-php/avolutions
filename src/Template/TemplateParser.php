@@ -26,13 +26,6 @@ class TemplateParser
     /**
      * TODO
      *
-     * @var string
-     */
-    private string $validVariableCharacters = '[a-zA-Z0-9_-]';
-
-    /**
-     * TODO
-     *
      * @var Template|null
      */
     private ?Template $Template = null;

@@ -12,7 +12,7 @@ class VariableTokenParser implements ITokenParser
      *
      * @var string
      */
-    private string $validVariableCharacters = '[a-zA-Z0-9_-]';
+    public string $validVariableCharacters = '[a-zA-Z0-9_-]';
 
     /**
      * @inheritDoc
