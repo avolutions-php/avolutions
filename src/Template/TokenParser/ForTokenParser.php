@@ -4,7 +4,7 @@ namespace Avolutions\Template\TokenParser;
 
 use Avolutions\Template\Token;
 
-class ForTokenParser implements ITokenParser
+class ForTokenParser implements ITokenParser, IEndTokenParser
 {
     public function parse(Token $Token)
     {
@@ -35,5 +35,17 @@ class ForTokenParser implements ITokenParser
         } else {
             // throw Exception
         }
+    }
+
+    public function parseEnd(Token $Token)
+    {
+        $end = '$loop["index"]++;' . PHP_EOL;
+        $end .= '$loop["first"] = false;' . PHP_EOL;
+        $end .= '}'.PHP_EOL;
+        $end .= 'if (isset($loop["parent"])) {' . PHP_EOL;
+        $end .= "\t" . '$loop = $loop["parent"];' . PHP_EOL;
+        $end .= '}' . PHP_EOL;
+        $end .= '}' .PHP_EOL;
+        return $end;
     }
 }

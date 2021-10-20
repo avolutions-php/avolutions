@@ -5,7 +5,7 @@ namespace Avolutions\Template\TokenParser;
 use Avolutions\Template\Token;
 use Avolutions\Template\TokenType;
 
-class IfTokenParser implements ITokenParser
+class IfTokenParser implements ITokenParser, IEndTokenParser
 {
     /**
      * @inheritDoc
@@ -59,5 +59,10 @@ class IfTokenParser implements ITokenParser
     private function todoParseIfOperator(string $ifOperator): string
     {
         return $ifOperator;
+    }
+
+    public function parseEnd(Token $Token)
+    {
+        return '}'.PHP_EOL;
     }
 }
