@@ -345,4 +345,21 @@ class EntityCollection implements CollectionInterface
 
 		return $this;
 	}
+
+	/**
+	 * toArray
+	 *
+	 * Returns all previously loaded Entities of the EntityCollection as an array.
+	 *
+	 * @return array All entities previously loaded as an array.
+	 */
+    public function toArray($includeEntities = false): array
+    {
+		$all = $this->getAll();
+		$array = [];
+		foreach ($all as $entity) {
+			$array[] = $entity->toArray($includeEntities);
+		}
+		return $array;
+	}
 }
