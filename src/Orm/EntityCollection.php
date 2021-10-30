@@ -362,4 +362,17 @@ class EntityCollection implements CollectionInterface
 		}
 		return $array;
 	}
+
+	/**
+	 * toJSON
+	 *
+	 * Returns all previously loaded Entities of the EntityCollection as a JSON string.
+	 *
+	 * @return array All entities previously loaded as a JSON string.
+	 */
+    public function toJSON($includeEntities = false): string
+    {
+		$array = $this->toArray($includeEntities);
+		return json_encode($array);
+	}
 }

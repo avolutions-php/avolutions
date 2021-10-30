@@ -324,4 +324,19 @@ class Entity
         }
         return $array;
     }
+
+    /**
+     * toJSON
+     * 
+     * Converts the Entity to JSON.
+     * 
+     * @param bool $includeEntities Whether to include entity-type properties or not.
+     *
+     * @return array
+     */
+    public function toJSON($includeEntities = false): string
+    {
+        $array = $this->toArray($includeEntities);
+        return json_encode($array);
+    }
 }
