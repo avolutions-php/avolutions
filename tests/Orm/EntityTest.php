@@ -102,11 +102,13 @@ namespace {
 namespace Application\Model {
     use Avolutions\Orm\Entity;
 
-    class User extends Entity
-    {
-    }
-
-    class Gender extends Entity
-    {
+    if (!\class_exists(User::class)) {
+        class User extends Entity
+        {
+        }
+    
+        class Gender extends Entity
+        {
+        }
     }
 }
