@@ -14,7 +14,7 @@ class ColumnDecimal extends Column
         bool $primaryKey = false,
         bool $autoIncrement = false
     ) {
-        $columnTypeFormat = sprintf('%s(%d,%d)',ColumnType::DECIMAL,$precision,$scale);
+        $columnTypeFormat = sprintf('%s(%d,%d)', ColumnType::DECIMAL, $precision, $scale);
         parent::__construct($name, $columnTypeFormat, $length, $default, $null, $primaryKey, $autoIncrement);
     }
 
