@@ -298,4 +298,30 @@ class Entity
 
         return $this->isValid();
     }
+
+    /**
+     * toArray
+     * 
+     * Converts the Entity to an array.
+     * 
+     * @param bool $includeEntities Whether to include entity-type properties or not.
+     *
+     * @return array
+     */
+    public function toArray($includeEntities = false): array
+    {
+        $array = [];
+        foreach ($this->EntityMapping as $property => $value) {
+            if (!$value['isEntity']) {
+                $array[$property] = $this->$property ?? null;
+            } elseif ($includeEntities) {
+                if (!isset($this->$property)) {
+                    $array[$property] = null;
+                } else {
+                    $array[$property] = $this->$property->toArray();
+                }
+            }
+        }
+        return $array;
+    }
 }
