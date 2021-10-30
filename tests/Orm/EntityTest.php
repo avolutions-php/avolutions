@@ -36,7 +36,7 @@ namespace {
                 ],
             ]);
         }
-    
+
         public function testConvertEntityToArray()
         {
             // Convert entity to array
@@ -95,6 +95,66 @@ namespace {
                     'label' => 'male',
                 ],
             ], $array);
+        }
+
+        public function testConvertEntityToJSON()
+        {
+            // Convert entity to JSON string
+            $json = $this->Entity->toJSON();
+
+            $this->assertEquals(json_encode([
+                'id' => 1,
+                'firstname' => 'John',
+                'lastname' => 'Doe',
+                'hobbies' => 'Blogging',
+                'genderID' => 1,
+            ]), $json);
+
+            // Update entity properties
+            $this->Entity->hobbies = 'Blogging, Video Games';
+
+            $json = $this->Entity->toJSON();
+            $this->assertEquals(json_encode([
+                'id' => 1,
+                'firstname' => 'John',
+                'lastname' => 'Doe',
+                'hobbies' => 'Blogging, Video Games',
+                'genderID' => 1,
+            ]), $json);
+        }
+
+        public function testConvertEntityToJSONIncludingEntityTypeProperties()
+        {
+            // Convert entity to JSON string
+            $json = $this->Entity->toJSON(true);
+
+            $this->assertEquals(json_encode([
+                'id' => 1,
+                'firstname' => 'John',
+                'lastname' => 'Doe',
+                'hobbies' => 'Blogging',
+                'genderID' => 1,
+                'Gender' => [
+                    'id' => 1,
+                    'label' => 'male',
+                ],
+            ]), $json);
+
+            // Update entity properties
+            $this->Entity->hobbies = 'Blogging, Video Games';
+
+            $json = $this->Entity->toJSON(true);
+            $this->assertEquals(json_encode([
+                'id' => 1,
+                'firstname' => 'John',
+                'lastname' => 'Doe',
+                'hobbies' => 'Blogging, Video Games',
+                'genderID' => 1,
+                'Gender' => [
+                    'id' => 1,
+                    'label' => 'male',
+                ],
+            ]), $json);
         }
     }
 }
