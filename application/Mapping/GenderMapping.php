@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * GenderMapping for tests.
+ */
 return [
     'id' => [
         'column' => 'GenderID'

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * UserMapping for tests.
+ */
 return [
     'id' => [
         'column' => 'UserID'
