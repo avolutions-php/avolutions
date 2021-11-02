@@ -32,7 +32,9 @@ class IfTokenParser implements ITokenParser, IEndTokenParser
                 ->write(' (')
                 ->write($this->todoParseIfTerm($matches[1]))
                 ->write(' ' . $this->todoParseIfOperator($matches[2]) . ' ')
-                ->writeLine(') { ');
+                ->write($this->todoParseIfTerm($matches[3]))
+                ->writeLine(') { ')
+                ->indent();
 
             return $Node;
         } else {
