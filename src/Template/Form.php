@@ -171,6 +171,22 @@ class Form
     }
 
     /**
+     * helpFor
+     *
+     * TODO
+     *
+     * @param string $fieldName The field of the Entity.
+     *
+     * @return string TODO
+     */
+    public function helpFor(string $fieldName): string
+    {
+        $help = $this->EntityMapping->$fieldName['form']['help'] ?? '';
+
+        return '<div class="help">'.$help.'</div>';
+    }
+
+    /**
 	 * generate
 	 *
 	 * Generates a Form for all fields of the Entity, depending on

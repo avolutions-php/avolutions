@@ -12,12 +12,13 @@ class FormTokenParser implements ITokenParser, IEndTokenParser
         $VariableTokenParser = new VariableTokenParser();
 
         // TODO parse form(-element|widget|help|error|label) and call private methods like in IfTokenParser
-        if (preg_match('@(?:form-{1}(element|input|label|error):{1}([a-zA-Z0-9_-]*)){1}@x', $Token->value, $matches)) {
+        if (preg_match('@(?:form-{1}(element|input|label|error|help):{1}([a-zA-Z0-9_-]*)){1}@x', $Token->value, $matches)) {
             return match ($matches[1]) {
                 'element' => $this->parseElement($Token, $matches[2]),
                 'input' => $this->parseInput($Token, $matches[2]),
                 'label' => $this->parseLabel($Token, $matches[2]),
-                'error' => $this->parseError($Token, $matches[2])
+                'error' => $this->parseError($Token, $matches[2]),
+                'help' => $this->parseHelp($Token, $matches[2]),
             };
         } else if (preg_match('@form \s(' . $VariableTokenParser->getVariableRegex(false) . ')@x', $Token->value, $matches)) {
             $Node = new Node();
@@ -74,5 +75,16 @@ class FormTokenParser implements ITokenParser, IEndTokenParser
     private function parseError(Token $Token, string $field)
     {
         return new Node();
+    }
+
+    private function parseHelp(Token $Token, string $field)
+    {
+        $Node = new Node();
+
+        $Node
+            ->print()
+            ->writeLine('$Form->helpFor("' . $field . '");');
+
+        return $Node;
     }
 }
