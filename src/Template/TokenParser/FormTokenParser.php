@@ -23,7 +23,7 @@ class FormTokenParser implements ITokenParser, IEndTokenParser
             $Node = new Node();
 
             $Node
-                ->writeLine('use Avolutions\View\Form;')
+                ->writeLine('use Avolutions\Template\Form;')
                 ->writeLine('use Application\Model\User;')
                 ->writeLine('$Form = new Form(new User());')
                 ->print()

@@ -9,7 +9,7 @@
  * @link        https://avolutions.org
  */
 
-namespace Avolutions\View;
+namespace Avolutions\Template;
 
 use Avolutions\Orm\Entity;
 use Avolutions\Orm\EntityConfiguration;
