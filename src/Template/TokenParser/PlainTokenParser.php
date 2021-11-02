@@ -11,10 +11,14 @@ class PlainTokenParser implements ITokenParser
     {
         $Node = new Node();
 
-        $Node
-            ->print()
-            ->write($Node->quote($Node->escape($Token->value)))
-            ->writeLine(";");
+        $value = trim($Token->value, PHP_EOL);
+
+        if (strlen($value) > 0) {
+            $Node
+                ->print()
+                ->write($Node->quote($Node->escape(trim($Token->value, PHP_EOL))))
+                ->writeLine(";");
+        }
 
         return $Node;
     }
