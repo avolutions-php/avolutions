@@ -11,8 +11,6 @@ class FormTokenParser implements ITokenParser, IEndTokenParser
     {
         $VariableTokenParser = new VariableTokenParser();
 
-        print 'test';
-
         // TODO parse form(-element|widget|help|error|label) and call private methods like in IfTokenParser
         if (preg_match('@(?:form-{1}(element|input|label|error):{1}([a-zA-Z0-9_-]*)){1}@x', $Token->value, $matches)) {
             return match ($matches[1]) {
