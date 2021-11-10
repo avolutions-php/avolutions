@@ -34,7 +34,8 @@ class TokenType
     public const FOR = 5;
     public const ELSEIF = 6;
     public const ELSE = 7;
-    public const END = 8;
-    public const VARIABLE = 9;
+    public const TRANSLATE = 8;
+    public const END = 9;
+    public const VARIABLE = 10;
     public const UNKOWN = 99;
 }

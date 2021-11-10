@@ -115,8 +115,8 @@ class Tokenizer
             return TokenType::ELSE;
         }
 
-        if (str_starts_with($match, 'default')) {
-            return TokenType::DEFAULT;
+        if (str_starts_with($match, 'translate')) {
+            return TokenType::TRANSLATE;
         }
 
         if (str_starts_with($match, '/') || str_starts_with($match, 'end')) {

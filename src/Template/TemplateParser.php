@@ -123,6 +123,7 @@ class TemplateParser
             TokenType::FORM => new TokenParser\FormTokenParser(),
             TokenType::FOR => new TokenParser\ForTokenParser(),
             TokenType::ELSE => new TokenParser\ElseTokenParser(),
+            TokenType::TRANSLATE => new TokenParser\TranslateTokenParser(),
             TokenType::END => new TokenParser\EndTokenParser(),
             TokenType::VARIABLE => new TokenParser\VariableTokenParser()
         };
