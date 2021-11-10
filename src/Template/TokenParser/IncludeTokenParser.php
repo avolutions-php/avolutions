@@ -2,6 +2,7 @@
 
 namespace Avolutions\Template\TokenParser;
 
+use Avolutions\Template\Node;
 use Avolutions\Template\Template;
 use Avolutions\Template\Token;
 
@@ -11,7 +12,13 @@ class IncludeTokenParser implements ITokenParser
     {
         if (preg_match('@include \'([a-zA-Z0-9_\-\\\/\.]+)\'@', $Token->value, $matches)) {
             $Template = new Template($matches[1] . '.php');
-            return $Template->getParsedContent();
+
+            $Node = new Node();
+
+            $Node
+                ->writeLine($Template->getParsedContent());
+
+            return $Node;
         } else {
             // throw Exception
         }

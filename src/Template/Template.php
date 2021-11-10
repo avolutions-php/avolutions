@@ -84,7 +84,10 @@ class Template
         $this->file = $templateFile;
         $this->TemplateCache = new TemplateCache();
 
-        if (!Config::get('template/cache/use') || !$this->isCached()) {
+        $useCache = Config::get('template/cache/use');
+        $isCached = $this->isCached();
+
+        if (!$useCache || !$isCached) {
             // TODO find better solution
             $templateFile = Application::getViewPath() . $templateFile;
             if (file_exists($templateFile)) {
@@ -150,11 +153,9 @@ class Template
      */
     public function render(): string
     {
-        $data = $this->data;
-
-        $test = $this->TemplateCache->isCached($this->file);
-
         $this->parse();
+
+        $data = $this->data;
 
         ob_start();
 
@@ -220,7 +221,13 @@ class Template
     {
         $this->parse();
 
-        return $this->content;
+        // TODO as properties?
+        $useCache = Config::get('template/cache/use');
+        $isCached = $this->isCached();
+
+        if ($useCache && $isCached) {
+            return str_replace(['<?php', '?>', '<?='], '', file_get_contents($this->TemplateCache->getCachedFilename($this->file)));
+        }
     }
 
     /**
