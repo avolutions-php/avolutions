@@ -30,7 +30,7 @@ class ForTokenParser implements ITokenParser, IEndTokenParser
                 ->writeLine('$loop["last"] = false;')
                 ->nl()
                 ->write('foreach (')
-                ->append($variable . 'as $loop["key"] => ')
+                ->append($variable . ' as $loop["key"] => ')
                 ->append($VariableTokenParser->todoVariable($matches[1], false))
                 ->append(') {')
                 ->nl()
