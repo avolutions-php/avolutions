@@ -92,11 +92,10 @@ class Form
      *
      * @param string $fieldName The field of the Entity.
      * @param array $attributes The attributes for the input element.
-     * @param bool $showLabel Indicates if a label should be generated or not.
      *
      * @return string A HTML input element for the field.
      */
-    public function inputFor(string $fieldName, array $attributes = [], bool $showLabel = true): string
+    public function inputFor(string $fieldName, array $attributes = []): string
     {
         $input = '';
 
@@ -104,11 +103,6 @@ class Form
         $attributes['value'] = $this->Entity->$fieldName;
 
         $inputType = $this->EntityMapping->$fieldName['form']['type'];
-
-        // Do not show labels for input type hidden
-        if ($showLabel && $inputType != 'hidden') {
-            $input .= $this->labelFor($fieldName);
-        }
 
         switch ($inputType) {
             case 'select':
@@ -120,17 +114,43 @@ class Form
                 $input .= $this->textarea($attributes);
                 break;
 
-
             default:
                 $input .= $this->input($inputType, $attributes);
                 break;
         }
 
-        if (isset($this->errors[$fieldName])) {
-            $input .= $this->error($this->errors[$fieldName]);
+        return $input;
+    }
+
+    /**
+     * errorFor
+     *
+     * TODO
+     *
+     * @param string $fieldName TODO
+     * @return string TODO
+     */
+    public function errorFor(string $fieldName): string
+    {
+        $error = '';
+
+        foreach ($this->errors[$fieldName] ?? [] as $message) {
+            $error .= '<div class="error">'.$message.'</div>';
         }
 
-        return $input;
+        return $error;
+    }
+
+    public function elementFor(string $fieldName): string
+    {
+        $element = '';
+
+        $element .= $this->labelFor($fieldName);
+        $element .= $this->inputFor($fieldName);
+        $element .= $this->helpFor($fieldName);
+        $element .= $this->errorFor($fieldName);
+
+        return $element;
     }
 
     /**
@@ -203,7 +223,7 @@ class Form
 
         $form = $this->open($formAttributes);
         foreach (array_keys($formFields) as $formField) {
-            $form .= $this->inputFor($formField);
+            $form .= $this->elementFor($formField);
         }
         if ($submitButton) {
             $form .= $this->submit();
@@ -224,9 +244,8 @@ class Form
 	 */
     public function open(array $attributes = []): string
     {
-        $attributesAsString = self::getAttributesAsString($attributes);
-
-        return '<form'.$attributesAsString.'>';
+        $Template = new Template('form/open.php', ['attributes' => $attributes]);
+        return $Template->render();
     }
 
     /**
@@ -238,7 +257,8 @@ class Form
 	 */
     public function close(): string
     {
-        return '</form>';
+        $Template = new Template('form/close.php');
+        return $Template->render();
     }
 
     /**
@@ -365,9 +385,8 @@ class Form
      */
     public function label(string $text, array $attributes = []): string
     {
-        $attributesAsString = self::getAttributesAsString($attributes);
-
-        return '<label'.$attributesAsString.'>'.$text.'</label>';
+        $Template = new Template('form/type/label.php', ['text' => $text, 'attributes' => $attributes]);
+        return $Template->render();
     }
 
     /**
@@ -565,9 +584,9 @@ class Form
     public function input(string $type, array $attributes = []): string
     {
         $attributes['type'] = $type;
-        $attributesAsString = self::getAttributesAsString($attributes);
 
-        return '<input'.$attributesAsString.' />';
+        $Template = new Template('form/type/input.php', ['attributes' => $attributes]);
+        return $Template->render();
     }
 
     /**
@@ -582,11 +601,10 @@ class Form
     public function button(array $attributes = []): string
     {
         $value = $attributes['value'] ?? null;
-        unset($attributes['value']); // To not render it to the select tag
+        unset($attributes['value']); // To not render it as attribute
 
-        $attributesAsString = self::getAttributesAsString($attributes);
-
-        return '<button'.$attributesAsString.'>'.$value.'</button>';
+        $Template = new Template('form/type/button.php', ['value' => $value, 'attributes' => $attributes]);
+        return $Template->render();
     }
 
     /**
@@ -601,11 +619,10 @@ class Form
     public function textarea(array $attributes = []): string
     {
         $value = $attributes['value'] ?? null;
-        unset($attributes['value']); // To not render it to the select tag
+        unset($attributes['value']); // To not render it as attribute
 
-        $attributesAsString = self::getAttributesAsString($attributes);
-
-        return '<textarea'.$attributesAsString.'>'.$value.'</textarea>';
+        $Template = new Template('form/type/textarea.php', ['value' => $value, 'attributes' => $attributes]);
+        return $Template->render();
     }
 
     /**
@@ -623,51 +640,7 @@ class Form
         $selectedValue = $attributes['value'] ?? null;
         unset($attributes['value']); // To not render it to the select tag
 
-        $attributesAsString = self::getAttributesAsString($attributes);
-        $optionsAsString = '';
-
-        foreach ($options as $key => $value) {
-            $optionsAsString .= $this->option($key, $value, $selectedValue);
-        }
-
-        return '<select'.$attributesAsString.'>'.$optionsAsString.'</select>';
-    }
-
-    /**
-     * option
-     *
-     * Creates a HTML option element.
-     *
-     * @param string $value The value of the option tag.
-     * @param string $text The text of the option element.
-     * @param string|null $selectedValue The selected value of the option element.
-     *
-     * @return string A HTML element of type option.
-     */
-    private function option(string $value, string $text, ?string $selectedValue = null): string
-    {
-        $selected = $value == $selectedValue ? ' selected' : '';
-
-        return '<option value="'.$value.'"'.$selected.'>'.$text.'</option>';
-    }
-
-    /**
-     * getAttributesAsString
-     *
-     * Returns the attributes as a string in the format attribute="value"
-     *
-     * @param array $attributes The attributes for the select tag.
-     *
-     * @return string The attributes as a string.
-     */
-    private static function getAttributesAsString(array $attributes): string
-    {
-        $attributesAsString = '';
-
-        foreach($attributes as $attributeName => $attributeValue) {
-            $attributesAsString .= ' '.$attributeName.'="'.$attributeValue.'"';
-        }
-
-        return $attributesAsString;
+        $Template = new Template('form/type/select.php', ['options' => $options, 'attributes' => $attributes, 'selectedValue' => $selectedValue]);
+        return $Template->render();
     }
 }
