@@ -339,4 +339,24 @@ class Application
     {
         return $this->appNamespace . 'Validator\\';
     }
+
+    /**
+     * TODO
+     */
+    public function start(Request $Request)
+    {
+        $Router = $this->Container->get(Router::class);
+        $MatchedRoute = $Router->findRoute($Request->uri, $Request->method);
+
+        $fullControllerName = Application::getControllerNamespace().ucfirst($MatchedRoute->controllerName).'Controller';
+        $Controller = $this->Container->get($fullControllerName);
+
+        $fullActionName = $MatchedRoute->actionName.'Action';
+        // Merge the parameters of the route with the values of $_REQUEST
+        $parameters = array_merge($MatchedRoute->parameters, $Request->parameters);
+
+        $Response = $this->Container->get(Response::class);
+        $Response->setBody(call_user_func_array([$Controller, $fullActionName], $parameters));
+        $Response->send();
+    }
 }
