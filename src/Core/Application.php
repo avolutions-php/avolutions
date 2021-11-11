@@ -11,6 +11,10 @@
 
 namespace Avolutions\Core;
 
+use Avolutions\Di\Container;
+use Avolutions\Http\Request;
+use Avolutions\Http\Response;
+use Avolutions\Routing\Router;
 use Avolutions\Util\JsonHelper;
 
 /**
@@ -21,33 +25,48 @@ use Avolutions\Util\JsonHelper;
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.8.0
  */
-class Application extends AbstractSingleton
+class Application
 {
     /**
      * The base path of your application.
      *
      * @var string
      */
-    private static string $basePath = '';
+    private string $basePath = '';
 
     /**
      * The application namespace.
      *
      * @var string
      */
-    private static string $appNamespace = 'Application\\';
+    private string $appNamespace = 'Application\\';
 
     /**
-     * initialize
+     * The name of the application folder.
      *
-     * Initializes the application.
+     * @var string
+     */
+    private string $appFolder = 'application';
+
+    /**
+     * TODO
+     */
+    private Container $Container;
+
+
+    /**
+     * TODO
      *
      * @param string $basePath The base path of your application.
      */
-    public function initialize(string $basePath = '')
+    public function __construct(Container $Container, string $basePath = '', string $appFolder = '')
     {
-        self::$basePath = rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-        self::$appNamespace = self::getAppNamespace();
+        $this->Container = $Container;
+        $this->basePath = rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $this->appNamespace = $this->getAppNamespace();
+        if ($appFolder !== '') {
+            $this->appFolder = $appFolder;
+        }
     }
 
     /**
@@ -57,9 +76,9 @@ class Application extends AbstractSingleton
      *
      * @return string The base path.
      */
-    public static function getBasePath(): string
+    public function getBasePath(): string
     {
-        return self::$basePath;
+        return $this->basePath;
     }
 
     /**
@@ -69,9 +88,9 @@ class Application extends AbstractSingleton
      *
      * @return string The application path.
      */
-    public static function getAppPath(): string
+    public function getAppPath(): string
     {
-        return self::getBasePath() . 'application' . DIRECTORY_SEPARATOR;
+        return $this->getBasePath() . $this->appFolder . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -81,9 +100,9 @@ class Application extends AbstractSingleton
      *
      * @return string The command path.
      */
-    public static function getCommandPath(): string
+    public function getCommandPath(): string
     {
-        return self::getAppPath() . 'Command' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . 'Command' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -93,9 +112,9 @@ class Application extends AbstractSingleton
      *
      * @return string The command template path.
      */
-    public static function getCommandTemplatePath(): string
+    public function getCommandTemplatePath(): string
     {
-        return self::getAppPath() . 'Command' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . 'Command' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -105,9 +124,9 @@ class Application extends AbstractSingleton
      *
      * @return string The config path.
      */
-    public static function getConfigPath(): string
+    public function getConfigPath(): string
     {
-        return self::getAppPath() . 'Config' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . 'Config' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -117,9 +136,9 @@ class Application extends AbstractSingleton
      *
      * @return string The controller path.
      */
-    public static function getControllerPath(): string
+    public function getControllerPath(): string
     {
-        return self::getAppPath() . 'Controller' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . 'Controller' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -129,9 +148,9 @@ class Application extends AbstractSingleton
      *
      * @return string The database path.
      */
-    public static function getDatabasePath(): string
+    public function getDatabasePath(): string
     {
-        return self::getAppPath() . 'Database' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . 'Database' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -141,9 +160,9 @@ class Application extends AbstractSingleton
      *
      * @return string The event path.
      */
-    public static function getEventPath(): string
+    public function getEventPath(): string
     {
-        return self::getAppPath() . 'Event' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . 'Event' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -153,9 +172,9 @@ class Application extends AbstractSingleton
      *
      * @return string The listener path.
      */
-    public static function getListenerPath(): string
+    public function getListenerPath(): string
     {
-        return self::getAppPath() . 'Listener' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . 'Listener' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -165,9 +184,9 @@ class Application extends AbstractSingleton
      *
      * @return string The mapping path.
      */
-    public static function getMappingPath(): string
+    public function getMappingPath(): string
     {
-        return self::getAppPath() . 'Mapping' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . 'Mapping' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -177,9 +196,9 @@ class Application extends AbstractSingleton
      *
      * @return string The model path.
      */
-    public static function getModelPath(): string
+    public function getModelPath(): string
     {
-        return self::getAppPath() . 'Model' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . 'Model' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -189,9 +208,9 @@ class Application extends AbstractSingleton
      *
      * @return string The translation path.
      */
-    public static function getTranslationPath(): string
+    public function getTranslationPath(): string
     {
-        return self::getAppPath() . 'Translation' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . 'Translation' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -201,9 +220,9 @@ class Application extends AbstractSingleton
      *
      * @return string The validator path.
      */
-    public static function getValidatorPath(): string
+    public function getValidatorPath(): string
     {
-        return self::getAppPath() . 'Validator' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . 'Validator' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -213,9 +232,9 @@ class Application extends AbstractSingleton
      *
      * @return string The view path.
      */
-    public static function getViewPath(): string
+    public function getViewPath(): string
     {
-        return self::getAppPath() . 'View' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . 'View' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -225,12 +244,12 @@ class Application extends AbstractSingleton
      *
      * @return string The application namespace.
      */
-    private static function getAppNamespace(): string
+    private function getAppNamespace(): string
     {
-        $composer = JsonHelper::decode(self::$basePath . 'composer.json', true);
+        $composer = JsonHelper::decode($this->basePath . 'composer.json', true);
 
         foreach ($composer["autoload"]["psr-4"] as $namespace => $path) {
-            if (realpath(self::$basePath . $path) === realpath(self::getAppPath())) {
+            if (realpath($this->basePath . $path) === realpath($this->getAppPath())) {
                 return $namespace;
             }
         }
@@ -243,9 +262,9 @@ class Application extends AbstractSingleton
      *
      * @return string The command namespace.
      */
-    public static function getCommandNamespace(): string
+    public function getCommandNamespace(): string
     {
-        return self::$appNamespace . 'Command\\';
+        return $this->appNamespace . 'Command\\';
     }
 
     /**
@@ -255,9 +274,9 @@ class Application extends AbstractSingleton
      *
      * @return string The controller namespace.
      */
-    public static function getControllerNamespace(): string
+    public function getControllerNamespace(): string
     {
-        return self::$appNamespace . 'Controller\\';
+        return $this->appNamespace . 'Controller\\';
     }
 
     /**
@@ -267,9 +286,9 @@ class Application extends AbstractSingleton
      *
      * @return string The database namespace.
      */
-    public static function getDatabaseNamespace(): string
+    public function getDatabaseNamespace(): string
     {
-        return self::$appNamespace . 'Database\\';
+        return $this->appNamespace . 'Database\\';
     }
 
 
@@ -280,9 +299,9 @@ class Application extends AbstractSingleton
      *
      * @return string The event namespace.
      */
-    public static function getEventNamespace(): string
+    public function getEventNamespace(): string
     {
-        return self::$appNamespace . 'Event\\';
+        return $this->appNamespace . 'Event\\';
     }
 
     /**
@@ -292,9 +311,9 @@ class Application extends AbstractSingleton
      *
      * @return string The listener namespace.
      */
-    public static function getListenerNamespace(): string
+    public function getListenerNamespace(): string
     {
-        return self::$appNamespace . 'Listener\\';
+        return $this->appNamespace . 'Listener\\';
     }
 
     /**
@@ -304,9 +323,9 @@ class Application extends AbstractSingleton
      *
      * @return string The model namespace.
      */
-    public static function getModelNamespace(): string
+    public function getModelNamespace(): string
     {
-        return self::$appNamespace . 'Model\\';
+        return $this->appNamespace . 'Model\\';
     }
 
     /**
@@ -316,8 +335,8 @@ class Application extends AbstractSingleton
      *
      * @return string The validator namespace.
      */
-    public static function getValidatorNamespace(): string
+    public function getValidatorNamespace(): string
     {
-        return self::$appNamespace . 'Validator\\';
+        return $this->appNamespace . 'Validator\\';
     }
 }
