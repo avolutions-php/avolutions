@@ -25,7 +25,7 @@ use Avolutions\Core\AbstractSingleton;
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.1.0
  */
-class RouteCollection extends AbstractSingleton implements CollectionInterface
+class RouteCollection implements CollectionInterface
 {
 	use CollectionTrait;
 
