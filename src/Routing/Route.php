@@ -18,45 +18,45 @@ namespace Avolutions\Routing;
  * The Router class will find the corresponding Route object for
  * the current request.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.0
  */
 class Route
 {
-	/**
+    /**
      * The url of the Route
      *
-	 * @var string $url
-	 */
-	public string $url;
+     * @var string $url
+     */
+    public string $url;
 
-	/**
+    /**
      * The method of the Route
      *
-	 * @var string $method
-	 */
-	public string $method = 'GET';
+     * @var string $method
+     */
+    public string $method = 'GET';
 
-	/**
+    /**
      * The name of the Controller
      *
-	 * @var string $controllerName
-	 */
-	public string $controllerName;
+     * @var string $controllerName
+     */
+    public string $controllerName;
 
-	/**
+    /**
      * The name of the Controller action
      *
-	 * @var string $actionName
-	 */
-	public string $actionName;
+     * @var string $actionName
+     */
+    public string $actionName;
 
-	/**
+    /**
      * An array with all parameters and their options
      *
-	 * @var array $parameters
-	 */
-	public array $parameters = [];
+     * @var array $parameters
+     */
+    public array $parameters = [];
 
     /**
      * __construct
@@ -79,19 +79,18 @@ class Route
      */
     public function __construct(string $url, array $defaults = [], array $parameters = [])
     {
-		$this->url = $url;
-		if (isset($defaults['controller'])) {
-			$this->controllerName = $defaults['controller'];
-		}
-		if (isset($defaults['action'])) {
-			$this->actionName = $defaults['action'];
-		}
-		if (isset($defaults['method'])) {
-			$this->method = $defaults['method'];
-		}
+        $this->url = $url;
+        if (isset($defaults['controller'])) {
+            $this->controllerName = $defaults['controller'];
+        }
+        if (isset($defaults['action'])) {
+            $this->actionName = $defaults['action'];
+        }
+        if (isset($defaults['method'])) {
+            $this->method = $defaults['method'];
+        }
 
-		$this->setParameters($url, $parameters);
-
+        $this->setParameters($url, $parameters);
     }
 
     /**
@@ -105,7 +104,7 @@ class Route
     private function setParameters(string $url, array $parameters): void
     {
         // find all parameters in url string
-        preg_match_all('/\<([^\>]*)\>/', $url, $urlParameters);
+        preg_match_all('/<([^>]*)>/', $url, $urlParameters);
 
         // to get parameters without angle brackets (index 1 = groups of preg_match_all)
         $urlParameters = $urlParameters[1];
