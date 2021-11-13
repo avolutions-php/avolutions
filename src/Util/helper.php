@@ -38,6 +38,22 @@ if (!function_exists('application')) {
 }
 
 /**
+ * command
+ *
+ * Helper to dispatch a command.
+ *
+ * @param mixed $argv Command string or array with Arguments and Options.
+ *
+ * @return int Exit status.
+ */
+if (!function_exists('command')) {
+    function command(mixed $argv): int
+    {
+        return application(CommandDispatcher::class)->dispatch($argv);
+    }
+}
+
+/**
  * cookie
  *
  * Creates a new Cookie object with the given parameters.
@@ -104,22 +120,6 @@ if (!function_exists('translate')) {
     function translate(string $key, array $params = [], ?string $language = null): string
     {
         return application(Translation::class)->getTranslation($key, $params, $language);
-    }
-}
-
-/**
- * command
- *
- * Helper to dispatch a command.
- *
- * @param mixed $argv Command string or array with Arguments and Options.
- *
- * @return int Exit status.
- */
-if (!function_exists('command')) {
-    function command(mixed $argv): int
-    {
-        return application(CommandDispatcher::class)->dispatch($argv);
     }
 }
 
