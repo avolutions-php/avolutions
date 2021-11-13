@@ -37,6 +37,43 @@ if (!function_exists('application')) {
 }
 
 /**
+ * cookie
+ *
+ * Creates a new Cookie object with the given parameters.
+ *
+ * @param string $name The name of the cookie.
+ * @param string $value The value of the cookie.
+ * @param int $expires The time the cookie expires as UNIX timestamp.
+ * @param string $path The path on the server in which the cookie will be available on.
+ * @param string $domain The (sub)domain that the cookie is available to.
+ * @param bool $secure Indicates if the cookie should only be transmitted over a secure HTTPS connection.
+ * @param bool $httpOnly Indicates if the cookie is only accessible through the HTTP protocol.
+ *
+ * @return Cookie The Cookie object.
+ */
+if (!function_exists('cookie')) {
+    function cookie(
+        string $name,
+        string $value,
+        int $expires = 0,
+        string $path = '',
+        string $domain = '',
+        bool $secure = false,
+        bool $httpOnly = false
+    ): Cookie {
+        return application()->make(Cookie::class, [
+            'name' => $name,
+            'value' => $value,
+            'expires' => $expires,
+            'path' => $path,
+            'domain' => $domain,
+            'secure' => $secure,
+            'httpOnly' => $httpOnly
+        ]);
+    }
+}
+
+/**
  * interpolate
  *
  * Replaces placeholders in a string with given values.
