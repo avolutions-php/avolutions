@@ -16,30 +16,31 @@ use Avolutions\Http\Request;
 use Avolutions\Http\Response;
 use Avolutions\Routing\Router;
 use Avolutions\Util\JsonHelper;
+use ReflectionException;
 
 /**
  * Application class
  *
  * This class is responsible for path and namespace management of the Application.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
-class Application
+class Application extends Container
 {
     /**
      * The base path of your application.
      *
      * @var string
      */
-    private string $basePath = '';
+    private string $basePath;
 
     /**
      * The application namespace.
      *
      * @var string
      */
-    private string $appNamespace = 'Application\\';
+    private string $appNamespace;
 
     /**
      * The name of the application folder.
@@ -49,24 +50,20 @@ class Application
     private string $appFolder = 'application';
 
     /**
-     * TODO
-     */
-    private Container $Container;
-
-
-    /**
-     * TODO
+     * __construct
+     *
+     * Creates a new Application instance.
      *
      * @param string $basePath The base path of your application.
      */
-    public function __construct(Container $Container, string $basePath = '', string $appFolder = '')
+    public function __construct(string $basePath = '')
     {
-        $this->Container = $Container;
         $this->basePath = rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $this->appNamespace = $this->getAppNamespace();
-        if ($appFolder !== '') {
-            $this->appFolder = $appFolder;
-        }
+
+        self::setInstance($this);
+        $this->resolvedEntries[Container::class] = $this;
+        $this->resolvedEntries[Application::class] = $this;
     }
 
     /**
@@ -248,11 +245,13 @@ class Application
     {
         $composer = JsonHelper::decode($this->basePath . 'composer.json', true);
 
-        foreach ($composer["autoload"]["psr-4"] as $namespace => $path) {
+        foreach ($composer['autoload']['psr-4'] as $namespace => $path) {
             if (realpath($this->basePath . $path) === realpath($this->getAppPath())) {
                 return $namespace;
             }
         }
+
+        return 'Application\\';
     }
 
     /**
@@ -341,21 +340,40 @@ class Application
     }
 
     /**
-     * TODO
+     * setErrorHandler
+     *
+     * Set error and exception handler for the Application.
+     *
+     * @throws ReflectionException
+     */
+    public function setErrorHandler()
+    {
+        $ErrorHandler = $this->get(ErrorHandler::class);
+        set_error_handler([$ErrorHandler, 'handleError']);
+        set_exception_handler([$ErrorHandler, 'handleException']);
+    }
+
+    /**
+     * start
+     *
+     * Starts the Application by executing the Request, calling the Router to find the matching Route and
+     * invokes the controller action with passed parameters.
+     *
+     * @throws ReflectionException
      */
     public function start(Request $Request)
     {
-        $Router = $this->Container->get(Router::class);
+        $Router = $this->get(Router::class);
         $MatchedRoute = $Router->findRoute($Request->uri, $Request->method);
 
-        $fullControllerName = Application::getControllerNamespace().ucfirst($MatchedRoute->controllerName).'Controller';
-        $Controller = $this->Container->get($fullControllerName);
+        $fullControllerName = $this->getControllerNamespace() . ucfirst($MatchedRoute->controllerName) . 'Controller';
+        $Controller = $this->get($fullControllerName);
 
-        $fullActionName = $MatchedRoute->actionName.'Action';
+        $fullActionName = $MatchedRoute->actionName . 'Action';
         // Merge the parameters of the route with the values of $_REQUEST
         $parameters = array_merge($MatchedRoute->parameters, $Request->parameters);
 
-        $Response = $this->Container->get(Response::class);
+        $Response = $this->get(Response::class);
         $Response->setBody(call_user_func_array([$Controller, $fullActionName], $parameters));
         $Response->send();
     }

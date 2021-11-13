@@ -20,11 +20,30 @@ use Throwable;
  *
  * The ErrorHandler class handles uncaught errors and exceptions.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.2
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.2
  */
 class ErrorHandler
 {
+    /**
+     * Logger instance.
+     *
+     * @var Logger $Logger
+     */
+    private Logger $Logger;
+
+    /**
+     * __construct
+     *
+     * Createas a new ErrorHandler instance.
+     *
+     * @param Logger $Logger Logger instance
+     */
+    public function __construct(Logger $Logger)
+    {
+        $this->Logger = $Logger;
+    }
+
     /**
      * handleError
      *
@@ -53,7 +72,7 @@ class ErrorHandler
      */
     public function handleException(Throwable $exception)
     {
-        Logger::error($exception);
+        $this->Logger->error($exception);
 
         throw $exception;
     }
