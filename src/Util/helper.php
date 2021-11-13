@@ -13,6 +13,8 @@ use Avolutions\Command\CommandDispatcher;
 use Avolutions\Core\Application;
 use Avolutions\Util\StringHelper;
 use Avolutions\Util\Translation;
+use Avolutions\View\View;
+use Avolutions\View\ViewModel;
 
 /**
  * application
@@ -82,5 +84,20 @@ if (!function_exists('command')) {
         return application(CommandDispatcher::class)->dispatch($argv);
     }
 }
+
+/**
+ * view
+ *
+ * Helper to create a new View.
+ *
+ * @param string|null $viewname The name of the View file.
+ * @param ViewModel|null $ViewModel $ViewModel The ViewModel object that will be passed to the View.
+ *
+ * @return View A View instance.
+ */
+if (!function_exists('view')) {
+    function view(?string $viewname = null, ?ViewModel $ViewModel = null): View
+    {
+        return application()->make(View::class, ['viewname' => $viewname, 'ViewModel' => $ViewModel]);
     }
 }
