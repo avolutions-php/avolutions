@@ -19,8 +19,8 @@ use Avolutions\Core\Application;
  * The EntityMapping class provides the values from the entity mapping file
  * as an object.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.0
  */
 class EntityMapping
 {
@@ -30,16 +30,21 @@ class EntityMapping
      * Creates a new EntityMapping object for the given entity type and loads
      * the values from the entity mapping file.
      *
+     * @param Application $Application Application instance.
      * @param string $entity The name of the entity type.
      */
-    public function __construct(string $entity)
+    public function __construct(Application $Application, string $entity)
     {
-		$mapping = $this->loadMappingFile(Application::getMappingPath().$entity.'Mapping.php');
+        $mapping = $this->loadMappingFile($Application->getMappingPath() . $entity . 'Mapping.php');
 
-		foreach ($mapping as $key => $value) {
+        foreach ($mapping as $key => $value) {
             // Set default values
             // If type is an Entity
-            if (isset($value['type']) && is_a(Application::getModelNamespace().$value['type'], 'Avolutions\Orm\Entity', true)) {
+            if (isset($value['type']) && is_a(
+                    $Application->getModelNamespace() . $value['type'],
+                    'Avolutions\Orm\Entity',
+                    true
+                )) {
                 $value['isEntity'] = true;
             } else {
                 $value['isEntity'] = false;
@@ -67,9 +72,9 @@ class EntityMapping
             }
 
             // Set property
-			$this->$key = $value;
+            $this->$key = $value;
         }
-	}
+    }
 
     /**
      * loadMappingFile
@@ -84,24 +89,24 @@ class EntityMapping
      */
     private function loadMappingFile(string $mappingFile): array
     {
-		if (file_exists($mappingFile)) {
-			return require $mappingFile;
-		}
+        if (file_exists($mappingFile)) {
+            return require $mappingFile;
+        }
 
-		return [];
+        return [];
     }
 
     /**
-	 * getFormFields
-	 *
-	 * Returns all fields where the form hidden attribute is not set or where it is false.
+     * getFormFields
+     *
+     * Returns all fields where the form hidden attribute is not set or where it is false.
      *
      * @return array An array with all Entity fields not hidden in forms.
-	 */
+     */
     public function getFormFields(): array
     {
-        return array_filter(get_object_vars($this), function($field) {
-            return isset($field['form']['hidden']) ? !$field['form']['hidden'] : true;
+        return array_filter(get_object_vars($this), function ($field) {
+            return !isset($field['form']['hidden']) || !$field['form']['hidden'];
         });
     }
 }

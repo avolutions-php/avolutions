@@ -24,10 +24,10 @@ use Avolutions\View\ViewModel;
  *
  * @param string|null $instance Name of the instance to load from Container.
  *
- * @return object The loaded instance from Container or the Application instance.
+ * @return mixed The loaded instance from Container or the Application instance.
  */
 if (!function_exists('application')) {
-    function application(?string $instance = null): object
+    function application(?string $instance = null): mixed
     {
         if (!is_null($instance)) {
             return Application::getInstance()->get($instance);

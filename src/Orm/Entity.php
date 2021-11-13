@@ -17,6 +17,7 @@ use Avolutions\Event\EntityEvent;
 use Avolutions\Event\EventDispatcher;
 use Avolutions\Logging\Logger;
 use ReflectionClass;
+use ReflectionException;
 
 /**
  * Entity class
@@ -24,38 +25,66 @@ use ReflectionClass;
  * An entity represents a clearly identified object from an entity collection.
  * It provides the methods for manipulating the Entity with CRUD operations.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.0
  */
 class Entity
 {
-	/**
+    /**
+     * Application instance.
+     *
+     * @var Application $Application
+     */
+    private Application $Application;
+
+    /**
+     * EventDispatcher instance.
+     *
+     * @var EventDispatcher $EventDispatcher
+     */
+    private EventDispatcher $EventDispatcher;
+
+    /**
+     * Database instance.
+     *
+     * @var Database $Database
+     */
+    private Database $Database;
+
+    /**
+     * Logger instance.
+     *
+     * @var Logger $Logger
+     */
+    private Logger $Logger;
+
+    /**
      * The unique identifier of the entity.
      *
-	 * @var int|null $id
-	 */
-	public ?int $id = null;
+     * @var int|null $id
+     */
+    public ?int $id = null;
 
-	/**
+    /**
      * The configuration of the entity.
      *
-	 * @var EntityConfiguration $EntityConfiguration
-	 */
-	private EntityConfiguration $EntityConfiguration;
+     * @var EntityConfiguration $EntityConfiguration
+     */
+    private EntityConfiguration $EntityConfiguration;
 
-	/**
+    /**
      * The mapping of the entity.
      *
-	 * @var EntityMapping $EntityMapping
-	 */
+     * @var EntityMapping $EntityMapping
+     */
     private EntityMapping $EntityMapping;
 
-	/**
+    /**
      * The Entity after initializing.
      *
-	 * @var Entity $EntityBeforeChange
-	 */
-	private Entity $EntityBeforeChange;
+     * @var Entity $EntityBeforeChange
+     */
+    private Entity $EntityBeforeChange;
 
     /**
      * Validation error messages.
@@ -65,26 +94,36 @@ class Entity
     private array $errors = [];
 
     /**
-	 * __construct
-	 *
-	 * Creates a new Entity object and loads the corresponding EntityConfiguration
-	 * and EntityMapping.
+     * __construct
+     *
+     * Creates a new Entity object and loads the corresponding EntityConfiguration
+     * and EntityMapping.
      *
      * @param array $values The Entity attributes as an array
-	 */
+     *
+     * @throws ReflectionException
+     */
     public function __construct(array $values = [])
     {
-		$this->EntityConfiguration = new EntityConfiguration($this->getEntityName());
-		$this->EntityMapping = $this->EntityConfiguration->getMapping();
+        $this->Application = application();
+        $this->EventDispatcher = $this->Application->get(EventDispatcher::class);
+        $this->Database = $this->Application->get(Database::class);
+        $this->Logger = $this->Application->get(Logger::class);
+
+        $this->EntityConfiguration = $this->Application->make(
+            EntityConfiguration::class,
+            ['entity' => $this->getEntityName()]
+        );
+        $this->EntityMapping = $this->EntityConfiguration->getMapping();
 
         // Fill Entity attributes from values
         if (!empty($values)) {
             foreach ($this->EntityMapping as $key => $value) {
                 if (isset($values[$key])) {
-                     // If the property is of type Entity
+                    // If the property is of type Entity
                     if ($value['isEntity']) {
-                        // Create a the linked Entity and pass the values
-                        $entityName = Application::getModelNamespace().$value['type'];
+                        // Create a linked Entity and pass the values
+                        $entityName = $this->Application->getModelNamespace() . $value['type'];
                         $this->$key = new $entityName($values[$key]);
                     } else {
                         $this->$key = $values[$key];
@@ -94,64 +133,68 @@ class Entity
         }
 
         $this->EntityBeforeChange = clone $this;
-	}
-
-	/**
-	 * save
-	 *
-	 * Saves the Entity object to the database. It will be either updated or inserted,
-	 * depending on whether the Entity already exists or not.
-	 */
-    public function save()
-    {
-        EventDispatcher::dispatch(new EntityEvent('BeforeSave', $this));
-
-		if ($this->exists()) {
-            EventDispatcher::dispatch(new EntityEvent('BeforeUpdate', $this, $this->EntityBeforeChange));
-            $this->update();
-            EventDispatcher::dispatch(new EntityEvent('AfterUpdate', $this, $this->EntityBeforeChange));
-		} else {
-            EventDispatcher::dispatch(new EntityEvent('BeforeInsert', $this));
-            $this->insert();
-            EventDispatcher::dispatch(new EntityEvent('AfterInsert', $this));
-        }
-
-        EventDispatcher::dispatch(new EntityEvent('AfterSave', $this));
-	}
-
-	/**
-	 * delete
-	 *
-	 * Deletes the Entity object from the database.
-	 */
-    public function delete()
-    {
-        EventDispatcher::dispatch(new EntityEvent('BeforeDelete', $this));
-
-		$values = ['id' => $this->id];
-
-		$query = 'DELETE FROM ';
-		$query .= $this->EntityConfiguration->getTable();
-		$query .= ' WHERE ';
-		$query .= $this->EntityConfiguration->getIdColumn();
-		$query .= ' = :id';
-
-        $this->execute($query, $values);
-
-        EventDispatcher::dispatch(new EntityEvent('AfterDelete', $this));
     }
 
     /**
-	 * getEntityName
-	 *
-	 * Returns the shortname of the reflected class.
+     * save
+     *
+     * Saves the Entity object to the database. It will be either updated or inserted,
+     * depending on whether the Entity already exists or not.
+     *
+     * @throws ReflectionException
+     */
+    public function save()
+    {
+        $this->EventDispatcher->dispatch(new EntityEvent('BeforeSave', $this));
+
+        if ($this->exists()) {
+            $this->EventDispatcher->dispatch(new EntityEvent('BeforeUpdate', $this, $this->EntityBeforeChange));
+            $this->update();
+            $this->EventDispatcher->dispatch(new EntityEvent('AfterUpdate', $this, $this->EntityBeforeChange));
+        } else {
+            $this->EventDispatcher->dispatch(new EntityEvent('BeforeInsert', $this));
+            $this->insert();
+            $this->EventDispatcher->dispatch(new EntityEvent('AfterInsert', $this));
+        }
+
+        $this->EventDispatcher->dispatch(new EntityEvent('AfterSave', $this));
+    }
+
+    /**
+     * delete
+     *
+     * Deletes the Entity object from the database.
+     *
+     * @throws ReflectionException
+     */
+    public function delete()
+    {
+        $this->EventDispatcher->dispatch(new EntityEvent('BeforeDelete', $this));
+
+        $values = ['id' => $this->id];
+
+        $query = 'DELETE FROM ';
+        $query .= $this->EntityConfiguration->getTable();
+        $query .= ' WHERE ';
+        $query .= $this->EntityConfiguration->getIdColumn();
+        $query .= ' = :id';
+
+        $this->execute($query, $values);
+
+        $this->EventDispatcher->dispatch(new EntityEvent('AfterDelete', $this));
+    }
+
+    /**
+     * getEntityName
+     *
+     * Returns the shortname of the reflected class.
      *
      * @return string The name of the entity.
-	 */
+     */
     public function getEntityName(): string
     {
-		return (new ReflectionClass($this))->getShortName();
-	}
+        return (new ReflectionClass($this))->getShortName();
+    }
 
     /**
      * getErrors
@@ -165,75 +208,75 @@ class Entity
         return $this->errors;
     }
 
-	/**
-	 * insert
-	 *
-	 * Inserts the Entity object into the database.
-	 */
+    /**
+     * insert
+     *
+     * Inserts the Entity object into the database.
+     */
     private function insert()
     {
-		$values = [];
-		$columns = [];
-		$parameters = [];
+        $values = [];
+        $columns = [];
+        $parameters = [];
 
-		foreach ($this->EntityMapping as $key => $value) {
+        foreach ($this->EntityMapping as $key => $value) {
             // Only for simple fields, no Entities
             if (!$value['isEntity']) {
                 $columns[] = $value['column'];
-                $parameters[] = ':'.$key;
+                $parameters[] = ':' . $key;
                 $values[$key] = $this->$key;
             }
-		}
+        }
 
-		$query = 'INSERT INTO ';
-		$query .= $this->EntityConfiguration->getTable();
-		$query .= ' (';
-		$query .= implode(', ', $columns);
-		$query .= ') VALUES (';
-		$query .= implode(', ', $parameters);
-		$query .= ')';
+        $query = 'INSERT INTO ';
+        $query .= $this->EntityConfiguration->getTable();
+        $query .= ' (';
+        $query .= implode(', ', $columns);
+        $query .= ') VALUES (';
+        $query .= implode(', ', $parameters);
+        $query .= ')';
 
-		$this->id = $this->execute($query, $values);
-	}
+        $this->id = $this->execute($query, $values);
+    }
 
-	/**
-	 * update
-	 *
-	 * Updates the existing database entry for the Entity object.
-	 */
+    /**
+     * update
+     *
+     * Updates the existing database entry for the Entity object.
+     */
     private function update()
     {
-		$values = [];
+        $values = [];
 
-		$query = 'UPDATE ';
-		$query .= $this->EntityConfiguration->getTable();
-		$query .= ' SET ';
-		foreach ($this->EntityMapping as $key => $value) {
+        $query = 'UPDATE ';
+        $query .= $this->EntityConfiguration->getTable();
+        $query .= ' SET ';
+        foreach ($this->EntityMapping as $key => $value) {
             // Only for simple fields, no Entities
             if (!$value['isEntity']) {
-                $query .= $value['column'].' = :'.$key.', ';
+                $query .= $value['column'] . ' = :' . $key . ', ';
                 $values[$key] = $this->$key;
             }
-		}
-		$query = rtrim($query, ', ');
-		$query .= ' WHERE ';
-		$query .= $this->EntityConfiguration->getIdColumn();
-		$query .= ' = :id';
+        }
+        $query = rtrim($query, ', ');
+        $query .= ' WHERE ';
+        $query .= $this->EntityConfiguration->getIdColumn();
+        $query .= ' = :id';
 
-		$this->execute($query, $values);
-	}
+        $this->execute($query, $values);
+    }
 
-	/**
-	 * exists
-	 *
-	 * Checks if the Entity already exists in the database.
-	 *
-	 * @return bool Returns true if the entity exists in the database, false if not.
-	 */
+    /**
+     * exists
+     *
+     * Checks if the Entity already exists in the database.
+     *
+     * @return bool Returns true if the entity exists in the database, false if not.
+     */
     public function exists(): bool
     {
-		return $this->id != null;
-	}
+        return $this->id != null;
+    }
 
     /**
      * execute
@@ -247,14 +290,13 @@ class Entity
      */
     private function execute(string $query, array $values): string
     {
-		Logger::debug($query);
-		Logger::debug('Values: '.print_r($values, true));
+        $this->Logger->debug($query);
+        $this->Logger->debug('Values: ' . print_r($values, true));
 
-		$Database = new Database();
-		$stmt = $Database->prepare($query);
-		$stmt->execute($values);
+        $stmt = $this->Database->prepare($query);
+        $stmt->execute($values);
 
-		return $Database->lastInsertId();
+        return $this->Database->lastInsertId();
     }
 
     /**
@@ -283,12 +325,17 @@ class Entity
         foreach ($this->EntityMapping as $property => $value) {
             if (isset($value['validation'])) {
                 foreach ($value['validation'] as $validator => $options) {
-                    $fullValidatorName = 'Avolutions\\Validation\\'.ucfirst($validator).'Validator';
+                    $fullValidatorName = 'Avolutions\\Validation\\' . ucfirst($validator) . 'Validator';
                     if (!class_exists($fullValidatorName)) {
                         // if validator can not be found in core namespace try in application namespace
-                        $fullValidatorName = Application::getValidatorNamespace().ucfirst($validator).'Validator';
+                        $fullValidatorName = $this->Application->getValidatorNamespace() . ucfirst(
+                                $validator
+                            ) . 'Validator';
                     }
-                    $Validator = new $fullValidatorName($options, $property, $this);
+                    $Validator = $this->Application->make(
+                        $fullValidatorName,
+                        ['options' => $options, 'property' => $property, 'Entity' => $this]
+                    );
                     if (!$Validator->isValid($this->$property)) {
                         $this->errors[$property][$validator] = $Validator->getMessage();
                     }
