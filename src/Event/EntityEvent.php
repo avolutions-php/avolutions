@@ -18,8 +18,8 @@ use Avolutions\Orm\Entity;
  *
  * The EntityEvent is used for all Events dispatched by an Entity.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.3.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.3.0
  */
 class EntityEvent extends Event
 {
@@ -47,7 +47,7 @@ class EntityEvent extends Event
      * @param Entity $Entity The Entity which dispatched the Event.
      * @param Entity|null $EntityBeforeChange The Entity before the changes are made.
      */
-    function __construct(string $name, Entity $Entity, ?Entity $EntityBeforeChange = null)
+    public function __construct(string $name, Entity $Entity, ?Entity $EntityBeforeChange = null)
     {
         $this->name = $name;
         $this->Entity = $Entity;
