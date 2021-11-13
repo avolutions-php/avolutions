@@ -11,15 +11,13 @@
 
 namespace Avolutions\Command;
 
-use Avolutions\Core\Application;
-
 /**
  * CreateValidatorCommand class
  *
  * Creates a new Validator.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class CreateValidatorCommand extends AbstractCommand
 {
@@ -37,15 +35,18 @@ class CreateValidatorCommand extends AbstractCommand
     {
         $validatorName = ucfirst($this->getArgument('name'));
         $validatorFullname = $validatorName . 'Validator';
-        $validatorFile = Application::getValidatorPath() . $validatorFullname . '.php';
+        $validatorFile = $this->Application->getValidatorPath() . $validatorFullname . '.php';
 
         if (file_exists($validatorFile) && !$this->getOption('force')) {
-            $this->Console->writeLine($validatorFullname . ' already exists. If you want to override, please use force mode (-f).', 'error');
+            $this->Console->writeLine(
+                $validatorFullname . ' already exists. If you want to override, please use force mode (-f).',
+                'error'
+            );
             return ExitStatus::ERROR;
         }
 
         $Template = new Template('validator');
-        $Template->assign('namespace', rtrim(Application::getValidatorNamespace(), '\\'));
+        $Template->assign('namespace', rtrim($this->Application->getValidatorNamespace(), '\\'));
         $Template->assign('validator', $validatorName);
 
         if ($Template->save($validatorFile)) {

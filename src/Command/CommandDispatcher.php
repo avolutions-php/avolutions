@@ -12,6 +12,7 @@
 namespace Avolutions\Command;
 
 use Avolutions\Console\Console;
+use Avolutions\Core\Application;
 use Exception;
 use InvalidArgumentException;
 
@@ -20,11 +21,25 @@ use InvalidArgumentException;
  *
  * Find and run commands based on passed arguments.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class CommandDispatcher
 {
+    /**
+     * Application instance.
+     *
+     * @var Application $Application
+     */
+    private Application $Application;
+
+    /**
+     * CommandCollection instance.
+     *
+     * @var CommandCollection $Application
+     */
+    private CommandCollection $CommandCollection;
+
     /**
      * Console instance for output.
      *
@@ -36,10 +51,16 @@ class CommandDispatcher
      * __construct
      *
      * Creates a new CommandDispatcher instance.
+     *
+     * @param Application $Application Application instance.
+     * @param CommandCollection $CommandCollection CommandCollection instance.
+     * @param Console $Console Console instance for output.
      */
-    public function __construct()
+    public function __construct(Application $Application, CommandCollection $CommandCollection, Console $Console)
     {
-        $this->Console = new Console();
+        $this->Application = $Application;
+        $this->CommandCollection = $CommandCollection;
+        $this->Console = $Console;
     }
 
 
@@ -64,14 +85,14 @@ class CommandDispatcher
             $argv = explode(' ', $argv);
         }
 
-        $CommandCollection = new CommandCollection();
-
         if (!isset($argv[0])) {
-            $this->Console->writeLine(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'avolutions.txt'));
+            $this->Console->writeLine(
+                file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'avolutions.txt')
+            );
             $this->Console->writeLine('Usage:', ['color' => 'green']);
             $this->Console->writeLine('  command [arguments] [options]');
             $this->Console->writeLine('');
-            $this->showAvailableCommands($CommandCollection);
+            $this->showAvailableCommands($this->CommandCollection);
 
             return ExitStatus::ERROR;
         }
@@ -80,17 +101,17 @@ class CommandDispatcher
         $commandName = $argv[0];
         unset($argv[0]);
 
-        $command = $CommandCollection->getByName($commandName);
+        $command = $this->CommandCollection->getByName($commandName);
         if ($command == null) {
             $this->Console->writeLine('No valid command provided, choose one of the available commands.', 'error');
             $this->Console->writeLine('');
-            $this->showAvailableCommands($CommandCollection);
+            $this->showAvailableCommands($this->CommandCollection);
 
             return ExitStatus::ERROR;
         }
 
         try {
-            $Command = new $command($this->Console);
+            $Command = $this->Application->get($command);
             return $Command->start($argv);
         } catch (Exception $exception) {
             $this->Console->writeLine($exception->getMessage(), 'error');
@@ -114,7 +135,8 @@ class CommandDispatcher
         $this->Console->writeLine('Available commands:', ['color' => 'green']);
 
         foreach ($CommandCollection->getAll() as $Command) {
-            $this->Console->write('  ' . str_pad($Command::getName(), $longestCommandSize) . "\t", ['color' => 'yellow']);
+            $this->Console->write('  ' . str_pad($Command::getName(), $longestCommandSize) . "\t", ['color' => 'yellow']
+            );
             $this->Console->writeLine($Command::getDescription());
         }
     }

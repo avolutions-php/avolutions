@@ -16,8 +16,8 @@ namespace Avolutions\Command;
  *
  * Contains the definition of a Command Argument.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class Argument
 {

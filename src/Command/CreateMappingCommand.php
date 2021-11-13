@@ -11,15 +11,13 @@
 
 namespace Avolutions\Command;
 
-use Avolutions\Core\Application;
-
 /**
  * CreateMappingCommand class
  *
  * Creates a new Entity mapping file.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class CreateMappingCommand extends AbstractCommand
 {
@@ -37,18 +35,21 @@ class CreateMappingCommand extends AbstractCommand
     public function execute(): int
     {
         $mappingName = ucfirst($this->getArgument('name'));
-        $mappingFile = Application::getMappingPath() . $mappingName . 'Mapping.php';
+        $mappingFile = $this->Application->getMappingPath() . $mappingName . 'Mapping.php';
 
         $force = $this->getOption('force');
         if (file_exists($mappingFile) && !$force) {
-            $this->Console->writeLine('Mapping file "' . $mappingName . '" already exists. If you want to override, please use force mode (-f).', 'error');
+            $this->Console->writeLine(
+                'Mapping file "' . $mappingName . '" already exists. If you want to override, please use force mode (-f).',
+                'error'
+            );
             return ExitStatus::ERROR;
         }
 
         if ($this->getOption('model')) {
             $argv = 'create-model ' . $mappingName;
             if ($force) {
-                $argv .= ' -f' ;
+                $argv .= ' -f';
             }
             command($argv);
         }

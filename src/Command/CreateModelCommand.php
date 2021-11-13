@@ -11,15 +11,13 @@
 
 namespace Avolutions\Command;
 
-use Avolutions\Core\Application;
-
 /**
  * CreateModelCommand class
  *
  * Creates a new Entity model.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class CreateModelCommand extends AbstractCommand
 {
@@ -31,26 +29,35 @@ class CreateModelCommand extends AbstractCommand
     {
         $this->addArgumentDefinition(new Argument('name', 'The name of the Model class.'));
         $this->addOptionDefinition(new Option('force', 'f', 'Model will be overwritten if it already exists.'));
-        $this->addOptionDefinition(new Option('mapping', 'm', 'Automatically creates a mapping file for the Model.', false));
-        $this->addOptionDefinition(new Option('migration', 'd', 'Automatically creates a Migration for the Model.', false));
-        $this->addOptionDefinition(new Option('listener', 'l', 'Automatically creates a Listener for the Model.', false));
+        $this->addOptionDefinition(
+            new Option('mapping', 'm', 'Automatically creates a mapping file for the Model.', false)
+        );
+        $this->addOptionDefinition(
+            new Option('migration', 'd', 'Automatically creates a Migration for the Model.', false)
+        );
+        $this->addOptionDefinition(
+            new Option('listener', 'l', 'Automatically creates a Listener for the Model.', false)
+        );
     }
 
     public function execute(): int
     {
         $modelName = ucfirst($this->getArgument('name'));
-        $modelFile = Application::getModelPath() . $modelName . '.php';
+        $modelFile = $this->Application->getModelPath() . $modelName . '.php';
 
         $force = $this->getOption('force');
         if (file_exists($modelFile) && !$force) {
-            $this->Console->writeLine('Model "' . $modelName . '" already exists. If you want to override, please use force mode (-f).', 'error');
+            $this->Console->writeLine(
+                'Model "' . $modelName . '" already exists. If you want to override, please use force mode (-f).',
+                'error'
+            );
             return ExitStatus::ERROR;
         }
 
         if ($this->getOption('mapping')) {
             $argv = 'create-mapping ' . $modelName;
             if ($force) {
-                $argv .= ' -f' ;
+                $argv .= ' -f';
             }
             command($argv);
         }
@@ -58,7 +65,7 @@ class CreateModelCommand extends AbstractCommand
         if ($this->getOption('migration')) {
             $argv = 'create-migration ' . 'Create' . $modelName . 'Table ';
             if ($force) {
-                $argv .= ' -f' ;
+                $argv .= ' -f';
             }
             command($argv);
         }
@@ -66,13 +73,13 @@ class CreateModelCommand extends AbstractCommand
         if ($this->getOption('listener')) {
             $argv = 'create-listener ' . $modelName . ' -m';
             if ($force) {
-                $argv .= ' -f' ;
+                $argv .= ' -f';
             }
             command($argv);
         }
 
         $Template = new Template('model');
-        $Template->assign('namespace', rtrim(Application::getModelNamespace(), '\\'));
+        $Template->assign('namespace', rtrim($this->Application->getModelNamespace(), '\\'));
         $Template->assign('name', $modelName);
 
         if ($Template->save($modelFile)) {

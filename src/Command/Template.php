@@ -11,8 +11,6 @@
 
 namespace Avolutions\Command;
 
-use Avolutions\Core\Application;
-
 use Exception;
 
 /**
@@ -20,8 +18,8 @@ use Exception;
  *
  * Used to create classes/files from template files.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class Template
 {
@@ -35,7 +33,7 @@ class Template
     /**
      * __construct
      *
-     * Creates an new template instance.
+     * Creates a new template instance.
      *
      * @param string $templateFile Name of the template file.
      *
@@ -44,17 +42,15 @@ class Template
     public function __construct(string $templateFile)
     {
         $fileNameWithExtension = $templateFile . '.tpl';
-        $fileNameWithAppPath = Application::getCommandTemplatePath() . $fileNameWithExtension;
+        $fileNameWithAppPath = application()->getCommandTemplatePath() . $fileNameWithExtension;
         $fileNameWithPath = __DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $fileNameWithExtension;
 
         if (file_exists($fileNameWithAppPath)) {
             $this->template = file_get_contents($fileNameWithAppPath);
-        } else {
-            if (file_exists($fileNameWithPath)) {
+        } elseif (file_exists($fileNameWithPath)) {
                 $this->template = file_get_contents($fileNameWithPath);
-            } else {
-                throw new Exception('Template file "' . $fileNameWithExtension . '" can not be found.');
-            }
+        } else {
+            throw new Exception('Template file "' . $fileNameWithExtension . '" can not be found.');
         }
     }
 
