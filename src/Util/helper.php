@@ -11,6 +11,7 @@
 
 use Avolutions\Command\CommandDispatcher;
 use Avolutions\Core\Application;
+use Avolutions\Http\Cookie;
 use Avolutions\Util\StringHelper;
 use Avolutions\Util\Translation;
 use Avolutions\View\View;
