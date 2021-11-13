@@ -10,8 +10,29 @@
  */
 
 use Avolutions\Command\CommandDispatcher;
+use Avolutions\Core\Application;
 use Avolutions\Util\StringHelper;
 use Avolutions\Util\Translation;
+
+/**
+ * application
+ *
+ * Loads an instance from Container or returns the Application instance itself if not instance name is passed.
+ *
+ * @param string|null $instance Name of the instance to load from Container.
+ *
+ * @return object The loaded instance from Container or the Application instance.
+ */
+if (!function_exists('application')) {
+    function application(?string $instance = null): object
+    {
+        if (!is_null($instance)) {
+            return Application::getInstance()->get($instance);
+        }
+
+        return Application::getInstance();
+    }
+}
 
 /**
  * interpolate
@@ -42,7 +63,7 @@ if (!function_exists('interpolate')) {
 if (!function_exists('translate')) {
     function translate(string $key, array $params = [], ?string $language = null): string
     {
-        return Translation::getTranslation($key, $params, $language);
+        return application(Translation::class)->getTranslation($key, $params, $language);
     }
 }
 
@@ -58,7 +79,8 @@ if (!function_exists('translate')) {
 if (!function_exists('command')) {
     function command(mixed $argv): int
     {
-        $CommandDispatcher = new CommandDispatcher();
-        return $CommandDispatcher->dispatch($argv);
+        return application(CommandDispatcher::class)->dispatch($argv);
+    }
+}
     }
 }
