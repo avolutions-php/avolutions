@@ -11,7 +11,13 @@
 
 namespace Avolutions\Di;
 
+use Avolutions\Core\AbstractSingleton;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
 
 /**
  * Container class
@@ -21,21 +27,23 @@ use ReflectionClass;
  * @author	Alexander Vogt <alexander.vogt@avolutions.org>
  * @since	0.9.0
  */
-class Container
+class Container extends AbstractSingleton implements ContainerInterface
 {
-    private $resolvedEntries = [];
+    protected array $resolvedEntries = [];
 
-    private $constructorParams = [];
+    private array $constructorParams = [];
 
-    private $interfaces = [];
-
-    public function __construct()
-    {
-        $this->resolvedEntries[get_class($this)] = $this;
-    }
+    private array $interfaces = [];
 
     /**
-     * @throws \ReflectionException
+     * Finds an entry of the container by its identifier and returns it.
+     *
+     * @param string $id Identifier of the entry to look for.
+     *
+     * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
+     * @throws ContainerExceptionInterface Error while retrieving the entry.
+     *
+     * @return mixed Entry.
      */
     public function get(string $id)
     {
@@ -52,19 +60,8 @@ class Container
         $ReflectionClass = new ReflectionClass($id);
         $Constructor = $ReflectionClass->getConstructor();
 
-        // class as no constructor
         if (!is_null($Constructor)) {
-            foreach ($Constructor->getParameters() as $parameter) {
-                if (isset($this->constructorParams[$id][$parameter->getName()])) {
-                    $parameters[] = $this->constructorParams[$id][$parameter->getName()];
-                } else {
-                    $className = $parameter->getType()->getName();
-                    // TODO use has method?! Or add isResolvable method
-                    if (class_exists($className)) {
-                        $parameters[] = $this->get($className);
-                    }
-                }
-            }
+            $parameters = $this->getParameters($Constructor, $this->constructorParams[$id] ?? []);
         }
 
         $entry = new $id(...$parameters);
@@ -74,6 +71,40 @@ class Container
         return $entry;
     }
 
+    /**
+     * @param $id
+     * @param array $parameters
+     * @return mixed
+     * @throws ReflectionException
+     */
+    public function make($id, array $parameters = []): mixed
+    {
+        $ReflectionClass = new ReflectionClass($id);
+        $Constructor = $ReflectionClass->getConstructor();
+
+        if (!is_null($Constructor)) {
+            $parameters = array_merge($this->constructorParams[$id] ?? [], $parameters);
+            $parameters = $this->getParameters($Constructor, $parameters);
+        }
+
+        $entry = new $id(...$parameters);
+
+        $this->resolvedEntries[$id] = $entry;
+
+        return $entry;
+    }
+
+    /**
+     * Returns true if the container can return an entry for the given identifier.
+     * Returns false otherwise.
+     *
+     * `has($id)` returning true does not mean that `get($id)` will not throw an exception.
+     * It does however mean that `get($id)` will not throw a `NotFoundExceptionInterface`.
+     *
+     * @param string $id Identifier of the entry to look for.
+     *
+     * @return bool
+     */
     public function has(string $id): bool
     {
         return true;
@@ -87,5 +118,28 @@ class Container
     public function setInterface($interface, $instance)
     {
         $this->interfaces[$interface] = $instance;
+    }
+
+    /**
+     * TODO
+     *
+     * @param ReflectionMethod $Constructor
+     * @param array $parameters
+     * @return array
+     * @throws ReflectionException
+     */
+    public function getParameters(ReflectionMethod $Constructor, array $parameters = []): array
+    {
+        foreach ($Constructor->getParameters() as $parameter) {
+            if (!isset($parameters[$parameter->getName()])) {
+                $className = $parameter->getType()->getName();
+                // TODO use has method?! Or add isResolvable method
+                if (class_exists($className)) {
+                    $parameters[$parameter->getName()] = $this->get($className);
+                }
+            }
+        }
+
+        return $parameters;
     }
 }
