@@ -12,11 +12,11 @@
 namespace Avolutions\Di;
 
 use Avolutions\Core\AbstractSingleton;
+use Exception;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
-use ReflectionException;
 use ReflectionMethod;
 
 /**
@@ -47,47 +47,27 @@ class Container extends AbstractSingleton implements ContainerInterface
      */
     public function get(string $id)
     {
-        if (isset($this->resolvedEntries[$id])) {
+        if ($this->has($id)) {
             return $this->resolvedEntries[$id];
         }
 
-        $parameters = [];
-
-        if (isset($this->interfaces[$id])) {
-            $id = $this->interfaces[$id];
-        }
-
-        $ReflectionClass = new ReflectionClass($id);
-        $Constructor = $ReflectionClass->getConstructor();
-
-        if (!is_null($Constructor)) {
-            $parameters = $this->getParameters($Constructor, $this->constructorParams[$id] ?? []);
-        }
-
-        $entry = new $id(...$parameters);
-
+        $entry = $this->resolveEntry($id);
         $this->resolvedEntries[$id] = $entry;
 
         return $entry;
     }
 
     /**
-     * @param $id
+     * @param string $id
      * @param array $parameters
-     * @return mixed
-     * @throws ReflectionException
+     * @return object
+     *
+     * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
      */
-    public function make($id, array $parameters = []): mixed
+    public function make(string $id, array $parameters = []): object
     {
-        $ReflectionClass = new ReflectionClass($id);
-        $Constructor = $ReflectionClass->getConstructor();
-
-        if (!is_null($Constructor)) {
-            $parameters = array_merge($this->constructorParams[$id] ?? [], $parameters);
-            $parameters = $this->getParameters($Constructor, $parameters);
-        }
-
-        $entry = new $id(...$parameters);
+        $parameters = array_merge($this->constructorParams[$id] ?? [], $parameters);
+        $entry = $this->resolveEntry($id, $parameters);
 
         $this->resolvedEntries[$id] = $entry;
 
@@ -107,7 +87,7 @@ class Container extends AbstractSingleton implements ContainerInterface
      */
     public function has(string $id): bool
     {
-        return true;
+        return isset($this->resolvedEntries[$id]);
     }
 
     public function setConstructorParams($class, $params = [])
@@ -126,7 +106,8 @@ class Container extends AbstractSingleton implements ContainerInterface
      * @param ReflectionMethod $Constructor
      * @param array $parameters
      * @return array
-     * @throws ReflectionException
+     *
+     * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
      */
     public function getParameters(ReflectionMethod $Constructor, array $parameters = []): array
     {
@@ -135,11 +116,49 @@ class Container extends AbstractSingleton implements ContainerInterface
                 $className = $parameter->getType()->getName();
                 // TODO use has method?! Or add isResolvable method
                 if (class_exists($className)) {
-                    $parameters[$parameter->getName()] = $this->get($className);
+                    $parameters[$parameter->getName()] = $this->resolveEntry($className);
                 }
             }
         }
 
         return $parameters;
+    }
+
+    /**
+     * @param string $id
+     * @return string
+     */
+    public function resolveInterface(string $id): string
+    {
+        if (isset($this->interfaces[$id])) {
+            $id = $this->interfaces[$id];
+        }
+
+        return $id;
+    }
+
+    /**
+     * @param mixed $id
+     * @param array $parameters
+     * @return object
+     *
+     * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
+     */
+    public function resolveEntry(mixed $id, array $parameters = []): object
+    {
+        $id = $this->resolveInterface($id);
+
+        try {
+            $ReflectionClass = new ReflectionClass($id);
+        } catch (Exception) {
+            throw new NotFoundException('TODO');
+        }
+        $Constructor = $ReflectionClass->getConstructor();
+
+        if (!is_null($Constructor)) {
+            $parameters = $this->getParameters($Constructor, $this->constructorParams[$id] ?? []);
+        }
+
+        return new $id(...$parameters);
     }
 }
