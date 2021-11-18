@@ -15,7 +15,9 @@ use Avolutions\Collection\CollectionInterface;
 use Avolutions\Collection\CollectionTrait;
 use Avolutions\Core\Application;
 use Avolutions\Database\Database;
+use Avolutions\Di\ContainerException;
 use Avolutions\Logging\Logger;
+use Psr\Container\NotFoundExceptionInterface;
 use ReflectionException;
 
 /**
@@ -103,18 +105,15 @@ class EntityCollection implements CollectionInterface
      * @param Application $Application Application instance.
      * @param Database $Database Database instance.
      * @param Logger $Logger Logger instance.
-     * @param string|null $entity The name of the Entity type.
      *
-     * @throws ReflectionException
+     * @throws ContainerException
+     * @throws NotFoundExceptionInterface
      */
-    public function __construct(Application $Application, Database $Database, Logger $Logger, ?string $entity = null)
+    public function __construct(Application $Application, Database $Database, Logger $Logger)
     {
         $this->Application = $Application;
         $this->Database = $Database;
         $this->Logger = $Logger;
-        if (!is_null($entity)) {
-            $this->entity = $entity;
-        }
 
         $this->EntityConfiguration = $this->Application->make(
             EntityConfiguration::class,
