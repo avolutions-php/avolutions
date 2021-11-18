@@ -30,10 +30,13 @@ class CreateModelCommand extends AbstractCommand
         $this->addArgumentDefinition(new Argument('name', 'The name of the Model class.'));
         $this->addOptionDefinition(new Option('force', 'f', 'Model will be overwritten if it already exists.'));
         $this->addOptionDefinition(
-            new Option('mapping', 'm', 'Automatically creates a mapping file for the Model.', false)
+            new Option('migration', 'd', 'Automatically creates a Migration for the Model.', false)
         );
         $this->addOptionDefinition(
-            new Option('migration', 'd', 'Automatically creates a Migration for the Model.', false)
+            new Option('collection', 'c', 'Automatically creates a EntityCollection for the Model.', false)
+        );
+        $this->addOptionDefinition(
+            new Option('mapping', 'm', 'Automatically creates a mapping file for the Model.', false)
         );
         $this->addOptionDefinition(
             new Option('listener', 'l', 'Automatically creates a Listener for the Model.', false)
@@ -52,6 +55,14 @@ class CreateModelCommand extends AbstractCommand
                 'error'
             );
             return ExitStatus::ERROR;
+        }
+
+        if ($this->getOption('collection')) {
+            $argv = 'create-collection ' . $modelName;
+            if ($force) {
+                $argv .= ' -f';
+            }
+            command($argv);
         }
 
         if ($this->getOption('mapping')) {
