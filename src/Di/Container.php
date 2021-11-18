@@ -25,8 +25,8 @@ use ReflectionParameter;
  *
  * TODO
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.9.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.9.0
  */
 class Container extends AbstractSingleton implements ContainerInterface
 {
@@ -40,23 +40,23 @@ class Container extends AbstractSingleton implements ContainerInterface
     /**
      * TODO
      *
-     * @var array $constructorParams
+     * @var array $parameters
      */
-    private array $constructorParams = [];
+    private array $parameters = [];
 
     /**
      * TODO
      *
-     * @var array $interfaces
-     */
-    private array $interfaces = [];
-
-    /**
-     * TODO
-     *
-     * @var array
+     * @var array $currentlyResolvedEntries
      */
     private array $currentlyResolvedEntries = [];
+
+    /**
+     * TODO
+     *
+     * @var array $aliases
+     */
+    private array $aliases = [];
 
     /**
      * buildEntry
@@ -151,7 +151,9 @@ class Container extends AbstractSingleton implements ContainerInterface
      */
     public function resolveEntry(mixed $id, array $parameters = []): object
     {
-        $id = $this->resolveInterface($id);
+        if ($this->isAlias($id)) {
+            $id = $this->resolveAlias($id);
+        }
 
         if (isset($this->currentlyResolvedEntries[$id])) {
             throw new ContainerException(interpolate("Circular dependency detected while resolving '{0}'", [$id]));
@@ -159,10 +161,11 @@ class Container extends AbstractSingleton implements ContainerInterface
         $this->currentlyResolvedEntries[$id] = true;
 
         if ($this->has($id)) {
+            unset($this->currentlyResolvedEntries[$id]);
             return $this->resolvedEntries[$id];
         }
 
-        $entry =  $this->buildEntry($id, $parameters);
+        $entry = $this->buildEntry($id, $parameters);
         $this->resolvedEntries[$id] = $entry;
 
         unset($this->currentlyResolvedEntries[$id]);
@@ -171,7 +174,7 @@ class Container extends AbstractSingleton implements ContainerInterface
     }
 
     /**
-     * resolveInterface
+     * resolveAlias
      *
      * TODO
      *
@@ -179,13 +182,23 @@ class Container extends AbstractSingleton implements ContainerInterface
      *
      * @return string TODO
      */
-    public function resolveInterface(string $id): string
+    protected function resolveAlias(string $id): string
     {
-        if (isset($this->interfaces[$id])) {
-            $id = $this->interfaces[$id];
-        }
+        return $this->aliases[$id];
+    }
 
-        return $id;
+    /**
+     * isAlias
+     *
+     * TODO
+     *
+     * @param string $id TODO
+     *
+     * @return bool TODO
+     */
+    protected function isAlias(string $id): bool
+    {
+        return isset($this->aliases[$id]);
     }
 
     /**
@@ -213,8 +226,8 @@ class Container extends AbstractSingleton implements ContainerInterface
             }
 
             // If parameter is set as constructor parameter for entry, use this.
-            if (isset($this->constructorParams[$id][$parameterName])) {
-                $parameters[$parameterName] = $this->constructorParams[$id][$parameterName];
+            if (isset($this->parameters[$id][$parameterName])) {
+                $parameters[$parameterName] = $this->parameters[$id][$parameterName];
                 continue;
             }
 
@@ -223,7 +236,12 @@ class Container extends AbstractSingleton implements ContainerInterface
             if ($parameterClassName !== null) {
                 $parameters[$parameter->getName()] = $this->resolveEntry($parameterClassName);
             } else {
-                throw new ContainerException(interpolate("Parameter {0} of class {1} is either a builtin type or not typed and can therefore not be resolved.", [$parameterName, $id]));
+                throw new ContainerException(
+                    interpolate(
+                        "Parameter {0} of class {1} is either a builtin type or not typed and can therefore not be resolved.",
+                        [$parameterName, $id]
+                    )
+                );
             }
         }
 
@@ -235,25 +253,16 @@ class Container extends AbstractSingleton implements ContainerInterface
      *
      * TODO
      *
-     * @param string $class TODO
-     * @param array $params TODO
+     * @param string $name TODO
+     * @param mixed $value TODO
      */
-    public function setConstructorParams(string $class, array $params = [])
+    public function set(string $name, mixed $value)
     {
-        $this->constructorParams[$class] = $params;
-    }
-
-    /**
-     * setInterface
-     *
-     * TODO
-     *
-     * @param string $interface TODO
-     * @param string $instance TODO
-     */
-    public function setInterface(string $interface, string $instance)
-    {
-        $this->interfaces[$interface] = $instance;
+        if (is_array($value)) {
+            $this->parameters[$name] = $value;
+        } else {
+            $this->aliases[$name] = $value;
+        }
     }
 
     /**
@@ -270,7 +279,7 @@ class Container extends AbstractSingleton implements ContainerInterface
         $type = $parameter->getType();
 
         if ($type === null || $type->isBuiltin()) {
-           return null;
+            return null;
         }
 
         return $parameter->getType()->getName();
