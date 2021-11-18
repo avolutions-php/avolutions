@@ -10,6 +10,7 @@
  */
 
 use Avolutions\Command\CommandDispatcher;
+use Avolutions\Config\Config;
 use Avolutions\Core\Application;
 use Avolutions\Http\Cookie;
 use Avolutions\Util\StringHelper;
@@ -50,6 +51,27 @@ if (!function_exists('command')) {
     function command(mixed $argv): int
     {
         return application(CommandDispatcher::class)->dispatch($argv);
+    }
+}
+
+/**
+ * config
+ *
+ * Helper to get or set a config value.
+ *
+ * @param string $key The config key (slash separated).
+ * @param mixed $value The value to set.
+ *
+ * @return mixed The config value
+ */
+if (!function_exists('config')) {
+    function config(string $key, mixed $value = null): mixed
+    {
+        if (!is_null($value)) {
+            application(Config::class)->set($key, $value);
+        }
+
+        return application(Config::class)->get($key);
     }
 }
 
