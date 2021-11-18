@@ -34,6 +34,7 @@ class Database extends PDO
      * @param string $port Database port.
      * @param string $user User to connect to database with.
      * @param string $password Password for database user.
+     * @param string $charset The character set.
      * @param array $options Array of driver specific connection options.
      */
     public function __construct(
@@ -42,9 +43,10 @@ class Database extends PDO
         string $port,
         string $user,
         string $password,
+        string $charset = 'utf8',
         array $options = []
     ) {
-        $dsn = 'mysql:dbname=' . $database . ';host=' . $host . ';port=' . $port . '';
+        $dsn = interpolate('mysql:host={0};dbname={1};port={2};charset={3}', [$host, $database, $port, $charset]);
 
         parent::__construct($dsn, $user, $password, $options);
     }
