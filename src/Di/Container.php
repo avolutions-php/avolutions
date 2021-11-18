@@ -52,6 +52,13 @@ class Container extends AbstractSingleton implements ContainerInterface
     private array $interfaces = [];
 
     /**
+     * TODO
+     *
+     * @var array
+     */
+    private array $currentlyResolvedEntries = [];
+
+    /**
      * buildEntry
      *
      * TODO
@@ -62,13 +69,14 @@ class Container extends AbstractSingleton implements ContainerInterface
      * @return mixed TODO
      *
      * @throws NotFoundExceptionInterface
+     * @throws ContainerException
      */
     public function buildEntry(string $id, array $parameters): mixed
     {
         try {
             $ReflectionClass = new ReflectionClass($id);
         } catch (Exception) {
-            throw new NotFoundException(interpolate('No entry was found for "{0}" identifier.', [$id]));
+            throw new ContainerException(interpolate("No entry was found for '{0}'.", [$id]));
         }
         $Constructor = $ReflectionClass->getConstructor();
 
@@ -121,6 +129,7 @@ class Container extends AbstractSingleton implements ContainerInterface
      * @return object TODO
      *
      * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
+     * @throws ContainerException
      */
     public function make(string $id, array $parameters = []): object
     {
@@ -138,10 +147,16 @@ class Container extends AbstractSingleton implements ContainerInterface
      * @return object TODO
      *
      * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
+     * @throws ContainerException TODO
      */
     public function resolveEntry(mixed $id, array $parameters = []): object
     {
         $id = $this->resolveInterface($id);
+
+        if (isset($this->currentlyResolvedEntries[$id])) {
+            throw new ContainerException(interpolate("Circular dependency detected while resolving '{0}'", [$id]));
+        }
+        $this->currentlyResolvedEntries[$id] = true;
 
         if ($this->has($id)) {
             return $this->resolvedEntries[$id];
@@ -149,6 +164,8 @@ class Container extends AbstractSingleton implements ContainerInterface
 
         $entry =  $this->buildEntry($id, $parameters);
         $this->resolvedEntries[$id] = $entry;
+
+        unset($this->currentlyResolvedEntries[$id]);
 
         return $entry;
     }
@@ -183,33 +200,30 @@ class Container extends AbstractSingleton implements ContainerInterface
      * @return array TODO
      *
      * @throws NotFoundExceptionInterface No entry was found for **this** identifier.
+     * @throws ContainerException TODO
      */
     public function resolveParameters(string $id, ReflectionMethod $Constructor, array $parameters = []): array
     {
-        // TODO: check and return/resolve:
-        // if parameter is defined in $parameters
-        // if parameter is defined in $this->constructorParams[$id]
-        // get class name method
-
         foreach ($Constructor->getParameters() as $parameter) {
             $parameterName = $parameter->name;
 
             // If parameter is passed from make method, use this parameter therefore nothing to do.
-            if (!isset($parameters[$parameterName])) {
+            if (isset($parameters[$parameterName])) {
+                continue;
+            }
 
-                // If parameter is set as constructor parameter for entry, use this.
-                if (isset($this->constructorParams[$id][$parameterName])) {
-                    $parameters[$parameterName] = $this->constructorParams[$id][$parameterName];
-                }
+            // If parameter is set as constructor parameter for entry, use this.
+            if (isset($this->constructorParams[$id][$parameterName])) {
+                $parameters[$parameterName] = $this->constructorParams[$id][$parameterName];
+                continue;
+            }
 
-                $parameterClassName = $this->getParameterClassName($parameter);
-                if ($parameterClassName !== null) {
-                    $parameters[$parameter->getName()] = $this->resolveEntry($parameterClassName);
-                } else {
-                    // TODO primitive type can not be resolved
-                    // throw Exception
-                    // $parameterClassName is either a primitive/builtin type or not typed
-                }
+            // Check if parameter is resolvable (class) and resolve it, otherwise throw Exception.
+            $parameterClassName = $this->getParameterClassName($parameter);
+            if ($parameterClassName !== null) {
+                $parameters[$parameter->getName()] = $this->resolveEntry($parameterClassName);
+            } else {
+                throw new ContainerException(interpolate("Parameter {0} of class {1} is either a builtin type or not typed and can therefore not be resolved.", [$parameterName, $id]));
             }
         }
 
