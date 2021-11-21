@@ -25,6 +25,11 @@
             "Avolutions\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Avolutions\\Test\\": "tests/"
+        }
+    },
     "license": "MIT",
     "homepage": "https://avolutions.org",
     "authors": [

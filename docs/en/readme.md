@@ -4,6 +4,7 @@ The online version of the guide can be found at https://avolutions.org/guide
 
 ## Getting started
 * [Installation](installation.md)
+* [Application](application.md)
 
 ## Application
 * [Routing](routing.md)

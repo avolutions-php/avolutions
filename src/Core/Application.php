@@ -16,7 +16,8 @@ use Avolutions\Http\Request;
 use Avolutions\Http\Response;
 use Avolutions\Routing\Router;
 use Avolutions\Util\JsonHelper;
-use ReflectionException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Application class
@@ -31,23 +32,53 @@ class Application extends Container
     /**
      * The base path of your application.
      *
-     * @var string
+     * @var string $basePath
      */
     private string $basePath;
 
     /**
      * The application namespace.
      *
-     * @var string
+     * @var string $appNamespace
      */
     private string $appNamespace;
 
     /**
-     * The name of the application folder.
+     * Default application paths.
      *
-     * @var string
+     * @var array $paths
      */
-    private string $appFolder = 'application';
+    private array $paths = [
+        'app' => 'application',
+        'command' => 'Command',
+        'commandTemplate' => 'Command' . DIRECTORY_SEPARATOR . 'templates',
+        'config' => 'Config',
+        'controller' => 'Controller',
+        'database' => 'Database',
+        'event' => 'Event',
+        'listener' => 'Listener',
+        'mapping' => 'Mapping',
+        'model' => 'Model',
+        'translation' => 'Translation',
+        'validator' => 'Validator',
+        'view' => 'View',
+    ];
+
+    /**
+     * Default application namespaces.
+     *
+     * @var array $namespaces
+     */
+    private array $namespaces = [
+        'app' => 'Application',
+        'command' => 'Command',
+        'controller' => 'Controller',
+        'database' => 'Database',
+        'event' => 'Event',
+        'listener' => 'Listener',
+        'model' => 'Model',
+        'validator' => 'Validator',
+    ];
 
     /**
      * __construct
@@ -56,9 +87,15 @@ class Application extends Container
      *
      * @param string $basePath The base path of your application.
      */
-    public function __construct(string $basePath = '')
+    public function __construct(string $basePath, ?array $paths = [], ?array $namespaces = [])
     {
         $this->basePath = rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        if (is_array($paths)) {
+            $this->paths = array_merge($this->paths, $paths);
+        }
+        if (is_array($namespaces)) {
+            $this->namespaces = array_merge($this->namespaces, $namespaces);
+        }
         $this->appNamespace = $this->getAppNamespace();
 
         self::setInstance($this);
@@ -87,7 +124,7 @@ class Application extends Container
      */
     public function getAppPath(): string
     {
-        return $this->getBasePath() . $this->appFolder . DIRECTORY_SEPARATOR;
+        return $this->getBasePath() . $this->formatPath($this->paths['app']);
     }
 
     /**
@@ -99,7 +136,7 @@ class Application extends Container
      */
     public function getCommandPath(): string
     {
-        return $this->getAppPath() . 'Command' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['command']);
     }
 
     /**
@@ -111,7 +148,7 @@ class Application extends Container
      */
     public function getCommandTemplatePath(): string
     {
-        return $this->getAppPath() . 'Command' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['commandTemplate']);
     }
 
     /**
@@ -123,7 +160,7 @@ class Application extends Container
      */
     public function getConfigPath(): string
     {
-        return $this->getAppPath() . 'Config' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['config']);
     }
 
     /**
@@ -135,7 +172,7 @@ class Application extends Container
      */
     public function getControllerPath(): string
     {
-        return $this->getAppPath() . 'Controller' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['controller']);
     }
 
     /**
@@ -147,7 +184,7 @@ class Application extends Container
      */
     public function getDatabasePath(): string
     {
-        return $this->getAppPath() . 'Database' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['database']);
     }
 
     /**
@@ -159,7 +196,7 @@ class Application extends Container
      */
     public function getEventPath(): string
     {
-        return $this->getAppPath() . 'Event' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['event']);
     }
 
     /**
@@ -171,7 +208,7 @@ class Application extends Container
      */
     public function getListenerPath(): string
     {
-        return $this->getAppPath() . 'Listener' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['listener']);
     }
 
     /**
@@ -183,7 +220,7 @@ class Application extends Container
      */
     public function getMappingPath(): string
     {
-        return $this->getAppPath() . 'Mapping' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['mapping']);
     }
 
     /**
@@ -195,7 +232,7 @@ class Application extends Container
      */
     public function getModelPath(): string
     {
-        return $this->getAppPath() . 'Model' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['model']);
     }
 
     /**
@@ -207,7 +244,7 @@ class Application extends Container
      */
     public function getTranslationPath(): string
     {
-        return $this->getAppPath() . 'Translation' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['translation']);
     }
 
     /**
@@ -219,7 +256,7 @@ class Application extends Container
      */
     public function getValidatorPath(): string
     {
-        return $this->getAppPath() . 'Validator' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['validator']);
     }
 
     /**
@@ -231,7 +268,7 @@ class Application extends Container
      */
     public function getViewPath(): string
     {
-        return $this->getAppPath() . 'View' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['view']);
     }
 
     /**
@@ -245,13 +282,15 @@ class Application extends Container
     {
         $composer = JsonHelper::decode($this->basePath . 'composer.json', true);
 
-        foreach ($composer['autoload']['psr-4'] as $namespace => $path) {
-            if (realpath($this->basePath . $path) === realpath($this->getAppPath())) {
-                return $namespace;
+        if (isset($composer['autoload']['psr-4'])) {
+            foreach ($composer['autoload']['psr-4'] as $namespace => $path) {
+                if (realpath($this->basePath . $path) === realpath($this->getAppPath())) {
+                    return $namespace;
+                }
             }
         }
 
-        return 'Application\\';
+        return $this->formatNamespace($this->namespaces['app']);
     }
 
     /**
@@ -263,7 +302,7 @@ class Application extends Container
      */
     public function getCommandNamespace(): string
     {
-        return $this->appNamespace . 'Command\\';
+        return $this->appNamespace . $this->formatNamespace($this->namespaces['command']);
     }
 
     /**
@@ -275,7 +314,7 @@ class Application extends Container
      */
     public function getControllerNamespace(): string
     {
-        return $this->appNamespace . 'Controller\\';
+        return $this->appNamespace . $this->formatNamespace($this->namespaces['controller']);
     }
 
     /**
@@ -287,7 +326,7 @@ class Application extends Container
      */
     public function getDatabaseNamespace(): string
     {
-        return $this->appNamespace . 'Database\\';
+        return $this->appNamespace . $this->formatNamespace($this->namespaces['database']);
     }
 
 
@@ -300,7 +339,7 @@ class Application extends Container
      */
     public function getEventNamespace(): string
     {
-        return $this->appNamespace . 'Event\\';
+        return $this->appNamespace . $this->formatNamespace($this->namespaces['event']);
     }
 
     /**
@@ -312,7 +351,7 @@ class Application extends Container
      */
     public function getListenerNamespace(): string
     {
-        return $this->appNamespace . 'Listener\\';
+        return $this->appNamespace . $this->formatNamespace($this->namespaces['listener']);
     }
 
     /**
@@ -324,7 +363,7 @@ class Application extends Container
      */
     public function getModelNamespace(): string
     {
-        return $this->appNamespace . 'Model\\';
+        return $this->appNamespace . $this->formatNamespace($this->namespaces['model']);
     }
 
     /**
@@ -336,7 +375,7 @@ class Application extends Container
      */
     public function getValidatorNamespace(): string
     {
-        return $this->appNamespace . 'Validator\\';
+        return $this->appNamespace . $this->formatNamespace($this->namespaces['validator']);
     }
 
     /**
@@ -344,7 +383,8 @@ class Application extends Container
      *
      * Set error and exception handler for the Application.
      *
-     * @throws ReflectionException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function setErrorHandler()
     {
@@ -359,7 +399,10 @@ class Application extends Container
      * Starts the Application by executing the Request, calling the Router to find the matching Route and
      * invokes the controller action with passed parameters.
      *
-     * @throws ReflectionException
+     * @param Request $Request Request instance.
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function start(Request $Request)
     {
@@ -376,5 +419,35 @@ class Application extends Container
         $Response = $this->get(Response::class);
         $Response->setBody(call_user_func_array([$Controller, $fullActionName], $parameters));
         $Response->send();
+    }
+
+
+    /**
+     * formatPath
+     *
+     * Ensures that path ends with an OS specific directory separator.
+     *
+     * @param string $path A path to format.
+     *
+     * @return string Path with trailing directory separator.
+     */
+    private function formatPath(string $path): string
+    {
+        return rtrim($path, '/\\') . DIRECTORY_SEPARATOR;
+    }
+
+
+    /**
+     * formatNamespace
+     *
+     * Ensures that namespace ends with backslash.
+     *
+     * @param string $namespace A namespace to format.
+     *
+     * @return string Namespace with trailing backslash.
+     */
+    private function formatNamespace(string $namespace): string
+    {
+        return rtrim($namespace, '\\') . '\\';
     }
 }
