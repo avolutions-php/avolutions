@@ -35,10 +35,6 @@ class CookieCollection
      */
     public static function add(Cookie $Cookie)
     {
-        if (!$Cookie instanceof Cookie) {
-            throw new InvalidArgumentException('The passed parameter must be of type Cookie');
-        }
-
         setcookie($Cookie->name, $Cookie->value, $Cookie->expires, $Cookie->path, $Cookie->domain, $Cookie->secure, $Cookie->httpOnly);
     }
 
