@@ -71,15 +71,15 @@ class DateTimeValidator extends AbstractValidator
         } else {
             switch ($this->type) {
                 case 'date':
-                    $this->format = Config::get('application/defaultDateFormat');
+                    $this->format = config('application/defaultDateFormat');
                     break;
 
                 case 'time':
-                    $this->format = Config::get('application/defaultTimeFormat');
+                    $this->format = config('application/defaultTimeFormat');
                     break;
 
                 case 'datetime':
-                    $this->format = Config::get('application/defaultDateTimeFormat');
+                    $this->format = config('application/defaultDateTimeFormat');
                     break;
             }
         }
