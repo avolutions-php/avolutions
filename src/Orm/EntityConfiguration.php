@@ -12,7 +12,8 @@
 namespace Avolutions\Orm;
 
 use Avolutions\Core\Application;
-use ReflectionException;
+use Avolutions\Di\ContainerException;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * EntityConfiguration class
@@ -69,7 +70,8 @@ class EntityConfiguration
      * @param Application $Application Application instance.
      * @param string $entity The name of the Entity type.
      *
-     * @throws ReflectionException
+     * @throws ContainerException
+     * @throws NotFoundExceptionInterface
      */
     public function __construct(Application $Application, string $entity)
     {
@@ -85,7 +87,8 @@ class EntityConfiguration
      *
      * Loads the EntityMapping for the given entity.
      *
-     * @throws ReflectionException
+     * @throws ContainerException
+     * @throws NotFoundExceptionInterface
      */
     private function loadMapping()
     {
@@ -155,7 +158,9 @@ class EntityConfiguration
      * the database query.
      *
      * @return string The field phrase for the database query.
-     * @throws ReflectionException
+     *
+     * @throws ContainerException
+     * @throws NotFoundExceptionInterface
      */
     public function getFieldQuery(): string
     {

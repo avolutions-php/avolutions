@@ -45,7 +45,10 @@ class DatabaseMigrateCommand extends AbstractCommand
             $this->Console->writeLine('Migrations executed successfully', 'success');
             return ExitStatus::SUCCESS;
         } catch (Throwable $e) {
-            $this->Console->writeLine(interpolate('Error while executing migrations: {0}', [$e->getMessage()]), 'error');
+            $this->Console->writeLine(
+                interpolate('Error while executing migrations: {0}', [$e->getMessage()]),
+                'error'
+            );
             return ExitStatus::ERROR;
         }
     }

@@ -15,7 +15,6 @@ use Avolutions\Console\Console;
 use Avolutions\Core\Application;
 use InvalidArgumentException;
 use ReflectionClass;
-use ReflectionException;
 
 /**
  * AbstractCommand class
@@ -232,8 +231,6 @@ abstract class AbstractCommand
      * @param array $argv An array containing Argument and Option input.
      *
      * @return bool Returns false if help Option was passed or true if not.
-     *
-     * @throws ReflectionException
      */
     private function parseArgv(array $argv = []): bool
     {
@@ -316,8 +313,6 @@ abstract class AbstractCommand
      *
      * Displays the help text for the Command, including usage and details about Arguments and Options depending
      * on the CommandDefinition.
-     *
-     * @throws ReflectionException
      */
     private function showHelp(): void
     {
@@ -391,8 +386,6 @@ abstract class AbstractCommand
      * @param array $argv An array containing Argument and Option input.
      *
      * @return int Exit status.
-     *
-     * @throws ReflectionException
      */
     public function start(array $argv): int
     {

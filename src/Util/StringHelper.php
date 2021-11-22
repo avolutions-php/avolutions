@@ -16,8 +16,8 @@ namespace Avolutions\Util;
  *
  * Provides helper methods to handle strings.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.6.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.6.0
  */
 class StringHelper
 {
@@ -35,7 +35,7 @@ class StringHelper
     {
         if (is_array($params) && count($params) > 0) {
             foreach ($params as $paramKey => $paramValue) {
-                $string = str_replace('{'.$paramKey.'}', $paramValue, $string);
+                $string = str_replace('{' . $paramKey . '}', $paramValue, $string);
             }
         }
 

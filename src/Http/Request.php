@@ -11,17 +11,14 @@
 
 namespace Avolutions\Http;
 
-use Avolutions\Core\Application;
-use Avolutions\Routing\Router;
-
 /**
  * Request class
  *
  * The Request class calls the Router to find the matching Route for the url
  * invokes the corresponding controller action.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.0
  */
 class Request
 {
@@ -61,8 +58,8 @@ class Request
             'GET' => $_GET,
             'POST' => $_POST,
         };
-        // Remove 'path' from Request parameters because we use it in rewrite rule in htaccess for pretty url and it is
-        // handled by the Route later.
+        // Remove 'path' from Request parameters because we use it in rewrite rule in htaccess for pretty url,
+        // and it is handled by the Route later.
         unset($parameters['path']);
         $this->parameters = $parameters;
     }

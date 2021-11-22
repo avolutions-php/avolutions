@@ -19,8 +19,8 @@ use Psr\Container\NotFoundExceptionInterface;
  *
  * TODO
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.9.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.9.0
  */
 class NotFoundException extends Exception implements NotFoundExceptionInterface
 {

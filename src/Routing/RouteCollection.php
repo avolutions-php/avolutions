@@ -13,7 +13,6 @@ namespace Avolutions\Routing;
 
 use Avolutions\Collection\CollectionInterface;
 use Avolutions\Collection\CollectionTrait;
-use Avolutions\Core\AbstractSingleton;
 
 /**
  * RouteCollection class
@@ -32,9 +31,9 @@ class RouteCollection implements CollectionInterface
     /**
      * addRoute
      *
-     * Adds an given Route object to the RouteCollection.
+     * Adds a given Route object to the RouteCollection.
      *
-     * @param Route $Route An Route object to add to the collection
+     * @param Route $Route A Route object to add to the collection
      */
     public function addRoute(Route $Route)
     {

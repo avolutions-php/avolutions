@@ -12,9 +12,10 @@
 namespace Avolutions\Validation;
 
 use Avolutions\Core\Application;
+use Avolutions\Di\ContainerException;
 use Avolutions\Orm\Entity;
 use Avolutions\Orm\EntityCollection;
-use ReflectionException;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * UniqueValidator
@@ -36,7 +37,7 @@ class UniqueValidator extends AbstractValidator
     /**
      * __construct
      *
-     * Creates an new Validator object and set the options.
+     * Creates a new Validator object and set the options.
      *
      * @param Application $Application Application instance.
      * @param array $options An associative array with options.
@@ -62,7 +63,8 @@ class UniqueValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      *
-     * @throws ReflectionException
+     * @throws ContainerException
+     * @throws NotFoundExceptionInterface
      */
     public function isValid(mixed $value): bool
     {

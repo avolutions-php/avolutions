@@ -13,8 +13,8 @@ namespace Avolutions\Command;
 
 use Avolutions\Console\Console;
 use Avolutions\Core\Application;
-use Exception;
 use InvalidArgumentException;
+use Throwable;
 
 /**
  * CommandDispatcher class
@@ -72,8 +72,6 @@ class CommandDispatcher
      * @param mixed $argv Command string or array with arguments and Options.
      *
      * @return int Exit status.
-     *
-     * @throws InvalidArgumentException
      */
     public function dispatch(mixed $argv): int
     {
@@ -113,7 +111,7 @@ class CommandDispatcher
         try {
             $Command = $this->Application->get($command);
             return $Command->start($argv);
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             $this->Console->writeLine($exception->getMessage(), 'error');
             return ExitStatus::ERROR;
         }

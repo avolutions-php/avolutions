@@ -16,8 +16,8 @@ namespace Avolutions\View;
  *
  * The ViewModel class provides all data that is passed to the View.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.0
  */
 class ViewModel
 {

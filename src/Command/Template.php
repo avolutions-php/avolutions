@@ -48,7 +48,7 @@ class Template
         if (file_exists($fileNameWithAppPath)) {
             $this->template = file_get_contents($fileNameWithAppPath);
         } elseif (file_exists($fileNameWithPath)) {
-                $this->template = file_get_contents($fileNameWithPath);
+            $this->template = file_get_contents($fileNameWithPath);
         } else {
             throw new Exception('Template file "' . $fileNameWithExtension . '" can not be found.');
         }

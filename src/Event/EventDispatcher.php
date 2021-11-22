@@ -13,7 +13,8 @@ namespace Avolutions\Event;
 
 use Avolutions\Core\Application;
 
-use ReflectionException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 use function is_callable;
 
@@ -62,7 +63,8 @@ class EventDispatcher
      *
      * @param Event $Event The Event to dispatch
      *
-     * @throws ReflectionException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function dispatch(Event $Event)
     {

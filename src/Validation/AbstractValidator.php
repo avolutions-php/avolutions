@@ -20,30 +20,30 @@ use ReflectionClass;
  *
  * An abstract class which has to be extended by every Validator.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.6.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.6.0
  */
 abstract class AbstractValidator implements ValidatorInterface
 {
     /**
      * An associative array with options.
      *
-	 * @var array $options
-	 */
+     * @var array $options
+     */
     protected array $options = [];
 
     /**
      * The property of the Entity to validate.
      *
-	 * @var string|null $property
-	 */
+     * @var string|null $property
+     */
     protected ?string $property = null;
 
     /**
      * The Entity to validate.
      *
-	 * @var Entity|null $Entity
-	 */
+     * @var Entity|null $Entity
+     */
     protected ?Entity $Entity = null;
 
     /**
@@ -56,13 +56,14 @@ abstract class AbstractValidator implements ValidatorInterface
     /**
      * __construct
      *
-     * Creates an new Validator object and set the options.
+     * Creates a new Validator object and set the options.
      *
      * @param array $options An associative array with options.
      * @param string|null $property The property of the Entity to validate.
      * @param Entity|null $Entity $Entity The Entity to validate.
      */
-    public function __construct(array $options = [], ?string $property = null, ?Entity $Entity = null) {
+    public function __construct(array $options = [], ?string $property = null, ?Entity $Entity = null)
+    {
         $this->setOptions($options, $property, $Entity);
     }
 
@@ -75,7 +76,8 @@ abstract class AbstractValidator implements ValidatorInterface
      * @param string|null $property The property of the Entity to validate.
      * @param Entity|null $Entity $Entity The Entity to validate.
      */
-    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null)
+    {
         $this->options = $options;
         if (isset($options['message'])) {
             $this->message = $options['message'];
@@ -109,15 +111,15 @@ abstract class AbstractValidator implements ValidatorInterface
         if (!is_null($this->message)) {
             return $this->message;
         } else {
-            $validatorKey = 'validation/'.$this->getValidatorName();
+            $validatorKey = 'validation/' . $this->getValidatorName();
 
             try {
                 if (!is_null($this->property)) {
                     if (!is_null($this->Entity)) {
-                        return translate($validatorKey.'/'.$this->Entity->getEntityName().'/'.$this->property);
+                        return translate($validatorKey . '/' . $this->Entity->getEntityName() . '/' . $this->property);
                     }
 
-                    return translate($validatorKey.'/'.$this->property);
+                    return translate($validatorKey . '/' . $this->property);
                 }
 
                 return translate($validatorKey);
@@ -126,7 +128,7 @@ abstract class AbstractValidator implements ValidatorInterface
                     // AdHoc validation
                     return 'Not valid';
                 } else {
-                    return $this->property.' is not valid';
+                    return $this->property . ' is not valid';
                 }
             }
         }

@@ -16,8 +16,8 @@ namespace Avolutions\Validation;
  *
  * The RequiredValidator indicates that a value is mandatory.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.6.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.6.0
  */
 class RequiredValidator extends AbstractValidator
 {
@@ -30,7 +30,8 @@ class RequiredValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid(mixed $value): bool {
+    public function isValid(mixed $value): bool
+    {
         return !(
             is_null($value)
             || (is_string($value) && strlen($value) == 0)

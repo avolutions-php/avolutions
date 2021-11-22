@@ -35,7 +35,7 @@ class ErrorHandler
     /**
      * __construct
      *
-     * Createas a new ErrorHandler instance.
+     * Creates a new ErrorHandler instance.
      *
      * @param Logger $Logger Logger instance
      */
@@ -47,7 +47,7 @@ class ErrorHandler
     /**
      * handleError
      *
-     * Handles uncaught errors, convert them into an exception an throw it.
+     * Handles uncaught errors, convert them into an exception and throw it.
      *
      * @param int $code The level of the error.
      * @param string $message The error message.

@@ -19,8 +19,8 @@ use Psr\Container\ContainerExceptionInterface;
  *
  * TODO
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.9.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.9.0
  */
 class ContainerException extends Exception implements ContainerExceptionInterface
 {

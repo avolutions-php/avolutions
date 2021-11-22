@@ -66,7 +66,10 @@ class DatabaseStatusCommand extends AbstractCommand
 
             return ExitStatus::SUCCESS;
         } catch (Exception $e) {
-            $this->Console->writeLine(interpolate('Error while retrieving executed migrations: {0}', [$e->getMessage()]), 'error');
+            $this->Console->writeLine(
+                interpolate('Error while retrieving executed migrations: {0}', [$e->getMessage()]),
+                'error'
+            );
             return ExitStatus::ERROR;
         }
     }

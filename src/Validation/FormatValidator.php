@@ -13,6 +13,7 @@ namespace Avolutions\Validation;
 
 use Avolutions\Orm\Entity;
 use InvalidArgumentException;
+
 use function implode;
 
 /**
@@ -20,8 +21,8 @@ use function implode;
  *
  * The FormatValidator checks if a value has a valid format.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.6.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.6.0
  */
 class FormatValidator extends AbstractValidator
 {
@@ -41,12 +42,13 @@ class FormatValidator extends AbstractValidator
      * @param string|null $property The property of the Entity to validate.
      * @param Entity|null $Entity The Entity to validate.
      */
-    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null)
+    {
         parent::setOptions($options, $property, $Entity);
 
         $validFormats = ['ip', 'ip4', 'ip6', 'mail', 'url', 'json'];
         if (!isset($options['format']) || !in_array($options['format'], $validFormats)) {
-            throw new InvalidArgumentException('Invalid format, must be either '.implode(' ', $validFormats));
+            throw new InvalidArgumentException('Invalid format, must be either ' . implode(' ', $validFormats));
         } else {
             $this->format = $options['format'];
         }
@@ -61,7 +63,8 @@ class FormatValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid(mixed $value): bool {
+    public function isValid(mixed $value): bool
+    {
         switch ($this->format) {
             case 'ip':
                 return filter_var($value, FILTER_VALIDATE_IP) !== false;

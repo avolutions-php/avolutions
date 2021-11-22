@@ -126,12 +126,12 @@ class Container extends AbstractSingleton implements ContainerInterface
      * @param string $id TODO
      * @param array $parameters TODO
      *
-     * @return object TODO
+     * @return mixed TODO
      *
      * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
      * @throws ContainerException
      */
-    public function make(string $id, array $parameters = []): object
+    public function make(string $id, array $parameters = []): mixed
     {
         return $this->resolveEntry($id, $parameters);
     }
@@ -144,12 +144,12 @@ class Container extends AbstractSingleton implements ContainerInterface
      * @param mixed $id TODO
      * @param array $parameters TODO
      *
-     * @return object TODO
+     * @return mixed TODO
      *
      * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
      * @throws ContainerException TODO
      */
-    public function resolveEntry(mixed $id, array $parameters = []): object
+    public function resolveEntry(mixed $id, array $parameters = []): mixed
     {
         if ($this->isAlias($id)) {
             $id = $this->resolveAlias($id);

@@ -19,8 +19,8 @@ use InvalidArgumentException;
  *
  * The RangeValidator validates if a value is inside a specific range (array).
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.6.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.6.0
  */
 class RangeValidator extends AbstractValidator
 {
@@ -54,7 +54,8 @@ class RangeValidator extends AbstractValidator
      * @param string|null $property The property of the Entity to validate.
      * @param Entity|null $Entity The Entity to validate.
      */
-    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null)
+    {
         parent::setOptions($options, $property, $Entity);
 
         if (isset($options['range'])) {
@@ -100,7 +101,8 @@ class RangeValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid(mixed $value): bool {
+    public function isValid(mixed $value): bool
+    {
         if ($this->not) {
             return !in_array($value, $this->range, $this->strict);
         } else {

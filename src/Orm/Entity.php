@@ -13,11 +13,13 @@ namespace Avolutions\Orm;
 
 use Avolutions\Core\Application;
 use Avolutions\Database\Database;
+use Avolutions\Di\ContainerException;
 use Avolutions\Event\EntityEvent;
 use Avolutions\Event\EventDispatcher;
 use Avolutions\Logging\Logger;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
-use ReflectionException;
 
 /**
  * Entity class
@@ -101,7 +103,9 @@ class Entity
      *
      * @param array $values The Entity attributes as an array
      *
-     * @throws ReflectionException
+     * @throws ContainerException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function __construct(array $values = [])
     {
@@ -141,7 +145,8 @@ class Entity
      * Saves the Entity object to the database. It will be either updated or inserted,
      * depending on whether the Entity already exists or not.
      *
-     * @throws ReflectionException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function save()
     {
@@ -165,7 +170,8 @@ class Entity
      *
      * Deletes the Entity object from the database.
      *
-     * @throws ReflectionException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function delete()
     {
@@ -319,6 +325,9 @@ class Entity
      * If a property is not valid the error message of the Validator will be added to the error array.
      *
      * @return bool Returns true if all validations passed or false if not.
+     *
+     * @throws ContainerException
+     * @throws NotFoundExceptionInterface
      */
     public function validate(): bool
     {

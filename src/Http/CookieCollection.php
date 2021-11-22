@@ -19,8 +19,8 @@ use InvalidArgumentException;
  * The CookieCollection provides the functionality to store and retrieve
  * Cookie objects.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.4.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.4.0
  */
 class CookieCollection
 {
@@ -35,7 +35,15 @@ class CookieCollection
      */
     public static function add(Cookie $Cookie)
     {
-        setcookie($Cookie->name, $Cookie->value, $Cookie->expires, $Cookie->path, $Cookie->domain, $Cookie->secure, $Cookie->httpOnly);
+        setcookie(
+            $Cookie->name,
+            $Cookie->value,
+            $Cookie->expires,
+            $Cookie->path,
+            $Cookie->domain,
+            $Cookie->secure,
+            $Cookie->httpOnly
+        );
     }
 
     /**

@@ -16,7 +16,6 @@ use Avolutions\Collection\CollectionTrait;
 use Avolutions\Core\Application;
 
 use FilesystemIterator;
-use ReflectionException;
 use RegexIterator;
 
 /**
@@ -37,8 +36,6 @@ class CommandCollection implements CollectionInterface
      * Creates a new CommandCollection instance with all Commands added.
      *
      * @param Application $Application Application instance.
-     *
-     * @throws ReflectionException
      */
     public function __construct(Application $Application)
     {
@@ -71,8 +68,6 @@ class CommandCollection implements CollectionInterface
      * @param string $namespace The namespace of the commands in the given path.
      *
      * @return array An array containing all commands found in path and namespace.
-     *
-     * @throws ReflectionException
      */
     private function searchCommands(string $directory, string $namespace): array
     {
