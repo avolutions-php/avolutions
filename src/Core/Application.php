@@ -11,11 +11,14 @@
 
 namespace Avolutions\Core;
 
+use Avolutions\Database\Database;
 use Avolutions\Di\Container;
 use Avolutions\Http\Request;
 use Avolutions\Http\Response;
+use Avolutions\Logging\Logger;
 use Avolutions\Routing\Router;
 use Avolutions\Util\JsonHelper;
+use PDO;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -101,6 +104,38 @@ class Application extends Container
         self::setInstance($this);
         $this->resolvedEntries[Container::class] = $this;
         $this->resolvedEntries[Application::class] = $this;
+
+        $this->bootstrap();
+    }
+
+    /**
+     * TODO
+     */
+    public function bootstrap()
+    {
+        $this->set(
+            Database::class,
+            [
+                'host' => config('database/host'),
+                'database' => config('database/database'),
+                'port' => config('database/port'),
+                'user' => config('database/user'),
+                'password' => config('database/password'),
+                'charset' => config('database/charset'),
+                'options' => [
+                    PDO::ATTR_PERSISTENT => true
+                ]
+            ]
+        );
+        $this->set(
+            Logger::class,
+            [
+                'logpath' => config('logger/logpath'),
+                'logfile' => config('logger/logfile'),
+                'minLogLevel' => config('logger/loglevel'),
+                'datetimeFormat' => config('logger/datetimeFormat'),
+            ]
+        );
     }
 
     /**
