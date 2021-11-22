@@ -15,6 +15,7 @@ use Avolutions\Console\Console;
 
 use Avolutions\Core\Application;
 use Avolutions\Database\Migrator;
+use Throwable;
 
 /**
  * DatabaseMigrateCommand class
@@ -39,9 +40,14 @@ class DatabaseMigrateCommand extends AbstractCommand
 
     public function execute(): int
     {
-        $this->Migrator->migrate();
-        $this->Console->writeLine('Migrations executed successfully', 'success');
-        return ExitStatus::SUCCESS;
+        try {
+            $this->Migrator->migrate();
+            $this->Console->writeLine('Migrations executed successfully', 'success');
+            return ExitStatus::SUCCESS;
+        } catch (Throwable $e) {
+            $this->Console->writeLine(interpolate('Error while executing migrations: {0}', [$e->getMessage()]), 'error');
+            return ExitStatus::ERROR;
+        }
     }
 
     public function initialize(): void

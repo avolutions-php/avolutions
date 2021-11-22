@@ -16,6 +16,7 @@ use Avolutions\Console\ConsoleTable;
 use Avolutions\Core\Application;
 
 use Avolutions\Database\Migrator;
+use Exception;
 
 /**
  * DatabaseStatusCommand class
@@ -27,10 +28,16 @@ use Avolutions\Database\Migrator;
  */
 class DatabaseStatusCommand extends AbstractCommand
 {
+    /**
+     * Migrator instance.
+     *
+     * @var Migrator $Migrator
+     */
+    private Migrator $Migrator;
+
     protected static string $name = 'database-status';
 
     protected static string $description = 'Shows all executed migrations.';
-    private Migrator $Migrator;
 
     public function __construct(Application $Application, Migrator $Migrator, ?Console $Console = null)
     {
@@ -45,17 +52,23 @@ class DatabaseStatusCommand extends AbstractCommand
             ['Version', 'Name', 'Date']
         ];
 
-        foreach ($this->Migrator->getExecutedMigrations() as $version => $migration) {
-            $columns[] = [
-                $version,
-                $migration['name'],
-                $migration['date']
-            ];
-        }
-        $ConsoleTable = new ConsoleTable($this->Console, $columns);
-        $ConsoleTable->render();
+        try {
+            foreach ($this->Migrator->getExecutedMigrations() as $version => $migration) {
+                $columns[] = [
+                    $version,
+                    $migration['name'],
+                    $migration['date']
+                ];
+            }
 
-        return ExitStatus::SUCCESS;
+            $ConsoleTable = new ConsoleTable($this->Console, $columns);
+            $ConsoleTable->render();
+
+            return ExitStatus::SUCCESS;
+        } catch (Exception $e) {
+            $this->Console->writeLine(interpolate('Error while retrieving executed migrations: {0}', [$e->getMessage()]), 'error');
+            return ExitStatus::ERROR;
+        }
     }
 
     public function initialize(): void

@@ -12,9 +12,13 @@
 namespace Avolutions\Database;
 
 use Avolutions\Core\Application;
+use Avolutions\Di\ContainerException;
+use Exception;
 use InvalidArgumentException;
 use PDO;
 use PDOException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
@@ -36,14 +40,12 @@ class Migrator
      */
     private Application $Application;
 
-
     /**
      * Database instance.
      *
      * @var Database $Database
      */
     private Database $Database;
-
 
     /**
      * __construct
@@ -64,9 +66,10 @@ class Migrator
      *
      * Executes all migrations from the application database directory.
      *
-     * @throws RuntimeException
-     * @throws InvalidArgumentException
+     * @throws NotFoundExceptionInterface
      * @throws ReflectionException
+     * @throws ContainerExceptionInterface
+     * @throws Exception
      */
     public function migrate()
     {
@@ -117,9 +120,7 @@ class Migrator
      * Gets all executed migrations from the database and return the versions.
      *
      * @return array The version numbers of the executed migrations.
-     *
-     * @throws PDOException
-     * @throws ReflectionException
+     * @throws Exception
      */
     public function getExecutedMigrations(): array
     {
@@ -151,7 +152,8 @@ class Migrator
      *
      * Creates the table to store executed migrations.
      *
-     * @throws ReflectionException
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerException
      */
     private function createMigrationTable()
     {
