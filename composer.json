@@ -12,6 +12,7 @@
     ],
     "require": {
         "php": "^8.0",
+        "ext-pdo": "*",
         "psr/container": "^2.0"
     },
     "require-dev": {
