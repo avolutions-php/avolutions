@@ -9,6 +9,8 @@
  * @link        https://avolutions.org
  */
 
+namespace Avolutions\Test\Routing;
+
 use PHPUnit\Framework\TestCase;
 
 use Avolutions\Routing\Route;
@@ -17,58 +19,67 @@ use Avolutions\Routing\Router;
 
 class RouterTest extends TestCase
 {
+    private Router $Router;
+
     protected function setUp(): void
     {
-        $RouteCollection = RouteCollection::getInstance();
-        $RouteCollection->items = [];
+        $RouteCollection = new RouteCollection();
 
-        $RouteCollection->addRoute(new Route('/user/<id>',
-        [
-            'controller' => 'user',
-            'action'	 => 'show'
-        ],
-        [
-            'id' => [
-                'format'   => '[0-9]'
-            ]
-        ]
-        ));
+        $RouteCollection->addRoute(
+            new Route('/user/<id>',
+                [
+                    'controller' => 'user',
+                    'action' => 'show'
+                ],
+                [
+                    'id' => [
+                        'format' => '[0-9]'
+                    ]
+                ]
+            )
+        );
 
-        $RouteCollection->addRoute(new Route('/user/delete/<id>',
-        [
-            'controller' => 'user',
-            'action'	 => 'delete'
-        ],
-        [
-            'id' => [
-                'format'   => '[0-9]',
-                'optional' => true
-            ]
-        ]
-        ));
+        $RouteCollection->addRoute(
+            new Route('/user/delete/<id>',
+                [
+                    'controller' => 'user',
+                    'action' => 'delete'
+                ],
+                [
+                    'id' => [
+                        'format' => '[0-9]',
+                        'optional' => true
+                    ]
+                ]
+            )
+        );
 
-        $RouteCollection->addRoute(new Route('/user/edit/<id>',
-        [
-            'controller' => 'user',
-            'action'	 => 'edit'
-        ],
-        [
-            'id' => [
-                'format'   => '[0-9]',
-                'optional' => true,
-                'default'  => 1
-            ]
-        ]
-        ));
+        $RouteCollection->addRoute(
+            new Route('/user/edit/<id>',
+                [
+                    'controller' => 'user',
+                    'action' => 'edit'
+                ],
+                [
+                    'id' => [
+                        'format' => '[0-9]',
+                        'optional' => true,
+                        'default' => 1
+                    ]
+                ]
+            )
+        );
 
         $RouteCollection->addRoute(new Route('/<controller>/<action>'));
 
         $RouteCollection->addRoute(new Route('/<controller>/<action>/<param1>/<param2>'));
+
+        $this->Router = new Router($RouteCollection);
     }
 
     public function testRouteWithDynamicControllerAndAction()
     {
-        $Route = Router::findRoute('/user/new', 'GET');
+        $Route = $this->Router->findRoute('/user/new', 'GET');
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
         $this->assertEquals('user', $Route->controllerName);
@@ -78,7 +89,7 @@ class RouterTest extends TestCase
 
     public function testRouteWithParameter()
     {
-        $Route = Router::findRoute('/user/9', 'GET');
+        $Route = $this->Router->findRoute('/user/9', 'GET');
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
         $this->assertEquals('user', $Route->controllerName);
@@ -89,7 +100,7 @@ class RouterTest extends TestCase
 
     public function testRouteWithOptionalParameter()
     {
-        $Route = Router::findRoute('/user/delete', 'GET');
+        $Route = $this->Router->findRoute('/user/delete', 'GET');
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
         $this->assertEquals('user', $Route->controllerName);
@@ -100,7 +111,7 @@ class RouterTest extends TestCase
 
     public function testRouteWithParameterDefaultValue()
     {
-        $Route = Router::findRoute('/user/edit', 'GET');
+        $Route = $this->Router->findRoute('/user/edit', 'GET');
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
         $this->assertEquals('user', $Route->controllerName);
@@ -111,7 +122,7 @@ class RouterTest extends TestCase
 
     public function testRouteWithMultipleParameters()
     {
-        $Route = Router::findRoute('/user/copy/4711/Foo-Bar_0815', 'GET');
+        $Route = $this->Router->findRoute('/user/copy/4711/Foo-Bar_0815', 'GET');
 
         $this->assertInstanceOf('Avolutions\Routing\Route', $Route);
         $this->assertEquals('user', $Route->controllerName);

@@ -9,6 +9,8 @@
  * @link        https://avolutions.org
  */
 
+namespace Avolutions\Test\Routing;
+
 use PHPUnit\Framework\TestCase;
 
 use Avolutions\Routing\Route;
@@ -18,14 +20,14 @@ class RouteCollectionTest extends TestCase
 {
     public function testRouteCollectionCanBeCreated()
     {
-        $RouteCollection = RouteCollection::getInstance();
+        $RouteCollection = new RouteCollection();
 
         $this->assertInstanceOf('Avolutions\Routing\RouteCollection', $RouteCollection);
     }
 
     public function testRoutesCanBeAddedToCollection()
     {
-        $RouteCollection = RouteCollection::getInstance();
+        $RouteCollection = new RouteCollection();
         $Route = new Route('');
         $Route2 = new Route('', ['method' => 'POST']);
 
@@ -38,34 +40,46 @@ class RouteCollectionTest extends TestCase
 
     public function testCountItemsOfCollection()
     {
-        $RouteCollection = RouteCollection::getInstance();
+        $RouteCollection = $this->getRouteCollection();
 
         $this->assertEquals(2, $RouteCollection->count());
     }
 
     public function testGetAllItemsOfCollection()
     {
-        $RouteCollection = RouteCollection::getInstance();
+        $RouteCollection = $this->getRouteCollection();
 
         $allItems = $RouteCollection->getAll();
 
-        $this->assertEquals(2, count($allItems));
+        $this->assertCount(2, $allItems);
         $this->assertInstanceOf('Avolutions\Routing\Route', $allItems[0]);
         $this->assertInstanceOf('Avolutions\Routing\Route', $allItems[1]);
     }
 
     public function testGetAllItemsByMethodOfCollection()
     {
-        $RouteCollection = RouteCollection::getInstance();
+        $RouteCollection = $this->getRouteCollection();
 
         $allGet = $RouteCollection->getAllByMethod('GET');
         $allPost = $RouteCollection->getAllByMethod('POST');
 
-        $this->assertEquals(1, count($allGet));
-        $this->assertEquals(1, count($allPost));
+        $this->assertCount(1, $allGet);
+        $this->assertCount(1, $allPost);
         $this->assertInstanceOf('Avolutions\Routing\Route', $allGet[0]);
         $this->assertInstanceOf('Avolutions\Routing\Route', $allPost[0]);
-        $this->assertEquals($allGet[0]->method, 'GET');
-        $this->assertEquals($allPost[0]->method, 'POST');
+        $this->assertEquals('GET', $allGet[0]->method);
+        $this->assertEquals('POST', $allPost[0]->method);
+    }
+
+    private function getRouteCollection(): RouteCollection
+    {
+        $RouteCollection = new RouteCollection();
+        $Route = new Route('');
+        $Route2 = new Route('', ['method' => 'POST']);
+
+        $RouteCollection->addRoute($Route);
+        $RouteCollection->addRoute($Route2);
+
+        return $RouteCollection;
     }
 }

@@ -9,30 +9,31 @@
  * @link        https://avolutions.org
  */
 
+namespace Avolutions\Test\Database;
+
 use PHPUnit\Framework\TestCase;
 
-use Avolutions\Config\Config;
+use Avolutions\Core\Application;
+use Avolutions\Database\Migrator;
 use Avolutions\Database\Database;
 
 class DatabaseTest extends TestCase
 {
+    private Database $Database;
+
     protected function setUp(): void
     {
-        $Config = Config::getInstance();
-        $Config->initialize();
-
-        $Database = new Database();
+        new Application(__DIR__);
+        $this->Database = application(Database::class);
 
         $query = 'DROP TABLE IF EXISTS `migration`';
-        $stmt = $Database->prepare($query);
+        $stmt = $this->Database->prepare($query);
         $stmt->execute();
     }
 
     public function testDatabaseConnection()
     {
-        $Database = new Database();
-
-        $this->assertInstanceOf('\PDO', $Database);
+        $this->assertInstanceOf('\PDO', $this->Database);
     }
 
     public function testMigrationTableCanBeCreated()
@@ -72,15 +73,14 @@ class DatabaseTest extends TestCase
             ]
         ];
 
-        Database::migrate();
-
-        $Database = new Database();
+        $Migrator = application(Migrator::class);
+        $Migrator->migrate();
 
         $query = 'DESCRIBE migration';
-        $stmt = $Database->prepare($query);
-		$stmt->execute();
+        $stmt = $this->Database->prepare($query);
+        $stmt->execute();
 
-        $rows = $stmt->fetchAll($Database::FETCH_ASSOC);
+        $rows = $stmt->fetchAll($this->Database::FETCH_ASSOC);
 
         // workaround because unix system return 'CURRENT_TIMESTAMP' and windows returns 'current_timestamp()'
         $rows[3]['Default'] = str_replace('current_timestamp()', 'CURRENT_TIMESTAMP', $rows[3]['Default']);

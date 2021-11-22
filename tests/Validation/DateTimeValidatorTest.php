@@ -9,11 +9,21 @@
  * @link        https://avolutions.org
  */
 
-use Avolutions\Validation\DateTimeValidator;
+namespace Avolutions\Test\Validation;
+
 use PHPUnit\Framework\TestCase;
+
+use Avolutions\Core\Application;
+use Avolutions\Validation\DateTimeValidator;
+use InvalidArgumentException;
 
 class DateTimeValidatorTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        new Application(__DIR__);
+    }
+
     public function testOptionTypeIsValid()
     {
         $validTypes = ['date', 'time', 'datetime'];
@@ -23,77 +33,78 @@ class DateTimeValidatorTest extends TestCase
         }
 
         $this->expectException(InvalidArgumentException::class);
-        $Validator = new DateTimeValidator(['type' => 'test']);
+        new DateTimeValidator(['type' => 'test']);
     }
 
-    public function testOptionFormatIsValid() {
+    public function testOptionFormatIsValid()
+    {
         $Validator = new DateTimeValidator(['format' => 'Y-m-d']);
         $this->assertInstanceOf(DateTimeValidator::class, $Validator);
 
         $this->expectException(InvalidArgumentException::class);
-        $Validator = new DateTimeValidator(['format' => 123]);
+        new DateTimeValidator(['format' => 123]);
     }
 
     public function testDefaultDateFormat()
     {
         $Validator = new DateTimeValidator(['type' => 'date']);
 
-        $this->assertEquals($Validator->isValid('2021-07-03'), true);
-        $this->assertEquals($Validator->isValid('2021-07-32'), false);
-        $this->assertEquals($Validator->isValid('2021-99-03'), false);
-        $this->assertEquals($Validator->isValid('10000-07-03'), false);
-        $this->assertEquals($Validator->isValid('07.03.2021'), false);
+        $this->assertEquals(true, $Validator->isValid('2021-07-03'));
+        $this->assertEquals(false, $Validator->isValid('2021-07-32'));
+        $this->assertEquals(false, $Validator->isValid('2021-99-03'));
+        $this->assertEquals(false, $Validator->isValid('10000-07-03'));
+        $this->assertEquals(false, $Validator->isValid('07.03.2021'));
 
-        $this->assertEquals($Validator->isValid('test'), false);
-        $this->assertEquals($Validator->isValid(123), false);
-        $this->assertEquals($Validator->isValid(false), false);
+        $this->assertEquals(false, $Validator->isValid('test'));
+        $this->assertEquals(false, $Validator->isValid(123));
+        $this->assertEquals(false, $Validator->isValid(false));
     }
 
     public function testDefaultTimeFormat()
     {
         $Validator = new DateTimeValidator(['type' => 'time']);
 
-        $this->assertEquals($Validator->isValid('12:34:56'), true);
-        $this->assertEquals($Validator->isValid('12:34:61'), false);
-        $this->assertEquals($Validator->isValid('12:61:56'), false);
-        $this->assertEquals($Validator->isValid('25:34:56'), false);
-        $this->assertEquals($Validator->isValid('12.34.56'), false);
+        $this->assertEquals(true, $Validator->isValid('12:34:56'));
+        $this->assertEquals(false, $Validator->isValid('12:34:61'));
+        $this->assertEquals(false, $Validator->isValid('12:61:56'));
+        $this->assertEquals(false, $Validator->isValid('25:34:56'));
+        $this->assertEquals(false, $Validator->isValid('12.34.56'));
 
-        $this->assertEquals($Validator->isValid('test'), false);
-        $this->assertEquals($Validator->isValid(123), false);
-        $this->assertEquals($Validator->isValid(false), false);
+        $this->assertEquals(false, $Validator->isValid('test'));
+        $this->assertEquals(false, $Validator->isValid(123));
+        $this->assertEquals(false, $Validator->isValid(false));
     }
 
     public function testDefaultDateTimeFormat()
     {
         $Validator = new DateTimeValidator(['type' => 'datetime']);
 
-        $this->assertEquals($Validator->isValid('2021-07-03 12:34:56'), true);
-        $this->assertEquals($Validator->isValid('2021-07-03 12:34:61'), false);
-        $this->assertEquals($Validator->isValid('2021-07-03 12:61:56'), false);
-        $this->assertEquals($Validator->isValid('2021-07-03 25:34:56'), false);
+        $this->assertEquals(true, $Validator->isValid('2021-07-03 12:34:56'));
+        $this->assertEquals(false, $Validator->isValid('2021-07-03 12:34:61'));
+        $this->assertEquals(false, $Validator->isValid('2021-07-03 12:61:56'));
+        $this->assertEquals(false, $Validator->isValid('2021-07-03 25:34:56'));
 
-        $this->assertEquals($Validator->isValid('2021-07-03 12:34:56'), true);
-        $this->assertEquals($Validator->isValid('2021-07-32 12:34:56'), false);
-        $this->assertEquals($Validator->isValid('2021-99-03 12:34:56'), false);
-        $this->assertEquals($Validator->isValid('10000-07-03 12:34:56'), false);
+        $this->assertEquals(true, $Validator->isValid('2021-07-03 12:34:56'));
+        $this->assertEquals(false, $Validator->isValid('2021-07-32 12:34:56'));
+        $this->assertEquals(false, $Validator->isValid('2021-99-03 12:34:56'));
+        $this->assertEquals(false, $Validator->isValid('10000-07-03 12:34:56'));
 
-        $this->assertEquals($Validator->isValid('07.03.2021 12:34:56'), false);
-        $this->assertEquals($Validator->isValid('2021-07-03 12.34.56'), false);
-        $this->assertEquals($Validator->isValid('2021-07-0312:34:56'), false);
+        $this->assertEquals(false, $Validator->isValid('07.03.2021 12:34:56'));
+        $this->assertEquals(false, $Validator->isValid('2021-07-03 12.34.56'));
+        $this->assertEquals(false, $Validator->isValid('2021-07-0312:34:56'));
 
-        $this->assertEquals($Validator->isValid('test'), false);
-        $this->assertEquals($Validator->isValid(123), false);
-        $this->assertEquals($Validator->isValid(false), false);
+        $this->assertEquals(false, $Validator->isValid('test'));
+        $this->assertEquals(false, $Validator->isValid(123));
+        $this->assertEquals(false, $Validator->isValid(false));
     }
 
     public function testCustomFormats()
     {
         $Validator = new DateTimeValidator(['format' => 'd.m.Y']);
-        $this->assertEquals($Validator->isValid('07.03.2021'), true);
-        $this->assertEquals($Validator->isValid('32.03.2021'), false);
-        $this->assertEquals($Validator->isValid('07.13.2021'), false);
-        $this->assertEquals($Validator->isValid('07.03.10000'), false);
-        $this->assertEquals($Validator->isValid('2021-07-03'), false);
+        $this->assertEquals(true, $Validator->isValid('07.03.2021'));
+        $this->assertEquals(false, $Validator->isValid('32.03.2021'));
+        $this->assertEquals(false, $Validator->isValid('07.13.2021'));
+        $this->assertEquals(false, $Validator->isValid('07.03.10000'));
+        $this->assertEquals(false, $Validator->isValid('2021-07-03'));
     }
 }

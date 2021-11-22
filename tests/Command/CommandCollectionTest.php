@@ -9,46 +9,64 @@
  * @link        https://avolutions.org
  */
 
+namespace Avolutions\Test\Command;
+
 use PHPUnit\Framework\TestCase;
 
 use Avolutions\Command\CommandCollection;
+use Avolutions\Command\CreateCollectionCommand;
+use Avolutions\Command\CreateCommandCommand;
+use Avolutions\Command\CreateControllerCommand;
+use Avolutions\Command\CreateEventCommand;
+use Avolutions\Command\CreateListenerCommand;
+use Avolutions\Command\CreateMappingCommand;
+use Avolutions\Command\CreateMigrationCommand;
+use Avolutions\Command\CreateModelCommand;
+use Avolutions\Command\CreateValidatorCommand;
+use Avolutions\Command\DatabaseMigrateCommand;
+use Avolutions\Command\DatabaseStatusCommand;
+use Avolutions\Command\RegisterListenerCommand;
+use Avolutions\Core\Application;
 
 class CommandCollectionTest extends TestCase
 {
+    private CommandCollection $CommandCollection;
+
+    public function setUp(): void
+    {
+        $Application = new Application(__DIR__);
+        $this->CommandCollection = new CommandCollection($Application);
+    }
+
     public function testCount()
     {
-        $CommandCollection = new CommandCollection();
-
-        $this->assertEquals(11, $CommandCollection->count());
+        $this->assertEquals(12, $this->CommandCollection->count());
     }
 
     public function testGetAll()
     {
-        $CommandCollection = new CommandCollection();
-
         $commands = [
-            'create-command' => 'Avolutions\Command\CreateCommandCommand',
-            'create-controller' => 'Avolutions\Command\CreateControllerCommand',
-            'create-event' => 'Avolutions\Command\CreateEventCommand',
-            'create-listener' => 'Avolutions\Command\CreateListenerCommand',
-            'create-mapping' => 'Avolutions\Command\CreateMappingCommand',
-            'create-migration' => 'Avolutions\Command\CreateMigrationCommand',
-            'create-model' => 'Avolutions\Command\CreateModelCommand',
-            'create-validator' => 'Avolutions\Command\CreateValidatorCommand',
-            'database-migrate' => 'Avolutions\Command\DatabaseMigrateCommand',
-            'database-status' => 'Avolutions\Command\DatabaseStatusCommand',
-            'register-listener' => 'Avolutions\Command\RegisterListenerCommand'
+            'create-collection' => CreateCollectionCommand::class,
+            'create-command' => CreateCommandCommand::class,
+            'create-controller' => CreateControllerCommand::class,
+            'create-event' => CreateEventCommand::class,
+            'create-listener' => CreateListenerCommand::class,
+            'create-mapping' => CreateMappingCommand::class,
+            'create-migration' => CreateMigrationCommand::class,
+            'create-model' => CreateModelCommand::class,
+            'create-validator' => CreateValidatorCommand::class,
+            'database-migrate' => DatabaseMigrateCommand::class,
+            'database-status' => DatabaseStatusCommand::class,
+            'register-listener' => RegisterListenerCommand::class
         ];
 
-        $this->assertEquals($commands, $CommandCollection->getAll());
+        $this->assertEquals($commands, $this->CommandCollection->getAll());
     }
 
     public function testGetByName()
     {
-        $CommandCollection = new CommandCollection();
-
-        $this->assertEquals('Avolutions\Command\CreateCommandCommand', $CommandCollection->getByName('create-command'));
-        $this->assertEquals('Avolutions\Command\CreateCommandCommand', $CommandCollection->getByName('CREATE-COMMAND'));
-        $this->assertEquals(null,$CommandCollection->getByName('unknown'));
+        $this->assertEquals(CreateCommandCommand::class, $this->CommandCollection->getByName('create-command'));
+        $this->assertEquals(CreateCommandCommand::class, $this->CommandCollection->getByName('CREATE-COMMAND'));
+        $this->assertEquals(null, $this->CommandCollection->getByName('unknown'));
     }
 }

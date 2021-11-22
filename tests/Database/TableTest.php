@@ -9,9 +9,11 @@
  * @link        https://avolutions.org
  */
 
+namespace Avolutions\Test\Database;
+
 use PHPUnit\Framework\TestCase;
 
-use Avolutions\Config\Config;
+use Avolutions\Core\Application;
 use Avolutions\Database\Column;
 use Avolutions\Database\ColumnType;
 use Avolutions\Database\Database;
@@ -19,16 +21,19 @@ use Avolutions\Database\Table;
 
 class TableTest extends TestCase
 {
-    public function setUp() : void
-    {
-        $Config = Config::getInstance();
-        $Config->initialize();
+    private Database $Database;
 
-        $Database = new Database();
+    private Table $Table;
+
+    protected function setUp(): void
+    {
+        new Application(__DIR__);
+        $this->Database = application(Database::class);
+        $this->Table = new Table($this->Database, 'user');
 
         $query = 'DROP TABLE IF EXISTS `user`';
-        $stmt = $Database->prepare($query);
-		$stmt->execute();
+        $stmt = $this->Database->prepare($query);
+        $stmt->execute();
     }
 
     private function createUserTable()
@@ -37,7 +42,16 @@ class TableTest extends TestCase
         $columns[] = new Column('UserID', ColumnType::INT, 255, null, Column::NOT_NULL, true, true);
         $columns[] = new Column('Firstname', ColumnType::VARCHAR, 255);
         $columns[] = new Column('Lastname', ColumnType::VARCHAR, 255);
-        Table::create('user', $columns);
+        $this->Table->create($columns);
+    }
+
+    public function getUserTable(): array|false
+    {
+        $query = 'DESCRIBE user';
+        $stmt = $this->Database->prepare($query);
+        $stmt->execute();
+
+        return $stmt->fetchAll($this->Database::FETCH_ASSOC);
     }
 
     public function testTableCanBeCreated()
@@ -71,13 +85,7 @@ class TableTest extends TestCase
 
         $this->createUserTable();
 
-        $Database = new Database();
-
-        $query = 'DESCRIBE user';
-        $stmt = $Database->prepare($query);
-		$stmt->execute();
-
-        $rows = $stmt->fetchAll($Database::FETCH_ASSOC);
+        $rows = $this->getUserTable();
 
         $this->assertEquals($rows, $table);
     }
@@ -94,15 +102,9 @@ class TableTest extends TestCase
         ];
 
         $this->createUserTable();
-        Table::addColumn('user', new Column('NewColumn', ColumnType::VARCHAR, 255));
+        $this->Table->addColumn(new Column('NewColumn', ColumnType::VARCHAR, 255));
 
-        $Database = new Database();
-
-        $query = 'DESCRIBE user';
-        $stmt = $Database->prepare($query);
-		$stmt->execute();
-
-        $rows = $stmt->fetchAll($Database::FETCH_ASSOC);
+        $rows = $this->getUserTable();
 
         $this->assertEquals($rows[3], $column);
     }
@@ -119,15 +121,9 @@ class TableTest extends TestCase
         ];
 
         $this->createUserTable();
-        Table::addColumn('user', new Column('NewColumnAtPosition', ColumnType::VARCHAR, 255), 'Firstname');
+        $this->Table->addColumn(new Column('NewColumnAtPosition', ColumnType::VARCHAR, 255), 'Firstname');
 
-        $Database = new Database();
-
-        $query = 'DESCRIBE user';
-        $stmt = $Database->prepare($query);
-		$stmt->execute();
-
-        $rows = $stmt->fetchAll($Database::FETCH_ASSOC);
+        $rows = $this->getUserTable();
 
         $this->assertEquals($rows[2], $column);
     }
@@ -135,17 +131,11 @@ class TableTest extends TestCase
     public function testColumnCanBeRemovedFromTable()
     {
         $this->createUserTable();
-        Table::removeColumn('user', 'Firstname');
+        $this->Table->removeColumn('Firstname');
 
-        $Database = new Database();
+        $rows = $this->getUserTable();
 
-        $query = 'DESCRIBE user';
-        $stmt = $Database->prepare($query);
-		$stmt->execute();
-
-        $rows = $stmt->fetchAll($Database::FETCH_ASSOC);
-
-        $this->assertEquals(count($rows), 2);
+        $this->assertCount(2, $rows);
     }
 
     public function testIndexCanBeAddedToTable()
@@ -160,15 +150,9 @@ class TableTest extends TestCase
         ];
 
         $this->createUserTable();
-        Table::addIndex('user', Table::UNIQUE, ['Firstname']);
+        $this->Table->addIndex(Table::UNIQUE, ['Firstname']);
 
-        $Database = new Database();
-
-        $query = 'DESCRIBE user';
-        $stmt = $Database->prepare($query);
-		$stmt->execute();
-
-        $rows = $stmt->fetchAll($Database::FETCH_ASSOC);
+        $rows = $this->getUserTable();
 
         $this->assertEquals($rows[1], $column);
     }
@@ -176,23 +160,28 @@ class TableTest extends TestCase
     public function testForeignKeyConstraintCanBeAdded()
     {
         $this->createUserTable();
-        Table::addIndex('user', Table::INDEX, ['Firstname']);
-        Table::addForeignKeyConstraint('user', 'Lastname', 'user', 'Firstname', Table::RESTRICT, Table::RESTRICT, 'fk_constraint');
-
-        $Database = new Database();
+        $this->Table->addIndex(Table::INDEX, ['Firstname']);
+        $this->Table->addForeignKeyConstraint(
+            'Lastname',
+            'user',
+            'Firstname',
+            Table::RESTRICT,
+            Table::RESTRICT,
+            'fk_constraint'
+        );
 
         $query = 'SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_SCHEMA = \'avolutions\' AND REFERENCED_TABLE_NAME = \'user\'';
-        $stmt = $Database->prepare($query);
-		$stmt->execute();
+        $stmt = $this->Database->prepare($query);
+        $stmt->execute();
 
-        $row = $stmt->fetch($Database::FETCH_ASSOC);
+        $row = $stmt->fetch($this->Database::FETCH_ASSOC);
 
-        $this->assertEquals($row['CONSTRAINT_NAME'], 'fk_constraint');
-        $this->assertEquals($row['TABLE_SCHEMA'], 'avolutions');
-        $this->assertEquals($row['TABLE_NAME'], 'user');
-        $this->assertEquals($row['COLUMN_NAME'], 'Lastname');
-        $this->assertEquals($row['REFERENCED_TABLE_SCHEMA'], 'avolutions');
-        $this->assertEquals($row['REFERENCED_TABLE_NAME'], 'user');
-        $this->assertEquals($row['REFERENCED_COLUMN_NAME'], 'Firstname');
+        $this->assertEquals('fk_constraint', $row['CONSTRAINT_NAME']);
+        $this->assertEquals('avolutions', $row['TABLE_SCHEMA']);
+        $this->assertEquals('user', $row['TABLE_NAME']);
+        $this->assertEquals('Lastname', $row['COLUMN_NAME']);
+        $this->assertEquals('avolutions', $row['REFERENCED_TABLE_SCHEMA']);
+        $this->assertEquals('user', $row['REFERENCED_TABLE_NAME']);
+        $this->assertEquals('Firstname', $row['REFERENCED_COLUMN_NAME']);
     }
 }
