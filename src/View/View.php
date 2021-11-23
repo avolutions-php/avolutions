@@ -89,15 +89,25 @@ class View
     private function getFilename(?string $filename = null): string
     {
         if ($filename == null) {
-            $debugBacktrace = debug_backtrace()[2];
+            $debugBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
-            $controller = explode('\\', $debugBacktrace['class']);
-            $controller = str_ireplace('Controller', '', end($controller));
+            // find Controller and Action in debug backtrace
+            $caller = array_filter($debugBacktrace, function ($item) {
+                return
+                    str_ends_with($item['function'], 'Action')
+                    && str_ends_with($item['class'], 'Controller');
+            });
+            $caller = array_shift($caller);
 
-            $action = $debugBacktrace['function'];
-            $action = str_ireplace('Action', '', $action);
+            if (!empty($caller)) {
+                $controller = explode('\\', $caller['class']);
+                $controller = strtolower(str_ireplace('Controller', '', end($controller)));
 
-            $filename = $controller . DIRECTORY_SEPARATOR . $action;
+                $action = $caller['function'];
+                $action = strtolower(str_ireplace('Action', '', $action));
+
+                $filename = $controller . DIRECTORY_SEPARATOR . $action;
+            }
         }
 
         return $this->Application->getViewPath() . $filename . '.php';
