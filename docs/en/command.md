@@ -114,7 +114,7 @@ The `src/Command/templates/entityCollection.tpl` template is used.
 ```
 
 #### Arguments
-* `name`: The name of the Entity file without "Collection" suffix..
+* `name`: The name of the Entity file without "Collection" suffix.
 
 #### Options
 * `-f`, `--force`: EntityCollection will be overwritten if it already exists.

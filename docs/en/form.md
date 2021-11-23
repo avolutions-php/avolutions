@@ -16,7 +16,7 @@ With the help of the *Form* class, forms can be easily created manually or gener
 ## The manual way
 
 There are several methods in the *Form* class to create forms very easy and fast.
-A HTML form consists of an opening *<form>* tag, one or multiple input controls and a closing *</form>* tag.
+An HTML form consists of an opening *<form>* tag, one or multiple input controls and a closing *</form>* tag.
 
 ### A simple form
 All these elements can be created with the help of the Form class, see the following example:
@@ -41,7 +41,7 @@ A very simple but working form. A list with all input types can be found further
 
 ### Configure a form
 
-In most cases, the HTML elements of an form needs to have attributes. Therefore nearly every *Form* method accepts an array of attributes (keys) and values (value):
+In most cases, the HTML elements of a form needs to have attributes. Therefore, nearly every *Form* method accepts an array of attributes (keys) and values (value):
 ```php
 use Avolutions\View\Form;
 
@@ -150,7 +150,7 @@ This will lead to the following output:
   <input name="user[id]" type="hidden" />
   <label>firstname</label><input name="user[firstname]" type="text" />
   <label>lastname</label><input name="user[lastname]" type="text" />
-  <label>hoobies</label><textarea name="user[lastname]"></textarea>
+  <label>hobbies</label><textarea name="user[hobbies]"></textarea>
   <label>Choose gender</label>
   <select name="user[genderID]">
     <option value="1">male</option>

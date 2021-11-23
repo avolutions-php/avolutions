@@ -69,28 +69,29 @@ In this example the `handleEvent` method of the class `Application\Listener\Test
 The Easiest way to register a `Listener` for an `Events` is to use the [`register-listener` command](command.md#register-listener), or use the Option `-r` on `create-listener` or `create-event` command.
 
 ## Dispatch an Event
-To dispatch/raise an Event the EventDispatcher is used. You only need to create the Event and pass it to the *dispatch()* method:
+To dispatch/raise an event the `EventDispatcher` is used. You only need to create an instance of your `Event` and pass it to the `dispatch()` method:
 ```php
-$event = new TestEvent();
-EventDispatcher::dispatch($event);
+$Event = new TestEvent();
+$EventDispatcher->dispatch($Event);
 ```
+
 ## Application Events
 
-There are several *built in* Events.
+There are several `built in` Events.
 
 ### EntityEvents
 EntityEvents are automatically raised by the ORM module. There are the following events:
 
 EntityEvent | Description | Parameters
 --- | --- | ---
-BeforeSave | This event is raised every time the *save()* method of an Entity is called. The Event is raised before the Entity is saved to the database. | $Entity - The saved Entity
- AfterSave | This event is raised every time the *save()* method of an Entity is called. The Event is raised after the Entity is saved to the database. | $Entity - The saved Entity.
-BeforeUpdate | This event is raised every time the *save()* method of a existing Entity is called. The Event is raised before the Entity is saved to the database. | $Entity - The saved Entity. $EntityBeforeChange - The Entity before it was changed.
-AfterUpdate | This event is raised every time the *save()* method of a existing Entity is called. The Event is raised after the Entity is saved to the database. | $Entity - The saved Entity. $EntityBeforeChange - The Entity before it was changed.
-BeforeInsert | This event is raised every time the *save()* method of a new Entity is called. The Event is raised before the Entity is saved to the database. | $Entity - The saved Entity.
-AfterInsert | This event is raised every time the *save()* method of a new Entity is called. The Event is raised after the Entity is saved to the database. | $Entity - The saved Entity.
-BeforeDelete | This event is raised every time the *delete()* method of an Entity is called. The Event is raised before the Entity is deleted from the database. | $Entity - The deleted Entity.
- AfterDelete | This event is raised every time the *delete()* method of an Entity is called. The Event is raised after the Entity is deleted from the database. | $Entity - The saved Entity.
+BeforeSave | This event is raised every time the `save()` method of an Entity is called. The Event is raised before the Entity is saved to the database. | $Entity - The saved Entity
+ AfterSave | This event is raised every time the `save()` method of an Entity is called. The Event is raised after the Entity is saved to the database. | $Entity - The saved Entity.
+BeforeUpdate | This event is raised every time the `save()` method of a existing Entity is called. The Event is raised before the Entity is saved to the database. | $Entity - The saved Entity. $EntityBeforeChange - The Entity before it was changed.
+AfterUpdate | This event is raised every time the `save()` method of a existing Entity is called. The Event is raised after the Entity is saved to the database. | $Entity - The saved Entity. $EntityBeforeChange - The Entity before it was changed.
+BeforeInsert | This event is raised every time the `save()` method of a new Entity is called. The Event is raised before the Entity is saved to the database. | $Entity - The saved Entity.
+AfterInsert | This event is raised every time the `save()` method of a new Entity is called. The Event is raised after the Entity is saved to the database. | $Entity - The saved Entity.
+BeforeDelete | This event is raised every time the `delete()` method of an Entity is called. The Event is raised before the Entity is deleted from the database. | $Entity - The deleted Entity.
+ AfterDelete | This event is raised every time the `delete()` method of an Entity is called. The Event is raised after the Entity is deleted from the database. | $Entity - The saved Entity.
 
 To handle EntityEvents it is just needed to create a Listener following naming conventions. The Listener class has to use the same name as the Entity followed by the string 'Listener'.
 The methods to handle the EntityEvents needs to be named like the Event with the prefix 'handle'. For example if we want to handle the 'BeforeSave' Event of the Entity 'User', the Listener has to look like this:
