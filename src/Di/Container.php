@@ -236,12 +236,14 @@ class Container extends AbstractSingleton implements ContainerInterface
             if ($parameterClassName !== null) {
                 $parameters[$parameter->getName()] = $this->resolveEntry($parameterClassName);
             } else {
-                throw new ContainerException(
-                    interpolate(
-                        "Parameter {0} of class {1} is either a builtin type or not typed and can therefore not be resolved.",
-                        [$parameterName, $id]
-                    )
-                );
+                if (!$parameter->isDefaultValueAvailable()) {
+                    throw new ContainerException(
+                        interpolate(
+                            "Parameter {0} of class {1} is either a builtin type or not typed and can therefore not be resolved.",
+                            [$parameterName, $id]
+                        )
+                    );
+                }
             }
         }
 
