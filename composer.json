@@ -28,7 +28,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Avolutions\\Test\\": "tests/"
+            "Avolutions\\Test\\": "tests/",
+            "TestApplication\\": "tests/TestApplication/"
         }
     },
     "license": "MIT",
