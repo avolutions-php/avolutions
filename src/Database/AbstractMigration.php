@@ -12,7 +12,7 @@
 namespace Avolutions\Database;
 
 use Avolutions\Core\Application;
-use Avolutions\Di\ContainerException;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 /**
@@ -60,8 +60,8 @@ abstract class AbstractMigration implements MigrationInterface
      *
      * @return Table A Table object.
      *
-     * @throws ContainerException
      * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
      */
     public function table(string $name): Table
     {

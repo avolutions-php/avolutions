@@ -12,9 +12,9 @@
 namespace Avolutions\Validation;
 
 use Avolutions\Core\Application;
-use Avolutions\Di\ContainerException;
 use Avolutions\Orm\Entity;
 use Avolutions\Orm\EntityCollection;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 /**
@@ -63,8 +63,8 @@ class UniqueValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      *
-     * @throws ContainerException
      * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
      */
     public function isValid(mixed $value): bool
     {

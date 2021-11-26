@@ -45,50 +45,50 @@ class FormatValidatorTest extends TestCase
     {
         $Validator = new FormatValidator(['format' => 'ip']);
 
-        $this->assertEquals($Validator->isValid($this->validIp4), true);
-        $this->assertEquals($Validator->isValid($this->invalidIp4), false);
-        $this->assertEquals($Validator->isValid($this->validIp6), true);
-        $this->assertEquals($Validator->isValid($this->invalidIp6), false);
+        $this->assertEquals(true, $Validator->isValid($this->validIp4));
+        $this->assertEquals(false, $Validator->isValid($this->invalidIp4));
+        $this->assertEquals(true, $Validator->isValid($this->validIp6));
+        $this->assertEquals(false, $Validator->isValid($this->invalidIp6));
     }
 
     public function testIp4IsValid()
     {
         $Validator = new FormatValidator(['format' => 'ip4']);
 
-        $this->assertEquals($Validator->isValid($this->validIp4), true);
-        $this->assertEquals($Validator->isValid($this->invalidIp4), false);
-        $this->assertEquals($Validator->isValid($this->validIp6), false);
-        $this->assertEquals($Validator->isValid($this->invalidIp6), false);
+        $this->assertEquals(true, $Validator->isValid($this->validIp4));
+        $this->assertEquals(false, $Validator->isValid($this->invalidIp4));
+        $this->assertEquals(false, $Validator->isValid($this->validIp6));
+        $this->assertEquals(false, $Validator->isValid($this->invalidIp6));
     }
 
     public function testIp6IsValid()
     {
         $Validator = new FormatValidator(['format' => 'ip6']);
 
-        $this->assertEquals($Validator->isValid($this->validIp4), false);
-        $this->assertEquals($Validator->isValid($this->invalidIp4), false);
-        $this->assertEquals($Validator->isValid($this->validIp6), true);
-        $this->assertEquals($Validator->isValid($this->invalidIp6), false);
+        $this->assertEquals(false, $Validator->isValid($this->validIp4));
+        $this->assertEquals(false, $Validator->isValid($this->invalidIp4));
+        $this->assertEquals(true, $Validator->isValid($this->validIp6));
+        $this->assertEquals(false, $Validator->isValid($this->invalidIp6));
     }
 
     public function testMailIsValid()
     {
         $Validator = new FormatValidator(['format' => 'mail']);
 
-        $this->assertEquals($Validator->isValid('alexander.vogt@avolutions.org'), true);
-        $this->assertEquals($Validator->isValid('alexander.vogt@avolutionsorg'), false);
-        $this->assertEquals($Validator->isValid('alexander.vogtavolutions.org'), false);
-        $this->assertEquals($Validator->isValid('@avolutions.org'), false);
+        $this->assertEquals(true, $Validator->isValid('alexander.vogt@avolutions.org'));
+        $this->assertEquals(false, $Validator->isValid('alexander.vogt@avolutionsorg'));
+        $this->assertEquals(false, $Validator->isValid('alexander.vogtavolutions.org'));
+        $this->assertEquals(false, $Validator->isValid('@avolutions.org'));
     }
 
     public function testUrlIsValid()
     {
         $Validator = new FormatValidator(['format' => 'url']);
 
-        $this->assertEquals($Validator->isValid('https://avolutions.org'), true);
-        $this->assertEquals($Validator->isValid('https://avolutionsorg'), true);
-        $this->assertEquals($Validator->isValid('http:/avolutions.org'), false);
-        $this->assertEquals($Validator->isValid('avolutions.org'), false);
+        $this->assertEquals(true, $Validator->isValid('https://avolutions.org'));
+        $this->assertEquals(true, $Validator->isValid('https://avolutionsorg'));
+        $this->assertEquals(false, $Validator->isValid('http:/avolutions.org'));
+        $this->assertEquals(false, $Validator->isValid('avolutions.org'));
     }
 
     public function testJsonIsValid()
@@ -119,7 +119,7 @@ class FormatValidatorTest extends TestCase
 
         $Validator = new FormatValidator(['format' => 'json']);
 
-        $this->assertEquals($Validator->isValid($validJson), true);
-        $this->assertEquals($Validator->isValid($invalidJson), false);
+        $this->assertEquals(true, $Validator->isValid($validJson));
+        $this->assertEquals(false, $Validator->isValid($invalidJson));
     }
 }

@@ -15,10 +15,9 @@ use Avolutions\Collection\CollectionInterface;
 use Avolutions\Collection\CollectionTrait;
 use Avolutions\Core\Application;
 use Avolutions\Database\Database;
-use Avolutions\Di\ContainerException;
 use Avolutions\Logging\Logger;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use ReflectionException;
 
 /**
  * EntityCollection class
@@ -105,9 +104,10 @@ class EntityCollection implements CollectionInterface
      * @param Application $Application Application instance.
      * @param Database $Database Database instance.
      * @param Logger $Logger Logger instance.
+     * @param string|null $entity
      *
-     * @throws ContainerException
      * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
      */
     public function __construct(Application $Application, Database $Database, Logger $Logger, ?string $entity = null)
     {
@@ -133,9 +133,8 @@ class EntityCollection implements CollectionInterface
      *
      * @return int The number of items in the Collection.
      *
-     * @throws ContainerException
+     * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     * @throws ReflectionException
      */
     public function count(): int
     {
@@ -150,9 +149,8 @@ class EntityCollection implements CollectionInterface
      * Executes the previously created database query and loads the Entities from
      * the database to the Entities property.
      *
-     * @throws ContainerException
      * @throws NotFoundExceptionInterface
-     * @throws ReflectionException
+     * @throws ContainerExceptionInterface
      */
     private function execute()
     {
@@ -220,9 +218,8 @@ class EntityCollection implements CollectionInterface
      *
      * @return array All previously loaded Entities.
      *
-     * @throws ContainerException
+     * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     * @throws ReflectionException
      */
     public function getAll(): array
     {
@@ -240,9 +237,8 @@ class EntityCollection implements CollectionInterface
      *
      * @return Entity The matching Entity for the given id.
      *
-     * @throws ContainerException
+     * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     * @throws ReflectionException
      */
     public function getById(int $id): Entity
     {
@@ -259,9 +255,8 @@ class EntityCollection implements CollectionInterface
      *
      * @return Entity|null The first Entity of the EntityCollection.
      *
-     * @throws ContainerException
+     * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     * @throws ReflectionException
      */
     public function getFirst(): ?Entity
     {
@@ -277,8 +272,8 @@ class EntityCollection implements CollectionInterface
      *
      * @return string The join statement
      *
-     * @throws ContainerException
      * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
      */
     private function getJoinStatement(): string
     {
@@ -315,9 +310,8 @@ class EntityCollection implements CollectionInterface
      *
      * @return Entity The last Entity of the EntityCollection.
      *
-     * @throws ContainerException
+     * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     * @throws ReflectionException
      */
     public function getLast(): Entity
     {
