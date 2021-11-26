@@ -172,4 +172,19 @@ class ApplicationTest extends TestCase
         $this->assertEquals($namespaces['model'], $Application->getModelNamespace());
         $this->assertEquals($namespaces['validator'], $Application->getValidatorNamespace());
     }
+
+    public function testApplicationHelper()
+    {
+        $Application = new Application(__DIR__);
+        $ApplicationFromHelper = application();
+        $this->assertEquals($Application, $ApplicationFromHelper);
+
+        $TestClass = application(TestStub::class);
+        $this->assertInstanceOf(TestStub::class, $TestClass);
+    }
+}
+
+class TestStub
+{
+
 }
