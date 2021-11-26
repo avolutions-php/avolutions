@@ -76,7 +76,7 @@ class Container extends AbstractSingleton implements ContainerInterface
         try {
             $ReflectionClass = new ReflectionClass($id);
         } catch (Exception) {
-            throw new ContainerException(interpolate("No entry was found for '{0}'.", [$id]));
+            throw new NotFoundException(interpolate("No entry was found for '{0}'.", [$id]));
         }
         $Constructor = $ReflectionClass->getConstructor();
 
