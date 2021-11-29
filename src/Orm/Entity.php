@@ -217,7 +217,7 @@ class Entity
     /**
      * insert
      *
-     * Inserts the Entity object into the database.
+     * Inserts the Entity object into the database and set the ID.
      */
     private function insert()
     {
@@ -292,7 +292,7 @@ class Entity
      * @param string $query The query string that will be executed.
      * @param array $values The values for the query.
      *
-     * @return string TODO
+     * @return string ID of the last inserted row.
      */
     private function execute(string $query, array $values): string
     {
@@ -326,7 +326,7 @@ class Entity
      *
      * @return bool Returns true if all validations passed or false if not.
      *
-     * @throws ContainerException
+     * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     public function validate(): bool

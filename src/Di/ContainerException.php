@@ -17,7 +17,7 @@ use Psr\Container\ContainerExceptionInterface;
 /**
  * NotFoundException class
  *
- * TODO
+ * Generic base exception in a container.
  *
  * @author  Alexander Vogt <alexander.vogt@avolutions.org>
  * @since   0.9.0

@@ -23,7 +23,7 @@ use ReflectionParameter;
 /**
  * Container class
  *
- * TODO
+ * Dependency Injection Container
  *
  * @author  Alexander Vogt <alexander.vogt@avolutions.org>
  * @since   0.9.0
@@ -31,28 +31,28 @@ use ReflectionParameter;
 class Container extends AbstractSingleton implements ContainerInterface
 {
     /**
-     * TODO
+     * Array to store resolved entries.
      *
      * @var array $resolvedEntries
      */
     protected array $resolvedEntries = [];
 
     /**
-     * TODO
+     * Array of parameters to resolve constructors with.
      *
      * @var array $parameters
      */
     private array $parameters = [];
 
     /**
-     * TODO
+     * To detect circular dependencies.
      *
      * @var array $currentlyResolvedEntries
      */
     private array $currentlyResolvedEntries = [];
 
     /**
-     * TODO
+     * Array to store/resolve aliases and interfaces.
      *
      * @var array $aliases
      */
@@ -61,17 +61,17 @@ class Container extends AbstractSingleton implements ContainerInterface
     /**
      * buildEntry
      *
-     * TODO
+     * Resolve all parameters and creates a new instance for the given entry.
      *
-     * @param string $id TODO
-     * @param array $parameters TODO
+     * @param string $id Identifier of the entry to look for.
+     * @param array $parameters Array of parameters to resolve entry with.
      *
-     * @return mixed TODO
+     * @return mixed Instance of the resolved entry.
      *
      * @throws NotFoundExceptionInterface
-     * @throws ContainerException
+     * @throws ContainerExceptionInterface
      */
-    public function buildEntry(string $id, array $parameters): mixed
+    private function buildEntry(string $id, array $parameters = []): mixed
     {
         try {
             $ReflectionClass = new ReflectionClass($id);
@@ -90,14 +90,18 @@ class Container extends AbstractSingleton implements ContainerInterface
     }
 
     /**
+     * get
+     *
      * Finds an entry of the container by its identifier and returns it.
      *
      * @param string $id Identifier of the entry to look for.
      *
-     * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
-     * @throws ContainerExceptionInterface Error while retrieving the entry.
+     * @return mixed Instance of the resolved entry.
+     *
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
      */
-    public function get(string $id)
+    public function get(string $id): mixed
     {
         return $this->resolveEntry($id);
     }
@@ -121,15 +125,16 @@ class Container extends AbstractSingleton implements ContainerInterface
     /**
      * make
      *
-     * TODO
+     * Works like get(), but resolve the entry every time (create new instance).
+     * Also, parameters can be passed to the constructor.
      *
-     * @param string $id TODO
-     * @param array $parameters TODO
+     * @param string $id Identifier of the entry to look for.
+     * @param array $parameters Array of parameters to pass to constructor, where key is name of parameter
      *
-     * @return mixed TODO
+     * @return mixed Instance of the resolved entry.
      *
-     * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
-     * @throws ContainerException
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
      */
     public function make(string $id, array $parameters = []): mixed
     {
@@ -139,17 +144,17 @@ class Container extends AbstractSingleton implements ContainerInterface
     /**
      * resolveEntry
      *
-     * TODO
+     * Resolve an entry with the given paramters.
      *
-     * @param mixed $id TODO
-     * @param array $parameters TODO
+     * @param mixed $id Identifier of the entry to look for.
+     * @param array $parameters Array of parameters to resolve entry with.
      *
-     * @return mixed TODO
+     * @return mixed The resolved entry.
      *
-     * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
-     * @throws ContainerException TODO
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
      */
-    public function resolveEntry(mixed $id, array $parameters = []): mixed
+    private function resolveEntry(mixed $id, array $parameters = []): mixed
     {
         if ($this->isAlias($id)) {
             $id = $this->resolveAlias($id);
@@ -176,13 +181,13 @@ class Container extends AbstractSingleton implements ContainerInterface
     /**
      * resolveAlias
      *
-     * TODO
+     * Load the alias for the given entry.
      *
-     * @param string $id TODO
+     * @param string $id Identifier of the entry to look for.
      *
-     * @return string TODO
+     * @return mixed Alias for the given entry.
      */
-    protected function resolveAlias(string $id): string
+    private function resolveAlias(string $id): mixed
     {
         return $this->aliases[$id];
     }
@@ -190,13 +195,13 @@ class Container extends AbstractSingleton implements ContainerInterface
     /**
      * isAlias
      *
-     * TODO
+     * Checks if an alias definition for entry exists.
      *
-     * @param string $id TODO
+     * @param string $id Identifier of the entry to look for.
      *
-     * @return bool TODO
+     * @return bool Weather an alias definition exists (true) or not (false).
      */
-    protected function isAlias(string $id): bool
+    private function isAlias(string $id): bool
     {
         return isset($this->aliases[$id]);
     }
@@ -204,18 +209,18 @@ class Container extends AbstractSingleton implements ContainerInterface
     /**
      * resolveParameters
      *
-     * TODO
+     * Resolve parameters of the given constructor.
      *
-     * @param string $id TODO
-     * @param ReflectionMethod $Constructor TODO
-     * @param array $parameters TODO
+     * @param string $id Identifier of the entry to look for.
+     * @param ReflectionMethod $Constructor Constructor to resolve.
+     * @param array $parameters Array of default values for parameters.
      *
-     * @return array TODO
+     * @return array Array of resolved parameters.
      *
-     * @throws NotFoundExceptionInterface No entry was found for **this** identifier.
-     * @throws ContainerException TODO
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function resolveParameters(string $id, ReflectionMethod $Constructor, array $parameters = []): array
+    private function resolveParameters(string $id, ReflectionMethod $Constructor, array $parameters = []): array
     {
         foreach ($Constructor->getParameters() as $parameter) {
             $parameterName = $parameter->name;
@@ -236,6 +241,7 @@ class Container extends AbstractSingleton implements ContainerInterface
             if ($parameterClassName !== null) {
                 $parameters[$parameter->getName()] = $this->resolveEntry($parameterClassName);
             } else {
+                // If parameter has no default value
                 if (!$parameter->isDefaultValueAvailable()) {
                     throw new ContainerException(
                         interpolate(
@@ -251,12 +257,12 @@ class Container extends AbstractSingleton implements ContainerInterface
     }
 
     /**
-     * setConstructorParams
+     * set
      *
-     * TODO
+     * Set parameter values and alias definitions.
      *
-     * @param string $name TODO
-     * @param mixed $value TODO
+     * @param string $name Name of the entry.
+     * @param mixed $value Alias value or array of parameter values.
      */
     public function set(string $name, mixed $value)
     {
@@ -270,13 +276,13 @@ class Container extends AbstractSingleton implements ContainerInterface
     /**
      * getParameterClassName
      *
-     * TODO
+     * Returns name of the parameter or null if parameter is a builtin type.
      *
-     * @param ReflectionParameter $parameter TODO
+     * @param ReflectionParameter $parameter An function parameter.
      *
-     * @return string|null TODO
+     * @return string|null Name of parameter or null if parameter is builtin type.
      */
-    public function getParameterClassName(ReflectionParameter $parameter): ?string
+    private function getParameterClassName(ReflectionParameter $parameter): ?string
     {
         $type = $parameter->getType();
 

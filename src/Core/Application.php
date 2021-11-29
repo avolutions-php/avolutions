@@ -109,9 +109,11 @@ class Application extends Container
     }
 
     /**
-     * TODO
+     * bootstrap
+     *
+     * Bootstraps the Application by setting Container objects.
      */
-    public function bootstrap()
+    private function bootstrap()
     {
         $this->set(
             Database::class,

@@ -17,7 +17,7 @@ use Psr\Container\NotFoundExceptionInterface;
 /**
  * NotFoundException class
  *
- * TODO
+ * No entry was found in the container.
  *
  * @author  Alexander Vogt <alexander.vogt@avolutions.org>
  * @since   0.9.0
