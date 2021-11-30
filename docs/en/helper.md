@@ -20,11 +20,12 @@ AVOLUTIONS provides a collection of global helper functions. These helpers are a
 ### application()
 
 If application helper is called without parameter it will return an `Application` instance.
-If you pass a parameter, the helper will try to get this instance from `Container`.
+If you pass an instance name, the helper will try to get this instance from `Container`.
+If you pass additionally an array, the application helper will make an new instance from `Container`;
 ```php
-$TestClass = application()->get(TestClass::class);
-// or short:
-$TestClass = application(TestClass::class);
+$Application = application();
+$TestClass = application(TestClass::class); // Container->get(TestClass::class);
+$TestClass = application(TestClass::class, ['id' => 4711]); // Container->make(TestClass::class, ['id' => 4711]);
 ```
 
 ### command()

@@ -21,16 +21,21 @@ use Avolutions\View\ViewModel;
 /**
  * application
  *
- * Loads an instance from Container or returns the Application instance itself if not instance name is passed.
+ * Loads an instance from Container or returns the Application instance itself if no instance name is passed.
  *
  * @param string|null $instance Name of the instance to load from Container.
+ * @param array|null $values Array of parameters to pass to constructor, where key is name of parameter.
  *
  * @return mixed The loaded instance from Container or the Application instance.
  */
 if (!function_exists('application')) {
-    function application(?string $instance = null): mixed
+    function application(?string $instance = null, ?array $values = null): mixed
     {
         if (!is_null($instance)) {
+            if (is_array($values)) {
+                return Application::getInstance()->make($instance, $values);
+            }
+
             return Application::getInstance()->get($instance);
         }
 

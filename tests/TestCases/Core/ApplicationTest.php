@@ -181,10 +181,24 @@ class ApplicationTest extends TestCase
 
         $TestClass = application(TestStub::class);
         $this->assertInstanceOf(TestStub::class, $TestClass);
+
+        $TestClassWithParameters = application(TestWithParameterStub::class, ['id' => 4711]);
+        $this->assertInstanceOf(TestWithParameterStub::class, $TestClassWithParameters);
+        $this->assertEquals(4711, $TestClassWithParameters->id);
     }
 }
 
 class TestStub
 {
 
+}
+
+class TestWithParameterStub
+{
+    public int $id;
+
+    public function __construct(int $id)
+    {
+        $this->id = $id;
+    }
 }
