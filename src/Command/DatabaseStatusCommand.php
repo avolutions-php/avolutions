@@ -16,7 +16,7 @@ use Avolutions\Console\ConsoleTable;
 use Avolutions\Core\Application;
 
 use Avolutions\Database\Migrator;
-use Exception;
+use Throwable;
 
 /**
  * DatabaseStatusCommand class
@@ -65,7 +65,7 @@ class DatabaseStatusCommand extends AbstractCommand
             $ConsoleTable->render();
 
             return ExitStatus::SUCCESS;
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->Console->writeLine(
                 interpolate('Error while retrieving executed migrations: {0} in {1}', [$e->getMessage(), $e->getTraceAsString()]),
                 'error'
