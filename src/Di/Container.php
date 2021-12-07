@@ -144,7 +144,7 @@ class Container extends AbstractSingleton implements ContainerInterface
     /**
      * resolveEntry
      *
-     * Resolve an entry with the given paramters.
+     * Resolve an entry with the given parameters.
      *
      * @param mixed $id Identifier of the entry to look for.
      * @param array $parameters Array of parameters to resolve entry with.
