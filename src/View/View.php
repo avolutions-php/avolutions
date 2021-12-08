@@ -37,7 +37,7 @@ class View
      *
      * @var string $view
      */
-    private string $view;
+    private string $view = '';
 
     /**
      * __construct
