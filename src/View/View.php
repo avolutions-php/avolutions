@@ -12,6 +12,7 @@
 namespace Avolutions\View;
 
 use Avolutions\Core\Application;
+use Exception;
 
 /**
  * View class
@@ -48,6 +49,8 @@ class View
      * @param Application $Application Application instance.
      * @param string|null $viewname The name of the View file.
      * @param ViewModel|null $ViewModel $ViewModel The ViewModel object that will be passed to the View.
+     *
+     * @throws Exception
      */
     public function __construct(Application $Application, ?string $viewname = null, ?ViewModel $ViewModel = null)
     {
@@ -56,6 +59,8 @@ class View
 
         if (is_file($filename)) {
             $this->view = $this->loadViewFile($filename, $ViewModel);
+        } else {
+            throw new Exception(interpolate('View file \'{0}\' not found', [$filename]));
         }
     }
 
