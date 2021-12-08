@@ -17,6 +17,7 @@ AVOLUTIONS is just another open source PHP framework.
 ## Features
 * [Routing](https://avolutions.org/guide/routing)
 * [MVC](https://avolutions.org/guide/view)
+* [Dependency Injection](https://avolutions.org/guide/container)
 * [ORM](https://avolutions.org/guide/model)
 * [Event handling](https://avolutions.org/guide/events)
 * [Cookies](https://avolutions.org/guide/cookie) & [Session](https://avolutions.org/guide/session)
