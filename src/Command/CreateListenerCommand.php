@@ -11,15 +11,13 @@
 
 namespace Avolutions\Command;
 
-use Avolutions\Core\Application;
-
 /**
  * CreateListenerCommand class
  *
  * Creates a new Listener.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class CreateListenerCommand extends AbstractCommand
 {
@@ -32,8 +30,16 @@ class CreateListenerCommand extends AbstractCommand
         $this->addArgumentDefinition(new Argument('name', 'The name of the Listener class without "Listener" suffix.'));
         $this->addOptionDefinition(new Option('force', 'f', 'Listener will be overwritten if it already exists.'));
         $this->addOptionDefinition(new Option('event', 'e', 'Automatically creates an Event for the Listener.'));
-        $this->addOptionDefinition(new Option('model', 'm', 'Indicates if Listener is for EntityEvent to use correct naming conventions.'));
-        $this->addOptionDefinition(new Option('register', 'r', 'Automatically register an Event for the Listener. Only works if Option "event" is set. Not needed if option "model" is set.'));
+        $this->addOptionDefinition(
+            new Option('model', 'm', 'Indicates if Listener is for EntityEvent to use correct naming conventions.')
+        );
+        $this->addOptionDefinition(
+            new Option(
+                'register',
+                'r',
+                'Automatically register an Event for the Listener. Only works if Option "event" is set. Not needed if option "model" is set.'
+            )
+        );
     }
 
     public function execute(): int
@@ -45,18 +51,21 @@ class CreateListenerCommand extends AbstractCommand
             $listenerName = $listenerName . 'Event';
         }
         $listenerFullname = $listenerName . 'Listener';
-        $listenerFile = Application::getListenerPath() . $listenerFullname . '.php';
+        $listenerFile = $this->Application->getListenerPath() . $listenerFullname . '.php';
 
         $force = $this->getOption('force');
         if (file_exists($listenerFile) && !$force) {
-            $this->Console->writeLine($listenerFullname . ' already exists. If you want to override, please use force mode (-f).', 'error');
+            $this->Console->writeLine(
+                $listenerFullname . ' already exists. If you want to override, please use force mode (-f).',
+                'error'
+            );
             return ExitStatus::ERROR;
         }
 
         if ($this->getOption('event')) {
             $argv = 'create-event ' . $nameArgument;
             if ($force) {
-                $argv .= ' -f' ;
+                $argv .= ' -f';
             }
             command($argv);
 
@@ -67,7 +76,7 @@ class CreateListenerCommand extends AbstractCommand
         }
 
         $Template = new Template('listener');
-        $Template->assign('namespace', rtrim(Application::getEventNamespace(), '\\'));
+        $Template->assign('namespace', rtrim($this->Application->getEventNamespace(), '\\'));
         $Template->assign('name', $listenerName);
 
         if ($Template->save($listenerFile)) {

@@ -11,15 +11,13 @@
 
 namespace Avolutions\Http;
 
-use Avolutions\View\View;
-
 /**
  * Response class
  *
  * An object that contains the response of the request.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.0
  */
 class Response
 {
@@ -33,7 +31,7 @@ class Response
     /**
      * setBody
      *
-     * Fills the body of the Response with the passed value.
+     * Fills the Response body with the passed value.
      *
      * @param string|null $value The value for the body
      */

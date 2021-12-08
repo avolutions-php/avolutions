@@ -13,7 +13,6 @@ namespace Avolutions\Routing;
 
 use Avolutions\Collection\CollectionInterface;
 use Avolutions\Collection\CollectionTrait;
-use Avolutions\Core\AbstractSingleton;
 
 /**
  * RouteCollection class
@@ -22,24 +21,24 @@ use Avolutions\Core\AbstractSingleton;
  * The Router class will search in the RouteCollection for a matching route
  * for the Request.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.0
  */
-class RouteCollection extends AbstractSingleton implements CollectionInterface
+class RouteCollection implements CollectionInterface
 {
-	use CollectionTrait;
+    use CollectionTrait;
 
     /**
      * addRoute
      *
-     * Adds an given Route object to the RouteCollection.
+     * Adds a given Route object to the RouteCollection.
      *
-     * @param Route $Route An Route object to add to the collection
+     * @param Route $Route A Route object to add to the collection
      */
     public function addRoute(Route $Route)
     {
-		$this->items[] = $Route;
-	}
+        $this->items[] = $Route;
+    }
 
     /**
      * getAllByMethod
@@ -52,11 +51,13 @@ class RouteCollection extends AbstractSingleton implements CollectionInterface
      */
     public function getAllByMethod(string $method): array
     {
-		return array_values(array_filter(
-			$this->items,
-			function ($Route) use ($method) {
-				return $Route->method == $method;
-			}
-		));
-	}
+        return array_values(
+            array_filter(
+                $this->items,
+                function ($Route) use ($method) {
+                    return $Route->method == $method;
+                }
+            )
+        );
+    }
 }

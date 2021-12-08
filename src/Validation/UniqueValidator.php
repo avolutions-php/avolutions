@@ -11,18 +11,49 @@
 
 namespace Avolutions\Validation;
 
+use Avolutions\Core\Application;
+use Avolutions\Orm\Entity;
 use Avolutions\Orm\EntityCollection;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * UniqueValidator
  *
  * The UniqueValidator validates if the value of an Entity attribute is unique in database.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.6.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.6.0
  */
 class UniqueValidator extends AbstractValidator
 {
+    /**
+     * Application instance.
+     *
+     * @var Application $Application
+     */
+    private Application $Application;
+
+    /**
+     * __construct
+     *
+     * Creates a new Validator object and set the options.
+     *
+     * @param Application $Application Application instance.
+     * @param array $options An associative array with options.
+     * @param string|null $property The property of the Entity to validate.
+     * @param Entity|null $Entity $Entity The Entity to validate.
+     */
+    public function __construct(
+        Application $Application,
+        array $options = [],
+        ?string $property = null,
+        ?Entity $Entity = null
+    ) {
+        $this->Application = $Application;
+        parent::__construct($options, $property, $Entity);
+    }
+
     /**
      * isValid
      *
@@ -31,10 +62,17 @@ class UniqueValidator extends AbstractValidator
      * @param mixed $value The value to validate.
      *
      * @return bool Data is valid (true) or not (false).
+     *
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
      */
-    public function isValid(mixed $value): bool {
-        $EntityCollection = new EntityCollection($this->Entity->getEntityName());
-        $exists = $EntityCollection->where($this->property.' = \''.$value.'\'')->getFirst();
+    public function isValid(mixed $value): bool
+    {
+        $EntityCollection = $this->Application->make(
+            EntityCollection::class,
+            ['entity' => $this->Entity->getEntityName()]
+        );
+        $exists = $EntityCollection->where($this->property . ' = \'' . $value . '\'')->getFirst();
 
         return ($exists == null);
     }

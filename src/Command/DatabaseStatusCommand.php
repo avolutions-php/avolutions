@@ -11,51 +11,70 @@
 
 namespace Avolutions\Command;
 
+use Avolutions\Console\Console;
 use Avolutions\Console\ConsoleTable;
-use Avolutions\Database\Database;
+use Avolutions\Core\Application;
 
-use Exception;
+use Avolutions\Database\Migrator;
+use Throwable;
 
 /**
  * DatabaseStatusCommand class
  *
  * Shows all executed migrations.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class DatabaseStatusCommand extends AbstractCommand
 {
+    /**
+     * Migrator instance.
+     *
+     * @var Migrator $Migrator
+     */
+    private Migrator $Migrator;
+
     protected static string $name = 'database-status';
 
     protected static string $description = 'Shows all executed migrations.';
 
+    public function __construct(Application $Application, Migrator $Migrator, ?Console $Console = null)
+    {
+        parent::__construct($Application, $Console);
+        $this->Migrator = $Migrator;
+    }
+
     public function execute(): int
     {
-        try {
-            $this->Console->writeLine('Executed migrations:', 'success');
-            $columns = [
-                ['Version', 'Name', 'Date']
-            ];
+        $this->Console->writeLine('Executed migrations:', 'success');
+        $columns = [
+            ['Version', 'Name', 'Date']
+        ];
 
-            foreach (Database::getExecutedMigrations() as $version => $migration) {
+        try {
+            foreach ($this->Migrator->getExecutedMigrations() as $version => $migration) {
                 $columns[] = [
                     $version,
                     $migration['name'],
                     $migration['date']
                 ];
             }
+
             $ConsoleTable = new ConsoleTable($this->Console, $columns);
             $ConsoleTable->render();
 
             return ExitStatus::SUCCESS;
-        } catch (Exception $e) {
-            throw $e;
+        } catch (Throwable $e) {
+            $this->Console->writeLine(
+                interpolate('Error while retrieving executed migrations: {0} in {1}', [$e->getMessage(), $e->getTraceAsString()]),
+                'error'
+            );
+            return ExitStatus::ERROR;
         }
     }
 
     public function initialize(): void
     {
-
     }
 }

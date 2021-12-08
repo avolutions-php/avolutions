@@ -16,8 +16,8 @@ namespace Avolutions\Console;
  *
  * Handles the console output.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class Console
 {
@@ -155,7 +155,7 @@ class Console
         }
 
         if ($newLine) {
-            $message = $message.PHP_EOL;
+            $message = $message . PHP_EOL;
         }
 
         fwrite($this->output, $message);

@@ -14,67 +14,49 @@ namespace Avolutions\Core;
 /**
  * Singleton class
  *
- * A abstract class which implements the singleton pattern.
+ * An abstract class which implements the singleton pattern.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.0
-
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.0
  */
 abstract class AbstractSingleton
 {
-	/**
+    /**
      * An array of all instance of singleton classes
      *
-	 * @var array $instances
-	 */
-	private static array $instances = [];
+     * @var array $instances
+     */
+    protected static array $instances = [];
 
-	/**
-	 * __construct
-	 *
-	 * To prevent creating an new instance with the new operator
-	 */
-    final public function __construct()
+    /**
+     * getInstance
+     *
+     * Returns an instance of the called class.
+     * If there is no instance so far, a new instance is created and returned.
+     * Otherwise, the existing one is returned (singleton).
+     *
+     * @return object An object of the instantiated class
+     */
+    final public static function getInstance(): object
     {
-
-    }
-
-	/**
-	 * __clone
-	 *
-	 * To prevent creating an instance with the clone operator
-	 */
-    final public function __clone()
-    {
-
-    }
-
-	/**
-	 * __wakeup
-	 *
-	 * To prevent unserializing an instance with unserialize function
-	 */
-    final public function __wakeup()
-    {
-
-    }
-
-	/**
-	 * getInstance
-	 *
-	 * Creates a new instance of the class if there is no instance already and
-	 * returns the newly created or existing instance.
-	 *
-	 * @return object An object of the instantiated class
-	 */
-	final public static function getInstance(): object
-    {
-		$class = get_called_class();
+        $class = get_called_class();
 
         if (!isset(self::$instances[$class])) {
-            self::$instances[$class] = new static();
+            self::setInstance(new static());
         }
 
         return self::$instances[$class];
-	}
+    }
+
+    /**
+     * setInstance
+     *
+     * Set the instance of the given class.
+     *
+     * @param mixed $class The class to set.
+     */
+    final public static function setInstance(mixed $class): void
+    {
+        self::$instances[$class::class] = $class;
+    }
 }

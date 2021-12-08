@@ -12,20 +12,27 @@
 namespace Avolutions\Command;
 
 use Avolutions\Console\Console;
+use Avolutions\Core\Application;
 use InvalidArgumentException;
 use ReflectionClass;
-use ReflectionException;
 
 /**
  * AbstractCommand class
  *
  * An abstract class which has to be extended by every Command.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 abstract class AbstractCommand
 {
+    /**
+     * Application instance.
+     *
+     * @var Application $Application
+     */
+    protected Application $Application;
+
     /**
      * Argument values passed from Command line.
      *
@@ -73,10 +80,12 @@ abstract class AbstractCommand
      *
      * Creates a new AbstractCommand instance.
      *
+     * @param Application $Application Application instance.
      * @param Console|null $Console Console instance for output.
      */
-    public function __construct(?Console $Console = null)
+    public function __construct(Application $Application, ?Console $Console = null)
     {
+        $this->Application = $Application;
         $this->Console = $Console ?? new Console();
         $this->CommandDefinition = new CommandDefinition();
 
@@ -153,12 +162,14 @@ abstract class AbstractCommand
      * Returns the name of the Command.
      *
      * @return string Command name.
-     *
-     * @throws ReflectionException
      */
     public static function getName(): string
     {
-        return static::$name === '' ? str_replace('Command', '', (new ReflectionClass(get_called_class()))->getShortName()) : static::$name;
+        return static::$name === '' ? str_replace(
+            'Command',
+            '',
+            (new ReflectionClass(get_called_class()))->getShortName()
+        ) : static::$name;
     }
 
     /**
@@ -191,7 +202,7 @@ abstract class AbstractCommand
      *
      * Parses and sets the Argument input values from command line.
      *
-     * @param array $arguments  An array containing Argument input.
+     * @param array $arguments An array containing Argument input.
      */
     private function parseArguments(array $arguments)
     {
@@ -265,10 +276,8 @@ abstract class AbstractCommand
                 || in_array('-' . $OptionDefinition->short, $options)
             ) {
                 $this->setOption($OptionDefinition->name, true);
-            } else {
-                if ($OptionDefinition->default !== null) {
-                    $this->setOption($OptionDefinition->name, $OptionDefinition->default);
-                }
+            } elseif ($OptionDefinition->default !== null) {
+                $this->setOption($OptionDefinition->name, $OptionDefinition->default);
             }
         }
     }
@@ -325,9 +334,14 @@ abstract class AbstractCommand
         $this->Console->writeLine('');
 
         if (count($ArgumentDefinitions) > 0) {
-            $longestArgumentName = max(array_map('strlen', array_map(function($ArgumentDefinition) {
-                return $ArgumentDefinition->name;
-            }, $ArgumentDefinitions)));
+            $longestArgumentName = max(
+                array_map(
+                    'strlen',
+                    array_map(function ($ArgumentDefinition) {
+                        return $ArgumentDefinition->name;
+                    }, $ArgumentDefinitions)
+                )
+            );
 
             $this->Console->writeLine('Arguments:', ['color' => 'green']);
             foreach ($ArgumentDefinitions as $ArgumentDefinition) {
@@ -341,9 +355,14 @@ abstract class AbstractCommand
         }
         $this->Console->writeLine('Options:', ['color' => 'green']);
         if (count($OptionDefinitions) > 0) {
-            $longestOptionName = max(array_map('strlen', array_map(function ($OptionDefinition) {
-                return $OptionDefinition->short . $OptionDefinition->name;
-            }, $OptionDefinitions)));
+            $longestOptionName = max(
+                array_map(
+                    'strlen',
+                    array_map(function ($OptionDefinition) {
+                        return $OptionDefinition->short . $OptionDefinition->name;
+                    }, $OptionDefinitions)
+                )
+            );
             foreach ($OptionDefinitions as $OptionDefinition) {
                 if ($OptionDefinition->short != '') {
                     $optionShortAndName = '  -' . $OptionDefinition->short . ', ';
@@ -352,7 +371,9 @@ abstract class AbstractCommand
                 }
                 $optionShortAndName .= '--' . $OptionDefinition->name;
 
-                $this->Console->writeLine(str_pad($optionShortAndName, $longestOptionName + 7) . "\t" . $OptionDefinition->help);
+                $this->Console->writeLine(
+                    str_pad($optionShortAndName, $longestOptionName + 7) . "\t" . $OptionDefinition->help
+                );
             }
         }
     }

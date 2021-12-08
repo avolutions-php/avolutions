@@ -3,7 +3,7 @@
 * [Introduction](#introduction)
 * [Entity validation](#entity-validation)
   * [Validate an Entity](#validate-an-entity)
-  * [Add validation to Entity](#add-validation-to-entity)
+  * [Add Validators to Entity](#add-validators-to-entity)
   * [Built in validators](#built-in-validators)
     * [CompareValidator](#comparevalidator)
     * [DateTimeValidator](#datetimevalidator)
@@ -59,7 +59,7 @@ if (!$User->validate()) {
   print_r($User->getErrors());
 }
 ```
-This method will return an multidimensional array with all errors from the last *Entity* validation.
+This method will return a multidimensional array with all errors from the last *Entity* validation.
 Key of the first dimension is the property of the *Entity*, key of the second dimension is the name of the *Validator*. 
 Value of second dimension contains the error message itself.
 
@@ -72,7 +72,7 @@ To do so, just add an array under the key `validation` to the property you want 
 Add an array under `validation` for every 'Validator' for this property. Use the name of the 'Validator' (without postfix "Validator") as key.
 If you have to pass *options* to the *Validator* (see next chapters) add them as associative array.
 
-Lets say we have an *Entity* with an property called *firstname*. And we want to have the firstname a max. length of 15 and as required, the *EntityMapping* will look like this:
+Let's say we have an *Entity* with a property called *firstname*. And we want to have the firstname a max. length of 15 and as required, the *EntityMapping* will look like this:
 ```php
 ...
   'firstname' => [
@@ -145,7 +145,7 @@ The *RegexValidator* can be used to check your value against a regular expressio
 The *RequiredValidator* indicates that this value is mandatory. 
 The value can not be null, or in case of a string has a length of 0, or in case of an array a count of 0.
 
-There are not options for this validator.
+There are no options for this validator.
 
 #### SizeValidator
 
@@ -173,7 +173,7 @@ The *TypeValidator* can be used to check the data type of your value.
 
 The *UniqueValidator* can be used to check if the value of an Entity attribute is unique in database.
 
-There are not options for this validator.
+There are no options for this validator.
 
 ### Custom validators
 
@@ -270,7 +270,7 @@ return [
 ];
 ```
 
-There are three ways to specifiy error message per validator:
+There are three ways to specify error message per validator:
 1. Global error message for *Validator*:
 ```php
 return [
@@ -321,4 +321,4 @@ Every error message can use predefined variables. To use this just add the varia
 The following variables are available:
 * `{property}`: The validated property. Not working in AdHoc validation.
 * `{entity}`: The name of the validated Entity. Not working in AdHoc validation.
-* All options of built in validators, e.g. `{operator}` in CompareValidator or `{min}` in SizeValidator
+* All options of built-in validators, e.g. `{operator}` in CompareValidator or `{min}` in SizeValidator

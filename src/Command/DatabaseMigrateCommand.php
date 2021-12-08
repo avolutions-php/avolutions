@@ -11,37 +11,49 @@
 
 namespace Avolutions\Command;
 
-use Avolutions\Database\Database;
+use Avolutions\Console\Console;
 
-use Exception;
+use Avolutions\Core\Application;
+use Avolutions\Database\Migrator;
+use Throwable;
 
 /**
  * DatabaseMigrateCommand class
  *
  * Executes all new migrations.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class DatabaseMigrateCommand extends AbstractCommand
 {
     protected static string $name = 'database-migrate';
 
     protected static string $description = 'Executes all new migrations.';
+    private Migrator $Migrator;
+
+    public function __construct(Application $Application, Migrator $Migrator, ?Console $Console = null)
+    {
+        parent::__construct($Application, $Console);
+        $this->Migrator = $Migrator;
+    }
 
     public function execute(): int
     {
         try {
-            Database::migrate();
+            $this->Migrator->migrate();
             $this->Console->writeLine('Migrations executed successfully', 'success');
             return ExitStatus::SUCCESS;
-        } catch (Exception $e) {
-            throw $e;
+        } catch (Throwable $e) {
+            $this->Console->writeLine(
+                interpolate('Error while executing migrations: {0} in {1}', [$e->getMessage(), $e->getTraceAsString()]),
+                'error'
+            );
+            return ExitStatus::ERROR;
         }
     }
 
     public function initialize(): void
     {
-
     }
 }

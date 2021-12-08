@@ -16,8 +16,8 @@ namespace Avolutions\Util;
  *
  * Provides helper methods to handle JSON.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class JsonHelper
 {

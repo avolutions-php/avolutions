@@ -16,8 +16,8 @@ namespace Avolutions\Validation;
  *
  * An interface which declares the base methods for Validators.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.6.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.6.0
  */
 interface ValidatorInterface
 {
@@ -30,5 +30,5 @@ interface ValidatorInterface
      *
      * @return bool Data is valid (true) or not (false).
      */
-	public function isValid(mixed $value): bool;
+    public function isValid(mixed $value): bool;
 }

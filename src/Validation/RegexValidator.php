@@ -19,8 +19,8 @@ use InvalidArgumentException;
  *
  * The CompareValidator performs validations against a regular expression.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.6.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.6.0
  */
 class RegexValidator extends AbstractValidator
 {
@@ -47,7 +47,8 @@ class RegexValidator extends AbstractValidator
      * @param string|null $property The property of the Entity to validate.
      * @param Entity|null $Entity The Entity to validate.
      */
-    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null)
+    {
         parent::setOptions($options, $property, $Entity);
 
         if (!isset($options['pattern']) || !is_string($options['pattern'])) {
@@ -74,7 +75,8 @@ class RegexValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid(mixed $value): bool {
+    public function isValid(mixed $value): bool
+    {
         if ($this->not) {
             return !preg_match($this->pattern, $value);
         } else {

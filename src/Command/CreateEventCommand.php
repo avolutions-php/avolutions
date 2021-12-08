@@ -11,15 +11,13 @@
 
 namespace Avolutions\Command;
 
-use Avolutions\Core\Application;
-
 /**
  * CreateEventCommand class
  *
  * Creates a new Event.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class CreateEventCommand extends AbstractCommand
 {
@@ -33,7 +31,13 @@ class CreateEventCommand extends AbstractCommand
         $this->addArgumentDefinition(new Argument('shortname', 'The name to dispatch the Event with.', true));
         $this->addOptionDefinition(new Option('force', 'f', 'Event will be overwritten if it already exists.'));
         $this->addOptionDefinition(new Option('listener', 'l', 'Automatically creates a Listener for the Event.'));
-        $this->addOptionDefinition(new Option('register', 'r', 'Automatically register a Listener for the Event. Only works if Option "listener" is set.'));
+        $this->addOptionDefinition(
+            new Option(
+                'register',
+                'r',
+                'Automatically register a Listener for the Event. Only works if Option "listener" is set.'
+            )
+        );
     }
 
     public function execute(): int
@@ -41,34 +45,37 @@ class CreateEventCommand extends AbstractCommand
         $eventName = ucfirst($this->getArgument('name'));
         $eventFullname = $eventName . 'Event';
         $shortname = $this->getArgument('shortname');
-        $eventFile = Application::getEventPath() . $eventFullname . '.php';
+        $eventFile = $this->Application->getEventPath() . $eventFullname . '.php';
 
         $force = $this->getOption('force');
         if (file_exists($eventFile) && !$force) {
-            $this->Console->writeLine($eventFullname . ' already exists. If you want to override, please use force mode (-f).', 'error');
+            $this->Console->writeLine(
+                $eventFullname . ' already exists. If you want to override, please use force mode (-f).',
+                'error'
+            );
             return ExitStatus::ERROR;
         }
 
         if ($this->getOption('listener')) {
             $argv = 'create-listener ' . $eventName;
             if ($force) {
-                $argv .= ' -f' ;
+                $argv .= ' -f';
             }
             command($argv);
 
             if ($this->getOption('register')) {
                 $argv = 'register-listener ' . $eventName . ' ' . $eventFullname;
                 if (!$shortname) {
-                    $argv .= ' -n' ;
+                    $argv .= ' -n';
                 }
                 command($argv);
             }
         }
 
-        $shortnameCode = $shortname != null ? 'protected string $name = \'' . $shortname . '\';': '';
+        $shortnameCode = $shortname != null ? 'protected string $name = \'' . $shortname . '\';' : '';
 
         $Template = new Template('event');
-        $Template->assign('namespace', rtrim(Application::getEventNamespace(), '\\'));
+        $Template->assign('namespace', rtrim($this->Application->getEventNamespace(), '\\'));
         $Template->assign('name', $eventName);
         $Template->assign('shortname', $shortnameCode);
 

@@ -11,7 +11,6 @@
 
 namespace Avolutions\Config;
 
-use Avolutions\Core\AbstractSingleton;
 use OutOfBoundsException;
 
 /**
@@ -20,17 +19,17 @@ use OutOfBoundsException;
  * The ConfigFileLoader class provides the functionality to load config files
  * from a given path and get single values from it.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.6.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.6.0
  */
-class ConfigFileLoader extends AbstractSingleton
+class ConfigFileLoader
 {
-	/**
+    /**
      * An array containing all loaded configuration values
      *
-	 * @var array $values
-	 */
-	protected static array $values = [];
+     * @var array $values
+     */
+    protected array $values = [];
 
     /**
      * get
@@ -42,21 +41,21 @@ class ConfigFileLoader extends AbstractSingleton
      * @return mixed The config value
      * @throws OutOfBoundsException
      */
-    public static function get(string $key): mixed
+    public function get(string $key): mixed
     {
-		$identifier = explode('/', $key);
+        $identifier = explode('/', $key);
 
-		$values = self::$values;
+        $values = $this->values;
 
-		foreach ($identifier as $value) {
-			if (!isset($values[$value])) {
-				throw new OutOfBoundsException('Key "'.$key.'" could not be found');
-			}
+        foreach ($identifier as $value) {
+            if (!isset($values[$value])) {
+                throw new OutOfBoundsException('Key "' . $key . '" could not be found');
+            }
 
-			$values = $values[$value];
-		}
+            $values = $values[$value];
+        }
 
-		return $values;
+        return $values;
     }
 
     /**
@@ -70,12 +69,12 @@ class ConfigFileLoader extends AbstractSingleton
      * @return array An array with the loaded config values or an empty array if
      *                 file can not be found.
      */
-    protected static function loadConfigFile(string $configFile): array
+    protected function loadConfigFile(string $configFile): array
     {
-		if (file_exists($configFile)) {
-			return require $configFile;
-		}
+        if (file_exists($configFile)) {
+            return require $configFile;
+        }
 
-		return [];
-	}
+        return [];
+    }
 }

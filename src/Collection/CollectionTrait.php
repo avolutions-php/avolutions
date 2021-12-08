@@ -17,8 +17,8 @@ namespace Avolutions\Collection;
  *
  * A default implementation of the CollectionInterface
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.1
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.1
  */
 trait CollectionTrait
 {
@@ -26,29 +26,29 @@ trait CollectionTrait
      *
      * The items of the Collection.
      *
-	 * @var array $items
-	 */
-	public array $items = [];
+     * @var array $items
+     */
+    public array $items = [];
 
-	/**
-	 * getAll
-	 *
-	 * Returns all items of the Collection.
-	 *
-	 * @return array An array of all items of the Collection
-	 */
+    /**
+     * getAll
+     *
+     * Returns all items of the Collection.
+     *
+     * @return array An array of all items of the Collection
+     */
     public function getAll(): array
     {
         return $this->items;
     }
 
     /**
-	 * count
-	 *
-	 * Returns the number of items in the Collection.
-	 *
-	 * @return int The number of items in the Collection.
-	 */
+     * count
+     *
+     * Returns the number of items in the Collection.
+     *
+     * @return int The number of items in the Collection.
+     */
     public function count(): int
     {
         return count($this->items);

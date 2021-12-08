@@ -11,43 +11,133 @@
 
 namespace Avolutions\Core;
 
+use Avolutions\Database\Database;
+use Avolutions\Di\Container;
+use Avolutions\Http\Request;
+use Avolutions\Http\Response;
+use Avolutions\Logging\Logger;
+use Avolutions\Routing\Router;
 use Avolutions\Util\JsonHelper;
+use PDO;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Application class
  *
  * This class is responsible for path and namespace management of the Application.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
-class Application extends AbstractSingleton
+class Application extends Container
 {
     /**
      * The base path of your application.
      *
-     * @var string
+     * @var string $basePath
      */
-    private static string $basePath = '';
+    private string $basePath;
 
     /**
      * The application namespace.
      *
-     * @var string
+     * @var string $appNamespace
      */
-    private static string $appNamespace = 'Application\\';
+    private string $appNamespace;
 
     /**
-     * initialize
+     * Default application paths.
      *
-     * Initializes the application.
+     * @var array $paths
+     */
+    private array $paths = [
+        'app' => 'application',
+        'command' => 'Command',
+        'commandTemplate' => 'Command' . DIRECTORY_SEPARATOR . 'templates',
+        'config' => 'Config',
+        'controller' => 'Controller',
+        'database' => 'Database',
+        'event' => 'Event',
+        'listener' => 'Listener',
+        'mapping' => 'Mapping',
+        'model' => 'Model',
+        'translation' => 'Translation',
+        'validator' => 'Validator',
+        'view' => 'View',
+    ];
+
+    /**
+     * Default application namespaces.
+     *
+     * @var array $namespaces
+     */
+    private array $namespaces = [
+        'app' => 'Application',
+        'command' => 'Command',
+        'controller' => 'Controller',
+        'database' => 'Database',
+        'event' => 'Event',
+        'listener' => 'Listener',
+        'model' => 'Model',
+        'validator' => 'Validator',
+    ];
+
+    /**
+     * __construct
+     *
+     * Creates a new Application instance.
      *
      * @param string $basePath The base path of your application.
      */
-    public function initialize(string $basePath = '')
+    public function __construct(string $basePath, ?array $paths = [], ?array $namespaces = [])
     {
-        self::$basePath = rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-        self::$appNamespace = self::getAppNamespace();
+        $this->basePath = rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        if (is_array($paths)) {
+            $this->paths = array_merge($this->paths, $paths);
+        }
+        if (is_array($namespaces)) {
+            $this->namespaces = array_merge($this->namespaces, $namespaces);
+        }
+        $this->appNamespace = $this->getAppNamespace();
+
+        self::setInstance($this);
+        $this->resolvedEntries[Container::class] = $this;
+        $this->resolvedEntries[Application::class] = $this;
+
+        $this->bootstrap();
+    }
+
+    /**
+     * bootstrap
+     *
+     * Bootstraps the Application by setting Container objects.
+     */
+    private function bootstrap()
+    {
+        $this->set(
+            Database::class,
+            [
+                'host' => config('database/host'),
+                'database' => config('database/database'),
+                'port' => config('database/port'),
+                'user' => config('database/user'),
+                'password' => config('database/password'),
+                'charset' => config('database/charset'),
+                'options' => [
+                    PDO::ATTR_PERSISTENT => true
+                ]
+            ]
+        );
+        $this->set(
+            Logger::class,
+            [
+                'logpath' => config('logger/logpath'),
+                'logfile' => config('logger/logfile'),
+                'minLogLevel' => config('logger/loglevel'),
+                'datetimeFormat' => config('logger/datetimeFormat'),
+            ]
+        );
     }
 
     /**
@@ -57,9 +147,9 @@ class Application extends AbstractSingleton
      *
      * @return string The base path.
      */
-    public static function getBasePath(): string
+    public function getBasePath(): string
     {
-        return self::$basePath;
+        return $this->basePath;
     }
 
     /**
@@ -69,9 +159,9 @@ class Application extends AbstractSingleton
      *
      * @return string The application path.
      */
-    public static function getAppPath(): string
+    public function getAppPath(): string
     {
-        return self::getBasePath() . 'application' . DIRECTORY_SEPARATOR;
+        return $this->getBasePath() . $this->formatPath($this->paths['app']);
     }
 
     /**
@@ -81,9 +171,9 @@ class Application extends AbstractSingleton
      *
      * @return string The command path.
      */
-    public static function getCommandPath(): string
+    public function getCommandPath(): string
     {
-        return self::getAppPath() . 'Command' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['command']);
     }
 
     /**
@@ -93,9 +183,9 @@ class Application extends AbstractSingleton
      *
      * @return string The command template path.
      */
-    public static function getCommandTemplatePath(): string
+    public function getCommandTemplatePath(): string
     {
-        return self::getAppPath() . 'Command' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['commandTemplate']);
     }
 
     /**
@@ -105,9 +195,9 @@ class Application extends AbstractSingleton
      *
      * @return string The config path.
      */
-    public static function getConfigPath(): string
+    public function getConfigPath(): string
     {
-        return self::getAppPath() . 'Config' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['config']);
     }
 
     /**
@@ -117,9 +207,9 @@ class Application extends AbstractSingleton
      *
      * @return string The controller path.
      */
-    public static function getControllerPath(): string
+    public function getControllerPath(): string
     {
-        return self::getAppPath() . 'Controller' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['controller']);
     }
 
     /**
@@ -129,9 +219,9 @@ class Application extends AbstractSingleton
      *
      * @return string The database path.
      */
-    public static function getDatabasePath(): string
+    public function getDatabasePath(): string
     {
-        return self::getAppPath() . 'Database' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['database']);
     }
 
     /**
@@ -141,9 +231,9 @@ class Application extends AbstractSingleton
      *
      * @return string The event path.
      */
-    public static function getEventPath(): string
+    public function getEventPath(): string
     {
-        return self::getAppPath() . 'Event' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['event']);
     }
 
     /**
@@ -153,9 +243,9 @@ class Application extends AbstractSingleton
      *
      * @return string The listener path.
      */
-    public static function getListenerPath(): string
+    public function getListenerPath(): string
     {
-        return self::getAppPath() . 'Listener' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['listener']);
     }
 
     /**
@@ -165,9 +255,9 @@ class Application extends AbstractSingleton
      *
      * @return string The mapping path.
      */
-    public static function getMappingPath(): string
+    public function getMappingPath(): string
     {
-        return self::getAppPath() . 'Mapping' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['mapping']);
     }
 
     /**
@@ -177,9 +267,9 @@ class Application extends AbstractSingleton
      *
      * @return string The model path.
      */
-    public static function getModelPath(): string
+    public function getModelPath(): string
     {
-        return self::getAppPath() . 'Model' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['model']);
     }
 
     /**
@@ -189,9 +279,9 @@ class Application extends AbstractSingleton
      *
      * @return string The translation path.
      */
-    public static function getTranslationPath(): string
+    public function getTranslationPath(): string
     {
-        return self::getAppPath() . 'Translation' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['translation']);
     }
 
     /**
@@ -201,9 +291,9 @@ class Application extends AbstractSingleton
      *
      * @return string The validator path.
      */
-    public static function getValidatorPath(): string
+    public function getValidatorPath(): string
     {
-        return self::getAppPath() . 'Validator' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['validator']);
     }
 
     /**
@@ -213,9 +303,9 @@ class Application extends AbstractSingleton
      *
      * @return string The view path.
      */
-    public static function getViewPath(): string
+    public function getViewPath(): string
     {
-        return self::getAppPath() . 'View' . DIRECTORY_SEPARATOR;
+        return $this->getAppPath() . $this->formatPath($this->paths['view']);
     }
 
     /**
@@ -225,15 +315,19 @@ class Application extends AbstractSingleton
      *
      * @return string The application namespace.
      */
-    private static function getAppNamespace(): string
+    private function getAppNamespace(): string
     {
-        $composer = JsonHelper::decode(self::$basePath . 'composer.json', true);
+        $composer = JsonHelper::decode($this->basePath . 'composer.json', true);
 
-        foreach ($composer["autoload"]["psr-4"] as $namespace => $path) {
-            if (realpath(self::$basePath . $path) === realpath(self::getAppPath())) {
-                return $namespace;
+        if (isset($composer['autoload']['psr-4'])) {
+            foreach ($composer['autoload']['psr-4'] as $namespace => $path) {
+                if (realpath($this->basePath . $path) === realpath($this->getAppPath())) {
+                    return $namespace;
+                }
             }
         }
+
+        return $this->formatNamespace($this->namespaces['app']);
     }
 
     /**
@@ -243,9 +337,9 @@ class Application extends AbstractSingleton
      *
      * @return string The command namespace.
      */
-    public static function getCommandNamespace(): string
+    public function getCommandNamespace(): string
     {
-        return self::$appNamespace . 'Command\\';
+        return $this->appNamespace . $this->formatNamespace($this->namespaces['command']);
     }
 
     /**
@@ -255,9 +349,9 @@ class Application extends AbstractSingleton
      *
      * @return string The controller namespace.
      */
-    public static function getControllerNamespace(): string
+    public function getControllerNamespace(): string
     {
-        return self::$appNamespace . 'Controller\\';
+        return $this->appNamespace . $this->formatNamespace($this->namespaces['controller']);
     }
 
     /**
@@ -267,9 +361,9 @@ class Application extends AbstractSingleton
      *
      * @return string The database namespace.
      */
-    public static function getDatabaseNamespace(): string
+    public function getDatabaseNamespace(): string
     {
-        return self::$appNamespace . 'Database\\';
+        return $this->appNamespace . $this->formatNamespace($this->namespaces['database']);
     }
 
 
@@ -280,9 +374,9 @@ class Application extends AbstractSingleton
      *
      * @return string The event namespace.
      */
-    public static function getEventNamespace(): string
+    public function getEventNamespace(): string
     {
-        return self::$appNamespace . 'Event\\';
+        return $this->appNamespace . $this->formatNamespace($this->namespaces['event']);
     }
 
     /**
@@ -292,9 +386,9 @@ class Application extends AbstractSingleton
      *
      * @return string The listener namespace.
      */
-    public static function getListenerNamespace(): string
+    public function getListenerNamespace(): string
     {
-        return self::$appNamespace . 'Listener\\';
+        return $this->appNamespace . $this->formatNamespace($this->namespaces['listener']);
     }
 
     /**
@@ -304,9 +398,9 @@ class Application extends AbstractSingleton
      *
      * @return string The model namespace.
      */
-    public static function getModelNamespace(): string
+    public function getModelNamespace(): string
     {
-        return self::$appNamespace . 'Model\\';
+        return $this->appNamespace . $this->formatNamespace($this->namespaces['model']);
     }
 
     /**
@@ -316,8 +410,81 @@ class Application extends AbstractSingleton
      *
      * @return string The validator namespace.
      */
-    public static function getValidatorNamespace(): string
+    public function getValidatorNamespace(): string
     {
-        return self::$appNamespace . 'Validator\\';
+        return $this->appNamespace . $this->formatNamespace($this->namespaces['validator']);
+    }
+
+    /**
+     * setErrorHandler
+     *
+     * Set error and exception handler for the Application.
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function setErrorHandler()
+    {
+        $ErrorHandler = $this->get(ErrorHandler::class);
+        set_error_handler([$ErrorHandler, 'handleError']);
+        set_exception_handler([$ErrorHandler, 'handleException']);
+    }
+
+    /**
+     * start
+     *
+     * Starts the Application by executing the Request, calling the Router to find the matching Route and
+     * invokes the controller action with passed parameters.
+     *
+     * @param Request $Request Request instance.
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function start(Request $Request)
+    {
+        $Router = $this->get(Router::class);
+        $MatchedRoute = $Router->findRoute($Request->uri, $Request->method);
+
+        $fullControllerName = $this->getControllerNamespace() . ucfirst($MatchedRoute->controllerName) . 'Controller';
+        $Controller = $this->get($fullControllerName);
+
+        $fullActionName = $MatchedRoute->actionName . 'Action';
+        // Merge the parameters of the route with the values of $_REQUEST
+        $parameters = array_merge($MatchedRoute->parameters, $Request->parameters);
+
+        $Response = $this->get(Response::class);
+        $Response->setBody(call_user_func_array([$Controller, $fullActionName], $parameters));
+        $Response->send();
+    }
+
+
+    /**
+     * formatPath
+     *
+     * Ensures that path ends with an OS specific directory separator.
+     *
+     * @param string $path A path to format.
+     *
+     * @return string Path with trailing directory separator.
+     */
+    private function formatPath(string $path): string
+    {
+        return rtrim($path, '/\\') . DIRECTORY_SEPARATOR;
+    }
+
+
+    /**
+     * formatNamespace
+     *
+     * Ensures that namespace ends with backslash.
+     *
+     * @param string $namespace A namespace to format.
+     *
+     * @return string Namespace with trailing backslash.
+     */
+    private function formatNamespace(string $namespace): string
+    {
+        return rtrim($namespace, '\\') . '\\';
     }
 }

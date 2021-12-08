@@ -33,7 +33,7 @@ Hello world
 
 ### Create a view with variable content
 
-As mentioned above, Views can also contains variable content, that will be filled with data from the [Controller](controller.md) and [ViewModel](viewmodel.md). The following example shows how to display the data passed by the [ViewModel](viewmodel.md) in the third [Controller](controller.md) example:
+As mentioned above, Views can also contain variable content, that will be filled with data from the [Controller](controller.md) and [ViewModel](viewmodel.md). The following example shows how to display the data passed by the [ViewModel](viewmodel.md) in the third [Controller](controller.md) example:
 ```html
 <html>
   <head>

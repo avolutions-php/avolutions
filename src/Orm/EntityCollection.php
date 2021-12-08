@@ -16,6 +16,8 @@ use Avolutions\Collection\CollectionTrait;
 use Avolutions\Core\Application;
 use Avolutions\Database\Database;
 use Avolutions\Logging\Logger;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * EntityCollection class
@@ -23,54 +25,75 @@ use Avolutions\Logging\Logger;
  * An EntityCollection contains all elements of a specific Entity.
  * It provides the methods for filtering and sorting these elements.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.0
  */
 class EntityCollection implements CollectionInterface
 {
     use CollectionTrait;
 
-	/**
+    /**
+     * Application instance.
+     *
+     * @var Application $Application
+     */
+    private Application $Application;
+
+    /**
+     * Database instance.
+     *
+     * @var Database $Database
+     */
+    private Database $Database;
+
+    /**
+     * Logger instance.
+     *
+     * @var Logger $Logger
+     */
+    private Logger $Logger;
+
+    /**
      * The name of the entity.
      *
-	 * @var string $entity
-	 */
-	private string $entity;
+     * @var string $entity
+     */
+    protected string $entity = '';
 
-	/**
+    /**
      * The configuration of the entity.
      *
-	 * @var EntityConfiguration $EntityConfiguration
-	 */
-	private EntityConfiguration $EntityConfiguration;
+     * @var EntityConfiguration $EntityConfiguration
+     */
+    private EntityConfiguration $EntityConfiguration;
 
-	/**
+    /**
      * The mapping of the entity.
      *
-	 * @var EntityMapping $EntityMapping
-	 */
-	private EntityMapping $EntityMapping;
+     * @var EntityMapping $EntityMapping
+     */
+    private EntityMapping $EntityMapping;
 
-	/**
+    /**
      * The limit clause for the query.
      *
-	 * @var string $limitClause
-	 */
-	private string $limitClause = '';
+     * @var string $limitClause
+     */
+    private string $limitClause = '';
 
-	/**
+    /**
      * The orderBy clause for the query.
      *
-	 * @var string $orderByClause
-	 */
-	private string $orderByClause = '';
+     * @var string $orderByClause
+     */
+    private string $orderByClause = '';
 
-	/**
+    /**
      * The where clause for the query.
      *
-	 * @var string $whereClause
-	 */
-	private string $whereClause = '';
+     * @var string $whereClause
+     */
+    private string $whereClause = '';
 
     /**
      * __construct
@@ -78,76 +101,95 @@ class EntityCollection implements CollectionInterface
      * Creates a new EntityCollection for the given Entity type and loads the corresponding
      * EntityConfiguration and EntityMapping.
      *
-     * @param string $entity The name of the Entity type.
+     * @param Application $Application Application instance.
+     * @param Database $Database Database instance.
+     * @param Logger $Logger Logger instance.
+     * @param string|null $entity
+     *
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
      */
-    public function __construct(string $entity)
+    public function __construct(Application $Application, Database $Database, Logger $Logger, ?string $entity = null)
     {
-		$this->entity = $entity;
+        $this->Application = $Application;
+        $this->Database = $Database;
+        $this->Logger = $Logger;
 
-		$this->EntityConfiguration = new EntityConfiguration($this->entity);
-		$this->EntityMapping = $this->EntityConfiguration->getMapping();
+        if (!is_null($entity)) {
+            $this->entity = $entity;
+        }
+
+        $this->EntityConfiguration = $this->Application->make(
+            EntityConfiguration::class,
+            ['entity' => $this->entity]
+        );
+        $this->EntityMapping = $this->EntityConfiguration->getMapping();
     }
 
     /**
-	 * count
-	 *
-	 * Returns the number of items in the Collection.
-	 *
-	 * @return int The number of items in the Collection.
-	 */
+     * count
+     *
+     * Returns the number of items in the Collection.
+     *
+     * @return int The number of items in the Collection.
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function count(): int
     {
-		$this->execute();
+        $this->execute();
 
         return count($this->items);
     }
 
-	/**
-	 * execute
-	 *
-	 * Executes the previously created database query and loads the Entities from
-	 * the database to the Entities property.
-	 */
+    /**
+     * execute
+     *
+     * Executes the previously created database query and loads the Entities from
+     * the database to the Entities property.
+     *
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     */
     private function execute()
     {
-		$Database = new Database();
-
-		$query = 'SELECT ';
-		$query .= $this->EntityConfiguration->getFieldQuery();
-		$query .= ' FROM ';
-        $query .= '`'.$this->EntityConfiguration->getTable().'`';
+        $query = 'SELECT ';
+        $query .= $this->EntityConfiguration->getFieldQuery();
+        $query .= ' FROM ';
+        $query .= '`' . $this->EntityConfiguration->getTable() . '`';
         $query .= $this->getJoinStatement();
-		$query .= $this->getWhereClause();
-		$query .= $this->getOrderByClause();
-		$query .= $this->getLimitClause();
+        $query .= $this->getWhereClause();
+        $query .= $this->getOrderByClause();
+        $query .= $this->getLimitClause();
 
-		$stmt = $Database->prepare($query);
+        $stmt = $this->Database->prepare($query);
 
-		Logger::debug($query);
+        $this->Logger->debug($query);
 
-		$stmt->execute();
+        $stmt->execute();
 
-		while ($row = $stmt->fetch($Database::FETCH_ASSOC)) {
+        while ($row = $stmt->fetch($this->Database::FETCH_ASSOC)) {
             $entityValues = [];
 
-            foreach($row AS $columnKey => $columnValue) {
+            foreach ($row as $columnKey => $columnValue) {
                 $explodedKey = explode('.', $columnKey);
                 $entityName = $explodedKey[0];
                 $columnName = $explodedKey[1];
 
-                if($entityName == $this->entity) {
+                if ($entityName == $this->entity) {
                     $entityValues[$columnName] = $columnValue;
                 } else {
                     $entityValues[$entityName][$columnName] = $columnValue;
                 }
             }
 
-            $fullEntityName = Application::getModelNamespace().$this->entity;
-            $Entity = new $fullEntityName($entityValues);
+            $fullEntityName = $this->Application->getModelNamespace() . $this->entity;
+            $Entity = $this->Application->make($fullEntityName, ['values' => $entityValues]);
 
             $this->items[] = $Entity;
-		}
-	}
+        }
+    }
 
     /**
      * limit
@@ -161,27 +203,30 @@ class EntityCollection implements CollectionInterface
      */
     public function limit(int $rowCount, int $offset = 0): EntityCollection
     {
-		$this->limitClause = $rowCount;
-		if ($offset > 0) {
-			$this->limitClause .= ' OFFSET '.$offset;
-		}
+        $this->limitClause = $rowCount;
+        if ($offset > 0) {
+            $this->limitClause .= ' OFFSET ' . $offset;
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * getAll
-	 *
-	 * Returns all previously loaded Entities of the EntityCollection.
-	 *
-	 * @return array All previously loaded Entities.
-	 */
+    /**
+     * getAll
+     *
+     * Returns all previously loaded Entities of the EntityCollection.
+     *
+     * @return array All previously loaded Entities.
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function getAll(): array
     {
-		$this->execute();
+        $this->execute();
 
-		return $this->items;
-	}
+        return $this->items;
+    }
 
     /**
      * getById
@@ -191,14 +236,17 @@ class EntityCollection implements CollectionInterface
      * @param int $id The identifier of the Entity.
      *
      * @return Entity The matching Entity for the given id.
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function getById(int $id): Entity
     {
-		$this->where($this->EntityConfiguration->getIdColumn().' = '.$id);
-		$this->execute();
+        $this->where($this->EntityConfiguration->getIdColumn() . ' = ' . $id);
+        $this->execute();
 
-		return $this->items[0];
-	}
+        return $this->items[0];
+    }
 
     /**
      * getFirst
@@ -206,107 +254,119 @@ class EntityCollection implements CollectionInterface
      * Returns the first Entity of the EntityCollection.
      *
      * @return Entity|null The first Entity of the EntityCollection.
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function getFirst(): ?Entity
     {
-		$this->limit(1)->execute();
+        $this->limit(1)->execute();
 
-		return $this->items[0] ?? null;
+        return $this->items[0] ?? null;
     }
 
     /**
-	 * getJoinStatement
-	 *
-	 * Returns a join statement if the Entity has a joined Entity defined in the EntityMapping.
+     * getJoinStatement
+     *
+     * Returns a join statement if the Entity has a joined Entity defined in the EntityMapping.
      *
      * @return string The join statement
-	 */
+     *
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     */
     private function getJoinStatement(): string
     {
         $joinStmt = '';
 
         // Check all properties from the EntityMapping
-        foreach ($this->EntityMapping as $key => $value) {
+        foreach ($this->EntityMapping as $value) {
             // If the property is of type Entity
             if ($value['isEntity']) {
                 // Load the configuration of the linked Entity
-                $EntityConfiguration = new EntityConfiguration($value['type']);
+                $EntityConfiguration = $this->Application->make(
+                    EntityConfiguration::class,
+                    ['entity' => $value['type']]
+                );
 
                 // Create the JOIN statement:
                 // " JOIN {JoinedTable} ON {Table}.{Column} = {JoinedTable}.{JoinedColumn}"
                 $joinStmt .= ' JOIN ';
-                $joinStmt .= '`'.$EntityConfiguration->getTable().'`';
+                $joinStmt .= '`' . $EntityConfiguration->getTable() . '`';
                 $joinStmt .= ' ON ';
-                $joinStmt .= $this->EntityConfiguration->getTable().'.'.$value['column'];
+                $joinStmt .= $this->EntityConfiguration->getTable() . '.' . $value['column'];
                 $joinStmt .= ' = ';
-                $joinStmt .= $EntityConfiguration->getTable().'.'.$EntityConfiguration->getIdColumn();
+                $joinStmt .= $EntityConfiguration->getTable() . '.' . $EntityConfiguration->getIdColumn();
             }
         }
 
-		return $joinStmt;
-	}
+        return $joinStmt;
+    }
 
-	/**
-	 * getLast
-	 *
-	 * Returns the last Entity of the EntityCollection.
-	 *
-	 * @return Entity The last Entity of the EntityCollection.
-	 */
+    /**
+     * getLast
+     *
+     * Returns the last Entity of the EntityCollection.
+     *
+     * @return Entity The last Entity of the EntityCollection.
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function getLast(): Entity
     {
-		$this->execute();
+        $this->execute();
 
-		return end($this->items);
-	}
+        return end($this->items);
+    }
 
-	/**
-	 * getLimitClause
-	 *
-	 * Returns the processed limit clause for the final query.
-	 *
-	 * @return string The processed limit clause.
-	 */
+    /**
+     * getLimitClause
+     *
+     * Returns the processed limit clause for the final query.
+     *
+     * @return string The processed limit clause.
+     */
     private function getLimitClause(): string
     {
-		if (strlen($this->limitClause) > 0) {
-			return ' LIMIT '.$this->limitClause;
-		}
+        if (strlen($this->limitClause) > 0) {
+            return ' LIMIT ' . $this->limitClause;
+        }
 
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * getOrderByClause
-	 *
-	 * Returns the processed orderBy clause for the final query.
-	 *
-	 * @return string The processed orderBy clause.
-	 */
+    /**
+     * getOrderByClause
+     *
+     * Returns the processed orderBy clause for the final query.
+     *
+     * @return string The processed orderBy clause.
+     */
     private function getOrderByClause(): string
     {
-		if (strlen($this->orderByClause) > 0) {
-			return ' ORDER BY '.rtrim($this->orderByClause, ', ');
-		}
+        if (strlen($this->orderByClause) > 0) {
+            return ' ORDER BY ' . rtrim($this->orderByClause, ', ');
+        }
 
-		return '';
-	}
+        return '';
+    }
 
-	/**
-	 * getWhereClause
-	 *
-	 * Returns the processed where clause for the final query.
-	 *
-	 * @return string The processed where clause.
-	 */
+    /**
+     * getWhereClause
+     *
+     * Returns the processed where clause for the final query.
+     *
+     * @return string The processed where clause.
+     */
     private function getWhereClause(): string
     {
-		if (strlen($this->whereClause) > 0) {
-			return ' WHERE '.$this->whereClause;
-		}
+        if (strlen($this->whereClause) > 0) {
+            return ' WHERE ' . $this->whereClause;
+        }
 
-		return '';
-	}
+        return '';
+    }
 
     /**
      * orderBy
@@ -321,14 +381,14 @@ class EntityCollection implements CollectionInterface
      */
     public function orderBy(string $field, bool $descending = false): EntityCollection
     {
-		$this->orderByClause .= $this->EntityMapping->$field['column'];
-		if ($descending) {
-			$this->orderByClause .= ' DESC';
-		}
-		$this->orderByClause .= ', ';
+        $this->orderByClause .= $this->EntityMapping->$field['column'];
+        if ($descending) {
+            $this->orderByClause .= ' DESC';
+        }
+        $this->orderByClause .= ', ';
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * where
@@ -341,8 +401,8 @@ class EntityCollection implements CollectionInterface
      */
     public function where(string $condition): EntityCollection
     {
-		$this->whereClause .= $condition;
+        $this->whereClause .= $condition;
 
-		return $this;
-	}
+        return $this;
+    }
 }

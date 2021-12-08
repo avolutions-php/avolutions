@@ -14,6 +14,7 @@ namespace Avolutions\Validation;
 use Avolutions\Orm\Entity;
 use DateTime;
 use InvalidArgumentException;
+
 use function implode;
 
 /**
@@ -21,8 +22,8 @@ use function implode;
  *
  * The TypeValidator validates the data type of the value.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.6.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.6.0
  */
 class TypeValidator extends AbstractValidator
 {
@@ -42,7 +43,8 @@ class TypeValidator extends AbstractValidator
      * @param string|null $property The property of the Entity to validate.
      * @param Entity|null $Entity The Entity to validate.
      */
-    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null)
+    {
         parent::setOptions($options, $property, $Entity);
 
         $validTypes = ['int', 'integer', 'string', 'bool', 'boolean', 'array', 'datetime'];
@@ -50,7 +52,7 @@ class TypeValidator extends AbstractValidator
             !isset($options['type'])
             || !in_array($options['type'], $validTypes)
         ) {
-            throw new InvalidArgumentException('Invalid type, must be either '.implode(', ', $validTypes));
+            throw new InvalidArgumentException('Invalid type, must be either ' . implode(', ', $validTypes));
         } else {
             $this->type = $options['type'];
         }
@@ -65,22 +67,15 @@ class TypeValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid(mixed $value): bool {
-        switch ($this->type) {
-            case 'int':
-            case 'integer':
-                return is_int($value);
-            case 'string':
-                return is_string($value);
-            case 'bool':
-            case 'boolean':
-                return is_bool($value);
-            case 'array':
-                return is_array($value);
-            case 'datetime':
-                return $value instanceof DateTime;
-            default:
-                return false;
-        }
+    public function isValid(mixed $value): bool
+    {
+        return match ($this->type) {
+            'int', 'integer' => is_int($value),
+            'string' => is_string($value),
+            'bool', 'boolean' => is_bool($value),
+            'array' => is_array($value),
+            'datetime' => $value instanceof DateTime,
+            default => false,
+        };
     }
 }

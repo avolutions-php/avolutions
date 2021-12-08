@@ -13,19 +13,18 @@ namespace Avolutions\Event;
 
 use Avolutions\Collection\CollectionInterface;
 use Avolutions\Collection\CollectionTrait;
-use Avolutions\Core\AbstractSingleton;
 
 /**
  * ListenerCollection class
  *
  * The ListenerCollection contains all registered event listener.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.3.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.3.0
  */
-class ListenerCollection extends AbstractSingleton implements CollectionInterface
+class ListenerCollection implements CollectionInterface
 {
-	use CollectionTrait;
+    use CollectionTrait;
 
     /**
      * addListener
@@ -37,7 +36,7 @@ class ListenerCollection extends AbstractSingleton implements CollectionInterfac
      */
     public function addListener(string $eventName, array $listener)
     {
-		$this->items[$eventName][] = $listener;
+        $this->items[$eventName][] = $listener;
     }
 
     /**

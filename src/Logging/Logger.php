@@ -11,7 +11,6 @@
 
 namespace Avolutions\Logging;
 
-use Avolutions\Config\Config;
 use Datetime;
 
 /**
@@ -19,17 +18,17 @@ use Datetime;
  *
  * The Logger class writes messages with a specific level to a logfile.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.0
  */
 class Logger
 {
     /**
      * The loglevels in ascending order of priority.
      *
-	 * @var array $loglevels
-	 */
-    private static array $loglevels = [
+     * @var array $loglevels
+     */
+    private array $loglevels = [
         LogLevel::DEBUG,
         LogLevel::INFO,
         LogLevel::NOTICE,
@@ -41,6 +40,56 @@ class Logger
     ];
 
     /**
+     * Path to store logfiles.
+     *
+     * @var string $logpath
+     */
+    private string $logpath;
+
+    /**
+     * Name of the logfile.
+     *
+     * @var string $logfile
+     */
+    private string $logfile;
+
+    /**
+     * Format of the log timestamp.
+     *
+     * @var string $datetimeFormat
+     */
+    private string $datetimeFormat;
+
+    /**
+     * Only messages with same or higher level are logged.
+     *
+     * @var string $minLogLevel
+     */
+    private string $minLogLevel;
+
+    /**
+     * __construct
+     *
+     * Creates and initializes a new Logger instance.
+     *
+     * @param string $logpath Path to store logfiles.
+     * @param string $logfile Name of the logfile.
+     * @param string $minLogLevel Format of the log timestamp
+     * @param string $datetimeFormat Only messages with same or higher level are logged.
+     */
+    public function __construct(string $logpath, string $logfile, string $minLogLevel, string $datetimeFormat)
+    {
+        $this->logpath = $logpath;
+        $this->logfile = $logpath . $logfile;
+        $this->minLogLevel = $minLogLevel;
+        $this->datetimeFormat = $datetimeFormat;
+
+        if (!is_dir($this->logpath)) {
+            mkdir($this->logpath, 0755);
+        }
+    }
+
+    /**
      * log
      *
      * Opens the logfile and write the message and all other information
@@ -49,29 +98,21 @@ class Logger
      * @param string $logLevel The log level
      * @param string $message The log message
      */
-    private static function log(string $logLevel, string $message)
+    private function log(string $logLevel, string $message)
     {
         // only log message if $loglevel is greater or equal than the loglevel from config
-		if (array_search($logLevel, self::$loglevels) < array_search(Config::get('logger/loglevel'), self::$loglevels)) {
+        if (array_search($logLevel, $this->loglevels) < array_search($this->minLogLevel, $this->loglevels)) {
             return;
         }
 
-		$logpath = Config::get('logger/logpath');
-		$logfile = Config::get('logger/logfile');
-		$datetimeFormat = Config::get('logger/datetimeFormat');
+        $datetime = new Datetime();
+        $logText = '[' . $logLevel . '] | ' . $datetime->format($this->datetimeFormat) . ' | ' . $message;
 
-		$datetime = new Datetime();
-		$logText = '['.$logLevel.'] | '.$datetime->format($datetimeFormat).' | '.$message;
-
-		if (!is_dir($logpath)){
-			mkdir($logpath, 0755);
-		}
-
-		$handle = fopen($logpath.$logfile, 'a');
-		fwrite($handle, $logText);
-		fwrite($handle, PHP_EOL);
-		fclose($handle);
-	}
+        $handle = fopen($this->logfile, 'a');
+        fwrite($handle, $logText);
+        fwrite($handle, PHP_EOL);
+        fclose($handle);
+    }
 
     /**
      * emergency
@@ -80,10 +121,10 @@ class Logger
      *
      * @param string $message The message to log
      */
-    public static function emergency(string $message)
+    public function emergency(string $message)
     {
-		self::log(LogLevel::EMERGENCY, $message);
-	}
+        $this->log(LogLevel::EMERGENCY, $message);
+    }
 
     /**
      * alert
@@ -92,10 +133,10 @@ class Logger
      *
      * @param string $message The message to log
      */
-    public static function alert(string $message)
+    public function alert(string $message)
     {
-		self::log(LogLevel::ALERT, $message);
-	}
+        $this->log(LogLevel::ALERT, $message);
+    }
 
     /**
      * critical
@@ -104,10 +145,10 @@ class Logger
      *
      * @param string $message The message to log
      */
-    public static function critical(string $message)
+    public function critical(string $message)
     {
-		self::log(LogLevel::CRITICAL, $message);
-	}
+        $this->log(LogLevel::CRITICAL, $message);
+    }
 
     /**
      * error
@@ -116,10 +157,10 @@ class Logger
      *
      * @param string $message The message to log
      */
-    public static function error(string $message)
+    public function error(string $message)
     {
-		self::log(LogLevel::ERROR, $message);
-	}
+        $this->log(LogLevel::ERROR, $message);
+    }
 
     /**
      * warning
@@ -128,10 +169,10 @@ class Logger
      *
      * @param string $message The message to log
      */
-    public static function warning(string $message)
+    public function warning(string $message)
     {
-		self::log(LogLevel::WARNING, $message);
-	}
+        $this->log(LogLevel::WARNING, $message);
+    }
 
     /**
      * notice
@@ -140,10 +181,10 @@ class Logger
      *
      * @param string $message The message to log
      */
-    public static function notice(string $message)
+    public function notice(string $message)
     {
-		self::log(LogLevel::NOTICE, $message);
-	}
+        $this->log(LogLevel::NOTICE, $message);
+    }
 
     /**
      * info
@@ -152,10 +193,10 @@ class Logger
      *
      * @param string $message The message to log
      */
-    public static function info(string $message)
+    public function info(string $message)
     {
-		self::log(LogLevel::INFO, $message);
-	}
+        $this->log(LogLevel::INFO, $message);
+    }
 
     /**
      * debug
@@ -164,8 +205,8 @@ class Logger
      *
      * @param string $message The message to log
      */
-    public static function debug(string $message)
+    public function debug(string $message)
     {
-        self::log(LogLevel::DEBUG, $message);
-	}
+        $this->log(LogLevel::DEBUG, $message);
+    }
 }

@@ -16,8 +16,8 @@ namespace Avolutions\Controller;
  *
  * Base class for all Controllers
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.1
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.1
  */
 class Controller
 {

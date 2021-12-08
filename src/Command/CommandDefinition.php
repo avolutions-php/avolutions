@@ -16,8 +16,8 @@ namespace Avolutions\Command;
  *
  * Contains Argument and Option definitions.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class CommandDefinition
 {
@@ -52,7 +52,7 @@ class CommandDefinition
      *
      * Adds an Option definition to the CommandDefinition.
      *
-     * @param Option $Option  An Option definition.
+     * @param Option $Option An Option definition.
      */
     public function addOption(Option $Option): void
     {

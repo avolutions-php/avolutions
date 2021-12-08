@@ -18,8 +18,8 @@ use const PHP_SESSION_ACTIVE;
  *
  * The Session class provides functionality for the session handling.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.4.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.4.0
  */
 class Session
 {
@@ -30,21 +30,21 @@ class Session
      *
      * @param string $key The key of the session value.
      */
-    public static function delete(string $key)
+    public function delete(string $key)
     {
-        Session::start();
+        $this->start();
 
         unset($_SESSION[$key]);
     }
 
     /**
-	 * destroy
-	 *
-	 * Destroys the session and unset all values.
-	 */
-    public static function destroy()
+     * destroy
+     *
+     * Destroys the session and unset all values.
+     */
+    public function destroy()
     {
-        Session::start();
+        $this->start();
 
         session_destroy();
         $_SESSION = [];
@@ -59,9 +59,9 @@ class Session
      *
      * @return mixed The value of the session entry.
      */
-    public static function get(string $key): mixed
+    public function get(string $key): mixed
     {
-        Session::start();
+        $this->start();
 
         return $_SESSION[$key] ?? null;
     }
@@ -74,33 +74,33 @@ class Session
      * @param string $key The key of the session value.
      * @param mixed $value The value to store.
      */
-    public static function set(string $key, mixed $value)
+    public function set(string $key, mixed $value)
     {
-        Session::start();
+        $this->start();
 
         $_SESSION[$key] = $value;
     }
 
     /**
-	 * start
-	 *
-	 * Starts and initializes a new session.
-	 */
-    public static function start()
+     * start
+     *
+     * Starts and initializes a new session.
+     */
+    public function start()
     {
-        if (!Session::isStarted()) {
+        if (!$this->isStarted()) {
             session_start();
         }
     }
 
     /**
-	 * isStarted
-	 *
-	 * Checks if a session is already started.
+     * isStarted
+     *
+     * Checks if a session is already started.
      *
      * @return bool If the session is already started.
-	 */
-    public static function isStarted(): bool
+     */
+    public function isStarted(): bool
     {
         return session_status() === PHP_SESSION_ACTIVE;
     }

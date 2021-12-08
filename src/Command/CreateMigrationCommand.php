@@ -11,7 +11,6 @@
 
 namespace Avolutions\Command;
 
-use Avolutions\Core\Application;
 use DateTime;
 
 /**
@@ -19,8 +18,8 @@ use DateTime;
  *
  * Creates a new Migration.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class CreateMigrationCommand extends AbstractCommand
 {
@@ -31,7 +30,14 @@ class CreateMigrationCommand extends AbstractCommand
     public function initialize(): void
     {
         $this->addArgumentDefinition(new Argument('name', 'The name of the Migration class.'));
-        $this->addArgumentDefinition(new Argument('version', 'The unique version of the Migration. If none is passed the current DateTime (YmdHis) is used.', true, (new DateTime())->format('YmdHis')));
+        $this->addArgumentDefinition(
+            new Argument(
+                'version',
+                'The unique version of the Migration. If none is passed the current DateTime (YmdHis) is used.',
+                true,
+                (new DateTime())->format('YmdHis')
+            )
+        );
         $this->addOptionDefinition(new Option('force', 'f', 'Migration will be overwritten if it already exists.'));
     }
 
@@ -39,15 +45,18 @@ class CreateMigrationCommand extends AbstractCommand
     {
         $migrationName = ucfirst($this->getArgument('name'));
         $version = $this->getArgument('version');
-        $migrationFile = Application::getDatabasePath() . $migrationName . '.php';
+        $migrationFile = $this->Application->getDatabasePath() . $migrationName . '.php';
 
         if (file_exists($migrationFile) && !$this->getOption('force')) {
-            $this->Console->writeLine($migrationName . ' migration already exists. If you want to override, please use force mode (-f).', 'error');
+            $this->Console->writeLine(
+                $migrationName . ' migration already exists. If you want to override, please use force mode (-f).',
+                'error'
+            );
             return ExitStatus::ERROR;
         }
 
         $Template = new Template('migration');
-        $Template->assign('namespace', rtrim(Application::getDatabaseNamespace(), '\\'));
+        $Template->assign('namespace', rtrim($this->Application->getDatabaseNamespace(), '\\'));
         $Template->assign('name', $migrationName);
         $Template->assign('version', $version);
 

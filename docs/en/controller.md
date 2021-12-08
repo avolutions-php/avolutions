@@ -8,9 +8,10 @@
 
 ## Introduction
 A Controller is a class that handles related request logic. Every controller can have a set of public methods, which are called Actions.
+[Routing](routing.md) will connect a Request with a Controller Action.
 
-Controllers have to be stored into the *application/Controller* directory and defined in the *application\controller* namespace.
-Every Controller must have Controller as a postfix for its file and class name. The Controller must also extend the base Controller class. 
+Controllers have to be stored into `application/Controller` directory and defined in the `Application\Controller` namespace.
+Every Controller must have Controller as a postfix for its file and class name. The Controller must also extend the base class `Avolutions\Controller\Controller`. 
 
 The Easiest way to create a new `Controller` is to use the [`create-controller` command](command.md#create-controller).
 
@@ -19,8 +20,8 @@ Every Action must have Action as a postfix for its method name.
 ## Examples
 ### Define an action that returns view by name convention
 
-Below is an example how to define a Controller with an Action that will return an <a href="/guide/view">View</a> by name conventions.
-The Action will search for a View called *show.php* (= action name) in a directory called *application/View/user/* (= controller name).
+Below is an example how to define a Controller with an Action that will return an [View](view.md) by name conventions.
+The Action will search for a View called `show.php` (= action name) in a directory called `application/View/user/` (= controller name).
 
 ```php
 namespace Application\Controller;
@@ -31,14 +32,14 @@ class UserController extends Controller {
 
   public function showAction(int $id): View
   {
-    return new View();
+    return view();
   }
 }
 ```
 
 ### Define an action that returns view by static name
 
-The following example will return a View by its full name (path and file name): *application/View/user/display.php*
+The following example will return a View by its full name (path and file name): `application/View/user/display.php`
 
 ```php
 namespace Application\Controller;
@@ -49,14 +50,14 @@ class UserController extends Controller {
 
   public function showAction(int $id): View
   {
-    return new View('user/display');
+    return view('user/display');
   }
 }
 ```
 
 ### Define an action that passing data to a view
 
-In the example below data (<a href="/guide/viewmodel">ViewModel</a>) is passed to the View.
+In the example below data ([ViewModel](viewmodel.md)) is passed to the View.
 
 ```php
 namespace Application\Controller;
@@ -70,7 +71,7 @@ class UserController extends Controller {
     $ViewModel = new ViewModel();
     $ViewModel->username = 'Alex';
 
-    return new View('user/display', $ViewModel);
+    return view('user/display', $ViewModel);
   }
 }
 ```

@@ -8,6 +8,7 @@
   * [Arguments](#arguments)
   * [Options](#options)
 * [Available commands](#available-commands)
+  * [Create-collection](#create-collection)
   * [Create-command](#create-command)
   * [Create-controller](#create-controller)
   * [Create-event](#create-event)
@@ -102,6 +103,23 @@ To get a list of all available *Commands* you can run `avolute` without *Argumen
 ```bash
 > php avolute
 ```
+### Create-collection
+
+This *Command* can be used to create a new `EntityCollection` in your application.
+The `src/Command/templates/entityCollection.tpl` template is used.
+
+#### Usage
+```bash
+> php avolute create-collection <name> [options]
+```
+
+#### Arguments
+* `name`: The name of the Entity file without "Collection" suffix.
+
+#### Options
+* `-f`, `--force`: EntityCollection will be overwritten if it already exists.
+* `-m`, `--model`: Automatically creates a model for the EntityCollection.
+* `-h`, `--help`: Display help text for command.
 
 ### Create-command
 
@@ -232,8 +250,9 @@ The `src/Command/templates/model.tpl` template is used.
 
 #### Options
 * `-f`, `--force`: Model will be overwritten if it already exists.
-* `-m`, `--mapping`: Automatically creates a mapping file for the Model.
+* `-c`, `--collection`: Automatically creates a EntityCollection for the Model.
 * `-d`, `--migration`: Automatically creates a Migration for the Model.
+* `-m`, `--mapping`: Automatically creates a mapping file for the Model.
 * `-l`, `--listener`: Automatically creates a Listener for the Model.
 * `-h`, `--help`: Display help text for command.
 
@@ -327,7 +346,7 @@ class FooBarCommand extends AbstractCommand
     protected static string $name = 'foo-bar';
 }
 ```
-Now your *Command* can be ran like this:
+Now your *Command* can be run like this:
 ```bash
 > php avolute foo-bar
 ```

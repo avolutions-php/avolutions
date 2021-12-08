@@ -16,7 +16,6 @@ use Avolutions\Collection\CollectionTrait;
 use Avolutions\Core\Application;
 
 use FilesystemIterator;
-use ReflectionException;
 use RegexIterator;
 
 /**
@@ -24,8 +23,8 @@ use RegexIterator;
  *
  * The CommandCollection contains all Commands from core and app.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class CommandCollection implements CollectionInterface
 {
@@ -35,11 +34,13 @@ class CommandCollection implements CollectionInterface
      * __construct
      *
      * Creates a new CommandCollection instance with all Commands added.
+     *
+     * @param Application $Application Application instance.
      */
-    public function __construct()
+    public function __construct(Application $Application)
     {
         $coreCommands = $this->searchCommands(__DIR__, 'Avolutions\\Command\\');
-        $appCommands =  $this->searchCommands(Application::getCommandPath(), Application::getCommandNamespace());
+        $appCommands = $this->searchCommands($Application->getCommandPath(), $Application->getCommandNamespace());
 
         $this->items = array_unique(array_merge($coreCommands, $appCommands));
     }
@@ -47,11 +48,11 @@ class CommandCollection implements CollectionInterface
     /**
      * getByName
      *
-     * Returns an Command by its name.
+     * Returns a Command by its name.
      *
      * @param string $commandName The command name.
      *
-     * @return string|null An Command Object or null if none found.
+     * @return string|null A Command Object or null if none found.
      */
     public function getByName(string $commandName): ?string
     {
@@ -67,8 +68,6 @@ class CommandCollection implements CollectionInterface
      * @param string $namespace The namespace of the commands in the given path.
      *
      * @return array An array containing all commands found in path and namespace.
-     *
-     * @throws ReflectionException
      */
     private function searchCommands(string $directory, string $namespace): array
     {
