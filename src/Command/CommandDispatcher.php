@@ -133,7 +133,9 @@ class CommandDispatcher
         $this->Console->writeLine('Available commands:', ['color' => 'green']);
 
         foreach ($CommandCollection->getAll() as $Command) {
-            $this->Console->write('  ' . str_pad($Command::getName(), $longestCommandSize) . "\t", ['color' => 'yellow']
+            $this->Console->write(
+                '  ' . str_pad($Command::getName(), $longestCommandSize) . "\t",
+                ['color' => 'yellow']
             );
             $this->Console->writeLine($Command::getDescription());
         }
