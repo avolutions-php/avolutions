@@ -74,7 +74,7 @@ class CreateModelCommand extends AbstractCommand
         }
 
         if ($this->getOption('migration')) {
-            $argv = 'create-migration ' . 'Create' . $modelName . 'Table ';
+            $argv = 'create-migration ' . 'Create' . $modelName . 'Table';
             if ($force) {
                 $argv .= ' -f';
             }
