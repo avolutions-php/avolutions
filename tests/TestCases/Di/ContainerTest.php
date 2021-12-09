@@ -58,6 +58,12 @@ class ContainerTest extends TestCase
         $this->assertEquals('foo', $TestClass->string);
         $this->assertEquals(4711, $TestClass->int);
         $this->assertEquals(false, $TestClass->bool);
+
+        $TestClass2 = $Container->make(
+            ContainerWithConstructorStub::class,
+            ['string' => 'bar', 'int' => 1337]
+        );
+        $this->assertNotSame($TestClass, $TestClass2);
     }
 
     public function testContainerThrowsExceptionIfNoEntryFound()
