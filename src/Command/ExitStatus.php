@@ -16,8 +16,8 @@ namespace Avolutions\Command;
  *
  * Contains constants for Console exit status.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class ExitStatus
 {

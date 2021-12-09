@@ -12,6 +12,7 @@
 namespace Avolutions\View;
 
 use Avolutions\Core\Application;
+use Exception;
 
 /**
  * View class
@@ -20,17 +21,24 @@ use Avolutions\Core\Application;
  * from the application logic. It can also contain variable content that will
  * be passed by a ViewModel.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.0
  */
 class View
 {
-	/**
+    /**
+     * Application instance.
+     *
+     * @var Application $Application
+     */
+    private Application $Application;
+
+    /**
      * The content of the view file
      *
-	 * @var string $view
-	 */
-	private string $view;
+     * @var string $view
+     */
+    private string $view = '';
 
     /**
      * __construct
@@ -38,34 +46,40 @@ class View
      * Creates a new View object that contains the content of the view file and
      * the data of the passed ViewModel.
      *
+     * @param Application $Application Application instance.
      * @param string|null $viewname The name of the View file.
-     * @param ViewModel|null $ViewModel $ViewModel The ViewModel object that will passed to the View.
+     * @param ViewModel|null $ViewModel $ViewModel The ViewModel object that will be passed to the View.
+     *
+     * @throws Exception
      */
-	public function __construct(?string $viewname = null, ?ViewModel $ViewModel = null)
-	{
-		$filename = $this->getFilename($viewname);
+    public function __construct(Application $Application, ?string $viewname = null, ?ViewModel $ViewModel = null)
+    {
+        $this->Application = $Application;
+        $filename = $this->getFilename($viewname);
 
-		if (is_file($filename)) {
-			$this->view = $this->loadViewFile($filename, $ViewModel);
-		}
-	}
+        if (is_file($filename)) {
+            $this->view = $this->loadViewFile($filename, $ViewModel);
+        } else {
+            throw new Exception(interpolate('View file \'{0}\' not found', [$filename]));
+        }
+    }
 
     /**
      * loadViewFile
      *
      * @param string $filename The path and filename of the View file.
-     * @param ViewModel|null $ViewModel The ViewModel object that will passed to the View.
+     * @param ViewModel|null $ViewModel The ViewModel object that will be passed to the View.
      *
      * @return string The content of the loaded view file.
      */
-	private function loadViewFile(string $filename, ViewModel $ViewModel = null): string
+    private function loadViewFile(string $filename, ViewModel $ViewModel = null): string
     {
-		ob_start();
-		include $filename;
-		$content = ob_get_contents();
-		ob_end_clean();
-		return $content;
-	}
+        ob_start();
+        include $filename;
+        $content = ob_get_contents();
+        ob_end_clean();
+        return $content;
+    }
 
     /**
      * getFilename
@@ -77,34 +91,42 @@ class View
      *
      * @return string The filename of the loaded view file included the absolute path.
      */
-	private function getFilename(?string $filename = null): string
+    private function getFilename(?string $filename = null): string
     {
-		if ($filename == null) {
-			$debugBacktrace = debug_backtrace()[2];
+        if ($filename == null) {
+            $debugBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
-			$controller = explode('\\', $debugBacktrace['class']);
-			$controller = str_ireplace('Controller', '', end($controller));
+            // find Controller and Action in debug backtrace
+            $caller = array_filter($debugBacktrace, function ($item) {
+                return
+                    str_ends_with($item['function'], 'Action')
+                    && str_ends_with($item['class'], 'Controller');
+            });
+            $caller = array_shift($caller);
 
-			$action = $debugBacktrace['function'];
-			$action = str_ireplace('Action', '', $action);
+            if (!empty($caller)) {
+                $controller = explode('\\', $caller['class']);
+                $controller = strtolower(str_ireplace('Controller', '', end($controller)));
 
-			$filename = $controller.DIRECTORY_SEPARATOR.$action;
-		}
+                $action = $caller['function'];
+                $action = strtolower(str_ireplace('Action', '', $action));
 
-		$filename = Application::getViewPath().$filename.'.php';
+                $filename = $controller . DIRECTORY_SEPARATOR . $action;
+            }
+        }
 
-		return $filename;
-	}
+        return $this->Application->getViewPath() . $filename . '.php';
+    }
 
-	/**
-	 * __toString
-	 *
-	 * Outputs the content of the loaded view file together with the passed
-	 * ViewModel data.
-	 *
-	 * @return string The content of the loaded view file.
-	 */
-	public function __toString(): string
+    /**
+     * __toString
+     *
+     * Outputs the content of the loaded view file together with the passed
+     * ViewModel data.
+     *
+     * @return string The content of the loaded view file.
+     */
+    public function __toString(): string
     {
         return $this->view;
     }

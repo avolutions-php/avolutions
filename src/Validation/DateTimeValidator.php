@@ -11,10 +11,10 @@
 
 namespace Avolutions\Validation;
 
-use Avolutions\Config\Config;
 use Avolutions\Orm\Entity;
 use DateTime;
 use InvalidArgumentException;
+
 use function implode;
 
 /**
@@ -22,8 +22,8 @@ use function implode;
  *
  * The DateValidator checks if a value is a valid date, time or datetime.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.6.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.6.0
  */
 class DateTimeValidator extends AbstractValidator
 {
@@ -50,7 +50,8 @@ class DateTimeValidator extends AbstractValidator
      * @param string|null $property The property of the Entity to validate.
      * @param Entity|null $Entity The Entity to validate.
      */
-    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null)
+    {
         parent::setOptions($options, $property, $Entity);
 
         if (isset($options['type'])) {
@@ -69,19 +70,11 @@ class DateTimeValidator extends AbstractValidator
                 $this->format = $options['format'];
             }
         } else {
-            switch ($this->type) {
-                case 'date':
-                    $this->format = Config::get('application/defaultDateFormat');
-                    break;
-
-                case 'time':
-                    $this->format = Config::get('application/defaultTimeFormat');
-                    break;
-
-                case 'datetime':
-                    $this->format = Config::get('application/defaultDateTimeFormat');
-                    break;
-            }
+            $this->format = match ($this->type) {
+                'date' => config('application/defaultDateFormat'),
+                'time' => config('application/defaultTimeFormat'),
+                'datetime' => config('application/defaultDateTimeFormat'),
+            };
         }
     }
 
@@ -94,7 +87,8 @@ class DateTimeValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid(mixed $value): bool {
+    public function isValid(mixed $value): bool
+    {
         $DateTime = DateTime::createFromFormat($this->format, $value);
 
         return $DateTime && $DateTime->format($this->format) === $value;

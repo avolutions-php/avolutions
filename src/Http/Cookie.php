@@ -14,11 +14,11 @@ namespace Avolutions\Http;
 /**
  * Cookie class
  *
- * The Cookie class is an object representing a HTTP Cookie. This can be used to store information
+ * The Cookie class is an object representing an HTTP Cookie. This can be used to store information
  * on the client.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.4.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.4.0
  */
 class Cookie
 {
@@ -100,5 +100,5 @@ class Cookie
         $this->domain = $domain;
         $this->secure = $secure;
         $this->httpOnly = $httpOnly;
-	}
+    }
 }

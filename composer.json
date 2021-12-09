@@ -11,7 +11,9 @@
         "development"
     ],
     "require": {
-        "php": "^8.0"
+        "php": "^8.0",
+        "ext-pdo": "*",
+        "psr/container": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0"
@@ -22,6 +24,12 @@
         ],
         "psr-4": {
             "Avolutions\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Avolutions\\Test\\": "tests/",
+            "TestApplication\\": "tests/TestApplication/"
         }
     },
     "license": "MIT",

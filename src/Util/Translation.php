@@ -16,6 +16,7 @@ use Avolutions\Config\ConfigFileLoader;
 use Avolutions\Core\Application;
 use Avolutions\Http\Session;
 use Exception;
+use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -25,11 +26,62 @@ use RecursiveIteratorIterator;
  * The Translation class loads all translation files at the bootstrapping and can be used to
  * get the translated values anywhere in the framework or application.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.6.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.6.0
  */
 class Translation extends ConfigFileLoader
 {
+    /**
+     * Config instance.
+     *
+     * @var Config $Config
+     */
+    private Config $Config;
+
+    /**
+     * Session instance.
+     *
+     * @var Session $Session
+     */
+    private Session $Session;
+
+
+    /**
+     * __construct
+     *
+     * Creates a new Translation instance and loads all translation values from the translations files.
+     *
+     * @param Application $Application Application instance.
+     * @param Config $Config Config instance.
+     * @param Session $Session Session instance.
+     */
+    public function __construct(Application $Application, Config $Config, Session $Session)
+    {
+        $this->Config = $Config;
+        $this->Session = $Session;
+
+        if (!is_dir($Application->getTranslationPath())) {
+            return;
+        }
+
+        $DirectoryIterator = new RecursiveDirectoryIterator(
+            $Application->getTranslationPath(),
+            FilesystemIterator::SKIP_DOTS
+        );
+        $Iterator = new RecursiveIteratorIterator($DirectoryIterator);
+
+        foreach ($Iterator as $translationFile) {
+            if ($translationFile->isDir()) {
+                continue;
+            }
+
+            $language = basename(dirname($translationFile));
+            $this->values[$language][pathinfo($translationFile, PATHINFO_FILENAME)] = $this->loadConfigFile(
+                $translationFile
+            );
+        }
+    }
+
     /**
      * getTranslation
      *
@@ -43,48 +95,22 @@ class Translation extends ConfigFileLoader
      * @return string The config value
      * @throws Exception
      */
-    public static function getTranslation(string $key, array $params = [], ?string $language = null): string
+    public function getTranslation(string $key, array $params = [], ?string $language = null): string
     {
         if (is_null($language)) {
-            if (!is_null(Session::get('language'))) {
-                $language = Session::get('language');
+            if (!is_null($this->Session->get('language'))) {
+                $language = $this->Session->get('language');
             } else {
-                $language = Config::get('application/defaultLanguage');
+                $language = $this->Config->get('application/defaultLanguage');
             }
         }
 
-        $translation = parent::get($language.'/'.$key);
+        $translation = parent::get($language . '/' . $key);
         // if $key not point on a translation but on a parent element
         if (!is_string($translation)) {
             throw new Exception('Value must be of type string to translate it.');
         }
 
-        $translation = StringHelper::interpolate($translation, $params);
-
-        return $translation;
-    }
-
-    /**
-     * initialize
-     *
-     * Loads all translation values from the translations files.
-     */
-    public function initialize()
-    {
-        if (!is_dir(Application::getTranslationPath())) {
-            return;
-        }
-
-        $DirectoryIterator = new RecursiveDirectoryIterator(Application::getTranslationPath(), RecursiveDirectoryIterator::SKIP_DOTS);
-        $Iterator = new RecursiveIteratorIterator($DirectoryIterator);
-
-        foreach ($Iterator as $translationFile) {
-            if ($translationFile->isDir()) {
-                continue;
-            }
-
-            $language = basename(dirname($translationFile));
-            self::$values[$language][pathinfo($translationFile, PATHINFO_FILENAME)] = self::loadConfigFile($translationFile);
-        }
+        return StringHelper::interpolate($translation, $params);
     }
 }

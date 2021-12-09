@@ -13,6 +13,7 @@ namespace Avolutions\Validation;
 
 use Avolutions\Orm\Entity;
 use InvalidArgumentException;
+
 use function implode;
 
 /**
@@ -20,8 +21,8 @@ use function implode;
  *
  * The CompareValidator performs validations using the common comparison validators.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.6.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.6.0
  */
 class CompareValidator extends AbstractValidator
 {
@@ -48,12 +49,13 @@ class CompareValidator extends AbstractValidator
      * @param string|null $property The property of the Entity to validate.
      * @param Entity|null $Entity The Entity to validate.
      */
-    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null)
+    {
         parent::setOptions($options, $property, $Entity);
 
         $validOperators = ['==', '===', '!=', '!==', '>', '>=', '<', '<='];
         if (isset($options['operator']) && !in_array($options['operator'], $validOperators)) {
-            throw new InvalidArgumentException('Invalid operator, must be either '.implode(' ', $validOperators));
+            throw new InvalidArgumentException('Invalid operator, must be either ' . implode(' ', $validOperators));
         } else {
             $this->operator = $options['operator'];
         }
@@ -81,26 +83,18 @@ class CompareValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid(mixed $value): bool {
-        switch ($this->operator) {
-            case '==':
-                return $value == $this->compareValue;
-            case '===':
-                return $value === $this->compareValue;
-            case '!=':
-                return $value != $this->compareValue;
-            case '!==':
-                return $value !== $this->compareValue;
-            case '>':
-                return $value > $this->compareValue;
-            case '>=':
-                return $value >= $this->compareValue;
-            case '<':
-                return $value < $this->compareValue;
-            case '<=':
-                return $value <= $this->compareValue;
-            default:
-                return false;
-        }
+    public function isValid(mixed $value): bool
+    {
+        return match ($this->operator) {
+            '==' => $value == $this->compareValue,
+            '===' => $value === $this->compareValue,
+            '!=' => $value != $this->compareValue,
+            '!==' => $value !== $this->compareValue,
+            '>' => $value > $this->compareValue,
+            '>=' => $value >= $this->compareValue,
+            '<' => $value < $this->compareValue,
+            '<=' => $value <= $this->compareValue,
+            default => false,
+        };
     }
 }

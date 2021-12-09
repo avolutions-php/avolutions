@@ -3,7 +3,7 @@
 * [System requirements](#system-requirements)
 * [Installing AVOLUTIONS](#installing-avolutions)
   * [Installing with Composer](#installing-with-composer)
-  * [Using Github template](#using-github-template)
+  * [Using GitHub template](#using-github-template)
 * [Configuration](#configuration)
   * [Document root](#document-root)
   * [URL rewriting](#url-rewriting)
@@ -34,9 +34,9 @@ Or AVOLUTIONS can be installed into your existing project by using the composer 
 composer require avolutions/avolutions:0.*
 ```
 
-### Using Github template
+### Using GitHub template
 
-You can easily start a new AVOLUTIONS application by using our Github app template.
+You can easily start a new AVOLUTIONS application by using our GitHub app template.
 Open the [AVOLUTIONS app repository](https://github.com/avolutions/app) and click the button "Use this template".
 You can now create a new repository based on our application template.
 
@@ -49,15 +49,3 @@ Therefore, the *public* folder has to be defined as the web servers document roo
 ### URL rewriting
 
 The *public/.htaccess* file provides default rewrite rules (pretty URLs). Be sure to enable the mod_rewrite module for your Apache.
-
-### Application namespace
-
-The default namespace for your app is "Application\". If you want to use your own namespace you need to change the `autoload/psr-4` section in `composer.json`:
-```json
-"autoload": {
-  "psr-4": {
-    "Application\\": "application/"
-  }
-},
-```
-Just replace "Application\\" with your namespace.

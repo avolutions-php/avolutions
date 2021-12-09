@@ -14,17 +14,17 @@ namespace Avolutions\Database;
 /**
  * Migration interface
  *
- * A interface which declares the base methods for Migrations.
+ * An interface which declares the base methods for Migrations.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.1
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.1
  */
 interface MigrationInterface
 {
-	/**
-	 * migrate
-	 *
-	 * Executes the migration of the database.
-	 */
+    /**
+     * migrate
+     *
+     * Executes the migration of the database.
+     */
     public function migrate();
 }

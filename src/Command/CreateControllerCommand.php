@@ -11,15 +11,13 @@
 
 namespace Avolutions\Command;
 
-use Avolutions\Core\Application;
-
 /**
  * CreateControllerCommand class
  *
  * Creates a new Controller.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class CreateControllerCommand extends AbstractCommand
 {
@@ -37,15 +35,18 @@ class CreateControllerCommand extends AbstractCommand
     {
         $controllerName = ucfirst($this->getArgument('name'));
         $controllerFullname = $controllerName . 'Controller';
-        $controllerFile = Application::getControllerPath() . $controllerFullname . '.php';
+        $controllerFile = $this->Application->getControllerPath() . $controllerFullname . '.php';
 
         if (file_exists($controllerFile) && !$this->getOption('force')) {
-            $this->Console->writeLine($controllerFullname . ' already exists. If you want to override, please use force mode (-f).', 'error');
+            $this->Console->writeLine(
+                $controllerFullname . ' already exists. If you want to override, please use force mode (-f).',
+                'error'
+            );
             return ExitStatus::ERROR;
         }
 
         $Template = new Template('controller');
-        $Template->assign('namespace', rtrim(Application::getControllerNamespace(), '\\'));
+        $Template->assign('namespace', rtrim($this->Application->getControllerNamespace(), '\\'));
         $Template->assign('name', $controllerName);
 
         if ($Template->save($controllerFile)) {

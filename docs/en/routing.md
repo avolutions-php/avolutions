@@ -11,7 +11,7 @@
 
 A route is the mapping between the requested URL and the [Controller](controller.md) and Action that will be called and executed.
 
-All Routes of your application will be defined in *./routes.php*. The Routes has to be added to the *RouteCollection* by using the *addRoute()* method.
+All Routes of your application will be defined in *./routes.php*. The Routes have to be added to the *RouteCollection* by using the *addRoute()* method.
 
 ## Create a new Route
 
@@ -29,7 +29,7 @@ A Route object can have three parameters:
     'method'     => string Name of the method (GET|POST)
   ]
 ```
-3. The configuration for the Parameters as an multidimensional associative array
+3. The configuration for the Parameters as a multidimensional associative array
 ```php
 @param array $parameters An array which contains all parameters and their options
   '{param}' = [  => string Name of the parameter
@@ -50,7 +50,7 @@ $RouteCollection->addRoute(new Route('/login',
   ]
 ));
 ```
-This Route will call the *loginAction()* method of the *AuthController*, every time someone request the URL *http://yourapp/login*.
+This Route will call the *loginAction()* method of the *AuthController*, every time someone requests the URL *http://yourapp/login*.
 
 ### Call a dynamic Controller and Action
 

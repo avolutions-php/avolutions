@@ -18,8 +18,8 @@ use InvalidArgumentException;
  *
  * Helper to create tables for Console output.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class ConsoleTable
 {
@@ -173,7 +173,14 @@ class ConsoleTable
         }
 
         for ($i = 0; $i < count($rows[0]); $i++) {
-            $width[$i] = max(array_map('strlen', array_map(function($row) use ($i) { return $row[$i]; }, $rows)));
+            $width[$i] = max(
+                array_map(
+                    'strlen',
+                    array_map(function ($row) use ($i) {
+                        return $row[$i];
+                    }, $rows)
+                )
+            );
         }
 
         return $width;

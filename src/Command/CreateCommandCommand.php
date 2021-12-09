@@ -11,15 +11,13 @@
 
 namespace Avolutions\Command;
 
-use Avolutions\Core\Application;
-
 /**
  * CreateCommandCommand class
  *
- * Creates an new Command.
+ * Creates a new Command.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.8.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.8.0
  */
 class CreateCommandCommand extends AbstractCommand
 {
@@ -38,15 +36,18 @@ class CreateCommandCommand extends AbstractCommand
     {
         $commandName = ucfirst($this->getArgument('name'));
         $commandFullname = $commandName . 'Command';
-        $commandFile = Application::getCommandPath() . $commandFullname . '.php';
+        $commandFile = $this->Application->getCommandPath() . $commandFullname . '.php';
 
         if (file_exists($commandFile) && !$this->getOption('force')) {
-            $this->Console->writeLine($commandFullname . ' already exists. If you want to override, please use force mode (-f).', 'error');
+            $this->Console->writeLine(
+                $commandFullname . ' already exists. If you want to override, please use force mode (-f).',
+                'error'
+            );
             return ExitStatus::ERROR;
         }
 
         $Template = new Template('command');
-        $Template->assign('namespace', rtrim(Application::getCommandNamespace(), '\\'));
+        $Template->assign('namespace', rtrim($this->Application->getCommandNamespace(), '\\'));
         $Template->assign('name', $commandName);
         $Template->assign('shortname', $this->getArgument('shortname'));
 

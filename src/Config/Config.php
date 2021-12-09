@@ -19,33 +19,44 @@ use Avolutions\Core\Application;
  * The Config class loads all config files at the bootstrapping and can be used to
  * get the config values anywhere in the framework or application.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.1.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.1.0
  */
 class Config extends ConfigFileLoader
 {
-	/**
-	 * initialize
-	 *
-	 * Loads all config values from the config files of core and app. The app configs
-	 * overrides the config values of the core.
-	 */
-    public function initialize()
+    /**
+     * Application instance.
+     *
+     * @var Application $Application
+     */
+    private Application $Application;
+
+    /**
+     * __construct
+     *
+     * Creates a new Config instance and loads all config values from the config files of core and app.
+     * The config values of the core are overridden by app config values.
+     *
+     * @param Application $Application Application instance.
+     */
+    public function __construct(Application $Application)
     {
-        $coreConfigFiles = array_map('basename', glob($this->getConfigPath().'*.php'));
-		$appConfigFiles = array_map('basename', glob(Application::getConfigPath().'*.php'));
+        $this->Application = $Application;
 
-		$configFiles = array_unique(array_merge($coreConfigFiles, $appConfigFiles));
+        $coreConfigFiles = array_map('basename', glob($this->getConfigPath() . '*.php'));
+        $appConfigFiles = array_map('basename', glob($this->Application->getConfigPath() . '*.php'));
 
-		foreach ($configFiles as $configFile) {
-			$coreConfigValues = self::loadConfigFile($this->getConfigPath().$configFile);
-			$appConfigValues = self::loadConfigFile(Application::getConfigPath().$configFile);
+        $configFiles = array_unique(array_merge($coreConfigFiles, $appConfigFiles));
 
-			$configValues = array_merge($coreConfigValues, $appConfigValues);
+        foreach ($configFiles as $configFile) {
+            $coreConfigValues = $this->loadConfigFile($this->getConfigPath() . $configFile);
+            $appConfigValues = $this->loadConfigFile($this->Application->getConfigPath() . $configFile);
 
-			self::$values[pathinfo($configFile, PATHINFO_FILENAME)] = $configValues;
-		}
-	}
+            $configValues = array_merge($coreConfigValues, $appConfigValues);
+
+            $this->values[pathinfo($configFile, PATHINFO_FILENAME)] = $configValues;
+        }
+    }
 
     /**
      * set
@@ -55,9 +66,10 @@ class Config extends ConfigFileLoader
      * @param string $key The config key (slash separated).
      * @param mixed $value The value to set.
      */
-	public static function set(string $key, mixed $value) {
+    public function set(string $key, mixed $value)
+    {
         $identifiers = explode('/', $key);
-        $values = &self::$values;
+        $values = &$this->values;
 
         foreach ($identifiers as $identifier) {
             if (!array_key_exists($identifier, $values)) {

@@ -19,8 +19,8 @@ use InvalidArgumentException;
  *
  * The SizeValidator validates that a value has a specific size or is withing a min/max value.
  *
- * @author	Alexander Vogt <alexander.vogt@avolutions.org>
- * @since	0.6.0
+ * @author  Alexander Vogt <alexander.vogt@avolutions.org>
+ * @since   0.6.0
  */
 class SizeValidator extends AbstractValidator
 {
@@ -56,7 +56,8 @@ class SizeValidator extends AbstractValidator
      *
      * @return int The size of the value.
      */
-    private function getSize(mixed $value): int {
+    private function getSize(mixed $value): int
+    {
         if (is_numeric($value)) {
             return $value;
         } elseif (is_array($value)) {
@@ -75,7 +76,8 @@ class SizeValidator extends AbstractValidator
      * @param string|null $property The property of the Entity to validate.
      * @param Entity|null $Entity The Entity to validate.
      */
-    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null) {
+    public function setOptions(array $options = [], ?string $property = null, ?Entity $Entity = null)
+    {
         parent::setOptions($options, $property, $Entity);
 
         if (
@@ -120,7 +122,8 @@ class SizeValidator extends AbstractValidator
      *
      * @return bool Data is valid (true) or not (false).
      */
-    public function isValid(mixed $value): bool {
+    public function isValid(mixed $value): bool
+    {
         $size = $this->getSize($value);
 
         if (!is_null($this->size)) {

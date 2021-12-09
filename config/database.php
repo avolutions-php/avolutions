@@ -15,6 +15,6 @@ return [
 	'port' => getenv('DB_PORT') ?: '3306',
 	'user' => getenv('DB_USER') ?: 'avolutions',
 	'password' => getenv('DB_PASSWORD') ?: 'avolutions',
-	'charset' => 'utf8',
+	'charset' => getenv('DB_CHARSET') ?: 'utf8',
 	'migrateOnAppStart' => false
 ];
