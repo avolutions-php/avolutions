@@ -64,14 +64,15 @@ class Container extends AbstractSingleton implements ContainerInterface
      * Resolve all parameters and creates a new instance for the given entry.
      *
      * @param string $id Identifier of the entry to look for.
-     * @param array $parameters Array of parameters to resolve entry with.
+     * @param array|null $parameters Array of parameters to resolve entry with.
      *
      * @return mixed Instance of the resolved entry.
      *
-     * @throws NotFoundExceptionInterface
      * @throws ContainerExceptionInterface
+     * @throws NotFoundException
+     * @throws NotFoundExceptionInterface
      */
-    private function buildEntry(string $id, array $parameters = []): mixed
+    private function buildEntry(string $id, ?array $parameters = null): mixed
     {
         try {
             $ReflectionClass = new ReflectionClass($id);
@@ -147,14 +148,15 @@ class Container extends AbstractSingleton implements ContainerInterface
      * Resolve an entry with the given parameters.
      *
      * @param mixed $id Identifier of the entry to look for.
-     * @param array $parameters Array of parameters to resolve entry with.
+     * @param array|null $parameters Array of parameters to resolve entry with.
      *
      * @return mixed The resolved entry.
      *
-     * @throws NotFoundExceptionInterface
+     * @throws ContainerException
      * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    private function resolveEntry(mixed $id, array $parameters = []): mixed
+    private function resolveEntry(mixed $id, ?array $parameters = null): mixed
     {
         if ($this->isAlias($id)) {
             $id = $this->resolveAlias($id);
@@ -165,7 +167,7 @@ class Container extends AbstractSingleton implements ContainerInterface
         }
         $this->currentlyResolvedEntries[$id] = true;
 
-        if ($this->has($id)) {
+        if ($this->has($id) && is_null($parameters)) {
             unset($this->currentlyResolvedEntries[$id]);
             return $this->resolvedEntries[$id];
         }
@@ -213,15 +215,20 @@ class Container extends AbstractSingleton implements ContainerInterface
      *
      * @param string $id Identifier of the entry to look for.
      * @param ReflectionMethod $Constructor Constructor to resolve.
-     * @param array $parameters Array of default values for parameters.
+     * @param array|null $parameters Array of default values for parameters.
      *
      * @return array Array of resolved parameters.
      *
+     * @throws ContainerException
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    private function resolveParameters(string $id, ReflectionMethod $Constructor, array $parameters = []): array
+    private function resolveParameters(string $id, ReflectionMethod $Constructor, ?array $parameters = null): array
     {
+        if (is_null($parameters)) {
+            $parameters = [];
+        }
+
         foreach ($Constructor->getParameters() as $parameter) {
             $parameterName = $parameter->name;
 
