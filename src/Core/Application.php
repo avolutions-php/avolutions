@@ -21,6 +21,7 @@ use Avolutions\Util\JsonHelper;
 use PDO;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Application class
@@ -129,6 +130,12 @@ class Application extends Container
                 ]
             ]
         );
+
+        $this->set(
+            LoggerInterface::class,
+            Logger::class
+        );
+
         $this->set(
             Logger::class,
             [
