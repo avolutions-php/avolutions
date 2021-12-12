@@ -97,8 +97,13 @@ class Logger extends AbstractLogger
      */
     public function log($level, string|\Stringable $message, array $context = []): void
     {
-        // only log message if $loglevel is greater or equal than the loglevel from config
-        if (array_search($logLevel, $this->loglevels) < array_search($this->minLogLevel, $this->loglevels)) {
+        // TODO check for valid loglevel
+        if (!in_array($level, $this->loglevels)) {
+            throw new InvalidArgumentException(interpolate('Log level \'{0}\' is not valid.', [$level]));
+        }
+
+        // only log message if $level is greater or equal than the loglevel from config
+        if (array_search($level, $this->loglevels) < array_search($this->minLogLevel, $this->loglevels)) {
             return;
         }
 
