@@ -13,7 +13,8 @@
     "require": {
         "php": "^8.0",
         "ext-pdo": "*",
-        "psr/container": "^2.0"
+        "psr/container": "^2.0",
+        "psr/log": "^3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0"
