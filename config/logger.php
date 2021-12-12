@@ -9,7 +9,7 @@
  * @link        https://avolutions.org
  */
 
-use Avolutions\Logging\LogLevel;
+use Psr\Log\LogLevel;
 
 return [
 	'loglevel' => LogLevel::DEBUG,

@@ -12,6 +12,7 @@
 namespace Avolutions\Logging;
 
 use Datetime;
+use Psr\Log\LogLevel;
 
 /**
  * Logger class
