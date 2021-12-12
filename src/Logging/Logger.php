@@ -12,6 +12,8 @@
 namespace Avolutions\Logging;
 
 use Datetime;
+use Psr\Log\AbstractLogger;
+use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
 
 /**
@@ -22,7 +24,7 @@ use Psr\Log\LogLevel;
  * @author  Alexander Vogt <alexander.vogt@avolutions.org>
  * @since   0.1.0
  */
-class Logger
+class Logger extends AbstractLogger
 {
     /**
      * The loglevels in ascending order of priority.
@@ -91,123 +93,23 @@ class Logger
     }
 
     /**
-     * log
-     *
-     * Opens the logfile and write the message and all other information
-     * like date, time, level to the file.
-     *
-     * @param string $logLevel The log level
-     * @param string $message The log message
+     * @inheritDoc
      */
-    private function log(string $logLevel, string $message)
+    public function log($level, string|\Stringable $message, array $context = []): void
     {
         // only log message if $loglevel is greater or equal than the loglevel from config
         if (array_search($logLevel, $this->loglevels) < array_search($this->minLogLevel, $this->loglevels)) {
             return;
         }
 
+        $message = interpolate($message, $context);
+
         $datetime = new Datetime();
-        $logText = '[' . $logLevel . '] | ' . $datetime->format($this->datetimeFormat) . ' | ' . $message;
+        $logText = '[' . strtoupper($level) . '] | ' . $datetime->format($this->datetimeFormat) . ' | ' . $message;
 
         $handle = fopen($this->logfile, 'a');
         fwrite($handle, $logText);
         fwrite($handle, PHP_EOL);
         fclose($handle);
-    }
-
-    /**
-     * emergency
-     *
-     * Writes the passed message with level "EMERGENCY" to the logfile.
-     *
-     * @param string $message The message to log
-     */
-    public function emergency(string $message)
-    {
-        $this->log(LogLevel::EMERGENCY, $message);
-    }
-
-    /**
-     * alert
-     *
-     * Writes the passed message with level "ALERT" to the logfile.
-     *
-     * @param string $message The message to log
-     */
-    public function alert(string $message)
-    {
-        $this->log(LogLevel::ALERT, $message);
-    }
-
-    /**
-     * critical
-     *
-     * Writes the passed message with level "CRITICAL" to the logfile.
-     *
-     * @param string $message The message to log
-     */
-    public function critical(string $message)
-    {
-        $this->log(LogLevel::CRITICAL, $message);
-    }
-
-    /**
-     * error
-     *
-     * Writes the passed message with level "ERROR" to the logfile.
-     *
-     * @param string $message The message to log
-     */
-    public function error(string $message)
-    {
-        $this->log(LogLevel::ERROR, $message);
-    }
-
-    /**
-     * warning
-     *
-     * Writes the passed message with level "WARNING" to the logfile.
-     *
-     * @param string $message The message to log
-     */
-    public function warning(string $message)
-    {
-        $this->log(LogLevel::WARNING, $message);
-    }
-
-    /**
-     * notice
-     *
-     * Writes the passed message with level "NOTICE" to the logfile.
-     *
-     * @param string $message The message to log
-     */
-    public function notice(string $message)
-    {
-        $this->log(LogLevel::NOTICE, $message);
-    }
-
-    /**
-     * info
-     *
-     * Writes the passed message with level "INFO" to the logfile.
-     *
-     * @param string $message The message to log
-     */
-    public function info(string $message)
-    {
-        $this->log(LogLevel::INFO, $message);
-    }
-
-    /**
-     * debug
-     *
-     * Writes the passed message with level "DEBUG" to the logfile.
-     *
-     * @param string $message The message to log
-     */
-    public function debug(string $message)
-    {
-        $this->log(LogLevel::DEBUG, $message);
     }
 }
