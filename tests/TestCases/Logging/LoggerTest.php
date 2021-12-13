@@ -14,7 +14,7 @@ namespace Avolutions\Test\TestCases\Logging;
 use PHPUnit\Framework\TestCase;
 
 use Avolutions\Logging\Logger;
-use Avolutions\Logging\LogLevel;
+use Psr\Log\LogLevel;
 
 class LoggerTest extends TestCase
 {

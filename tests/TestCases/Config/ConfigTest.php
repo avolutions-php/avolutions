@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 use Avolutions\Config\Config;
 use Avolutions\Core\Application;
-use Avolutions\Logging\LogLevel;
+use Psr\Log\LogLevel;
 
 class ConfigTest extends TestCase
 {
